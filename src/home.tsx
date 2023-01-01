@@ -43,8 +43,8 @@ export const Home = () => {
               // take only the "newConta" object from the response of the 'accounting1' function
               .flow((f) =>
                 f
-
                   .updateOne(ACCOUNTING_COLLECTION)
+                  .mergePreviousResultToFlowBody(true)
                   .search((f) => f.findByObject({ guid }))
                   //6. update the accounting record, by using the 'guid' value, into the ACCOUNTING_COLLECTION
                   .flow((f) =>

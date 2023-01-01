@@ -59,7 +59,7 @@ let ACCOUNTING_GUID = "31ef10b0-bab4-77a8-b9db-551e48fa8371";
 export const DemoAccounting = () => {
   const [chartData, setChartData] = React.useState<null | any>(null);
   const [accountingInput,setAccountingInput]=React.useState<any>({
-    input: 0,
+    input: 3000,
     personal_account: 0,
     pension: 0,
     health: 0,
@@ -114,11 +114,15 @@ export const DemoAccounting = () => {
         },
       });
 
+      debugger;
     processAccountingResponse(apiResponse.data);
   };
 
   let temp = null;
   const processAccountingResponse = (accountingResponse: any) => {
+    if(!accountingResponse){
+      return;
+    }
     setAccountingResponse(accountingResponse);
 
     const chartItems = accountingResponse.records.map((el: any) => {
@@ -214,6 +218,13 @@ export const DemoAccounting = () => {
     await checkPrerequisites();
 
     const guid = ACCOUNTING_GUID;
+    // const r1 = await createDeclarativeBulletApi()
+    // .body({x:1,y:2,z:3,t:{a:1,b:2,c:3}})
+    // .take(t=>t.addFromInto(f=>f.from("x").into("y")))
+    // .collection(c=>c.name("_body").method(BULLET_METHOD.INSERT))
+    // .name('body_fields')
+    // .saveForLaterUse(true)
+    // .execute();
 
     const accountingResponse = await createDeclarativeBulletApi()
       .findOne(ACCOUNTING_COLLECTION)
@@ -245,7 +256,7 @@ export const DemoAccounting = () => {
               .flow((f) =>
                 f
 
-                  // .mergePreviousResultToFlowBody(true)
+                  .mergePreviousResultToFlowBody(true)
                   .updateOne(ACCOUNTING_COLLECTION)
                   .search((f) => f.findByObject({ guid }))
                   .flow((f) =>
@@ -304,7 +315,7 @@ export const DemoAccounting = () => {
             <input
               type="text"
               id="input"
-              placeholder="&nbsp;"
+              placeholder=">2600"
               value={accountingInput.personal_account}
               onChange={(event) =>
                 setKeyNumericValue(event, "personal_account")

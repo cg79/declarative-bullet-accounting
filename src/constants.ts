@@ -1,4 +1,4 @@
-const DEV = true;
+const DEV = false;
 
 const SETTINGS = {
   // SERVER_URL: "http://localhost:3001",
@@ -9,7 +9,7 @@ const SETTINGS = {
 };
 
 const BULLET_IO_URL = () => {
-  return DEV ? "http://localhost:3002" : "";
+  return DEV ? "http://localhost:3002" : "https://fullsd.com";
 };
 
 export { SETTINGS, BULLET_IO_URL };

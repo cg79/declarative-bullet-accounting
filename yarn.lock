@@ -3989,10 +3989,10 @@
   "resolved" "https://registry.npmjs.org/decimal.js/-/decimal.js-10.4.2.tgz"
   "version" "10.4.2"
 
-"declarative-fluent-bullet-api@^1.0.20":
-  "integrity" "sha512-4LnODNBxyThbQ6106q9OZMZ/qI4KvJTf/cS5n3KHo19rDbhmwLDoXVrtVaV/DdJ1iEYPzC1RWI21E+W+GB7C0Q=="
-  "resolved" "https://registry.npmjs.org/declarative-fluent-bullet-api/-/declarative-fluent-bullet-api-1.0.20.tgz"
-  "version" "1.0.20"
+"declarative-fluent-bullet-api@^1.0.22":
+  "integrity" "sha512-8KatwT/rxyiXM68uq1ZWdzQU9/glc72MZkqU7NzlygGrhV+nnHfWNpd0utKMCsHpCePaME0xJtKqA4ejaQKsOA=="
+  "resolved" "https://registry.npmjs.org/declarative-fluent-bullet-api/-/declarative-fluent-bullet-api-1.0.22.tgz"
+  "version" "1.0.22"
 
 "dedent@^0.7.0":
   "integrity" "sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA=="
