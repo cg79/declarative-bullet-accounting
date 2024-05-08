@@ -1,0 +1,345 @@
+//v1
+
+// plati:{
+//                 banca:0,
+//                 comision_intrare:0,
+//                 comision_transfer:0,
+//                 abonament:0
+//             }
+
+function accounting_lamda(obj) {
+    try {
+
+        //   return obj;
+
+        console.log("--");
+        console.log(obj);
+        console.log("+++++");
+        const [{
+            previous_casa, country_taxes, salaries
+        } = a,
+            { accountingRequest } = b] = obj;
+
+        console.log('country_taxes', JSON.stringify(country_taxes, null, 2))
+        const tvaRecord = country_taxes.find(el => el.nume === 'TVA' && Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0
+        }
+        const dividendeRecord = country_taxes.find(el => el.nume === 'Dividende' && Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0.05
+        }
+        const profitRecord = country_taxes.find(el => el.nume === 'TaxaProfit' && Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0.01
+        }
+        const pensieRecord = country_taxes.find(el => el.nume === 'TaxaPensie' && Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0.25
+        }
+        const sanatateRecord = country_taxes.find(el => el.nume === 'TaxaSanatate' && Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0.1
+        }
+
+        const asigurareRecord = country_taxes.find(el => el.nume === 'TaxaAsigurareMunca' && Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0.0225
+        }
+        const salarRecord = salaries.find(el => Date.parse(el.date) < Date.parse(accountingRequest.datetime)) || {
+            value: 0,
+            scutire_impozit: 0
+        }
+        console.log('tvaRecord1', JSON.stringify(tvaRecord || {}))
+        const SALARY = salarRecord.value;
+        const TAXE = {
+            PENSIE: pensieRecord.value,
+            SANATATE: sanatateRecord.value,
+            ASIGURARE_MUNCA: asigurareRecord.value,
+            TVA: tvaRecord.value,
+            TAXEPROFIT: profitRecord.value,
+            DIVIDENDE: dividendeRecord.value,
+            SALARY,
+            SCUTIRE_IMPOZIT:salarRecord.scutire_impozit
+        };
+
+        console.log({ ...TAXE, SALARY })
+
+        // return {previous_casa, accountingRequest}
+
+        const previous = {
+            ...previous_casa,
+            taxe: {
+                ...previous_casa.taxe,
+            },
+            casa: {
+                ...previous_casa.casa,
+            },
+            salar: {
+                ...previous_casa.salar
+            },
+            plati: {
+                ...previous_casa.plati
+            }
+        };
+        const newConta = {
+            ...previous,
+            taxe: {
+                ...previous_casa.taxe,
+            },
+            casa: {
+                ...previous_casa.casa,
+            },
+            salar: {
+                ...previous_casa.salar
+            },
+            plati: {
+                ...previous_casa.plati
+            },
+            salar_brut: SALARY,
+            taxe_aplicate: {put:'here'},
+        };
+
+        newConta.numar = (newConta.numar || 0) + 1;
+
+        if (!previous.plati) {
+            previous.plati = {
+                banca: 0,
+                comision_intrare: 0,
+                comision_transfer: 0,
+                abonament: 0
+            }
+        }
+
+
+
+
+        console.log("+++=====");
+        console.log(newConta);
+        console.log("---");
+
+        const { value = 0, operationid = 0, data = null } = accountingRequest;
+
+        if (value === 0) {
+            return { accountingRequest, previous, newConta };
+        }
+        switch (Number(operationid)) {
+            case 1: {
+
+                //Intrare bani
+                const taxa_profit = value * TAXE.TAXEPROFIT;
+
+                newConta.casa.firma = newConta.casa.firma + value;
+
+                newConta.taxe.taxa_profit = (newConta.taxe.taxa_profit || 0) + taxa_profit;
+
+                newConta.taxeTrezorerie = (newConta.taxeTrezorerie || 0) +
+                    newConta.taxe.taxa_profit;
+
+                newConta.taxe.total = newConta.taxe.total +
+                    newConta.taxeTrezorerie;
+
+                newConta.casa.disponibil = newConta.casa.firma - newConta.taxe.total;
+                newConta.taxe_aplicate = {
+                    TAXEPROFIT:TAXE.TAXEPROFIT
+                }
+
+                break;
+            }
+            
+            case 2: {
+                //Intrare salar (contine TVA)
+                const suma = value / (1 + TAXE.TVA);
+                const tva = value - suma;
+                // const tva = 1;
+                const taxa_profit = suma * TAXE.TAXEPROFIT;
+
+
+                newConta.casa.firma = newConta.casa.firma + value;
+
+                newConta.taxe.taxa_profit = (newConta.taxe.taxa_profit || 0) + taxa_profit;
+                newConta.taxe.tva = newConta.taxe.tva + tva;
+
+                const salar = SALARY - (salarRecord.scutire_impozit || 0);
+
+                console.log('xxx', JSON.stringify(newConta))
+
+                const taxePensie = salar * TAXE.PENSIE;
+                newConta.taxe.pensie = newConta.taxe.pensie + taxePensie;
+
+                const taxeSanatate = salar * TAXE.SANATATE;
+                newConta.taxe.sanatate = newConta.taxe.sanatate + taxeSanatate;
+
+                const taxeMunca = salar * TAXE.ASIGURARE_MUNCA;
+                newConta.taxe.munca = newConta.taxe.munca + taxeMunca;
+
+                const taxeSalar = taxePensie + taxeSanatate;
+                newConta.salar.value = newConta.salar.value + (SALARY - taxeSalar);
+
+                // const taxeV =
+                // tva + taxa_profit + taxeSalar;
+                // newConta.taxe.total = (newConta.taxe.total || 0) + taxeV;
+
+                // newConta.casa.disponibil = 
+                //     (newConta.casa.disponibil || 0) + value - taxeV -newConta.salar.value;
+
+                newConta.taxeSalar = (newConta.taxeSalar || 0) + taxeSalar;
+                //   console.log('xxx2',JSON.stringify(newConta, null,2))
+
+                newConta.taxeTrezorerie = (newConta.taxeTrezorerie || 0) +
+                    newConta.taxe.pensie +
+                    newConta.taxe.sanatate +
+                    newConta.taxe.taxa_profit +
+                    newConta.taxe.dividende;
+
+                newConta.taxe.total = newConta.taxe.total +
+                    newConta.taxeTrezorerie +
+                    newConta.taxe.tva +
+                    newConta.taxe.munca;
+
+                newConta.casa.disponibil = newConta.casa.firma - newConta.taxe.total;
+                newConta.taxe_aplicate = {
+                    TAXEPROFIT:TAXE.TAXEPROFIT,
+                    PENSIE:TAXE.PENSIE,
+                    SANATATE:TAXE.SANATATE,
+                    ASIGURARE_MUNCA:TAXE.ASIGURARE_MUNCA
+                }
+                if(TAXE.TVA){
+                    newConta.taxe_aplicate.TVA = TAXE.TVA;
+                }
+                break;
+            }
+            case 3: {
+                //Cumparare cu Deducere TVA
+                newConta.casa.firma = newConta.casa.firma - value;
+                const tvaValue = value * TAXE.TVA;
+                newConta.taxe.tva_deductibil =
+                    (newConta.taxe.tva_deductibil || 0) + tvaValue;
+                newConta.taxe.tva = newConta.taxe.tva - tvaValue;
+                newConta.taxe.total = newConta.taxe.total - tvaValue;
+                newConta.casa.disponibil = (newConta.casa.disponibil || 0) - value;
+                
+                if(TAXE.TVA){
+                    newConta.taxe_aplicate= {TVA : TAXE.TVA};
+                }
+                break;
+            }
+            case 4: {
+                //Plata TVA
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.taxe.tva = newConta.taxe.tva - value;
+                newConta.taxe.total = newConta.taxe.total - value;
+                newConta.taxeTrezorerie = newConta.taxeTrezorerie - value;
+                break;
+            }
+            case 5: {
+                //Plata Salar
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.salar.value = newConta.salar.value - value;
+                // newConta.casa.disponibil = newConta.casa.disponibil - value;
+                break;
+            }
+            case 6: {
+                //Plata Pensie si Sanatate si 1% & dividende
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.taxe.total = newConta.taxe.total - value;
+                newConta.taxeTrezorerie = newConta.taxeTrezorerie - value;
+
+                if (value > newConta.taxe.pensie) {
+                    var dif = value - newConta.taxe.pensie;
+                    newConta.taxe.pensie = 0;
+
+                    //
+                    if (dif > newConta.taxe.sanatate) {
+                        dif = dif - newConta.taxe.sanatate;
+                        newConta.taxe.sanatate = 0;
+                        //
+                        if (dif > newConta.taxe.taxa_profit) {
+                            dif = dif - newConta.taxe.taxa_profit;
+                            newConta.taxe.taxa_profit = 0;
+                            //
+                            if (dif > newConta.taxe.dividende) {
+                                dif = dif - newConta.taxe.dividende;
+                                newConta.taxe.dividende = 0;
+                            } else {
+                                newConta.taxe.dividende = newConta.taxe.dividende - dif;
+                            }
+                            //
+                        } else {
+                            newConta.taxe.taxa_profit = newConta.taxe.taxa_profit - dif;
+                        }
+                        //
+                    } else {
+                        newConta.taxe.sanatate = newConta.taxe.sanatate - dif;
+                    }
+                    //
+                } else {
+                    newConta.taxe.pensie = newConta.taxe.pensie - value;
+                }
+
+                break;
+            }
+            case 7: {
+                //Plata Asigurare munca
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.taxe.munca = newConta.taxe.munca - value;
+                // newConta.casa.disponibil = newConta.casa.disponibil - value;
+                newConta.taxe.total = newConta.taxe.total - value;
+                break;
+            }
+            case 8: {
+                //Plata dividende
+                console.log(previous)
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.taxe.dividende = newConta.taxe.dividende - value;
+                newConta.taxe.total = newConta.taxe.total - value;
+                newConta.taxeTrezorerie = (newConta.taxeTrezorerie || 0) -
+                    newConta.taxe.dividende;
+
+
+                break;
+            }
+            case 9: {
+                //Transfer cont personal
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.casa.cont_personal = (newConta.casa.cont_personal || 0) + value;
+
+                const dividende = value * TAXE.DIVIDENDE;
+
+                newConta.taxe.dividende = (newConta.taxe.dividende || 0) + dividende;
+                newConta.taxe.total = newConta.taxe.total + dividende;
+                newConta.casa.disponibil = newConta.casa.disponibil - value;
+                newConta.taxeTrezorerie = newConta.taxeTrezorerie + dividende;
+
+                newConta.taxe_aplicate= {DIVIDENDE : TAXE.DIVIDENDE};
+                break;
+            }
+            case 10: {
+                //Comision Tranzactie
+                newConta.casa.firma = newConta.casa.firma - value;
+                break;
+            }
+            case 11: {
+                //Abonament lunar banca
+                newConta.casa.firma = newConta.casa.firma - value;
+                // newConta.plati.banca = newConta.plati.banca + value;
+                break;
+            }
+            case 12: {
+                //Comision Incasare
+                console.log(previous)
+                newConta.casa.firma = newConta.casa.firma - value;
+                newConta.plati.comision_intrare = previous.plati.comision_intrare + value;
+                newConta.plati.banca = previous.plati.banca + value;
+                break;
+            }
+            
+            default: {
+                throw new Error(`operagtionid ${operationid} is not implemented`);
+            }
+        }
+
+        // console.log("accounting1 response");
+        console.log(accountingRequest, previous, newConta);
+
+        return { accountingRequest, previous, newConta };
+    } catch (ex) {
+        console.log("exception ", ex);
+        throw ex;
+        return { ex };
+    }
+}

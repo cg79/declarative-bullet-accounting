@@ -1,0 +1,38 @@
+
+function getNewContaFromObjectHistory(obj) {
+    try {
+        const [prev, currentValue] = obj;
+        const {hist_item, initial} = prev;
+        if(hist_item.records.length){
+            return hist_item.records[0].trace.newConta;
+        }
+        if(initial.records.length){
+            return initial.records[0];
+        }
+
+        const startAccountingData = {
+            guid: "31ef10b0-bab4-77a8-b9db-551e48fa8374",
+            numar: -1,
+            taxe: {
+                pensie: 0,
+                sanatate: 0,
+                munca: 0,
+                dividende: 0,
+                tva: 0,
+                taxa_profit: 0,
+                total: 0,
+                tva_deductibil: 0,
+            },
+            casa: { firma: 0, cont_personal: 0, disponibil: 0 },
+            salar: {
+                value: 0
+            },
+            taxeTrezorerie:0
+        };
+        return startAccountingData;
+    }
+    catch (ex) {
+        return { exception: ex.message }
+    }
+}
+
