@@ -126,8 +126,8 @@ export const CreateAccount = () => {
         <MyLottie
           fileName="create-account"
           loop={false}
-          height={200}
-          width={200}
+          // height={200}
+          // width={200}
         />
       </div>
       <div className="flex flex-column center-v">

@@ -7,12 +7,12 @@ export const LabelInput = ({
   onChange,
   error = "",
   value = "",
-  lwidth = "10vw",
+  lwidth = "80px",
 }) => {
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex">
+      <div className="fcenter fwrap">
         <div className="actionname1u ">
           <label
             htmlFor={id}

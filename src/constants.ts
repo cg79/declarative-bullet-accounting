@@ -1,4 +1,4 @@
-const DEV = false;
+const DEV = true;
 
 const BULLET_IO_URL = () => {
   return DEV ? "http://localhost:3002" : "https://quickconta.ro";

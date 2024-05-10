@@ -3,8 +3,8 @@ import Lottie from "react-lottie";
 export const MyLottie = ({
   fileName = "accounting3",
   loop = false,
-  width = 300,
-  height = 300,
+  height = "25vh",
+  width = "100%",
 }) => {
   // const animationData = require("/animation/accounting1.json");
   const [animationData, setAnimationData] = useState(null);
@@ -28,7 +28,7 @@ export const MyLottie = ({
 
   return (
     <div>
-      <Lottie options={defaultOptions} height={height} width={width} />
+      <Lottie options={defaultOptions} height={height} />
     </div>
   );
 };

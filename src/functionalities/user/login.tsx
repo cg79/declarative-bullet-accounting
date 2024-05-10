@@ -13,6 +13,7 @@ import SessionStorageManager from "./session-management";
 import { useUserMethods } from "./useUserMethods";
 import { clientId } from "./constants";
 import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
+import { LabelButton } from "../../_components/reuse/LabelButton";
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 const usePrevious = (value, initialValue) => {
@@ -112,6 +113,32 @@ export const Login = () => {
       <div style={{ marginBottom: "20px" }}>
         <MyLottie></MyLottie>
       </div>
+
+      <div className="mt10 fcenter">
+        <LabelButton label="">
+          <MyButton
+            text="Logare cu Google"
+            onClick={() => {
+              function start() {
+                gapi.client.init({
+                  clientId,
+                  scope: "",
+                });
+                GoogleAuth.login().then((res: any): any => {
+                  callLoginMethod(res, "loginWithGoogle")
+                    .then((res) => onLogin(res))
+                    .catch((err) => {
+                      setError(err);
+                    });
+                });
+              }
+              gapi.load("client:auth2", start);
+            }}
+            className="linkbutton"
+          ></MyButton>
+        </LabelButton>
+      </div>
+
       <LabelInput
         label="Email: "
         onChange={(val: string) => updateData(val, "email")}
@@ -126,52 +153,34 @@ export const Login = () => {
           value={data.password}
         ></LabelInput>
       </div>
-      <div className="flex" style={{ marginTop: "20px" }}>
-        <MyButton
-          onClick={() =>
-            callLoginMethod(data, "login")
-              .then((res) => onLogin(res))
-              .catch((err) => {
-                setError(err.message);
-              })
-          }
-          text="Logare"
-        ></MyButton>
+      <div className="fcenter " style={{ marginTop: "20px" }}>
+        <LabelButton label="">
+          <MyButton
+            onClick={() =>
+              callLoginMethod(data, "login")
+                .then((res) => onLogin(res))
+                .catch((err) => {
+                  setError(err.message);
+                })
+            }
+            text="Logare"
+          ></MyButton>
+        </LabelButton>
       </div>
 
       <div className="fcenter mt10">
         {error && <div className="mt10 error">{error}</div>}
       </div>
-      <div className="fcenter mt10">
-        <MyButton
-          text="Logare cu Google"
-          onClick={() => {
-            function start() {
-              gapi.client.init({
-                clientId,
-                scope: "",
-              });
-              GoogleAuth.login().then((res: any): any => {
-                callLoginMethod(res, "loginWithGoogle")
-                  .then((res) => onLogin(res))
-                  .catch((err) => {
-                    setError(err);
-                  });
-              });
-            }
-            gapi.load("client:auth2", start);
-          }}
-          className="linkbutton"
-        ></MyButton>
-      </div>
 
       <div className="fcenter mt10">
-        <MyButton
-          onClick={() => navigate("/crearecont")}
-          text="Navigare catre ecranul de creare utilizator"
-          className="linkbutton ml5"
-          useBaseButton={false}
-        ></MyButton>
+        <LabelButton label="">
+          <MyButton
+            onClick={() => navigate("/crearecont")}
+            text="Navigare catre ecranul de creare utilizator"
+            className="linkbutton ml5"
+            useBaseButton={false}
+          ></MyButton>
+        </LabelButton>
       </div>
     </div>
   );

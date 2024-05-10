@@ -27,7 +27,11 @@ export const DeleteAccount = () => {
     <div>
       <div className="fcenter bold">Stergere cont</div>
       <div className="fcenter mt15">
-        <MyLottie fileName="delete" loop={false} height={200} width={200} />
+        <MyLottie
+          fileName="delete"
+          loop={false}
+          // height={200} width={200}
+        />
       </div>
       <div className="fcenter mt15" style={{ marginTop: "50px" }}>
         <MyButton text="Stergere cont" onClick={trimite}></MyButton>
