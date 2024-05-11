@@ -11,14 +11,9 @@ import { MyLottie } from "../../_components/reuse/my-lottie";
 import useIdentity from "../../_store/useIdentity";
 
 const Start = () => {
-  const { setSelectedFirma, reload } = useBetween(useFirme);
-  const {
-    getFirme,
-    saveFirma,
-    saveAngajat,
-    importTaxe,
-    importSalariiForAngajat,
-  } = useAccountingDbActions();
+  const { setSelectedFirma, reload, firme } = useBetween(useFirme);
+  const { saveFirma, saveAngajat, importTaxe, importSalariiForAngajat } =
+    useAccountingDbActions();
   const { loggedUser } = useBetween(useIdentity);
 
   const [message, setMessage] = useState("");
@@ -73,7 +68,7 @@ const Start = () => {
       contPersonal: "",
     });
 
-    setSelectedFirma(defaultCompany);
+    debugger;
 
     setMessage("Se importa salariile default pentru angajatul importat");
     await wait(2000);
@@ -100,6 +95,9 @@ const Start = () => {
 
     await reload();
 
+    setSelectedFirma(defaultCompany);
+    // setSelectedAngajat(angajatResponse);
+
     setMessage(
       "Importul s-a finalizat cu succes. Acum puteti adauga sau importa transactiile dorite."
     );
@@ -107,7 +105,34 @@ const Start = () => {
     setImporting(false);
   };
 
-  const checkShoyltriggerImport = () => {
+  // const checkShoyltriggerImport = () => {
+  //   if (!loggedUser) {
+  //     setMessage("Nu sunteti logat");
+  //     wait(2000).then(() => {
+  //       navigate("/login");
+  //     });
+  //     return;
+  //   }
+  //   getFirme({
+  //     first: 0,
+  //     pageNo: 0,
+  //     rowsPerPage: 10,
+  //   }).then((value) => {
+  //     if (value.data.records.length > 0) {
+  //       setImporting(false);
+  //       setMessage("Datele initiale au fost deja importate");
+  //       wait(2000).then(() => {
+  //         setMessage("");
+  //       });
+  //       return;
+  //     } else {
+  //       startImport();
+  //     }
+  //   });
+  // };
+
+  useEffect(() => {
+    debugger;
     if (!loggedUser) {
       setMessage("Nu sunteti logat");
       wait(2000).then(() => {
@@ -115,27 +140,18 @@ const Start = () => {
       });
       return;
     }
-    getFirme({
-      first: 0,
-      pageNo: 0,
-      rowsPerPage: 10,
-    }).then((value) => {
-      if (value.data.records.length > 0) {
-        setImporting(false);
-        setMessage("Datele initiale au fost deja importate");
-        wait(2000).then(() => {
-          setMessage("");
-        });
-        return;
-      } else {
-        startImport();
-      }
-    });
-  };
 
-  useEffect(() => {
-    checkShoyltriggerImport();
-  }, []);
+    if (!firme || !firme.length) {
+      startImport();
+    } else {
+      setImporting(false);
+      setMessage("Datele initiale au fost deja importate");
+      wait(2000).then(() => {
+        navigate("/accounting");
+      });
+      return;
+    }
+  }, [firme, loggedUser]);
 
   const navigareCatreTranzactii = () => {
     navigate("/accounting");

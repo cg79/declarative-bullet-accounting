@@ -88,18 +88,6 @@ export const CreateAccount = () => {
       return navigate("/start");
     }
     return navigate("/accounting");
-
-    // async function fetchData() {
-    //   // You can await here
-    //   const shouldNavigateToAccounting = await checkShouldTriggerImport();
-    //   debugger;
-    //   if (shouldNavigateToAccounting) {
-    //     navigate("/accounting");
-    //   } else {
-    //     navigate("/start");
-    //   }
-    // }
-    // fetchData();
   }, [firme]);
 
   const createGoogleUser = async (payload: any) => {
