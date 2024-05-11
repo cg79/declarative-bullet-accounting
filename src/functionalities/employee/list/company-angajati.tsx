@@ -105,7 +105,7 @@ export const CompanyAngajati = () => {
           <Dialog
             header="Date angajat"
             visible={item !== null}
-            style={{ width: "80vw" }}
+            style={{ width: "50vw" }}
             onHide={() => setItem(null)}
           >
             <AddEditAngajat

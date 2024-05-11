@@ -88,7 +88,7 @@ export const AngajatSalaryList = () => {
         <Dialog
           header="Date salar"
           visible={item !== null}
-          style={{ width: "80vw" }}
+          style={{ width: "50vw" }}
           onHide={() => setItem(null)}
         >
           <AddEditSalar

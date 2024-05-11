@@ -23,7 +23,7 @@ export const AddEditSalar = ({
   };
 
   return (
-    <div>
+    <>
       <div>
         {item.nume}
         <div className="flex mt10">
@@ -89,6 +89,6 @@ export const AddEditSalar = ({
           onClick={() => executeSaveCompanyTax(item)}
         ></MyButton>
       </div>
-    </div>
+    </>
   );
 };
