@@ -14,6 +14,7 @@ import { useUserMethods } from "./useUserMethods";
 import { clientId } from "./constants";
 import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import { LabelButton } from "../../_components/reuse/LabelButton";
+import useFirme from "../../_store/useFirme";
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 const usePrevious = (value, initialValue) => {
@@ -29,6 +30,7 @@ export const Login = () => {
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
   const { getFirme } = useAccountingDbActions();
   const { callLoginMethod } = useUserMethods();
+  const { firme } = useBetween(useFirme);
 
   const [data, setData] = React.useState<any>({
     email: "",
@@ -89,22 +91,29 @@ export const Login = () => {
     useEffect(effectHook, dependencies);
   };
 
-  useEffectDebugger(async () => {
+  useEffect(() => {
+    debugger;
     if (!loggedUser) {
       return;
     }
-    const shouldNavigateToAccounting = await checkShouldTriggerImport();
-    debugger;
-    if (shouldNavigateToAccounting) {
-      navigate("/accounting");
-    } else {
-      navigate("/start");
+
+    if (!firme || !firme.length) {
+      return navigate("/start");
     }
-    return () => {
-      //
-      console.log("login unmounted");
-    };
-  }, [loggedUser]);
+    return navigate("/accounting");
+
+    // async function fetchData() {
+    //   // You can await here
+    //   const shouldNavigateToAccounting = await checkShouldTriggerImport();
+    //   debugger;
+    //   if (shouldNavigateToAccounting) {
+    //     navigate("/accounting");
+    //   } else {
+    //     navigate("/start");
+    //   }
+    // }
+    // fetchData();
+  }, [firme]);
 
   const [error, setError] = useState("");
 
