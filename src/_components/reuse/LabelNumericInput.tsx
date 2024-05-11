@@ -12,7 +12,7 @@ export const LabelNumericInput = ({
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex">
+      <div className="flex fwrap">
         <div className="actionname1u ">
           <label
             htmlFor={id}

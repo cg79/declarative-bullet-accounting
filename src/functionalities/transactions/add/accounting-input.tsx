@@ -101,17 +101,16 @@ export const AccountingInput = ({
   // };
 
   return (
-    <div className="fcenter">
-      <div className="mt10 card1 flexcolumn">
-        {onDeleteAccountingRecord && (
-          <DeleteButton
-            onClick={() => onDeleteAccountingRecord()}
-            text="X"
-            css="delete_button"
-          ></DeleteButton>
-        )}
+    <div className="mt10 card1 flexcolumn">
+      {onDeleteAccountingRecord && (
+        <DeleteButton
+          onClick={() => onDeleteAccountingRecord()}
+          text="X"
+          css="delete_button"
+        ></DeleteButton>
+      )}
 
-        {/* <div className="flex mt10">
+      {/* <div className="flex mt10">
           <div className="actionname flexcolumn">
             <span className="bold">Valoare:</span>
           </div>
@@ -123,24 +122,24 @@ export const AccountingInput = ({
           </div>
         </div> */}
 
-        <div className="mt10">
-          <LabelNumericInput
-            label="Valoare:"
-            onChange={(v) => setAccountingValue(v)}
-            value={accountingValue}
-          ></LabelNumericInput>
-        </div>
+      <div className="mt10">
+        <LabelNumericInput
+          label="Valoare:"
+          onChange={(v) => setAccountingValue(v)}
+          value={accountingValue}
+        ></LabelNumericInput>
+      </div>
 
-        {error ? (
-          <div className="flex error">
-            <div className="actionname">
-              <span className="bold"></span>
-            </div>
-            <div>{error}</div>
+      {error ? (
+        <div className="flex error">
+          <div className="actionname">
+            <span className="bold"></span>
           </div>
-        ) : null}
+          <div>{error}</div>
+        </div>
+      ) : null}
 
-        {/* <div className="flex mt10">
+      {/* <div className="flex mt10">
           <div className="actionname">
             <span className="bold">Actiune:</span>
           </div>
@@ -154,60 +153,59 @@ export const AccountingInput = ({
           </div>
         </div> */}
 
-        <div className="mt10">
-          <LabelDropDown
-            label="Actiune:"
-            options={ddOptions}
-            onChange={_onSelect}
-            value={defaultOption}
-            placeholder="Select an option"
-          ></LabelDropDown>
-        </div>
-
-        <div className="mt10">
-          <LabelDate
-            label="Data Inregistrare:"
-            data={dataInregistrare}
-            onChange={(data: number) => setDataInregistrare(data)}
-          ></LabelDate>
-        </div>
-
-        <div className="mt10">
-          <LabelDate
-            label="Data Tranzactie:"
-            data={dataTranzactie}
-            onChange={(data: number) => setDatatranzactie(data)}
-          ></LabelDate>
-        </div>
-
-        <div className="flex flex1  flex-column mt10">
-          <div className="actionname">
-            <span className="bold">Descriere:</span>
-          </div>
-
-          <textarea
-            style={{ width: "100%", border: "1px solid black" }}
-            placeholder="&nbsp;"
-            onChange={(event) => setDescription(event.target.value)}
-            value={descriptionV}
-          />
-        </div>
-
-        <hr />
-        <div className="flex mt10 space-between">
-          <div className="actionname">
-            <MyButton onClick={() => onCancel()} text="Renunta"></MyButton>
-          </div>
-          <div>
-            <MyButton
-              onClick={() => saveAccountingValues()}
-              text="Salveaza"
-            ></MyButton>
-          </div>
-        </div>
-
-        {/* https://www.w3schools.com/charsets/ref_utf_arrows.asp */}
+      <div className="mt10">
+        <LabelDropDown
+          label="Actiune:"
+          options={ddOptions}
+          onChange={_onSelect}
+          value={defaultOption}
+          placeholder="Select an option"
+        ></LabelDropDown>
       </div>
+
+      <div className="mt10">
+        <LabelDate
+          label="Data Inregistrare:"
+          data={dataInregistrare}
+          onChange={(data: number) => setDataInregistrare(data)}
+        ></LabelDate>
+      </div>
+
+      <div className="mt10">
+        <LabelDate
+          label="Data Tranzactie:"
+          data={dataTranzactie}
+          onChange={(data: number) => setDatatranzactie(data)}
+        ></LabelDate>
+      </div>
+
+      <div className="flex flex1  flex-column mt10">
+        <div className="actionname">
+          <span className="bold">Descriere:</span>
+        </div>
+
+        <textarea
+          style={{ width: "100%", border: "1px solid black" }}
+          placeholder="&nbsp;"
+          onChange={(event) => setDescription(event.target.value)}
+          value={descriptionV}
+        />
+      </div>
+
+      <hr />
+      <div className="flex mt10 space-between">
+        <div className="actionname">
+          <MyButton onClick={() => onCancel()} text="Renunta"></MyButton>
+        </div>
+        <div>
+          <MyButton
+            onClick={() => saveAccountingValues()}
+            text="Salveaza"
+          ></MyButton>
+        </div>
+      </div>
+
+      {/* https://www.w3schools.com/charsets/ref_utf_arrows.asp */}
     </div>
   );
 };

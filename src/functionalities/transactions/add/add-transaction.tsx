@@ -44,7 +44,7 @@ export const AddTransaction = () => {
   };
 
   return (
-    <div className="flex center-h">
+    <div className="">
       {error && <p>{error}</p>}
       {addMode ? (
         <div>
@@ -64,7 +64,7 @@ export const AddTransaction = () => {
           </Dialog>
         </div>
       ) : (
-        <div>
+        <div className="fcenter">
           <MyButton
             onClick={() => uptadeAddMode()}
             text={"Adaugare Tranzactie"}

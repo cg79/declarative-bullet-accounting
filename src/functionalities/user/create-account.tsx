@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MyButton } from "../../_components/reuse/my-button";
@@ -9,12 +9,14 @@ import GoogleAuth from "./google-auth";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import { MyCheckbox } from "../../_components/reuse/my-checkbox";
 import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
-import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
+// import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
+import useFirme from "../../_store/useFirme";
 
 export const CreateAccount = () => {
   const navigate = useNavigate();
 
-  const { getFirme } = useAccountingDbActions();
+  // const { getFirme } = useAccountingDbActions();
+  const { firme } = useBetween(useFirme);
   const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
 
   const [checked, setChecked] = useState(false);
@@ -59,42 +61,46 @@ export const CreateAccount = () => {
       return;
     }
     setareUserLogat(responseData.data);
-
-    navigate("/accounting");
   };
 
-  const checkShouldTriggerImport = async () => {
-    //
-    const response = await getFirme({
-      first: 0,
-      pageNo: 0,
-      rowsPerPage: 10,
-    });
+  // const checkShouldTriggerImport = useCallback(async () => {
+  //   //
+  //   const response = await getFirme({
+  //     first: 0,
+  //     pageNo: 0,
+  //     rowsPerPage: 10,
+  //   });
 
-    if (!response.success) {
-      setError(response.message);
-      return false;
-    }
-    return response.data.records.length > 0;
-  };
+  //   if (!response.success) {
+  //     setError(response.message);
+  //     return false;
+  //   }
+  //   return response.data.records.length > 0;
+  // }, [getFirme]);
 
   useEffect(() => {
+    debugger;
     if (!loggedUser) {
       return;
     }
 
-    async function fetchData() {
-      // You can await here
-      const shouldNavigateToAccounting = await checkShouldTriggerImport();
-      debugger;
-      if (shouldNavigateToAccounting) {
-        navigate("/accounting");
-      } else {
-        navigate("/start");
-      }
+    if (!firme || !firme.length) {
+      return navigate("/start");
     }
-    fetchData();
-  }, [checkShouldTriggerImport, loggedUser, navigate]);
+    return navigate("/accounting");
+
+    // async function fetchData() {
+    //   // You can await here
+    //   const shouldNavigateToAccounting = await checkShouldTriggerImport();
+    //   debugger;
+    //   if (shouldNavigateToAccounting) {
+    //     navigate("/accounting");
+    //   } else {
+    //     navigate("/start");
+    //   }
+    // }
+    // fetchData();
+  }, [firme]);
 
   const createGoogleUser = async (payload: any) => {
     setError("");

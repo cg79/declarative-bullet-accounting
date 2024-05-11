@@ -97,7 +97,7 @@ export const CompanyList = () => {
               <Dialog
                 header="Date firma"
                 visible={item !== null}
-                style={{ width: "80vw" }}
+                style={{ width: "40vw" }}
                 onHide={() => setItem(null)}
               >
                 <AddEditCompany

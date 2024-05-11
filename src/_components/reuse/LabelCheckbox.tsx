@@ -13,7 +13,7 @@ export const LabelCheckbox = ({
   return (
     <>
       <div
-        className="flex"
+        className="flex fwrap"
         onClick={() => {
           onChange(!value);
         }}
