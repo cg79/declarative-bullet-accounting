@@ -51,7 +51,7 @@ export const AddTransaction = () => {
           <Dialog
             header="Adaugare tranzactie"
             visible={addMode}
-            style={{ width: "50vw" }}
+            style={{ width: "80vw" }}
             onHide={() => setAddMode(false)}
           >
             <AccountingInput

@@ -61,14 +61,14 @@ export const Navbar = () => {
           },
           visible: !!loggedUser,
         },
-        {
-          label: "Lamda",
-          icon: "pi pi-fw pi-trash",
-          command: () => {
-            navigate("/lamda");
-          },
-          visible: !!loggedUser,
-        },
+        // {
+        //   label: "Lamda",
+        //   icon: "pi pi-fw pi-trash",
+        //   command: () => {
+        //     navigate("/lamda");
+        //   },
+        //   visible: !!loggedUser,
+        // },
       ],
       // visible: !!loggedUser,
     },

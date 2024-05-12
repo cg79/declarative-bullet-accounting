@@ -40,6 +40,18 @@ const useDeclarativeBulletApi = () => {
     [loggedUser?.token]
   );
 
+  // const executeBulletRequest = async (payload: any) => {
+  //   const bulletHttp = createBulletHttpRequestLibrary(true);
+  //   const responseData = await bulletHttp.createManagementUser(payload);
+  //   if (!responseData.success) {
+  //     if(typeof responseData.message === "string") {
+  //       throw new Error(responseData.message || "Eroare ");
+  //     }
+
+  //   }
+  //   return responseData.data;
+  // };
+
   return {
     createDeclarativeBulletApi,
     createBulletHttpRequestLibrary,

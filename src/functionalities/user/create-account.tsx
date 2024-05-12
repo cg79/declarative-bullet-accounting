@@ -56,8 +56,14 @@ export const CreateAccount = () => {
       password: payload.password,
     });
 
+    debugger;
     if (!responseData.success) {
-      setError(responseData.message);
+      if (typeof responseData.message === "string") {
+        setError(responseData.message || "Eroare la crearea contului");
+      } else {
+        setError("Eroare la crearea contului");
+      }
+
       return;
     }
     setareUserLogat(responseData.data);
