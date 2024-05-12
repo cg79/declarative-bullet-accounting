@@ -164,7 +164,7 @@ export const CreateAccount = () => {
           ></MyButton>
         </div>
 
-        <div className="fcenter mt10">
+        {/* <div className="fcenter mt10">
           <MyButton
             text="Logare cu Google"
             onClick={() => {
@@ -178,7 +178,7 @@ export const CreateAccount = () => {
             }}
             className="linkbutton"
           ></MyButton>
-        </div>
+        </div> */}
 
         <div className="fcenter mt10">
           <MyButton

@@ -123,7 +123,7 @@ export const Login = () => {
         <MyLottie></MyLottie>
       </div>
 
-      <div className="mt10 fcenter">
+      {/* <div className="mt10 fcenter">
         <LabelButton label="">
           <MyButton
             text="Logare cu Google"
@@ -146,7 +146,7 @@ export const Login = () => {
             className="linkbutton"
           ></MyButton>
         </LabelButton>
-      </div>
+      </div> */}
 
       <LabelInput
         label="Email: "
