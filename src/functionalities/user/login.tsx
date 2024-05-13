@@ -160,6 +160,7 @@ export const Login = () => {
           // type="password"
           onChange={(val: string) => updateData(val, "password")}
           value={data.password}
+          type="password"
         ></LabelInput>
       </div>
       <div className="fcenter " style={{ marginTop: "20px" }}>

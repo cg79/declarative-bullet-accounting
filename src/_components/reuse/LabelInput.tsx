@@ -8,6 +8,7 @@ export const LabelInput = ({
   error = "",
   value = "",
   lwidth = "80px",
+  type = "text",
 }) => {
   const id = utils.createUUID();
   return (
@@ -32,6 +33,7 @@ export const LabelInput = ({
             id={id}
             value={value}
             className="myInput"
+            type={type}
             onChange={(e) => onChange(e.target.value)}
           />
         </div>
