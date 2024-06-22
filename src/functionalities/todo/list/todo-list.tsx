@@ -87,7 +87,7 @@ export const TodoList = () => {
             <Dialog
               header="Date element"
               visible={item !== null}
-              style={{ width: "50vw" }}
+              // style={{ width: "50vw" }}
               onHide={() => setItem(null)}
             >
               <AddEditTodo
@@ -128,7 +128,6 @@ export const TodoList = () => {
             </div>
             {itemToBeDeleted && (
               <ConfirmDialogWrapper
-                dWidth="40vw"
                 onConfirm={() => {
                   if (!itemToBeDeleted) {
                     return;

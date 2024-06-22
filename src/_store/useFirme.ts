@@ -37,7 +37,7 @@ const useFirme = () => {
     const firmaId = selectedFirma?._id;
 
     getAngajati(firmaId).then((val) => {
-      setAngajati(val);
+      setAngajati(val.data);
     });
   }, [selectedFirma, getAngajati]);
 
@@ -56,7 +56,6 @@ const useFirme = () => {
   }, [loggedUser, selectedAngajat]);
 
   const reload = () => {
-    debugger;
     return getFirme(pageState).then((val: CustomHttpResponse) => {
       const pagedRecords = val.data;
       setFirme(pagedRecords.records);
@@ -66,7 +65,7 @@ const useFirme = () => {
         // rowsPerPage: pagedRecords.rowsPerPage,
       });
 
-      return val.data;
+      return val;
     });
   };
 

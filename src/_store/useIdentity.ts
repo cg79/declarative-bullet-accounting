@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import observer from "./observer";
 import GoogleAuth from "../functionalities/user/google-auth";
 import SessionStorageManager from "../functionalities/user/session-management";
+import LocalStorageStorageManager from "../functionalities/user/localstorage-management";
 
 const useIdentity = () => {
   const [loggedUser, setLoggedUser] = React.useState<any>(null);
@@ -26,20 +27,20 @@ const useIdentity = () => {
   };
 
   const deconectare = () => {
+    debugger;
     try {
       GoogleAuth.logout();
     } catch (e) {}
 
     setLoggedUser(null);
-    localStorage.removeItem("user");
-    sessionStorage.removeItem("user");
+    LocalStorageStorageManager.removeItem("username");
     observer.publish("reset");
 
     // navigate("/login");
   };
 
   useEffect(() => {
-    const user = SessionStorageManager.getItem("username");
+    const user = LocalStorageStorageManager.getItem("username");
 
     if (user) {
       setLoggedUser(user);

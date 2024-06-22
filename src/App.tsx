@@ -44,6 +44,10 @@ import { useBetween } from "use-between";
 import Footer from "./functionalities/footer/Footer";
 import { TodoList } from "./functionalities/todo/list/todo-list";
 import { BancaList } from "./functionalities/banca/list/banca-list";
+import ErrorsComponent from "./functionalities/error/ErrorsComponent";
+import { ForgotPassword } from "./functionalities/user/forgot-password";
+import { ResetPassword } from "./functionalities/user/reset-password";
+import { CompanyInvitations } from "./functionalities/invitations/list/company-invitations";
 
 // const useScreenSize = () => {
 //   const [screenSize, setScreenSize] = useState({
@@ -86,9 +90,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Outlet />}>
                 <Route path="login" element={<Login />} />
-
                 <Route index element={<Home />} />
-
                 <Route
                   path="accounting"
                   element={
@@ -97,7 +99,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="todo"
                   element={
@@ -106,7 +107,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="banci"
                   element={
@@ -115,7 +115,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="stergerecont"
                   element={
@@ -124,11 +123,9 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route path="start" element={<Start />} />
                 <Route path="termeni" element={<Terms />} />
                 <Route path="feedback" element={<Feedback />} />
-
                 <Route
                   path="taxe"
                   element={
@@ -137,11 +134,11 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route path="contact" element={<Contact />} />
-
                 <Route path="crearecont" element={<CreateAccount />} />
-
+                <Route path="parola" element={<ForgotPassword />} />
+                <Route path="resetareparola" element={<ResetPassword />} />
+                <Route path="invitations" element={<CompanyInvitations />} />
                 <Route
                   path="initial"
                   element={
@@ -150,7 +147,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="firme"
                   element={
@@ -159,7 +155,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="angajati"
                   element={
@@ -168,7 +163,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="salarii"
                   element={
@@ -177,7 +171,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route
                   path="pdfimport"
                   element={
@@ -194,7 +187,6 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-
                 <Route path="*" element={<NoPage />} />
               </Route>
             </Routes>
@@ -204,6 +196,7 @@ function App() {
         {/* <FacturaEditor></FacturaEditor> */}
         {/* <LamdaFunctions></LamdaFunctions> */}
       </div>
+      <ErrorsComponent></ErrorsComponent>
       <Footer></Footer>
     </div>
   );

@@ -6,7 +6,7 @@ export const ConfirmDialogWrapper = ({
   onConfirm,
   onCancel,
   headerMessage,
-  dWidth = "80vw",
+  customStyles = { maxWidth: "500px" },
 }) => {
   const [visible, setVisible] = useState(true);
   useEffect(() => {
@@ -20,7 +20,7 @@ export const ConfirmDialogWrapper = ({
       <Dialog
         header={headerMessage}
         visible={visible}
-        style={{ width: dWidth }}
+        style={{ ...customStyles }}
         onHide={() => setVisible(false)}
       >
         <div className="flex space-between">

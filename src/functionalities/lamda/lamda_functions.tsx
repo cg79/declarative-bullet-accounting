@@ -30,7 +30,6 @@ export const LamdaFunctions = () => {
   }, [reload]);
 
   const salveaza = async () => {
-    debugger;
     if (!selectedLamda) {
       return;
     }

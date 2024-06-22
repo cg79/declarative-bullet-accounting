@@ -200,7 +200,7 @@ export const TransactionRecord = ({
           <Dialog
             header="Editare Tranzactie"
             visible={editMode === 1}
-            style={{ width: "80vw" }}
+            // style={{ width: "80vw" }}
             onHide={() => setEditMode(0)}
           >
             <div className="flex center">

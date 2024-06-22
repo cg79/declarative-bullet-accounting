@@ -64,6 +64,13 @@ export interface IAngajat {
   contPersonal: string;
 }
 
+export interface IInvitation {
+  _id: string;
+  dataInvitatie: number;
+  accepted: boolean;
+  email: string;
+}
+
 export interface ISalarAngajat {
   guid: string;
   value: number;

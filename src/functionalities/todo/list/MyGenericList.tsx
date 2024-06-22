@@ -98,7 +98,7 @@ function MyGenericComponent<T>({
             <Dialog
               header="Date element"
               visible={item !== null}
-              style={{ width: "50vw" }}
+              // style={{ width: "50vw" }}
               onHide={() => setItem(null)}
             >
               {renderAddEditContent(item, save, () => setItem(null))}
@@ -135,7 +135,6 @@ function MyGenericComponent<T>({
             </div>
             {itemToBeDeleted && (
               <ConfirmDialogWrapper
-                dWidth="40vw"
                 onConfirm={() => {
                   if (!itemToBeDeleted) {
                     return;

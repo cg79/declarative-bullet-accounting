@@ -11,6 +11,7 @@ import { MyCheckbox } from "../../_components/reuse/my-checkbox";
 import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 // import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import useFirme from "../../_store/useFirme";
+import { helpers } from "../../_utils/helpers";
 
 export const CreateAccount = () => {
   const navigate = useNavigate();
@@ -51,12 +52,18 @@ export const CreateAccount = () => {
     }
 
     const bulletHttp = createBulletHttpRequestLibrary(true);
-    const responseData = await bulletHttp.createManagementUser({
-      email: payload.email,
-      password: payload.password,
-    });
+    const responseData = await bulletHttp.createuser(
+      {
+        email: payload.email,
+        password: payload.password,
+      },
+      payload.email
+        .replace("@", "")
+        .replace(".", "")
+        .replace(/[^a-zA-Z]+/g, "")
+    );
+    helpers.checkHttpResponseForErrors(responseData);
 
-    debugger;
     if (!responseData.success) {
       if (typeof responseData.message === "string") {
         setError(responseData.message || "Eroare la crearea contului");
@@ -85,7 +92,6 @@ export const CreateAccount = () => {
   // }, [getFirme]);
 
   useEffect(() => {
-    debugger;
     if (!loggedUser) {
       return;
     }
@@ -108,10 +114,11 @@ export const CreateAccount = () => {
       return;
     }
     const bulletHttp = createBulletHttpRequestLibrary(true);
-    const responseData = await bulletHttp.createManagementUser({
+    const responseData = await bulletHttp.createuser({
       email: payload.email,
       password: payload.password,
     });
+    helpers.checkHttpResponseForErrors(responseData);
 
     if (!responseData.success) {
       setError(responseData.message);

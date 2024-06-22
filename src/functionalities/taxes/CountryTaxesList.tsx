@@ -148,9 +148,9 @@ export const CountryTaxesList = () => {
           <div className="flex flex-column center-v">
             {item && (
               <Dialog
-                header="Date firma"
+                header="Informatie taxa"
                 visible={item !== null}
-                style={{ width: "80vw" }}
+                // style={{ width: "80vw" }}
                 onHide={() => setItem(null)}
               >
                 <AddEditTax

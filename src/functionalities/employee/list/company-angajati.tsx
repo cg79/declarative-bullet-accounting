@@ -8,31 +8,13 @@ import useAccountingDbActions from "../../transactions/hook/useAccountingDbActio
 import { useBetween } from "use-between";
 import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
 import { Dialog } from "primereact/dialog";
+import { helpers } from "../../../_utils/helpers";
 
 export const CompanyAngajati = () => {
   const { deleteAngajat, saveAngajat } = useAccountingDbActions();
   const [item, setItem] = useState<IAngajat | null>(null);
 
   const { selectedFirma, refreshAngajati, angajati } = useBetween(useFirme);
-
-  // const listaAngajati = getAngajatiForFirma(selectedFirma.value);
-  // const onFirmaSelected = (angajat: any) => {
-  //   setSelectedFirma(angajat);
-
-  //   // reloadRecords();
-  // };
-
-  // const reload = (firmaId: string) => {
-  //   getAngajati(firmaId).then((val) => {
-  //
-  //     setAngajatiForFirma(firmaId, val);
-  //     setAngajati(getAngajatiForFirma(selectedFirma.value));
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   reload(selectedFirma.value);
-  // }, [selectedFirma]);
 
   const executeDeleteAngajat = (item: IAngajat) => {
     if (!selectedFirma) {
@@ -59,7 +41,8 @@ export const CompanyAngajati = () => {
     if (!selectedFirma) {
       return;
     }
-    return saveAngajat(item, selectedFirma?._id).then(() => {
+    return saveAngajat(item, selectedFirma?._id).then((response) => {
+      helpers.checkHttpResponseForErrors(response);
       setItem(null);
       refreshAngajati();
     });
@@ -84,8 +67,8 @@ export const CompanyAngajati = () => {
   return (
     <div className="fcenter ">
       <div className="flex flex-column center-v">
-        <div className="flex center">
-          <h3>
+        <div className="fcenter">
+          <h3 className="fcenter">
             Selecteaza firma pentru care se doreste managementul angajatilor
           </h3>
         </div>
@@ -105,7 +88,7 @@ export const CompanyAngajati = () => {
           <Dialog
             header="Date angajat"
             visible={item !== null}
-            style={{ width: "50vw" }}
+            // style={{ width: "50vw" }}
             onHide={() => setItem(null)}
           >
             <AddEditAngajat

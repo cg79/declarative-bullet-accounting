@@ -4,6 +4,7 @@ import {
   usePagerState,
 } from "../../../hooks/usePagerState";
 import useGenericDB from "./useGenericDB";
+import { helpers } from "../../../_utils/helpers";
 
 const useGenericList = <T>(collectionName: string, sortBy: string) => {
   const [list, setList] = useState<T[]>([]);
@@ -38,7 +39,9 @@ const useGenericList = <T>(collectionName: string, sortBy: string) => {
 
   const save = useCallback(
     async (entity: T) => {
-      insertOrUpdate(entity, collectionName).then(() => {
+      insertOrUpdate(entity, collectionName).then((httpResponse: any) => {
+        helpers.checkHttpResponseForErrors(httpResponse);
+
         setItem(null);
         getPaginatedList();
       });

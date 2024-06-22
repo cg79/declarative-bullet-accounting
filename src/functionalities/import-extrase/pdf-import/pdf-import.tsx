@@ -17,6 +17,7 @@ import { Transactions } from "./transactions";
 import useImportTransactions from "./useImportTransactions";
 import { BULLET_IO_URL } from "../../../constants";
 import { utils } from "../../../_utils/utils";
+import { helpers } from "../../../_utils/helpers";
 
 export const PdfImport = () => {
   const { createDeclarativeBulletApi } = useDeclarativeBulletApi();
@@ -71,7 +72,10 @@ export const PdfImport = () => {
       .collection((c) => c.name(pdfCollection).method(BULLET_METHOD.FIND))
       .execute();
 
-    setUploadedFiles(response.data);
+    helpers.checkHttpResponseForErrors(response);
+    if (response.success) {
+      setUploadedFiles(response.data);
+    }
   }, [createDeclarativeBulletApi, pdfAngajatCollection]);
 
   const handleUploadClick = async (fileToUpload) => {
@@ -98,7 +102,7 @@ export const PdfImport = () => {
       // )
       .execute();
 
-    console.log(response);
+    helpers.checkHttpResponseForErrors(response);
 
     if (!response.success) {
       return;
@@ -110,10 +114,13 @@ export const PdfImport = () => {
     }
 
     const api2 = createDeclarativeBulletApi();
-    await api2
+    const apiResponse = await api2
       .body(response.data.files.list)
       .collection((c) => c.name(pdfCollection).method(BULLET_METHOD.INSERT))
       .execute();
+
+    helpers.checkHttpResponseForErrors(apiResponse);
+
     setFilesForUpload([]);
     loadSavedFiles();
   };
@@ -133,12 +140,14 @@ export const PdfImport = () => {
     });
     const api2 = createDeclarativeBulletApi();
     const response = await api2
-      .collection((c) => c.name(pdfCollection).method(BULLET_METHOD.DELETE))
+      .collection((c) =>
+        c.name(pdfCollection).method(BULLET_METHOD.DELETE_MANY)
+      )
       // .body({ name: list })
       .search((s) => s.in({ name: list }))
       .execute();
 
-    console.log(response);
+    helpers.checkHttpResponseForErrors(response);
     loadSavedFiles();
   };
 

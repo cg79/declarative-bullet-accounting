@@ -12,14 +12,14 @@ const useLamdaFunctions = () => {
     return getDeltaFunctions().then((val) => {
       console.log(val);
       setDeltaFunctions(val.data);
-      return val.data;
+      return val;
     });
   }, [getDeltaFunctions]);
 
   const getAccountingLamda = useCallback(async () => {
     let deltas = deltaFunctions;
     if (!deltas.length) {
-      deltas = await reload();
+      deltas = (await reload()).data;
     }
     const accounting_lamda: any = deltas.find(
       (val: any) => val.method === DELTA_FUNCTION

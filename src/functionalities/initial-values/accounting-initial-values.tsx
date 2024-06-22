@@ -12,7 +12,9 @@ import { useBetween } from "use-between";
 export const AccountingInitialValues = () => {
   const { getInitialAccountingValues, setInitialAccountingValues } =
     useAccountingDbActions();
-  const [initialState, setInitialState] = useState(STARTING_ACCOUNT_VALUES);
+  const [initialState, setInitialState] = useState({
+    ...STARTING_ACCOUNT_VALUES,
+  });
   const { selectedFirma } = useBetween(useFirme);
   const [editMode, setEditMode] = useState(false);
 
@@ -91,6 +93,7 @@ export const AccountingInitialValues = () => {
   useEffect(() => {
     async function fetchData() {
       const xxx = await getInitialAccountingValues(selectedFirma);
+      debugger;
       setInitialState({ ...xxx });
     }
     fetchData();

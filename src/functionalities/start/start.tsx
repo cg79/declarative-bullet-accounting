@@ -9,6 +9,7 @@ import { MyButton } from "../../_components/reuse/my-button";
 import { useNavigate } from "react-router-dom";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import useIdentity from "../../_store/useIdentity";
+import { helpers } from "../../_utils/helpers";
 
 const Start = () => {
   const { setSelectedFirma, reload, firme } = useBetween(useFirme);
@@ -38,6 +39,7 @@ const Start = () => {
   const importaAngajatPtFirma = useCallback(
     async (company: ICompany, angajat: IAngajat): Promise<IAngajat> => {
       const angajatResponse = await saveAngajat(angajat, company._id);
+      helpers.checkHttpResponseForErrors(angajatResponse);
       return angajatResponse.data;
     },
     [saveAngajat]
@@ -53,7 +55,7 @@ const Start = () => {
     await importTaxe();
 
     setMessage("Se importa firma default");
-    await wait(2000);
+    await wait(1000);
 
     const defaultCompany = await importaFirma();
 
@@ -67,8 +69,6 @@ const Start = () => {
       showDemisie: false,
       contPersonal: "",
     });
-
-    debugger;
 
     setMessage("Se importa salariile default pentru angajatul importat");
     await wait(2000);
@@ -132,7 +132,6 @@ const Start = () => {
   // };
 
   useEffect(() => {
-    debugger;
     if (!loggedUser) {
       setMessage("Nu sunteti logat");
       wait(2000).then(() => {
@@ -144,6 +143,7 @@ const Start = () => {
     if (!firme || !firme.length) {
       startImport();
     } else {
+      return;
       setImporting(false);
       setMessage("Datele initiale au fost deja importate");
       wait(2000).then(() => {
@@ -181,7 +181,8 @@ const Start = () => {
         <div className="mt10 fcenter">
           <MyButton
             text="Navigare catre tranzactii"
-            onClick={() => navigareCatreTranzactii()}
+            // onClick={() => navigareCatreTranzactii()}
+            onClick={() => startImport()}
             className="w300"
           ></MyButton>
         </div>

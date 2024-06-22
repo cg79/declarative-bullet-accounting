@@ -4518,10 +4518,10 @@
   "resolved" "https://registry.npmjs.org/decimal.js/-/decimal.js-10.4.3.tgz"
   "version" "10.4.3"
 
-"declarative-fluent-bullet-api@^1.0.31":
-  "integrity" "sha512-mT6gBBZoNhEEx+KEomo8F/BKgE7au8qjoBi1zTRK+qlVJvNvT66mOh33pIIkA/ZcgEIIRW/RP1iad0ysqITfsA=="
-  "resolved" "https://registry.npmjs.org/declarative-fluent-bullet-api/-/declarative-fluent-bullet-api-1.0.31.tgz"
-  "version" "1.0.31"
+"declarative-fluent-bullet-api@^1.0.35":
+  "integrity" "sha512-huU8qRxcx0t3LMW9uYvB8TO9N/QckWEbUY8+pH4xIzeGx+cZBYFGXqPD2HOmyaj+BIf8aT6HA9Lh9ofC8u36zw=="
+  "resolved" "https://registry.npmjs.org/declarative-fluent-bullet-api/-/declarative-fluent-bullet-api-1.0.35.tgz"
+  "version" "1.0.35"
 
 "dedent@^0.7.0":
   "integrity" "sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA=="

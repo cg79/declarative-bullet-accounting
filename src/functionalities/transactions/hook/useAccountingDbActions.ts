@@ -8,6 +8,7 @@ import {
   DELTA_FUNCTION,
   FIRME,
   GENERAL_TAXES,
+  INVITATIONS,
   STARTING_ACCOUNT_VALUES,
 } from "../constants/accounting_constants";
 import {
@@ -17,6 +18,7 @@ import {
   IAngajat,
   ICompanyTax,
   ISalarAddEdit,
+  IInvitation,
 } from "../model/accounting_types";
 import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
@@ -25,6 +27,7 @@ import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import DEFAULT_TAXES from "../../taxes/default-taxes";
 import DEFAULT_SALARIES from "../../employee/salary/list/default-salaries";
 import { useCallback } from "react";
+import { helpers } from "../../../_utils/helpers";
 // import { useBetween } from "use-between";
 // import useFirme from "../../../_store/useFirme";
 
@@ -39,7 +42,70 @@ const useAccountingDbActions = () => {
   const { createDeclarativeBulletApi, createBulletHttpRequestLibrary } =
     useDeclarativeBulletApi();
 
-  // const {selectedAngajat} = useBetween(useFirme);
+  const saveInvitation = useCallback(
+    async (angajat: IInvitation, firmaId: string) => {
+      // const {startAccountingData}  = useStartAccountingData();
+
+      // - daca nu exista, le insereaza
+      return createDeclarativeBulletApi()
+        .collection((c) =>
+          c.name(INVITATIONS(firmaId)).method(BULLET_METHOD.INSERT_OR_UPDATE)
+        )
+        .body(angajat)
+        .execute({
+          beforeSendingRequest: (apiBulletJSON: any) => {
+            console.log(JSON.stringify(apiBulletJSON));
+          },
+        })
+        .then((response: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(response);
+          return response;
+        });
+    },
+    [createDeclarativeBulletApi]
+  );
+
+  const deleteInvitation = useCallback(
+    async (invitation: IInvitation, firmaId: string) => {
+      // const {startAccountingData}  = useStartAccountingData();
+
+      // - daca nu exista, le insereaza
+      return createDeclarativeBulletApi()
+        .collection((c) =>
+          c.name(INVITATIONS(firmaId)).method(BULLET_METHOD.DELETE_ONE)
+        )
+        .body(invitation)
+        .execute({
+          beforeSendingRequest: (apiBulletJSON: any) => {
+            console.log(JSON.stringify(apiBulletJSON));
+          },
+        });
+    },
+    [createDeclarativeBulletApi]
+  );
+
+  const getInvitations = useCallback(
+    async (firmaId: string) => {
+      return createDeclarativeBulletApi()
+        .collection((c) =>
+          c.name(INVITATIONS(firmaId)).method(BULLET_METHOD.FIND)
+        )
+        .sort((s) => s.field("dataInvitatie").ascending(false))
+        .execute({
+          beforeSendingRequest: (apiBulletJSON: any) => {
+            console.log(JSON.stringify(apiBulletJSON));
+          },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          if (val.data) {
+            val.data.forEach((el) => (el.date = new Date(el.date)));
+          }
+          return val;
+        });
+    },
+    [createDeclarativeBulletApi]
+  );
 
   const getInitialAccountingValues = useCallback(
     async (selectedFirma) => {
@@ -49,7 +115,7 @@ const useAccountingDbActions = () => {
       return createDeclarativeBulletApi()
         .collection((c) =>
           c
-            .name(ACCOUNTING_START_VALUES(selectedFirma.value))
+            .name(ACCOUNTING_START_VALUES(selectedFirma._id))
             .method(BULLET_METHOD.FIND_ONE)
         )
         .execute({
@@ -59,6 +125,8 @@ const useAccountingDbActions = () => {
         })
         .then((val: CustomHttpResponse) => {
           //
+
+          helpers.checkHttpResponseForErrors(val);
 
           if (val.data) {
             return val.data;
@@ -84,6 +152,10 @@ const useAccountingDbActions = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          return val;
         });
     },
     [createDeclarativeBulletApi]
@@ -126,9 +198,8 @@ const useAccountingDbActions = () => {
         .then((val: CustomHttpResponse) => {
           if (val.data) {
             val.data.forEach((el) => (el.date = new Date(el.date)));
-            return val.data;
           }
-          return [];
+          return val;
         });
     },
     [createDeclarativeBulletApi]
@@ -169,6 +240,10 @@ const useAccountingDbActions = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          return val;
         });
     },
     [createDeclarativeBulletApi]
@@ -189,9 +264,8 @@ const useAccountingDbActions = () => {
       .then((val: CustomHttpResponse) => {
         if (val.data) {
           val.data.forEach((el) => (el.date = new Date(el.date)));
-          return val.data;
         }
-        return [];
+        return val;
       });
   }, [createDeclarativeBulletApi]);
 
@@ -228,6 +302,10 @@ const useAccountingDbActions = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          return val;
         });
     },
     [createDeclarativeBulletApi]
@@ -245,6 +323,9 @@ const useAccountingDbActions = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
         });
     },
     [createDeclarativeBulletApi]
@@ -259,6 +340,10 @@ const useAccountingDbActions = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          return val;
         });
     },
     [createDeclarativeBulletApi]
@@ -275,11 +360,11 @@ const useAccountingDbActions = () => {
           },
         })
         .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
           if (val.data) {
             val.data.forEach((el) => (el.date = new Date(el.date)));
-            return val.data;
           }
-          return [];
+          return val;
         });
     },
     [createDeclarativeBulletApi]
@@ -299,6 +384,10 @@ const useAccountingDbActions = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((response: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(response);
+          return response;
         });
     },
     [createDeclarativeBulletApi]
@@ -316,6 +405,7 @@ const useAccountingDbActions = () => {
       const response = await bulletHttp.registerUpdateMainDeltaFunction(
         payload
       );
+      helpers.checkHttpResponseForErrors(response);
 
       return response;
     },
@@ -324,29 +414,34 @@ const useAccountingDbActions = () => {
 
   const setInitialAccountingValues = useCallback(
     async (selectedFirma, accountingValues: IAccountingValues) => {
+      debugger;
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      const response = await createDeclarativeBulletApi()
         .collection((c) =>
           c
-            .name(ACCOUNTING_START_VALUES(selectedFirma.value))
-            .method(BULLET_METHOD.DELETE)
+            .name(ACCOUNTING_START_VALUES(selectedFirma._id))
+            .method(BULLET_METHOD.DELETE_MANY)
         )
         .flow((f) =>
           f
             .collection((c) =>
               c
-                .name(ACCOUNTING_START_VALUES(selectedFirma.value))
+                .name(ACCOUNTING_START_VALUES(selectedFirma._id))
                 .method(BULLET_METHOD.INSERT)
             )
             .body(accountingValues)
         )
         .execute({
           beforeSendingRequest: (apiBulletJSON: any) => {
+            debugger;
             console.log(JSON.stringify(apiBulletJSON));
           },
         });
+
+      helpers.checkHttpResponseForErrors(response);
+      return response;
     },
     [createDeclarativeBulletApi]
   );
@@ -683,7 +778,7 @@ const useAccountingDbActions = () => {
       selectedAngajat: IAngajat
     ) => {
       const bulletHttp = createBulletHttpRequestLibrary();
-      const res = await bulletHttp.executeMethodFromModule({
+      const response = await bulletHttp.executeMethodFromModule({
         method: "updateAccountingRecord",
         moduleName: "accounting",
         body: {
@@ -692,8 +787,8 @@ const useAccountingDbActions = () => {
           angajatId: selectedAngajat._id,
         },
       });
-
-      return res;
+      helpers.checkHttpResponseForErrors(response);
+      return response;
     },
     [createBulletHttpRequestLibrary]
   );
@@ -711,7 +806,7 @@ const useAccountingDbActions = () => {
       };
 
       const bulletHttp = createBulletHttpRequestLibrary();
-      const res = await bulletHttp.executeMethodFromModule({
+      const response = await bulletHttp.executeMethodFromModule({
         method: "deleteAccountingRecord",
         moduleName: "accounting",
         body: {
@@ -720,8 +815,8 @@ const useAccountingDbActions = () => {
           angajatId,
         },
       });
-
-      return res;
+      helpers.checkHttpResponseForErrors(response);
+      return response;
     },
     [createBulletHttpRequestLibrary]
   );
@@ -744,7 +839,7 @@ const useAccountingDbActions = () => {
       accountingRequest.dataTranzactie = accountingRequest.dataInregistrare;
     }
     const bulletHttp = createBulletHttpRequestLibrary();
-    const res = await bulletHttp.executeMethodFromModule({
+    const response = await bulletHttp.executeMethodFromModule({
       method: "addAccountingRecord",
       moduleName: "accounting",
       body: {
@@ -752,8 +847,9 @@ const useAccountingDbActions = () => {
         angajatId,
       },
     });
+    helpers.checkHttpResponseForErrors(response);
 
-    return res;
+    return response;
   };
 
   const getHistoryDataFromDb = useCallback(
@@ -777,6 +873,7 @@ const useAccountingDbActions = () => {
         )
         .execute();
 
+      helpers.checkHttpResponseForErrors(apiResponse);
       return apiResponse;
     },
     [createDeclarativeBulletApi]
@@ -790,7 +887,7 @@ const useAccountingDbActions = () => {
     });
 
     const api = createDeclarativeBulletApi();
-    await api
+    const response = await api
       .body(
         taxe.data.map((el: any) => {
           delete el._id;
@@ -799,6 +896,7 @@ const useAccountingDbActions = () => {
       )
       .collection((c) => c.name(GENERAL_TAXES).method(BULLET_METHOD.INSERT))
       .execute();
+    helpers.checkHttpResponseForErrors(response);
   }, [createDeclarativeBulletApi]);
 
   const importSalariiForAngajat = useCallback(
@@ -809,7 +907,7 @@ const useAccountingDbActions = () => {
       };
       const angajatId = selectedAngajat?._id;
       const api = createDeclarativeBulletApi();
-      await api
+      const response = await api
         .body(
           salarii.data.map((el: any) => {
             delete el._id;
@@ -823,6 +921,7 @@ const useAccountingDbActions = () => {
             .method(BULLET_METHOD.INSERT)
         )
         .execute();
+      helpers.checkHttpResponseForErrors(response);
     },
     [createDeclarativeBulletApi]
   );
@@ -853,6 +952,9 @@ const useAccountingDbActions = () => {
     addMultipleAccountingRecordsFromPdfImport,
     importTaxe,
     importSalariiForAngajat,
+    saveInvitation,
+    deleteInvitation,
+    getInvitations,
   };
 };
 

@@ -9,6 +9,7 @@ export const LabelInput = ({
   value = "",
   lwidth = "80px",
   type = "text",
+  disabled = false,
 }) => {
   const id = utils.createUUID();
   return (
@@ -35,6 +36,7 @@ export const LabelInput = ({
             className="myInput"
             type={type}
             onChange={(e) => onChange(e.target.value)}
+            disabled={disabled}
           />
         </div>
       </div>

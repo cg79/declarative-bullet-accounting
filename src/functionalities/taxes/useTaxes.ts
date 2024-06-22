@@ -8,7 +8,7 @@ const useTaxes = () => {
 
   const reload = () => {
     getCompanyTaxes().then((val) => {
-      setCountryTaxesList(val);
+      setCountryTaxesList(val.data);
     });
   };
 

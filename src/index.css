@@ -742,3 +742,11 @@ ul.my{
   transition: all .2s ease-in-out;
   /* width: 200px; */
 }
+
+.hscroll {
+  overflow-x: scroll;
+    overflow-y: hidden;
+  /* white-space: nowrap; */
+  /* -webkit-overflow-scrolling: touch; */
+  width: 99%;
+}

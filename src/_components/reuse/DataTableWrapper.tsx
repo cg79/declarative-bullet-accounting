@@ -18,21 +18,23 @@ const DataTableWrapper = ({
   onRowClick,
 }: MyDataTableProps) => {
   return (
-    <DataTable
-      value={data}
-      tableStyle={{ minWidth: "50rem" }}
-      onRowClick={onRowClick}
-    >
-      {/* <Column field="code" header="Code"></Column>
+    <div className="hscroll" key={Math.random()}>
+      <DataTable
+        value={data}
+        // tableStyle={{ minWidth: "414px" }}
+        onRowClick={onRowClick}
+      >
+        {/* <Column field="code" header="Code"></Column>
       <Column field="name" header="Name"></Column>
       <Column field="category" header="Category"></Column>
       <Column field="quantity" header="Quantity"></Column> */}
-      {fieldHeader.map((el) => (
-        <Column field={el.field} header={el.header} body={el.body} />
-      ))}
-      {/* {actions &&
+        {fieldHeader.map((el) => (
+          <Column field={el.field} header={el.header} body={el.body} />
+        ))}
+        {/* {actions &&
         actions.map((el) => <Column header={el.header} body={el.body} />)} */}
-    </DataTable>
+      </DataTable>
+    </div>
   );
 };
 

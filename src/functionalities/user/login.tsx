@@ -15,6 +15,7 @@ import { clientId } from "./constants";
 import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import { LabelButton } from "../../_components/reuse/LabelButton";
 import useFirme from "../../_store/useFirme";
+import LocalStorageStorageManager from "./localstorage-management";
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 const usePrevious = (value, initialValue) => {
@@ -29,7 +30,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
   const { getFirme } = useAccountingDbActions();
-  const { callLoginMethod } = useUserMethods();
+  const { callLoginMethod, createAccount } = useUserMethods();
   const { firme } = useBetween(useFirme);
 
   const [data, setData] = React.useState<any>({
@@ -58,41 +59,11 @@ export const Login = () => {
   };
 
   const onLogin = (user: any) => {
-    SessionStorageManager.setItem("username", user);
+    LocalStorageStorageManager.setItem("username", user);
     setareUserLogat(user);
   };
 
-  const useEffectDebugger = (
-    effectHook,
-    dependencies,
-    dependencyNames = []
-  ) => {
-    const previousDeps = usePrevious(dependencies, []);
-
-    const changedDeps = dependencies.reduce((accum, dependency, index) => {
-      if (dependency !== previousDeps[index]) {
-        const keyName = dependencyNames[index] || index;
-        return {
-          ...accum,
-          [keyName]: {
-            before: previousDeps[index],
-            after: dependency,
-          },
-        };
-      }
-
-      return accum;
-    }, {});
-
-    if (Object.keys(changedDeps).length) {
-      console.log("[use-effect-debugger] ", changedDeps);
-    }
-
-    useEffect(effectHook, dependencies);
-  };
-
   useEffect(() => {
-    debugger;
     if (!loggedUser) {
       return;
     }
@@ -101,21 +72,18 @@ export const Login = () => {
       return navigate("/start");
     }
     return navigate("/accounting");
-
-    // async function fetchData() {
-    //   // You can await here
-    //   const shouldNavigateToAccounting = await checkShouldTriggerImport();
-    //   debugger;
-    //   if (shouldNavigateToAccounting) {
-    //     navigate("/accounting");
-    //   } else {
-    //     navigate("/start");
-    //   }
-    // }
-    // fetchData();
   }, [firme]);
 
   const [error, setError] = useState("");
+  const test = async () => {
+    const resp = await createAccount({
+      email: "x@x.com",
+      password: "a",
+    });
+    if (!resp.success) {
+      setError(resp.message);
+    }
+  };
 
   return (
     <div className="flex flex-column center-v">
@@ -180,6 +148,17 @@ export const Login = () => {
 
       <div className="fcenter mt10">
         {error && <div className="mt10 error">{error}</div>}
+      </div>
+
+      <div className="fcenter mt10">
+        <LabelButton label="">
+          <MyButton
+            onClick={() => navigate("/parola")}
+            text="Am uitat Parola"
+            className="linkbutton ml5"
+            useBaseButton={false}
+          ></MyButton>
+        </LabelButton>
       </div>
 
       <div className="fcenter mt10">

@@ -1,3 +1,5 @@
+import PubSub from "./PubSub";
+
 class Helper {
   // promiseDelay(seconds = 1000) {
   //   return new Promise((res, rej) => {
@@ -17,32 +19,10 @@ class Helper {
     });
   }
 
-  chain1(functionsList: Function[], value?: any) {
-    return functionsList.reduce((prev, next) => {
-      return prev.then((value) => {
-        return next(value);
-      });
-    }, Promise.resolve(value));
-  }
-
-  chain2(functionsList: Function[], value: any) {
-    return functionsList.reduce((prev, next) => {
-      return prev.then((value) => this.executeFunction(next, value));
-    }, Promise.resolve(value));
-  }
-
-  chain3_recursion(functionsList: Function[], value: any) {
-    if (!functionsList.length) {
-      return Promise.resolve(value);
+  checkHttpResponseForErrors(response: any) {
+    if (!response.success) {
+      PubSub.publish("onError", response.message);
     }
-    const firstFunction: Function | undefined = functionsList.shift();
-
-    if (!firstFunction) {
-      return Promise.resolve(value);
-    }
-    return firstFunction(value)
-      .then((v: any) => this.chain3_recursion(functionsList, v))
-      .catch(() => this.chain3_recursion(functionsList, value));
   }
 
   getBlobFromUrl(url: string, callback: Function) {

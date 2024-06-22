@@ -15,7 +15,7 @@ const useSalary = () => {
       return;
     }
     return getAngajatSalaries(selectedAngajat).then((val) => {
-      setSalaries(val);
+      setSalaries(val.data);
       setAreSalariesLoaded(true);
     });
   }, [getAngajatSalaries, selectedAngajat]);

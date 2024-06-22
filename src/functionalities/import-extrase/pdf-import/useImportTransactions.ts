@@ -6,6 +6,7 @@ import { IAddEditTransactionValues } from "../../transactions/model/accounting_t
 
 import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { utils } from "../../../_utils/utils";
+import { helpers } from "../../../_utils/helpers";
 
 const useImportTransactions = () => {
   const [importedTransactions, setImportedTransactions] = useState([]);
@@ -159,6 +160,7 @@ const useImportTransactions = () => {
       moduleName: "pdfParser",
       body: body,
     });
+    helpers.checkHttpResponseForErrors(response);
     if (!response.success) {
       return;
     }

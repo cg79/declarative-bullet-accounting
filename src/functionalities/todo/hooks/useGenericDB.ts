@@ -4,6 +4,7 @@ import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResp
 import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { useCallback } from "react";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
+import { helpers } from "../../../_utils/helpers";
 
 const useGenericDB = () => {
   const { createDeclarativeBulletApi, createBulletHttpRequestLibrary } =
@@ -25,6 +26,10 @@ const useGenericDB = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          return val;
         });
     },
     [createDeclarativeBulletApi]

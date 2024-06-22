@@ -23,13 +23,13 @@ export const AddEditTax = ({
   };
 
   return (
-    <div className="fcenter">
+    <div className="fcenter hscroll1">
       <div className="flexcolumn">
         <div>
           <div className="fcenter bold">{item.nume}</div>
 
           <div className="flex mt15">
-            <div className="actionname flexcolumn">
+            <div className="actionname flexcolumn center">
               <span className="bold  " style={{ width: "200px" }}>
                 Data de cand se aplica taxa:
               </span>
@@ -51,7 +51,7 @@ export const AddEditTax = ({
           </div>
 
           <div className="flex mt10">
-            <div className="actionname flexcolumn">
+            <div className="actionname flexcolumn center">
               <span className="bold " style={{ width: "200px" }}>
                 Valoare:
               </span>

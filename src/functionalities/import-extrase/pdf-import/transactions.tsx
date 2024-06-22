@@ -11,6 +11,7 @@ import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { BULLET_IO_URL } from "../../../constants";
 import { Transaction } from "./transaction";
 import { store } from "../../../_store/store";
+import { helpers } from "../../../_utils/helpers";
 
 export const Transactions = () => {
   const {
@@ -56,7 +57,7 @@ export const Transactions = () => {
       // )
       .execute();
 
-    console.log(response);
+    helpers.checkHttpResponseForErrors(response);
 
     if (!response.success) {
       return;

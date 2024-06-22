@@ -97,7 +97,7 @@ export const CompanyList = () => {
               <Dialog
                 header="Date firma"
                 visible={item !== null}
-                style={{ width: "40vw" }}
+                // style={{ minWidth: "414px" }}
                 onHide={() => setItem(null)}
               >
                 <AddEditCompany
@@ -146,6 +146,7 @@ export const CompanyList = () => {
                 headerMessage={() =>
                   `Esti sigur ca vrei sa stergi ${itemToBedeleted.nume} ?`
                 }
+                customStyles={{ maxWidth: "500px" }}
               ></ConfirmDialogWrapper>
             )}
           </div>

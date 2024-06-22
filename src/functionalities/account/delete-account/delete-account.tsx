@@ -4,19 +4,15 @@ import { MyLottie } from "../../../_components/reuse/my-lottie";
 import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { useBetween } from "use-between";
 import useIdentity from "../../../_store/useIdentity";
+import { useUserMethods } from "../../user/useUserMethods";
 
 export const DeleteAccount = () => {
-  const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
+  const { deleteAccount } = useUserMethods();
   const { deconectare } = useBetween(useIdentity);
   const [error, setError] = useState("");
   const trimite = async () => {
     setError("");
-    const bulletHttp = createBulletHttpRequestLibrary();
-    const response = await bulletHttp.executeMethodFromModule({
-      method: "deleteAccount",
-      moduleName: "management",
-      body: {},
-    });
+    const response = await deleteAccount();
     if (!response.success) {
       setError(response.message);
       return;

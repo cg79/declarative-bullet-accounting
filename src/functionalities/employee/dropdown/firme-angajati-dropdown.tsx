@@ -42,7 +42,6 @@ export const FirmeAngajatiDropDown = () => {
                 return;
               }
               setSelectedFirma(val.value);
-              // setAngajati(getAngajatiForFirma(selectedFirma.value));
               clearAngajat();
             }}
             // value={{ label: selectedFirma?.nume, value: selectedFirma?._id || "" }}

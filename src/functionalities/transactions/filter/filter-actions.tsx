@@ -101,7 +101,7 @@ export const FilterActions = () => {
       <Dialog
         header="Filtre"
         visible={showFilters}
-        style={{ width: "80vw" }}
+        // style={{ width: "80vw" }}
         onHide={() => setShowFilters(false)}
       >
         <>

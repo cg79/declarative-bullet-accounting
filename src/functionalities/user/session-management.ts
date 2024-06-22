@@ -26,12 +26,3 @@ class SessionStorageManager {
 }
 
 export default SessionStorageManager;
-
-// // Example usage:
-// SessionStorageManager.setItem("username", "john_doe");
-// const username = SessionStorageManager.getItem<string>("username");
-// console.log(username); // Output: john_doe
-
-// SessionStorageManager.removeItem("username");
-// const deletedUsername = SessionStorageManager.getItem<string>("username");
-// console.log(deletedUsername); // Output: null

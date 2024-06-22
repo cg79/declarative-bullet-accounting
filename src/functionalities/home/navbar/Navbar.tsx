@@ -184,6 +184,30 @@ export const Navbar = () => {
       },
       visible: !!loggedUser,
     },
+    {
+      label: "Utilizator",
+      icon: "pi pi-fw pi-file",
+      items: [
+        {
+          label: "Deconectare",
+          icon: "pi pi-fw pi-power-off",
+          command: () => {
+            deconectare();
+            navigate("/login");
+          },
+          visible: !!loggedUser,
+        },
+        {
+          label: "Invitatii",
+          icon: "pi pi-fw pi-external-link",
+          command: () => {
+            navigate("/invitations");
+          },
+          visible: !!loggedUser,
+        },
+      ],
+      // visible: !!loggedUser,
+    },
   ];
 
   return (
