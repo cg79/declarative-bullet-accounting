@@ -57,6 +57,9 @@ const useFirme = () => {
   const reload = useCallback(() => {
     setTimeout(() => {
       getFirme(pageState).then((val: CustomHttpResponse) => {
+        if (!val || !val.success) {
+          return;
+        }
         const pagedRecords = val.data;
         setFirme(pagedRecords.records);
         setPageCountAndTotalRecords({
