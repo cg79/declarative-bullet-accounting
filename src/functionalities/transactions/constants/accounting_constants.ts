@@ -1,3 +1,5 @@
+import { ILoggedUser } from "../../../_store/useIdentity";
+import { clientId } from "../../user/constants";
 import { IAccountingValues } from "../model/accounting_types";
 
 export const DELTA_FUNCTION = "accounting";
@@ -12,7 +14,8 @@ export const ANGAJAT_SALARY = (angajatId: string) =>
 export const GENERAL_TAXES = `_general_taxes11`;
 export const ANGAJATI = (firmaId: string) => `_angajati1${firmaId}`;
 export const INVITATIONS = (firmaId: string) => `_invitations${firmaId}`;
-export const FIRME = `_firme`;
+export const FIRME = (loggedUser: ILoggedUser) =>
+  `${loggedUser.clientId}_firme`;
 
 export const ACCOUNTING_GUID = "31ef10b0-bab4-77a8-b9db-551e48fa8374";
 

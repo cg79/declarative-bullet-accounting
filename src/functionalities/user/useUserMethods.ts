@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 import { helpers } from "../../_utils/helpers";
+import useApi from "../transactions/hook/useApi";
 
 const useUserMethods = () => {
-  const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
+  const { executeMethodFromModule, callDeleteAccount } = useApi();
 
   const callLoginMethod = useCallback(
     async (payload, route = "loginWithGoogle") => {
@@ -16,49 +16,57 @@ const useUserMethods = () => {
         throw new Error("Parola trebuie completata");
       }
 
-      const bulletHttp = createBulletHttpRequestLibrary(true);
-      const response = await bulletHttp.login(
+      // const bulletHttp = createBulletHttpRequestLibrary(true);
+      const response = await executeMethodFromModule(
         {
-          email,
-          password: payload.password,
+          method: "login",
+          moduleName: "user",
+          body: {
+            email,
+            password: payload.password,
+          },
         },
-        email.replace(/[^a-zA-Z]+/g, "")
+        { allowAnonymous: true }
       );
+      //   {
+      //     email,
+      //     password: payload.password,
+      //   },
+      //   email.replace(/[^a-zA-Z]+/g, "")
+      // );
 
       if (!response.success) {
         throw new Error(response.message);
       }
       return response.data;
     },
-    [createBulletHttpRequestLibrary]
+    []
   );
 
   const createAccount = async ({ email, password }, sendEmail = false) => {
-    const bulletHttp = createBulletHttpRequestLibrary(true);
-    const responseData = await bulletHttp.createuser(
+    const responseData = await executeMethodFromModule(
       {
-        email,
-        password,
-        nick: sendEmail ? email : "",
+        method: "createUser",
+        moduleName: "user",
+
+        body: {
+          email,
+          password,
+        },
       },
-      email
-        .replace("@", "")
-        .replace(".", "")
-        .replace(/[^a-zA-Z]+/g, "")
+      {
+        allowAnonymous: true,
+      }
     );
+
     helpers.checkHttpResponseForErrors(responseData);
     return responseData;
   };
 
   const deleteAccount = async () => {
-    const bulletHttp = createBulletHttpRequestLibrary();
-    const response = await bulletHttp.delete();
+    const response = await callDeleteAccount();
     helpers.checkHttpResponseForErrors(response);
-    // const response = await bulletHttp.executeMethodFromModule({
-    //   method: "deleteAccount",
-    //   moduleName: "management",
-    //   body: {},
-    // });
+
     return response;
   };
 

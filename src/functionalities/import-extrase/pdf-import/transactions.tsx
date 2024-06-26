@@ -7,11 +7,12 @@ import { useRef } from "react";
 import BulletFile from "declarative-fluent-bullet-api/BulletFile";
 import useFirme from "../../../_store/useFirme";
 import { STORAGE_PROVIDER } from "declarative-fluent-bullet-api/fluent/constants";
-import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
+
 import { BULLET_IO_URL } from "../../../constants";
 import { Transaction } from "./transaction";
 import { store } from "../../../_store/store";
 import { helpers } from "../../../_utils/helpers";
+import useApi from "../../transactions/hook/useApi";
 
 export const Transactions = () => {
   const {
@@ -21,9 +22,9 @@ export const Transactions = () => {
     getSelectedTransactionsCount,
     setFacturaForTransaction,
   } = useBetween(useImportTransactions);
+  const { executeMethod } = useApi();
 
   const { selectedAngajat } = useBetween(useFirme);
-  const { createDeclarativeBulletApi } = useDeclarativeBulletApi();
 
   const createIFiles = (files: any[]) => {
     const response: BulletFile[] = [];
@@ -41,7 +42,7 @@ export const Transactions = () => {
       return;
     }
     const ifiles = createIFiles(filesForUpload);
-    const api = createDeclarativeBulletApi();
+    const api = executeMethod();
     const response = await api
       .storage((s) =>
         s
@@ -75,7 +76,7 @@ export const Transactions = () => {
     //   return;
     // }
 
-    // const api2 = createDeclarativeBulletApi();
+    // const api2 = executeMethod();
     // await api2
     //   .body(response.data.files.list)
     //   .collection((c) => c.name(pdfCollection).method(BULLET_METHOD.INSERT))

@@ -21,13 +21,15 @@ import {
   IInvitation,
 } from "../model/accounting_types";
 import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
-import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { ICompany } from "../../company/types";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import DEFAULT_TAXES from "../../taxes/default-taxes";
 import DEFAULT_SALARIES from "../../employee/salary/list/default-salaries";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { helpers } from "../../../_utils/helpers";
+import { useBetween } from "use-between";
+import useIdentity from "../../../_store/useIdentity";
+import useApi from "./useApi";
 // import { useBetween } from "use-between";
 // import useFirme from "../../../_store/useFirme";
 
@@ -39,40 +41,89 @@ export type DeltaFunction = {
 };
 
 const useAccountingDbActions = () => {
-  const { createDeclarativeBulletApi, createBulletHttpRequestLibrary } =
-    useDeclarativeBulletApi();
+  const { loggedUser } = useBetween(useIdentity);
+  const { executeMethodFromModule, executeMethod } = useApi();
+
+  // useEffect(() => {
+  //   debugger;
+  //   if (!loggedUser) {
+  //     return;
+  //   }
+  // }, [loggedUser]);
 
   const saveInvitation = useCallback(
-    async (angajat: IInvitation, firmaId: string) => {
+    async (invitation: IInvitation, firmaId: string) => {
       // const {startAccountingData}  = useStartAccountingData();
+      if (!loggedUser) {
+        return {
+          success: false,
+          message: "Nu sunteti autentificat",
+        };
+      }
 
+      const newInvitation = {
+        ...invitation,
+        firmaId,
+      };
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c.name(INVITATIONS(firmaId)).method(BULLET_METHOD.INSERT_OR_UPDATE)
-        )
-        .body(angajat)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((response: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(response);
-          return response;
-        });
+      return (
+        executeMethod()
+          .collection((c) =>
+            c
+              .name(INVITATIONS(loggedUser.clientId))
+              .method(BULLET_METHOD.INSERT_OR_UPDATE)
+          )
+          .body(newInvitation)
+          .flow((f) =>
+            f.lamda((l) =>
+              l.module("user").method("sendInvitation").internalModule(true)
+            )
+          )
+          // .flow((f) => f.))
+          .execute({
+            beforeSendingRequest: (apiBulletJSON: any) => {
+              console.log(JSON.stringify(apiBulletJSON));
+            },
+          })
+          .then((response: CustomHttpResponse) => {
+            helpers.checkHttpResponseForErrors(response);
+            return response;
+          })
+      );
     },
-    [createDeclarativeBulletApi]
+    []
   );
+
+  const acceptInvitation = useCallback(async (invitation) => {
+    // const {startAccountingData}  = useStartAccountingData();
+
+    const { clientId } = invitation;
+
+    const response = await executeMethodFromModule({
+      moduleName: "user",
+      method: "acceptInvitation",
+      body: invitation,
+    });
+
+    return response;
+    // - daca nu exista, le insereaza
+  }, []);
 
   const deleteInvitation = useCallback(
     async (invitation: IInvitation, firmaId: string) => {
-      // const {startAccountingData}  = useStartAccountingData();
+      if (!loggedUser) {
+        return {
+          success: false,
+          message: "Nu sunteti autentificat",
+        };
+      }
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) =>
-          c.name(INVITATIONS(firmaId)).method(BULLET_METHOD.DELETE_ONE)
+          c
+            .name(INVITATIONS(loggedUser.clientId))
+            .method(BULLET_METHOD.DELETE_ONE)
         )
         .body(invitation)
         .execute({
@@ -81,136 +132,127 @@ const useAccountingDbActions = () => {
           },
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
-  const getInvitations = useCallback(
-    async (firmaId: string) => {
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c.name(INVITATIONS(firmaId)).method(BULLET_METHOD.FIND)
-        )
-        .sort((s) => s.field("dataInvitatie").ascending(false))
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-          if (val.data) {
-            val.data.forEach((el) => (el.date = new Date(el.date)));
-          }
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+  const getInvitations = useCallback(async (firmaId: string) => {
+    if (!loggedUser) {
+      return {
+        success: false,
+        message: "Nu sunteti autentificat",
+        data: [],
+      };
+    }
+    return executeMethod()
+      .collection((c) =>
+        c.name(INVITATIONS(loggedUser.clientId)).method(BULLET_METHOD.FIND)
+      )
+      .search((s) => s.findByObject({ firmaId }))
+      .sort((s) => s.field("dataInvitatie").ascending(false))
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+        if (val.data) {
+          val.data.forEach((el) => (el.date = new Date(el.date)));
+        }
+        return val;
+      });
+  }, []);
 
-  const getInitialAccountingValues = useCallback(
-    async (selectedFirma) => {
-      // const {startAccountingData}  = useStartAccountingData();
+  const getInitialAccountingValues = useCallback(async (selectedFirma) => {
+    // const {startAccountingData}  = useStartAccountingData();
 
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c
-            .name(ACCOUNTING_START_VALUES(selectedFirma._id))
-            .method(BULLET_METHOD.FIND_ONE)
-        )
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          //
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c
+          .name(ACCOUNTING_START_VALUES(selectedFirma._id))
+          .method(BULLET_METHOD.FIND_ONE)
+      )
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        //
 
-          helpers.checkHttpResponseForErrors(val);
+        helpers.checkHttpResponseForErrors(val);
 
-          if (val.data) {
-            return val.data;
-          }
+        if (val.data) {
+          return val.data;
+        }
 
-          return { ...STARTING_ACCOUNT_VALUES };
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+        return { ...STARTING_ACCOUNT_VALUES };
+      });
+  }, []);
 
-  const saveCompanyTax = useCallback(
-    async (tax: ICompanyTax) => {
-      // const {startAccountingData}  = useStartAccountingData();
+  const saveCompanyTax = useCallback(async (tax: ICompanyTax) => {
+    // const {startAccountingData}  = useStartAccountingData();
 
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c.name(GENERAL_TAXES).method(BULLET_METHOD.INSERT_OR_UPDATE)
-        )
-        .body(tax)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c.name(GENERAL_TAXES).method(BULLET_METHOD.INSERT_OR_UPDATE)
+      )
+      .body(tax)
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+        return val;
+      });
+  }, []);
 
-  const deleteCompanyTax = useCallback(
-    async (tax: ICompanyTax) => {
-      // const {startAccountingData}  = useStartAccountingData();
+  const deleteCompanyTax = useCallback(async (tax: ICompanyTax) => {
+    // const {startAccountingData}  = useStartAccountingData();
 
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c.name(GENERAL_TAXES).method(BULLET_METHOD.DELETE_ONE)
-        )
-        .body(tax)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) => c.name(GENERAL_TAXES).method(BULLET_METHOD.DELETE_ONE))
+      .body(tax)
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      });
+  }, []);
 
-  const getAngajatSalaries = useCallback(
-    async (selectedAngajat: IAngajat) => {
-      // const {startAccountingData}  = useStartAccountingData();
+  const getAngajatSalaries = useCallback(async (selectedAngajat: IAngajat) => {
+    // const {startAccountingData}  = useStartAccountingData();
 
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c.name(ANGAJAT_SALARY(selectedAngajat._id)).method(BULLET_METHOD.FIND)
-        )
-        .sort((s) => s.field("date").ascending(false))
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          if (val.data) {
-            val.data.forEach((el) => (el.date = new Date(el.date)));
-          }
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c.name(ANGAJAT_SALARY(selectedAngajat._id)).method(BULLET_METHOD.FIND)
+      )
+      .sort((s) => s.field("date").ascending(false))
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        if (val.data) {
+          val.data.forEach((el) => (el.date = new Date(el.date)));
+        }
+        return val;
+      });
+  }, []);
 
   const deleteAngajatSalary = useCallback(
     async (tax: ISalarAddEdit, selectedAngajat: IAngajat) => {
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) =>
           c
             .name(ANGAJAT_SALARY(selectedAngajat._id))
@@ -223,13 +265,13 @@ const useAccountingDbActions = () => {
           },
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const saveAngajatSalary = useCallback(
     async (tax: ISalarAddEdit, selectedAngajat: IAngajat) => {
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) =>
           c
             .name(ANGAJAT_SALARY(selectedAngajat._id || ""))
@@ -246,14 +288,14 @@ const useAccountingDbActions = () => {
           return val;
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const getCompanyTaxes = useCallback(async () => {
     // const {startAccountingData}  = useStartAccountingData();
 
     // - daca nu exista, le insereaza
-    return createDeclarativeBulletApi()
+    return executeMethod()
       .collection((c) => c.name(GENERAL_TAXES).method(BULLET_METHOD.FIND))
       .sort((s) => s.field("date").ascending(true))
       .execute({
@@ -267,14 +309,14 @@ const useAccountingDbActions = () => {
         }
         return val;
       });
-  }, [createDeclarativeBulletApi]);
+  }, []);
 
   const deleteAngajat = useCallback(
     async (angajat: IAngajat, firmaId: string) => {
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) =>
           c.name(ANGAJATI(firmaId)).method(BULLET_METHOD.DELETE_ONE)
         )
@@ -285,97 +327,123 @@ const useAccountingDbActions = () => {
           },
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
-  const getFirme = useCallback(
-    async (pageState: IPageNoAndRowsPerPage) => {
-      // const {startAccountingData}  = useStartAccountingData();
-      const { pageNo, rowsPerPage } = pageState;
+  const getFirme = async (pageState: IPageNoAndRowsPerPage) => {
+    if (!loggedUser) {
+      return new CustomHttpResponse({
+        success: false,
+        message: "Nu sunteti logat",
+      });
+    }
+    // const {startAccountingData}  = useStartAccountingData();
+    const { pageNo, rowsPerPage } = pageState;
 
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) => c.name(FIRME).method(BULLET_METHOD.PAGINATION))
-        .page((p) => p.itemsOnPage(rowsPerPage).pageNo(pageNo + 1))
-        .sort((s) => s.field("nume").ascending(true))
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+    if (loggedUser.isInvited) {
+      const response = await executeMethodFromModule({
+        method: "getCompaniesForInvitedUser",
+        moduleName: "user",
+        body: {
+          ...loggedUser,
+          collection: { name: FIRME(loggedUser), method: "page" },
+          page: { itemsOnPage: rowsPerPage, pageNo: pageNo + 1 },
+          sort: { nume: 1 },
+        },
+      });
+      return response;
+    }
 
-  const deleteCompany = useCallback(
-    async (angajat: ICompany) => {
-      // const {startAccountingData}  = useStartAccountingData();
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c.name(FIRME(loggedUser)).method(BULLET_METHOD.PAGINATION)
+      )
+      .page((p) => p.itemsOnPage(rowsPerPage).pageNo(pageNo + 1))
+      .sort((s) => s.field("nume").ascending(true))
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+        return val;
+      });
+  };
 
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) => c.name(FIRME).method(BULLET_METHOD.DELETE_ONE))
-        .body(angajat)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+  const deleteCompany = useCallback(async (angajat: ICompany) => {
+    // const {startAccountingData}  = useStartAccountingData();
+    if (!loggedUser) {
+      return {
+        success: false,
+        message: "Nu sunteti logat",
+      };
+    }
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c.name(FIRME(loggedUser)).method(BULLET_METHOD.DELETE_ONE)
+      )
+      .body(angajat)
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+      });
+  }, []);
 
-  const saveFirma = useCallback(
-    async (firma: ICompany) => {
-      return createDeclarativeBulletApi()
-        .collection((c) => c.name(FIRME).method(BULLET_METHOD.INSERT_OR_UPDATE))
-        .body(firma)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+  const saveFirma = useCallback(async (firma: ICompany) => {
+    if (!loggedUser) {
+      return {
+        success: false,
+        message: "Nu sunteti logat",
+        data: null,
+      };
+    }
+    return executeMethod()
+      .collection((c) =>
+        c.name(FIRME(loggedUser)).method(BULLET_METHOD.INSERT_OR_UPDATE)
+      )
+      .body(firma)
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+        return val;
+      });
+  }, []);
 
-  const getAngajati = useCallback(
-    async (firmaId: string) => {
-      return createDeclarativeBulletApi()
-        .collection((c) => c.name(ANGAJATI(firmaId)).method(BULLET_METHOD.FIND))
-        .sort((s) => s.field("nume").ascending(false))
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-          if (val.data) {
-            val.data.forEach((el) => (el.date = new Date(el.date)));
-          }
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+  const getAngajati = useCallback(async (firmaId: string) => {
+    return executeMethod()
+      .collection((c) => c.name(ANGAJATI(firmaId)).method(BULLET_METHOD.FIND))
+      .sort((s) => s.field("nume").ascending(false))
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+        if (val.data) {
+          val.data.forEach((el) => (el.date = new Date(el.date)));
+        }
+        return val;
+      });
+  }, []);
 
   const saveAngajat = useCallback(
     async (angajat: IAngajat, firmaId: string) => {
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) =>
           c.name(ANGAJATI(firmaId)).method(BULLET_METHOD.INSERT_OR_UPDATE)
         )
@@ -390,26 +458,31 @@ const useAccountingDbActions = () => {
           return response;
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const getMainDeltaFunctions = useCallback(async () => {
-    const bulletHttp = createBulletHttpRequestLibrary();
-    const response = await bulletHttp.getMainDeltaFunctions();
+    const response = await executeMethodFromModule({
+      method: "getMainDeltaFunctions",
+      moduleName: "bullet",
+
+      body: {},
+    });
     return response;
-  }, [createBulletHttpRequestLibrary]);
+  }, []);
 
   const registerupdatedeltafunction = useCallback(
     async (payload: DeltaFunction) => {
-      const bulletHttp = createBulletHttpRequestLibrary();
-      const response = await bulletHttp.registerUpdateMainDeltaFunction(
-        payload
-      );
+      const response = await executeMethodFromModule({
+        method: "registerUpdateMainDeltaFunction",
+        moduleName: "bullet",
+        body: payload,
+      });
       helpers.checkHttpResponseForErrors(response);
 
       return response;
     },
-    [createBulletHttpRequestLibrary]
+    []
   );
 
   const setInitialAccountingValues = useCallback(
@@ -418,7 +491,7 @@ const useAccountingDbActions = () => {
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
-      const response = await createDeclarativeBulletApi()
+      const response = await executeMethod()
         .collection((c) =>
           c
             .name(ACCOUNTING_START_VALUES(selectedFirma._id))
@@ -443,7 +516,7 @@ const useAccountingDbActions = () => {
       helpers.checkHttpResponseForErrors(response);
       return response;
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const addMultipleAccountingRecordsFromPdfImport = useCallback(
@@ -452,9 +525,8 @@ const useAccountingDbActions = () => {
       selectedAngajat: IAngajat,
       firmaId: string
     ) => {
-      const api = createDeclarativeBulletApi();
       // - daca nu exista, le insereaza
-      const response = await api
+      const response = await executeMethod()
         .page((p) => p.itemsOnPage(1).pageNo(1))
         .sort((s) => s.field("addedms").ascending(false))
         .collection((c) =>
@@ -547,7 +619,7 @@ const useAccountingDbActions = () => {
 
       // resetAccountingValues();
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const addAccountingRecordFromPdfImport = useCallback(
@@ -560,9 +632,8 @@ const useAccountingDbActions = () => {
         accountingRequest.dataTranzactie = accountingRequest.dataInregistrare;
       }
 
-      const api = createDeclarativeBulletApi();
       // - daca nu exista, le insereaza
-      const response = await api
+      const response = await executeMethod()
         .page((p) => p.itemsOnPage(1).pageNo(1))
         .sort((s) => s.field("addedms").ascending(false))
         .collection((c) =>
@@ -654,7 +725,7 @@ const useAccountingDbActions = () => {
 
       // resetAccountingValues();
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const insertAccountingAction = useCallback(
@@ -667,7 +738,7 @@ const useAccountingDbActions = () => {
       // record.editMode = false;
       // delete record.isInsert;
 
-      const accountingResponse = await createDeclarativeBulletApi()
+      const accountingResponse = await executeMethod()
         .body(record)
         .insert(ACCOUNTING_HISTORY(selectedAngajat._id || ""))
         .execute({
@@ -684,7 +755,7 @@ const useAccountingDbActions = () => {
         selectedAngajat: IAngajat,
         pageNo
       ) => {
-        let items = await createDeclarativeBulletApi()
+        let items = await executeMethod()
           .search((s) => s.expression(pageExpression))
           .page((p) => p.itemsOnPage(3).pageNo(pageNo))
           .collection((c) =>
@@ -699,7 +770,7 @@ const useAccountingDbActions = () => {
 
       const salaries = await getAngajatSalaries(selectedAngajat);
 
-      const country_taxes = await createDeclarativeBulletApi()
+      const country_taxes = await executeMethod()
         .find(GENERAL_TAXES)
         .sort((s) =>
           s.field("year").field("month").field("day").ascending(false)
@@ -734,7 +805,7 @@ const useAccountingDbActions = () => {
                 ];
           count = count + 1;
           // console.log(JSON.stringify(deltaRequest));
-          const deltaResponse = await createDeclarativeBulletApi()
+          const deltaResponse = await executeMethod()
             .body(deltaRequest)
             .collection((c) => c.method(BULLET_METHOD.LAMDA))
             .lamda((l) => l.module("my_module").method(DELTA_FUNCTION))
@@ -743,7 +814,7 @@ const useAccountingDbActions = () => {
           prevResponse = deltaResponse.data;
           histItem.trace = prevResponse;
 
-          const resp = await createDeclarativeBulletApi()
+          const resp = await executeMethod()
             .body(histItem)
             .updateOne(ACCOUNTING_HISTORY(selectedAngajat._id))
             .collection((c) =>
@@ -760,7 +831,7 @@ const useAccountingDbActions = () => {
       }
 
       // if (prevResponse) {
-      //   await createDeclarativeBulletApi()
+      //   await executeMethod()
       //     .body(prevResponse.newConta)
       //     .update(ACCOUNTING_COLLECTION);
       // }
@@ -768,7 +839,7 @@ const useAccountingDbActions = () => {
       // const newItems = await getHistoryDataFromDb({});
       // return newItems;
     },
-    [createDeclarativeBulletApi, getAngajatSalaries]
+    [getAngajatSalaries]
   );
 
   const updateAccountingAction = useCallback(
@@ -777,8 +848,7 @@ const useAccountingDbActions = () => {
       accountingRequest: IAddEditTransactionValues,
       selectedAngajat: IAngajat
     ) => {
-      const bulletHttp = createBulletHttpRequestLibrary();
-      const response = await bulletHttp.executeMethodFromModule({
+      const response = await executeMethodFromModule({
         method: "updateAccountingRecord",
         moduleName: "accounting",
         body: {
@@ -790,7 +860,7 @@ const useAccountingDbActions = () => {
       helpers.checkHttpResponseForErrors(response);
       return response;
     },
-    [createBulletHttpRequestLibrary]
+    []
   );
 
   const deleteAccountingRecord = useCallback(
@@ -805,8 +875,7 @@ const useAccountingDbActions = () => {
         dataTranzactie: record.trace.accountingRequest.dataTranzactie,
       };
 
-      const bulletHttp = createBulletHttpRequestLibrary();
-      const response = await bulletHttp.executeMethodFromModule({
+      const response = await executeMethodFromModule({
         method: "deleteAccountingRecord",
         moduleName: "accounting",
         body: {
@@ -818,7 +887,7 @@ const useAccountingDbActions = () => {
       helpers.checkHttpResponseForErrors(response);
       return response;
     },
-    [createBulletHttpRequestLibrary]
+    []
   );
 
   const addAccountingRecord = async (
@@ -838,8 +907,7 @@ const useAccountingDbActions = () => {
     if (!accountingRequest.dataTranzactie) {
       accountingRequest.dataTranzactie = accountingRequest.dataInregistrare;
     }
-    const bulletHttp = createBulletHttpRequestLibrary();
-    const response = await bulletHttp.executeMethodFromModule({
+    const response = await executeMethodFromModule({
       method: "addAccountingRecord",
       moduleName: "accounting",
       body: {
@@ -861,7 +929,7 @@ const useAccountingDbActions = () => {
     ) => {
       // "trace.accountingRequest.operationid==1"
       const angajatId = selectedAngajat._id;
-      const apiResponse = await createDeclarativeBulletApi()
+      const apiResponse = await executeMethod()
         // .search((s) => s.expression(pageExpression))
         .page((p) => p.itemsOnPage(rowsPerPage).pageNo(pageNo))
         .collection((c) =>
@@ -876,7 +944,7 @@ const useAccountingDbActions = () => {
       helpers.checkHttpResponseForErrors(apiResponse);
       return apiResponse;
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const importTaxe = useCallback(async () => {
@@ -886,8 +954,7 @@ const useAccountingDbActions = () => {
       data: DEFAULT_TAXES,
     });
 
-    const api = createDeclarativeBulletApi();
-    const response = await api
+    const response = await executeMethod()
       .body(
         taxe.data.map((el: any) => {
           delete el._id;
@@ -897,7 +964,7 @@ const useAccountingDbActions = () => {
       .collection((c) => c.name(GENERAL_TAXES).method(BULLET_METHOD.INSERT))
       .execute();
     helpers.checkHttpResponseForErrors(response);
-  }, [createDeclarativeBulletApi]);
+  }, []);
 
   const importSalariiForAngajat = useCallback(
     async (selectedAngajat: IAngajat) => {
@@ -906,8 +973,7 @@ const useAccountingDbActions = () => {
         data: DEFAULT_SALARIES,
       };
       const angajatId = selectedAngajat?._id;
-      const api = createDeclarativeBulletApi();
-      const response = await api
+      const response = await executeMethod()
         .body(
           salarii.data.map((el: any) => {
             delete el._id;
@@ -923,7 +989,7 @@ const useAccountingDbActions = () => {
         .execute();
       helpers.checkHttpResponseForErrors(response);
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   return {
@@ -955,6 +1021,7 @@ const useAccountingDbActions = () => {
     saveInvitation,
     deleteInvitation,
     getInvitations,
+    acceptInvitation,
   };
 };
 

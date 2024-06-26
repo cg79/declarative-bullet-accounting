@@ -50,6 +50,7 @@ const Start = () => {
   };
   const startImport = async () => {
     setMessage("Se importa taxele");
+    debugger;
     await wait(2000);
 
     await importTaxe();
@@ -139,11 +140,13 @@ const Start = () => {
       });
       return;
     }
+    if (loggedUser.isInvited) {
+      return navigate("/home");
+    }
 
     if (!firme || !firme.length) {
       startImport();
     } else {
-      return;
       setImporting(false);
       setMessage("Datele initiale au fost deja importate");
       wait(2000).then(() => {

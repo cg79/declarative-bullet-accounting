@@ -176,15 +176,6 @@ export const Navbar = () => {
     // },
 
     {
-      label: "Deconectare",
-      icon: "pi pi-fw pi-power-off",
-      command: () => {
-        deconectare();
-        navigate("/login");
-      },
-      visible: !!loggedUser,
-    },
-    {
       label: "Utilizator",
       icon: "pi pi-fw pi-file",
       items: [
@@ -203,7 +194,7 @@ export const Navbar = () => {
           command: () => {
             navigate("/invitations");
           },
-          visible: !!loggedUser,
+          visible: !!loggedUser && !loggedUser?.isInvited,
         },
       ],
       // visible: !!loggedUser,

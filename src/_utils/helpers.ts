@@ -25,6 +25,14 @@ class Helper {
     }
   }
 
+  isValidEmail(email: string): boolean {
+    // Define the regular expression pattern for a valid email address
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Test the email against the pattern
+    return emailPattern.test(email);
+  }
+
   getBlobFromUrl(url: string, callback: Function) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {

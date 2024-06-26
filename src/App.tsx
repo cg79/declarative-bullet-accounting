@@ -17,7 +17,6 @@ import "primeicons/primeicons.css";
 // primereact/resources/themes/mdc-dark-deeppurple/theme.css
 
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { Home } from "./home";
 import NoPage from "./no-page";
 import { DemoAccounting } from "./functionalities/transactions/root/demo-accounting";
 import { Login } from "./functionalities/user/login";
@@ -48,6 +47,8 @@ import ErrorsComponent from "./functionalities/error/ErrorsComponent";
 import { ForgotPassword } from "./functionalities/user/forgot-password";
 import { ResetPassword } from "./functionalities/user/reset-password";
 import { CompanyInvitations } from "./functionalities/invitations/list/company-invitations";
+import { AcceptInvitation } from "./functionalities/user/accept-invitation";
+import { Home } from "./functionalities/home/home";
 
 // const useScreenSize = () => {
 //   const [screenSize, setScreenSize] = useState({
@@ -139,6 +140,12 @@ function App() {
                 <Route path="parola" element={<ForgotPassword />} />
                 <Route path="resetareparola" element={<ResetPassword />} />
                 <Route path="invitations" element={<CompanyInvitations />} />
+                <Route path="home" element={<Home />} />
+                <Route
+                  path="acceptare-invitatie"
+                  element={<AcceptInvitation />}
+                />
+
                 <Route
                   path="initial"
                   element={

@@ -2,23 +2,25 @@ import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MyButton } from "../../_components/reuse/my-button";
-import { LabelInput } from "../../_components/reuse/LabelInput";
 import useIdentity from "../../_store/useIdentity";
 import { useBetween } from "use-between";
 import { MyLottie } from "../../_components/reuse/my-lottie";
-import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 // import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
+import useApi from "../transactions/hook/useApi";
+import useEvents from "../../_store/useEvents";
+import { LabelEmail } from "../../_components/reuse/LabelEmail";
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
 
   // const { getFirme } = useAccountingDbActions();
   const { firme } = useBetween(useFirme);
-  const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
 
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
+  const { executeMethodFromModule } = useApi();
+  const { enterPressed, clearEnterPressed } = useBetween(useEvents);
 
   const [error, setError] = useState("");
   const [emailSent, setEmailSent] = useState(false);
@@ -31,24 +33,41 @@ export const ForgotPassword = () => {
     setData((data) => ({ ...data, [key]: value }));
   };
 
-  const callSendResetPasswordEmail = async (payload: any) => {
+  useEffect(() => {
+    if (!enterPressed) {
+      return;
+    }
+    callSendResetPasswordEmail();
+    clearEnterPressed();
+  }, [enterPressed]);
+
+  const callSendResetPasswordEmail = async () => {
     setError("");
-    const { email } = payload;
-    if (!payload.email) {
+    const { email } = data;
+    if (!email) {
       setError("Email-ul trebuie sa fie completat");
       return;
     }
 
-    const bulletHttp = createBulletHttpRequestLibrary(true);
-    const responseData = await bulletHttp.forgotpassword(
+    if (!helpers.isValidEmail(email)) {
+      setError("Email-ul nu este valid");
+      return;
+    }
+
+    const responseData = await executeMethodFromModule(
       {
-        email: email,
+        method: "forgotPassword",
+        moduleName: "user",
+
+        body: {
+          email,
+        },
       },
-      email
-        .replace("@", "")
-        .replace(".", "")
-        .replace(/[^a-zA-Z]+/g, "")
+      {
+        allowAnonymous: true,
+      }
     );
+
     helpers.checkHttpResponseForErrors(responseData);
 
     if (!responseData.success) {
@@ -109,16 +128,16 @@ export const ForgotPassword = () => {
         </div>
 
         <div className="mt10">
-          <LabelInput
+          <LabelEmail
             label="Email: "
             onChange={(val: string) => updateData(val, "email")}
             value={data.email}
             disabled={emailSent}
-          ></LabelInput>
+          ></LabelEmail>
         </div>
         <div className="flex" style={{ marginTop: "20px" }}>
           <MyButton
-            onClick={() => callSendResetPasswordEmail(data)}
+            onClick={() => callSendResetPasswordEmail()}
             text="Resetare Parola"
             disabled={emailSent}
           ></MyButton>

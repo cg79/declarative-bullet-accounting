@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MyButton } from "../../../_components/reuse/my-button";
 import { IInvitation } from "../../transactions/model/accounting_types";
 import { Tooltip } from "react-tooltip";
 import { LabelInput } from "../../../_components/reuse/LabelInput";
 import { LabelDate } from "../../../_components/reuse/LabelDate";
+import { LabelEmail } from "../../../_components/reuse/LabelEmail";
+import { helpers } from "../../../_utils/helpers";
+import observer from "../../../_store/observer";
+import { useBetween } from "use-between";
+import useEvents from "../../../_store/useEvents";
 
 export const AddEditInvitation = ({
   invitation,
@@ -14,19 +19,32 @@ export const AddEditInvitation = ({
   onSave: (item: IInvitation) => Promise<void> | undefined;
   onCancel: () => void;
 }) => {
+  const { enterPressed, clearEnterPressed } = useBetween(useEvents);
   const [error, setError] = useState("");
   const [item, setItem] = useState<IInvitation>(invitation);
 
-  const executeSaveAngajat = (item: IInvitation) => {
+  const triggerSaveInvitation = () => {
     setError("");
+    debugger;
 
     if (!item.email) {
       setError("Emailul trebuie sa fie completat");
       return;
     }
+    if (!helpers.isValidEmail(item.email)) {
+      setError("Emailul nu este valid");
+      return;
+    }
     onSave(item);
   };
 
+  useEffect(() => {
+    if (!enterPressed) {
+      return;
+    }
+    triggerSaveInvitation();
+    clearEnterPressed();
+  }, [enterPressed]);
   // const dataForDemisie = useCallback(() => {
   //   return item.dataDemisie ? new Date(item.dataDemisie) : new Date();
   // }, [item.dataDemisie]);
@@ -38,10 +56,12 @@ export const AddEditInvitation = ({
       </Tooltip>
       <div className="">
         <div className="flex mt10">
-          <LabelInput
+          <LabelEmail
             label="Email: "
             lwidth="135px"
+            autoFocus
             onChange={(val: string) => {
+              setError("");
               const newV: IInvitation = {
                 ...item,
                 email: val,
@@ -49,7 +69,7 @@ export const AddEditInvitation = ({
               setItem(newV);
             }}
             value={item.email}
-          ></LabelInput>
+          ></LabelEmail>
         </div>
 
         {/* <div className="flex mt10">
@@ -67,12 +87,13 @@ export const AddEditInvitation = ({
           ></LabelDate>
         </div> */}
 
-        {error && <div className="error">{error}</div>}
+        <div className="error">{error}</div>
+
         <div className="flex space-between mt10">
           <MyButton text="Renunta" onClick={() => onCancel()}></MyButton>
           <MyButton
             text="Salveaza"
-            onClick={() => executeSaveAngajat(item)}
+            onClick={() => triggerSaveInvitation()}
           ></MyButton>
         </div>
       </div>

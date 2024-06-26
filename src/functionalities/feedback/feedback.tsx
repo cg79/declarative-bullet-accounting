@@ -1,17 +1,16 @@
 import { MyButton } from "../../_components/reuse/my-button";
 import { WysYWYG } from "../../_components/reuse/my-wysywyg";
 import { MyLottie } from "../../_components/reuse/my-lottie";
-import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 import { useState } from "react";
 import { helpers } from "../../_utils/helpers";
+import useApi from "../transactions/hook/useApi";
 // import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 
 export const Feedback = () => {
   const [html, setHtml] = useState("");
-  const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
+  const { executeMethodFromModule } = useApi();
   const trimite = async () => {
-    const bulletHttp = createBulletHttpRequestLibrary();
-    const response = await bulletHttp.executeMethodFromModule({
+    const response = await executeMethodFromModule({
       method: "sendEmail",
       moduleName: "email",
       body: {

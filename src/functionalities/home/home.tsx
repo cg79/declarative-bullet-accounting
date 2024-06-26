@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./home1.css";
 import StepperPresentation from "./stepper-presentation";
-export const Home1 = () => {
+export const Home = () => {
   const [animCss, setAnimCss] = useState("anim");
 
   useEffect(() => {

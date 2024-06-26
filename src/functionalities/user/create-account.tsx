@@ -8,17 +8,17 @@ import { useBetween } from "use-between";
 import GoogleAuth from "./google-auth";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import { MyCheckbox } from "../../_components/reuse/my-checkbox";
-import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 // import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
+import useApi from "../transactions/hook/useApi";
 
 export const CreateAccount = () => {
   const navigate = useNavigate();
 
   // const { getFirme } = useAccountingDbActions();
   const { firme } = useBetween(useFirme);
-  const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
+  const { executeMethodFromModule } = useApi();
 
   const [checked, setChecked] = useState(false);
 
@@ -51,19 +51,24 @@ export const CreateAccount = () => {
       return;
     }
 
-    const bulletHttp = createBulletHttpRequestLibrary(true);
-    const responseData = await bulletHttp.createuser(
+    const responseData = await executeMethodFromModule(
       {
-        email: payload.email,
-        password: payload.password,
+        method: "createUser",
+        moduleName: "user",
+        body: {
+          email: payload.email,
+          password: payload.password,
+        },
       },
-      payload.email
-        .replace("@", "")
-        .replace(".", "")
-        .replace(/[^a-zA-Z]+/g, "")
+      { allowAnonymous: true }
+      // payload.email
+      //   .replace("@", "")
+      //   .replace(".", "")
+      //   .replace(/[^a-zA-Z]+/g, "")
     );
     helpers.checkHttpResponseForErrors(responseData);
 
+    debugger;
     if (!responseData.success) {
       if (typeof responseData.message === "string") {
         setError(responseData.message || "Eroare la crearea contului");
@@ -101,31 +106,6 @@ export const CreateAccount = () => {
     }
     return navigate("/accounting");
   }, [firme]);
-
-  const createGoogleUser = async (payload: any) => {
-    setError("");
-    if (!payload.email) {
-      setError("Email-ul trebuie sa fie completat");
-      return;
-    }
-
-    if (!payload.password) {
-      setError("Parola trebuie completata");
-      return;
-    }
-    const bulletHttp = createBulletHttpRequestLibrary(true);
-    const responseData = await bulletHttp.createuser({
-      email: payload.email,
-      password: payload.password,
-    });
-    helpers.checkHttpResponseForErrors(responseData);
-
-    if (!responseData.success) {
-      setError(responseData.message);
-      return;
-    }
-    setareUserLogat(responseData.data);
-  };
 
   return !loggedUser ? (
     <>

@@ -1,46 +1,40 @@
 import { BULLET_METHOD } from "declarative-fluent-bullet-api/fluent/constants";
 
 import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
-import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { useCallback } from "react";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import { helpers } from "../../../_utils/helpers";
+import useApi from "../../transactions/hook/useApi";
 
 const useGenericDB = () => {
-  const { createDeclarativeBulletApi, createBulletHttpRequestLibrary } =
-    useDeclarativeBulletApi();
+  const { executeMethod } = useApi();
 
-  // const {selectedAngajat} = useBetween(useFirme);
+  const insertOrUpdate = useCallback(async (entity: any, collection) => {
+    // const {startAccountingData}  = useStartAccountingData();
 
-  const insertOrUpdate = useCallback(
-    async (entity: any, collection) => {
-      // const {startAccountingData}  = useStartAccountingData();
-
-      // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
-        .collection((c) =>
-          c.name(collection).method(BULLET_METHOD.INSERT_OR_UPDATE)
-        )
-        .body(entity)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((val: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(val);
-          return val;
-        });
-    },
-    [createDeclarativeBulletApi]
-  );
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c.name(collection).method(BULLET_METHOD.INSERT_OR_UPDATE)
+      )
+      .body(entity)
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((val: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(val);
+        return val;
+      });
+  }, []);
 
   const deleteEntityFromDB = useCallback(
     async (entity: any, collection: string) => {
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) => c.name(collection).method(BULLET_METHOD.DELETE_ONE))
         .body(entity)
         .execute({
@@ -49,7 +43,7 @@ const useGenericDB = () => {
           },
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   const getPagedList = useCallback(
@@ -62,7 +56,7 @@ const useGenericDB = () => {
       const { pageNo, rowsPerPage } = pageState;
 
       // - daca nu exista, le insereaza
-      return createDeclarativeBulletApi()
+      return executeMethod()
         .collection((c) => c.name(collection).method(BULLET_METHOD.PAGINATION))
         .page((p) => p.itemsOnPage(rowsPerPage).pageNo(pageNo + 1))
         .sort((s) => s.field(sortBy).ascending(true))
@@ -72,7 +66,7 @@ const useGenericDB = () => {
           },
         });
     },
-    [createDeclarativeBulletApi]
+    []
   );
 
   return {

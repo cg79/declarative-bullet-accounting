@@ -4,9 +4,9 @@ import useFirme from "../../../_store/useFirme";
 import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
 import { IAddEditTransactionValues } from "../../transactions/model/accounting_types";
 
-import useDeclarativeBulletApi from "../../../hooks/useDeclarativeBulletApi";
 import { utils } from "../../../_utils/utils";
 import { helpers } from "../../../_utils/helpers";
+import useApi from "../../transactions/hook/useApi";
 
 const useImportTransactions = () => {
   const [importedTransactions, setImportedTransactions] = useState([]);
@@ -14,12 +14,12 @@ const useImportTransactions = () => {
 
   const { pdfAngajatCollection, selectedAngajat, selectedFirma } =
     useBetween(useFirme);
+  const { executeMethodFromModule } = useApi();
 
   const {
     addAccountingRecordFromPdfImport,
     addMultipleAccountingRecordsFromPdfImport,
   } = useAccountingDbActions();
-  const { createBulletHttpRequestLibrary } = useDeclarativeBulletApi();
 
   // const importTransaction = async (
   //   accountingValues: IAddEditTransactionValues
@@ -154,8 +154,7 @@ const useImportTransactions = () => {
       }
     });
 
-    const bulletHttp = createBulletHttpRequestLibrary();
-    const response = await bulletHttp.executeMethodFromModule({
+    const response = await executeMethodFromModule({
       method: "executeParseBtFiles",
       moduleName: "pdfParser",
       body: body,

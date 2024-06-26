@@ -46,35 +46,30 @@ const useFirme = () => {
   }, [selectedFirma, refreshAngajati]);
 
   useEffect(() => {
-    setPdfAngajatCollection(
-      `${loggedUser?.bulletGuid}/${selectedAngajat?._id}`
-    );
     if (!loggedUser) {
       setFirme([]);
       setAngajati([]);
+      return;
     }
+    setPdfAngajatCollection(`${loggedUser.clientId}/${selectedAngajat?._id}`);
   }, [loggedUser, selectedAngajat]);
 
-  const reload = () => {
-    return getFirme(pageState).then((val: CustomHttpResponse) => {
-      const pagedRecords = val.data;
-      setFirme(pagedRecords.records);
-      setPageCountAndTotalRecords({
-        pageCount: pagedRecords.pageCount,
-        totalRecords: pagedRecords.count,
-        // rowsPerPage: pagedRecords.rowsPerPage,
+  const reload = useCallback(() => {
+    setTimeout(() => {
+      getFirme(pageState).then((val: CustomHttpResponse) => {
+        const pagedRecords = val.data;
+        setFirme(pagedRecords.records);
+        setPageCountAndTotalRecords({
+          pageCount: pagedRecords.pageCount,
+          totalRecords: pagedRecords.count,
+          // rowsPerPage: pagedRecords.rowsPerPage,
+        });
       });
-
-      return val;
-    });
-  };
+    }, 100);
+  }, [pageState, getFirme, setPageCountAndTotalRecords]);
 
   useEffect(() => {
     reload();
-    // observer.subscribe("reset", () => {
-    //   setFirme([]);
-    //   setAngajati([]);
-    // });
   }, [pageState, loggedUser]);
 
   return {

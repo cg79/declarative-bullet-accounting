@@ -1,11 +1,12 @@
 import { InputText } from "primereact/inputtext";
 import { utils } from "../../_utils/utils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { helpers } from "../../_utils/helpers";
 import observer from "../../_store/observer";
 import { useBetween } from "use-between";
 import useEvents from "../../_store/useEvents";
 
-export const LabelInput = ({
+export const LabelEmail = ({
   label,
   labelCss = "bold",
   onChange,
@@ -16,10 +17,8 @@ export const LabelInput = ({
   disabled = false,
   autoFocus = false,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const id = utils.createUUID();
   const { triggerEnterPressed } = useBetween(useEvents);
-
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     // Focus the input when the component mounts
     const input = inputRef?.current;
@@ -35,6 +34,15 @@ export const LabelInput = ({
       triggerEnterPressed();
     }
   };
+
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(
+    helpers.isValidEmail(value)
+  );
+  const inputChanged = (value: string) => {
+    setIsValidEmail(helpers.isValidEmail(value));
+    onChange(value);
+  };
+  const id = utils.createUUID();
   return (
     <>
       <div className="flex fwrap fcenter">
@@ -55,9 +63,9 @@ export const LabelInput = ({
             ref={inputRef}
             id={id}
             value={value}
-            className="myInput"
+            className={`myInput  ${isValidEmail ? "valid" : "error"}`}
             type={type}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => inputChanged(e.target.value)}
             disabled={disabled}
             onKeyPress={handleKeyPress}
           />

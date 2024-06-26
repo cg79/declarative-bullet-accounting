@@ -69,6 +69,7 @@ export interface IInvitation {
   dataInvitatie: number;
   accepted: boolean;
   email: string;
+  clientId: string;
 }
 
 export interface ISalarAngajat {

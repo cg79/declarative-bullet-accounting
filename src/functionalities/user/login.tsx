@@ -9,58 +9,57 @@ import { useBetween } from "use-between";
 import GoogleAuth from "./google-auth";
 import { gapi } from "gapi-script";
 
-import SessionStorageManager from "./session-management";
 import { useUserMethods } from "./useUserMethods";
-import { clientId } from "./constants";
-import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import { LabelButton } from "../../_components/reuse/LabelButton";
 import useFirme from "../../_store/useFirme";
+import useEvents from "../../_store/useEvents";
+import { MyCheckbox } from "../../_components/reuse/my-checkbox";
 import LocalStorageStorageManager from "./localstorage-management";
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
-
-const usePrevious = (value, initialValue) => {
-  const ref = useRef(initialValue);
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-};
 
 export const Login = () => {
   const navigate = useNavigate();
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
-  const { getFirme } = useAccountingDbActions();
   const { callLoginMethod, createAccount } = useUserMethods();
   const { firme } = useBetween(useFirme);
+  const { enterPressed, clearEnterPressed } = useBetween(useEvents);
+  const storedEmail = LocalStorageStorageManager.getItem("email");
 
   const [data, setData] = React.useState<any>({
     email: "",
     password: "",
   });
 
+  const [checked, setChecked] = useState(false);
+  const updateChecked = (value: boolean) => {
+    setChecked(value);
+    if (value && !data.email) {
+      const storedEmail = LocalStorageStorageManager.getItem("email");
+      if (storedEmail) {
+        setData((data) => ({ ...data, email: storedEmail }));
+      }
+    }
+  };
   const updateData = (value: any, key: string) => {
     setData(() => ({ ...data, [key]: value }));
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const checkShouldTriggerImport = async () => {
-    //
-    const response = await getFirme({
-      first: 0,
-      pageNo: 0,
-      rowsPerPage: 10,
-    });
-
-    if (!response.success) {
-      setError(response.message);
-      return false;
-    }
-    return response.data.records.length > 0;
+  const updateEmail = (value: string) => {
+    // if(checked && storedEmail){
+    //   if()
+    // }
+    updateData(value, "email");
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const onLogin = (user: any) => {
-    LocalStorageStorageManager.setItem("username", user);
     setareUserLogat(user);
+    if (checked) {
+      LocalStorageStorageManager.setItem("email", user.email);
+    } else {
+      LocalStorageStorageManager.removeItem("email");
+    }
   };
 
   useEffect(() => {
@@ -74,16 +73,19 @@ export const Login = () => {
     return navigate("/accounting");
   }, [firme]);
 
-  const [error, setError] = useState("");
-  const test = async () => {
-    const resp = await createAccount({
-      email: "x@x.com",
-      password: "a",
-    });
-    if (!resp.success) {
-      setError(resp.message);
+  useEffect(() => {
+    if (!enterPressed) {
+      return;
     }
-  };
+    callLoginMethod(data, "login")
+      .then((res) => onLogin(res))
+      .catch((err) => {
+        setError(err.message);
+      });
+    clearEnterPressed();
+  }, [enterPressed]);
+
+  const [error, setError] = useState("");
 
   return (
     <div className="flex flex-column center-v">
@@ -116,23 +118,33 @@ export const Login = () => {
         </LabelButton>
       </div> */}
 
-      <LabelInput
-        label="Email: "
-        onChange={(val: string) => updateData(val, "email")}
-        value={data.email}
-      ></LabelInput>
-
-      <div className="mt10">
+      <div className="">
         <LabelInput
-          label="Parola:"
-          // type="password"
-          onChange={(val: string) => updateData(val, "password")}
-          value={data.password}
-          type="password"
+          label="Email: "
+          onChange={(val: string) => updateData(val, "email")}
+          value={data.email}
         ></LabelInput>
-      </div>
-      <div className="fcenter " style={{ marginTop: "20px" }}>
-        <LabelButton label="">
+
+        <div className="mt10">
+          <LabelInput
+            label="Parola:"
+            // type="password"
+            onChange={(val: string) => updateData(val, "password")}
+            value={data.password}
+            type="password"
+          ></LabelInput>
+        </div>
+
+        <div className="fcenter " style={{ marginTop: "20px" }}>
+          <MyCheckbox
+            id="remember"
+            label="Pastreaza utilizatorul"
+            checked={checked}
+            value={checked}
+            onChange={() => updateChecked(!checked)}
+          ></MyCheckbox>
+        </div>
+        <div className="fcenter " style={{ marginTop: "20px" }}>
           <MyButton
             onClick={() =>
               callLoginMethod(data, "login")
@@ -143,33 +155,29 @@ export const Login = () => {
             }
             text="Logare"
           ></MyButton>
-        </LabelButton>
-      </div>
+        </div>
 
-      <div className="fcenter mt10">
-        {error && <div className="mt10 error">{error}</div>}
-      </div>
+        <div className="fcenter mt10">
+          {error && <div className="mt10 error">{error}</div>}
+        </div>
 
-      <div className="fcenter mt10">
-        <LabelButton label="">
+        <div className="fcenter mt10">
           <MyButton
             onClick={() => navigate("/parola")}
             text="Am uitat Parola"
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>
-        </LabelButton>
-      </div>
+        </div>
 
-      <div className="fcenter mt10">
-        <LabelButton label="">
+        <div className="fcenter mt10">
           <MyButton
             onClick={() => navigate("/crearecont")}
             text="Navigare catre ecranul de creare utilizator"
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>
-        </LabelButton>
+        </div>
       </div>
     </div>
   );

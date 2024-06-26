@@ -9,6 +9,7 @@ import { Dialog } from "primereact/dialog";
 import { helpers } from "../../../_utils/helpers";
 import { AddEditInvitation } from "../add-edit/add-edit-invitation";
 import { IInvitation } from "../../transactions/model/accounting_types";
+import useIdentity from "../../../_store/useIdentity";
 
 export const CompanyInvitations = () => {
   const { deleteInvitation, saveInvitation, getInvitations } =
@@ -17,6 +18,7 @@ export const CompanyInvitations = () => {
   const [invitations, setInvitations] = useState<IInvitation[]>([]);
 
   const { selectedFirma } = useBetween(useFirme);
+  const { loggedUser } = useBetween(useIdentity);
 
   const refreshInvitations = useCallback((selectedFirma) => {
     if (!selectedFirma) {
@@ -38,11 +40,15 @@ export const CompanyInvitations = () => {
   };
 
   const addAngajat = () => {
+    if (!loggedUser) {
+      return;
+    }
     const newItem: IInvitation = {
       _id: "",
       dataInvitatie: 0,
       accepted: false,
       email: "",
+      clientId: loggedUser.clientId,
     };
 
     setItem(newItem);
@@ -52,6 +58,7 @@ export const CompanyInvitations = () => {
     if (!selectedFirma) {
       return;
     }
+
     return saveInvitation(item, selectedFirma?._id).then((response) => {
       helpers.checkHttpResponseForErrors(response);
       setItem(null);
@@ -117,6 +124,8 @@ export const CompanyInvitations = () => {
           data={invitations}
           fieldHeader={[
             { header: "Email", field: "email" },
+            { header: "Data Invitatie", field: "dataInvitatie" },
+            { header: "Acceptat", field: "accepted" },
             {
               header: "Actiuni",
               body: (el) => {

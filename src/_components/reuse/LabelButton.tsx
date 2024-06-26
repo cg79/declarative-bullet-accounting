@@ -17,21 +17,19 @@ export const LabelButton = ({
   const id = utils.createUUID();
   return (
     <>
-      <div className="fcenter fwrap">
-        <div className="actionname1u ">
-          <label
-            htmlFor={id}
-            className={labelCss} // ${labelCss}
-            style={{
-              cursor: "pointer",
-              width: lwidth,
-              display: "inline-block",
-              marginTop: "15px",
-            }}
-          >
-            {label}
-          </label>
-        </div>
+      <div className="flex fwrap fcenter">
+        <label
+          htmlFor={id}
+          className={labelCss} // ${labelCss}
+          style={{
+            cursor: "pointer",
+            width: lwidth,
+            display: "inline-block",
+            marginTop: "15px",
+          }}
+        >
+          {label}
+        </label>
         <div>
           {/* <MyButton
             text={value}

@@ -6,25 +6,21 @@ import { LabelInput } from "../../_components/reuse/LabelInput";
 import useIdentity from "../../_store/useIdentity";
 import { useBetween } from "use-between";
 import { MyLottie } from "../../_components/reuse/my-lottie";
-// import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
-import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
 import { utils } from "../../_utils/utils";
-import useApi from "../transactions/hook/useApi";
-import useEvents from "../../_store/useEvents";
+import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 
-export const ResetPassword = () => {
+export const AcceptInvitation = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
-  const { enterPressed, clearEnterPressed } = useBetween(useEvents);
+  const { acceptInvitation } = useAccountingDbActions();
+  const { clearLoggedUser, setareUserLogat } = useBetween(useIdentity);
 
-  const resetcode = utils.getQueryVariable("resetcode") || "";
-  const email = utils.getQueryVariable("email") || "";
-  const { executeMethodFromModule } = useApi();
+  const [error, setError] = useState("");
+
+  const { _id, clientId } = utils.getQueryAsJson();
 
   const [data, setData] = React.useState<any>({
-    email: "",
     password: "",
   });
 
@@ -33,40 +29,26 @@ export const ResetPassword = () => {
   };
 
   useEffect(() => {
-    if (!enterPressed) {
-      return;
-    }
-    callResetPassword();
-    clearEnterPressed();
-  }, [enterPressed]);
-
-  const callResetPassword = async () => {
+    clearLoggedUser();
+  }, []);
+  const callCreateAccountFromInvitation = async (payload: any) => {
     setError("");
     debugger;
 
-    const responseData = await executeMethodFromModule(
-      {
-        method: "resetPassword",
-        moduleName: "user",
-
-        body: {
-          reset: resetcode,
-          password: data.password,
-          email,
-        },
-      },
-      {
-        allowAnonymous: true,
-      }
-    );
+    const responseData = await acceptInvitation({
+      _id,
+      clientId,
+      password: data.password,
+    });
     helpers.checkHttpResponseForErrors(responseData);
 
     if (responseData.success) {
-      return navigate("/login");
+      setareUserLogat(responseData.data);
+      return navigate("/home");
     }
     if (!responseData.success) {
       if (typeof responseData.message === "string") {
-        setError(responseData.message || "Eroare la resetarea parolei");
+        setError(responseData.message || "Eroare la acceptarea invitatiei");
       } else {
         setError("Eroare la resetarea parolei");
       }
@@ -75,7 +57,6 @@ export const ResetPassword = () => {
 
   return (
     <>
-      {resetcode}
       <div className="fcenter mt15">
         <MyLottie
           fileName="create-account"
@@ -88,7 +69,7 @@ export const ResetPassword = () => {
         <div className="mt10">
           <LabelInput
             type="password"
-            label="Noua Parola: "
+            label="Setare parola: "
             onChange={(val: string) => updateData(val, "password")}
             value={data.password}
           ></LabelInput>
@@ -96,8 +77,8 @@ export const ResetPassword = () => {
 
         <div className="flex" style={{ marginTop: "20px" }}>
           <MyButton
-            onClick={() => callResetPassword()}
-            text="Resetare Parola"
+            onClick={() => callCreateAccountFromInvitation(data)}
+            text="Setare Parola"
           ></MyButton>
         </div>
 

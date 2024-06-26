@@ -12,21 +12,19 @@ export const LabelNumericInput = ({
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex fwrap">
-        <div className="actionname1u ">
-          <label
-            htmlFor={id}
-            className={labelCss} // ${labelCss}
-            style={{
-              cursor: "pointer",
-              width: lwidth,
-              display: "inline-block",
-              marginTop: "15px",
-            }}
-          >
-            {label}
-          </label>
-        </div>
+      <div className="flex fwrap fcenter">
+        <label
+          htmlFor={id}
+          className={labelCss} // ${labelCss}
+          style={{
+            cursor: "pointer",
+            width: lwidth,
+            display: "inline-block",
+            marginTop: "15px",
+          }}
+        >
+          {label}
+        </label>
         <div>
           <NumericInput
             id={id}
