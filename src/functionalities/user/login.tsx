@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { LabelInput } from "../../_components/reuse/LabelInput";
@@ -6,11 +6,10 @@ import { MyButton } from "../../_components/reuse/my-button";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import useIdentity from "../../_store/useIdentity";
 import { useBetween } from "use-between";
-import GoogleAuth from "./google-auth";
-import { gapi } from "gapi-script";
+// import GoogleAuth from "./google-auth";
+// import { gapi } from "gapi-script";
 
 import { useUserMethods } from "./useUserMethods";
-import { LabelButton } from "../../_components/reuse/LabelButton";
 import useFirme from "../../_store/useFirme";
 import useEvents from "../../_store/useEvents";
 import { MyCheckbox } from "../../_components/reuse/my-checkbox";
@@ -20,10 +19,10 @@ import LocalStorageStorageManager from "./localstorage-management";
 export const Login = () => {
   const navigate = useNavigate();
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
-  const { callLoginMethod, createAccount } = useUserMethods();
+  const { callLoginMethod } = useUserMethods();
   const { firme } = useBetween(useFirme);
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const storedEmail = LocalStorageStorageManager.getItem("email");
+  // const storedEmail = LocalStorageStorageManager.getItem("email");
 
   const [data, setData] = React.useState<any>({
     email: "",
@@ -44,15 +43,6 @@ export const Login = () => {
     setData(() => ({ ...data, [key]: value }));
   };
 
-  const updateEmail = (value: string) => {
-    // if(checked && storedEmail){
-    //   if()
-    // }
-    updateData(value, "email");
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
   const onLogin = (user: any) => {
     setareUserLogat(user);
     if (checked) {
@@ -70,7 +60,7 @@ export const Login = () => {
     if (!firme || !firme.length) {
       return navigate("/start");
     }
-    return navigate("/accounting");
+    return navigate("/categories");
   }, [firme]);
 
   useEffect(() => {

@@ -3,10 +3,9 @@ import { IAngajat } from "../functionalities/transactions/model/accounting_types
 import useAccountingDbActions from "../functionalities/transactions/hook/useAccountingDbActions";
 import { useBetween } from "use-between";
 import useIdentity from "./useIdentity";
-import observer from "./observer";
 import { ICompany } from "../functionalities/company/types";
 import { usePagerState } from "../hooks/usePagerState";
-import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
+import { CustomHttpResponse } from "../_fluentApi/CustomHttpResponse";
 
 const useFirme = () => {
   const { loggedUser } = useBetween(useIdentity);

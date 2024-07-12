@@ -6,7 +6,7 @@ import { IAddEditTransactionValues } from "../../transactions/model/accounting_t
 
 import { utils } from "../../../_utils/utils";
 import { helpers } from "../../../_utils/helpers";
-import useApi from "../../transactions/hook/useApi";
+import useApi from "../../../hooks/useApi";
 
 const useImportTransactions = () => {
   const [importedTransactions, setImportedTransactions] = useState([]);

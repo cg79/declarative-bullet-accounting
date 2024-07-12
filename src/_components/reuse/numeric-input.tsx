@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isNumeric } from "../../functionalities/transactions/helpers/accounting_helpers";
 import { InputText } from "primereact/inputtext";
 
@@ -6,14 +6,26 @@ export const NumericInput = ({
   value,
   onUpdate,
   id,
+  autoFocus = false,
+  onEnter,
 }: {
   value: number;
   onUpdate: (n: number) => void;
   id?: string;
+  autoFocus?: boolean;
+  onEnter?: () => void;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(value.toString());
   const lastKeyRef = useRef("");
+
+  useEffect(() => {
+    // Focus the input when the component mounts
+    const input = inputRef?.current;
+    if (input && autoFocus) {
+      input.focus();
+    }
+  }, []);
 
   return (
     <InputText
@@ -23,10 +35,15 @@ export const NumericInput = ({
       autoComplete="off"
       // className="myInput"
       onChange={(e) => {
+        // e.stopPropagation();
         if (!lastKeyRef.current) {
           return;
         }
-        if (lastKeyRef.current === "Backspace" || lastKeyRef.current === ".") {
+        if (
+          lastKeyRef.current === "Backspace" ||
+          lastKeyRef.current === "." ||
+          lastKeyRef.current === "-"
+        ) {
           setInputValue(e.target.value);
           onUpdate(Number(e.target.value));
           return;
@@ -38,12 +55,17 @@ export const NumericInput = ({
         const x = e.target.value;
         setInputValue(x);
         onUpdate(Number(e.target.value));
+        //
       }}
       onKeyDown={(k) => {
         console.log(k);
         //
         // k.stopPropagation();
         lastKeyRef.current = k.key;
+        if (k.key === "Enter") {
+          k.preventDefault();
+          onEnter && onEnter();
+        }
       }}
       value={inputValue.toString()}
     />

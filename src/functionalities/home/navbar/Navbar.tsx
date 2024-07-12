@@ -86,6 +86,26 @@ export const Navbar = () => {
       },
       visible: !!!loggedUser,
     },
+    {
+      label: "Conturi",
+      icon: "pi pi-fw pi-building",
+
+      command: () => {
+        console.log("/accounts");
+        navigate("/accounts");
+      },
+      visible: !!loggedUser && !loggedUser.isInvited,
+    },
+    {
+      label: "Entitati",
+      icon: "pi pi-fw pi-building",
+
+      command: () => {
+        console.log("/entitiy");
+        navigate("/entity");
+      },
+      visible: !!loggedUser && !loggedUser.isInvited,
+    },
 
     {
       label: "Taxe",
@@ -153,6 +173,15 @@ export const Navbar = () => {
       visible: !!loggedUser,
     },
     {
+      label: "Money Aggregator",
+      icon: "pi pi-fw pi-calculator",
+      command: () => {
+        console.log("Tranzactii");
+        navigate("/categories");
+      },
+      visible: !!loggedUser,
+    },
+    {
       label: "Import Extrase",
       // icon: "pi pi-fw pi-power-off",
       icon: (
@@ -177,6 +206,7 @@ export const Navbar = () => {
 
     {
       label: "Utilizator",
+      template: ({}) => <div>{loggedUser?.email}</div>,
       icon: "pi pi-fw pi-file",
       items: [
         {
@@ -192,7 +222,7 @@ export const Navbar = () => {
           label: "Invitatii",
           icon: "pi pi-fw pi-external-link",
           command: () => {
-            navigate("/invitations");
+            navigate("/entity-invitations");
           },
           visible: !!loggedUser && !loggedUser?.isInvited,
         },

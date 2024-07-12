@@ -1,16 +1,20 @@
+import { SelectItemOptionsType } from "primereact/selectitem";
 import { utils } from "../../_utils/utils";
 import { Dropdown } from "primereact/dropdown";
 
 type LabelDropDownProps = {
   label?: string;
   labelCss?: string;
-  value: number;
+  value: any;
   onChange: (e: any) => void;
   error?: string;
   lwidth?: string;
   defaultOption?: any;
-  options?: { value: any; label: string }[];
+  options?: SelectItemOptionsType;
   placeholder?: string;
+  optionLabel?: string;
+  optionValue?: string;
+  className?: string;
 };
 export const LabelDropDown = ({
   label,
@@ -22,11 +26,15 @@ export const LabelDropDown = ({
   value,
   options = [],
   placeholder = "Selectati o optiune",
+  optionLabel,
+  optionValue = "_id",
+  className = "flex fwrap",
 }: LabelDropDownProps) => {
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex fwrap">
+      {/* {JSON.stringify(value, null, 2)} */}
+      <div className={className}>
         <div className="actionname1u">
           <label
             htmlFor={id}
@@ -44,9 +52,12 @@ export const LabelDropDown = ({
         <div className="flex checkbox-wrapper">
           <Dropdown
             options={options}
-            onChange={onChange}
+            onChange={(item) => onChange(item.value)}
             value={value || defaultOption}
             placeholder={placeholder}
+            // dataKey="_id"
+            optionLabel={optionLabel}
+            optionValue={optionValue}
           />
         </div>
       </div>

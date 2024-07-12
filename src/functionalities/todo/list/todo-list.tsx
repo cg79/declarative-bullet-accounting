@@ -23,7 +23,7 @@ export const TodoList = () => {
     setItemToBeDeleted,
     pageCountAndTotalRecords,
     goToPage,
-  } = useGenericList<ITodo>("todo", "name");
+  } = useGenericList<ITodo>("todo", [{ field: "name", ascending: true }]);
 
   useEffect(() => {
     getPaginatedList();

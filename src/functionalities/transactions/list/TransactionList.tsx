@@ -1,4 +1,4 @@
-import MyGenericComponent from "../../todo/list/MyGenericList";
+import GenericList from "../../todo/list/GenericList";
 // import { ITodo } from "../../todo/types";
 
 // export const TransactionList = () => {

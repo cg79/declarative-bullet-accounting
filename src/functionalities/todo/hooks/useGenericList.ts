@@ -6,7 +6,11 @@ import {
 import useGenericDB from "./useGenericDB";
 import { helpers } from "../../../_utils/helpers";
 
-const useGenericList = <T>(collectionName: string, sortBy: string) => {
+const useGenericList = <T>(
+  collectionName: string,
+  sortBy: { field: string; ascending: boolean }[],
+  filterBy = {}
+) => {
   const [list, setList] = useState<T[]>([]);
   const [item, setItem] = useState<T | null>(null);
   const [itemToBeDeleted, setItemToBeDeleted] = useState<T | null>(null);
@@ -21,14 +25,16 @@ const useGenericList = <T>(collectionName: string, sortBy: string) => {
   const { getPagedList, insertOrUpdate, deleteEntityFromDB } = useGenericDB();
 
   const getPaginatedList = useCallback(async () => {
-    return getPagedList(pageState, collectionName, sortBy).then((val: any) => {
-      const pagedRecords = val.data;
-      setList(pagedRecords.records);
-      setPageCountAndTotalRecords({
-        pageCount: pagedRecords.pageCount,
-        totalRecords: pagedRecords.count,
-      });
-    });
+    return getPagedList(pageState, collectionName, sortBy, filterBy).then(
+      (val: any) => {
+        const pagedRecords = val.data;
+        setList(pagedRecords.records);
+        setPageCountAndTotalRecords({
+          pageCount: pagedRecords.pageCount,
+          totalRecords: pagedRecords.count,
+        });
+      }
+    );
   }, [
     collectionName,
     getPagedList,

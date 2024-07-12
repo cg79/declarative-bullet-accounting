@@ -93,7 +93,7 @@ export const AccountingInitialValues = () => {
   useEffect(() => {
     async function fetchData() {
       const xxx = await getInitialAccountingValues(selectedFirma);
-      debugger;
+
       setInitialState({ ...xxx });
     }
     fetchData();

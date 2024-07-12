@@ -1,10 +1,9 @@
-import { BULLET_METHOD } from "declarative-fluent-bullet-api/fluent/constants";
-
-import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 import { useCallback } from "react";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import { helpers } from "../../../_utils/helpers";
-import useApi from "../../transactions/hook/useApi";
+import useApi from "../../../hooks/useApi";
+import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
+import { CustomHttpResponse } from "../../../_fluentApi/CustomHttpResponse";
 
 const useGenericDB = () => {
   const { executeMethod } = useApi();
@@ -46,28 +45,31 @@ const useGenericDB = () => {
     []
   );
 
-  const getPagedList = useCallback(
-    async (
-      pageState: IPageNoAndRowsPerPage,
-      collection: string,
-      sortBy: string
-    ) => {
-      // const {startAccountingData}  = useStartAccountingData();
-      const { pageNo, rowsPerPage } = pageState;
+  const getPagedList = async (
+    pageState: IPageNoAndRowsPerPage,
+    collection: string,
+    sortBy: { field: string; ascending: boolean }[],
+    filterBy = {}
+  ) => {
+    // const {startAccountingData}  = useStartAccountingData();
+    const { pageNo, rowsPerPage } = pageState;
 
-      // - daca nu exista, le insereaza
-      return executeMethod()
+    // - daca nu exista, le insereaza
+    return (
+      executeMethod()
         .collection((c) => c.name(collection).method(BULLET_METHOD.PAGINATION))
         .page((p) => p.itemsOnPage(rowsPerPage).pageNo(pageNo + 1))
-        .sort((s) => s.field(sortBy).ascending(true))
+        // .sort((s) => s.field(sortBy).ascending(true))
+        .sortFields(sortBy)
+        .search((s) => s.findByObject(filterBy))
         .execute({
           beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
+            // console.log();
+            // alert(JSON.stringify(apiBulletJSON));
           },
-        });
-    },
-    []
-  );
+        })
+    );
+  };
 
   return {
     deleteEntityFromDB,

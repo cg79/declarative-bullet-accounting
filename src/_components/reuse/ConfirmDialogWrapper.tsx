@@ -25,15 +25,15 @@ export const ConfirmDialogWrapper = ({
       >
         <div className="flex space-between">
           <Button
-            onClick={onConfirm}
-            icon="pi pi-check"
-            label="Confirmare"
-          ></Button>
-          <Button
             onClick={onCancel}
             icon="pi pi-times"
             label="Renunta"
             className="p-button-danger"
+          ></Button>
+          <Button
+            onClick={onConfirm}
+            icon="pi pi-check"
+            label="Confirmare"
           ></Button>
         </div>
       </Dialog>

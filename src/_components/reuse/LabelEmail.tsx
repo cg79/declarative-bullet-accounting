@@ -2,9 +2,20 @@ import { InputText } from "primereact/inputtext";
 import { utils } from "../../_utils/utils";
 import { useEffect, useRef, useState } from "react";
 import { helpers } from "../../_utils/helpers";
-import observer from "../../_store/observer";
 import { useBetween } from "use-between";
 import useEvents from "../../_store/useEvents";
+
+export type LabelProps = {
+  label: string;
+  labelCss?: string;
+  lwidth?: string;
+};
+
+export const DEFAULT_LABEL_PROPS: LabelProps = {
+  label: "",
+  labelCss: "bold",
+  lwidth: "80px",
+};
 
 export const LabelEmail = ({
   label,

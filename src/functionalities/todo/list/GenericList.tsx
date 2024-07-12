@@ -6,28 +6,46 @@ import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
 import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
 import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
+import TreeIcon from "../../categories/components/icons/tree-icon";
+import MyIcon from "../../../_components/reuse/my-icon";
+import observer from "../../../_store/observer";
+import ShortcutComponent from "../../categories/shortcut/shortcut-component";
 
 // Define the props interface with a generic type
-interface MyGenericComponentProps<T> {
+interface MyGenericListProps<T> {
   createItem: () => T;
   addItemButtonLabel: string;
+  isButtonDisabled?: boolean;
   renderAddEditContent: (
     item: T,
     onSave: (item: T) => Promise<unknown>,
     onCancel: () => void
   ) => React.ReactNode;
   collectionName: string;
-  sortBy: string;
+  sortBy: { field: string; ascending: boolean }[];
+  filterBy?: any;
+  modalTitle: Function;
+  fieldHeader: { field?: string; header: string; body?: any }[];
+  customSaveFunction?: (item: T) => Promise<unknown>;
+  customDeleteFunction?: (item: T) => Promise<unknown>;
+  onAfterItemSaved?: (item: T) => void;
 }
 
 // Define the generic component
-function MyGenericComponent<T>({
+function GenericList<T>({
   createItem,
   addItemButtonLabel,
+  isButtonDisabled,
   renderAddEditContent,
   collectionName,
   sortBy,
-}: MyGenericComponentProps<T>) {
+  modalTitle,
+  fieldHeader,
+  filterBy,
+  customSaveFunction,
+  customDeleteFunction,
+  onAfterItemSaved,
+}: MyGenericListProps<T>) {
   const {
     save,
     list,
@@ -40,11 +58,14 @@ function MyGenericComponent<T>({
     setItemToBeDeleted,
     pageCountAndTotalRecords,
     goToPage,
-  } = useGenericList<T>(collectionName, sortBy);
+  } = useGenericList<T>(collectionName, sortBy, filterBy);
 
   useEffect(() => {
+    // if (!filterBy) {
+    //   return;
+    // }
     getPaginatedList();
-  }, [getPaginatedList]);
+  }, [filterBy, pageState]);
 
   const renderAddNewButton = () => {
     return (
@@ -56,6 +77,7 @@ function MyGenericComponent<T>({
               setItem(createItem());
             }}
             className="w300"
+            disabled={isButtonDisabled}
           ></MyButton>
         </div>
       </div>
@@ -66,21 +88,32 @@ function MyGenericComponent<T>({
     return (
       <div className="fcenter">
         <div className="ml10">
-          <MyButton
-            text="Editare"
+          {/* <MyButton
+            text="Editare1"
             onClick={() => setItem(item)}
             className="linkbutton"
             useBaseButton={false}
-          ></MyButton>
+          ></MyButton> */}
+          <MyIcon
+            icon="pi pi-calendar"
+            tooltip="Edit"
+            onClick={() => setItem(item)}
+          ></MyIcon>
         </div>
 
         <div className="ml10">
-          <MyButton
+          {/* <MyButton
             text="Sterge"
             onClick={() => setItemToBeDeleted(item)}
             className="linkbutton"
             useBaseButton={false}
-          ></MyButton>
+          ></MyButton> */}
+
+          <MyIcon
+            icon="pi pi-trash"
+            tooltip="Delete"
+            onClick={() => setItemToBeDeleted(item)}
+          ></MyIcon>
         </div>
       </div>
     );
@@ -91,17 +124,27 @@ function MyGenericComponent<T>({
       return null;
     }
 
+    const saveWrapper = async (item: T) => {
+      // debugger;
+      const fct = customSaveFunction || save;
+      fct(item).then((response: any) => {
+        setItem(null);
+        getPaginatedList();
+        onAfterItemSaved?.(item);
+      });
+    };
+
     return (
       <div className="flex center">
         <div className="flex">
           <div className="flex flex-column center-v">
             <Dialog
-              header="Date element"
+              header={modalTitle(item)}
               visible={item !== null}
               // style={{ width: "50vw" }}
               onHide={() => setItem(null)}
             >
-              {renderAddEditContent(item, save, () => setItem(null))}
+              {renderAddEditContent(item, saveWrapper, () => setItem(null))}
             </Dialog>
           </div>
         </div>
@@ -109,21 +152,31 @@ function MyGenericComponent<T>({
     );
   };
 
+  const onShortCutAction = (shortcut) => {
+    // alert(shortcut);
+  };
+
   return (
     <>
       <div className="flex center">
         <div className="flex">
           <div className="flex flex-column center-v">
+            {/* {JSON.stringify(filterBy)} */}
             {renderNewOrEditItem()}
             {renderAddNewButton()}
 
-            <DataTableWrapper
-              data={list}
-              fieldHeader={[
-                { field: "name", header: "Nume" },
-                { header: "Actiuni", body: (item) => renderActiuni(item) },
-              ]}
-            ></DataTableWrapper>
+            <ShortcutComponent onShortCutAction={onShortCutAction}>
+              <DataTableWrapper
+                data={list}
+                fieldHeader={fieldHeader.concat([
+                  {
+                    field: "actiuni",
+                    header: "Actiuni",
+                    body: renderActiuni,
+                  },
+                ])}
+              ></DataTableWrapper>
+            </ShortcutComponent>
             <div className="flex center mt10">
               <PaginationWrapper
                 pageState={pageState}
@@ -139,13 +192,19 @@ function MyGenericComponent<T>({
                   if (!itemToBeDeleted) {
                     return;
                   }
-                  deleteEntity(itemToBeDeleted).then(() => {
+                  const deleteFunction = customDeleteFunction || deleteEntity;
+                  deleteFunction(itemToBeDeleted).then(() => {
+                    onAfterItemSaved?.(itemToBeDeleted);
                     getPaginatedList();
                   });
                   setItemToBeDeleted(null);
                 }}
                 onCancel={() => setItemToBeDeleted(null)}
-                headerMessage={() => `Esti sigur ca vrei sa stergi  ?`}
+                headerMessage={() =>
+                  `Esti sigur ca vrei sa stergi   ${modalTitle(
+                    itemToBeDeleted
+                  )} ?`
+                }
               ></ConfirmDialogWrapper>
             )}
           </div>
@@ -155,4 +214,4 @@ function MyGenericComponent<T>({
   );
 }
 
-export default MyGenericComponent;
+export default GenericList;

@@ -1,0 +1,35 @@
+import { ICategory } from "../category-type";
+import TreeCollapseExpand from "./tree-collapse-expand";
+import TreeIcon from "./icons/tree-icon";
+import DelayClick from "./delay-click/delay-click";
+
+const renderNodeIcon = (node: ICategory, onClick: () => void) => {
+  if (node.icon) {
+    return (
+      <DelayClick handleClick={onClick} delay={500}>
+        <TreeIcon icon={node.icon} onClick={() => void 0} />
+      </DelayClick>
+    );
+  }
+  return (
+    <DelayClick handleClick={onClick} delay={500}>
+      <TreeIcon icon="pi pi-folder" onClick={() => void 0} />
+    </DelayClick>
+  );
+};
+const TreeHeaderLabel = ({
+  node,
+  toggleCollapse,
+  isCollapsed,
+  setIsModalIconsVisible,
+}) => {
+  return (
+    <div onClick={toggleCollapse} style={{ cursor: "pointer" }}>
+      <TreeCollapseExpand node={node} isCollapsed={isCollapsed} />
+      {renderNodeIcon(node, setIsModalIconsVisible)}
+      <span style={{ marginLeft: "5px" }}>{node.label}</span>
+    </div>
+  );
+};
+
+export default TreeHeaderLabel;

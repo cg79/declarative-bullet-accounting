@@ -25,7 +25,6 @@ export const AddEditInvitation = ({
 
   const triggerSaveInvitation = () => {
     setError("");
-    debugger;
 
     if (!item.email) {
       setError("Emailul trebuie sa fie completat");
@@ -56,10 +55,26 @@ export const AddEditInvitation = ({
       </Tooltip>
       <div className="">
         <div className="flex mt10">
+          <LabelInput
+            label="Nume: "
+            lwidth="135px"
+            autoFocus
+            onChange={(val: string) => {
+              setError("");
+              const newV: IInvitation = {
+                ...item,
+                name: val,
+              };
+              setItem(newV);
+            }}
+            value={item.name}
+          ></LabelInput>
+        </div>
+
+        <div className="flex mt10">
           <LabelEmail
             label="Email: "
             lwidth="135px"
-            autoFocus
             onChange={(val: string) => {
               setError("");
               const newV: IInvitation = {

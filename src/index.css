@@ -146,7 +146,7 @@ ul.my{
 
 .react-datepicker-wrapper input{
   font-size: 0.9em;
-  max-width: 160px;
+  max-width: 200px;
 }
 
 .flexcolumn {
@@ -691,7 +691,7 @@ ul.my{
 
 
 .p-dropdown, p-inputtext {
-  width: 250px;
+  width: 200px;
 }
 
 .p-tabview-nav-container {
@@ -724,6 +724,8 @@ ul.my{
 
 .flex-end{
   justify-content: end;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 /* .mycard {
   background-color: #dd1616;
@@ -754,3 +756,22 @@ ul.my{
   /* -webkit-overflow-scrolling: touch; */
   width: 99%;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+.p-dialog-header{
+  /* background-color: #fafaf1; */
+  border-bottom: 1px solid #eee;
+  border-radius: 4px;
+  /* margin: 0 8px 16px; */
+  /* padding: 5px; */
+  transition: all .2s ease-in-out;
+  /* box-shadow: 0.6em 0.6em 1.2em #d2dce9, -0.5em -0.5em 1em #ffffff */
+}
+
+.radio-button-list {
+  gap: 15px;
+}
+

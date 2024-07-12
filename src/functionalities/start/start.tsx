@@ -50,7 +50,7 @@ const Start = () => {
   };
   const startImport = async () => {
     setMessage("Se importa taxele");
-    debugger;
+
     await wait(2000);
 
     await importTaxe();

@@ -4,15 +4,15 @@ import useImportTransactions from "./useImportTransactions";
 import { utils } from "../../../_utils/utils";
 import { MyButton } from "../../../_components/reuse/my-button";
 import { useRef } from "react";
-import BulletFile from "declarative-fluent-bullet-api/BulletFile";
 import useFirme from "../../../_store/useFirme";
-import { STORAGE_PROVIDER } from "declarative-fluent-bullet-api/fluent/constants";
 
 import { BULLET_IO_URL } from "../../../constants";
 import { Transaction } from "./transaction";
 import { store } from "../../../_store/store";
 import { helpers } from "../../../_utils/helpers";
-import useApi from "../../transactions/hook/useApi";
+import useApi from "../../../hooks/useApi";
+import { STORAGE_PROVIDER } from "../../../_fluentApi/fluent/constants";
+import BulletFile from "../../../_fluentApi/BulletFile";
 
 export const Transactions = () => {
   const {

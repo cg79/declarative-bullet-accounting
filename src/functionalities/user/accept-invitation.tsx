@@ -33,7 +33,6 @@ export const AcceptInvitation = () => {
   }, []);
   const callCreateAccountFromInvitation = async (payload: any) => {
     setError("");
-    debugger;
 
     const responseData = await acceptInvitation({
       _id,

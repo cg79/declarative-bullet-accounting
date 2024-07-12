@@ -11,7 +11,7 @@ import { MyCheckbox } from "../../_components/reuse/my-checkbox";
 // import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
-import useApi from "../transactions/hook/useApi";
+import useApi from "../../hooks/useApi";
 
 export const CreateAccount = () => {
   const navigate = useNavigate();
@@ -68,7 +68,6 @@ export const CreateAccount = () => {
     );
     helpers.checkHttpResponseForErrors(responseData);
 
-    debugger;
     if (!responseData.success) {
       if (typeof responseData.message === "string") {
         setError(responseData.message || "Eroare la crearea contului");

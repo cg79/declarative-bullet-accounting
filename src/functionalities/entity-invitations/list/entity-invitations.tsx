@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { MyButton } from "../../../_components/reuse/my-button";
-import { FirmeDropDown } from "../../company/dropdown/firme-dropdown";
-import useFirme from "../../../_store/useFirme";
 import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
 import { useBetween } from "use-between";
 import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
@@ -10,65 +8,69 @@ import { helpers } from "../../../_utils/helpers";
 import { AddEditInvitation } from "../add-edit/add-edit-invitation";
 import { IInvitation } from "../../transactions/model/accounting_types";
 import useIdentity from "../../../_store/useIdentity";
+import { utils } from "../../../_utils/utils";
+import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
+import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
+import { IMoneyEntity } from "../../money-entity/money-entity-type";
+import { IEntityInvitation } from "../entity-invitation-type";
+import useMoneyInvitations from "../hooks/useMoneyInvitations";
+import TreeIcon from "../../categories/components/icons/tree-icon";
 
-export const CompanyInvitations = () => {
-  const { deleteInvitation, saveInvitation, getInvitations } =
-    useAccountingDbActions();
-  const [item, setItem] = useState<IInvitation | null>(null);
-  const [invitations, setInvitations] = useState<IInvitation[]>([]);
-
-  const { selectedFirma } = useBetween(useFirme);
+export const EntityInvitations = () => {
   const { loggedUser } = useBetween(useIdentity);
+  const { moneyEntities } = useBetween(useMoneyEntities);
 
-  const refreshInvitations = useCallback((selectedFirma) => {
-    if (!selectedFirma) {
-      return;
-    }
-    getInvitations(selectedFirma?._id).then((response) => {
-      helpers.checkHttpResponseForErrors(response);
-      setInvitations(response.data);
-    });
-  }, []);
+  const { deleteInvitation, saveInvitation, refreshInvitations, invitations } =
+    useMoneyInvitations();
+
+  const [item, setItem] = useState<IEntityInvitation | null>(null);
+
+  const moneyEntitiesList: IMoneyEntity[] = [
+    { _id: "", name: "--ALL--", date: 0, description: "" },
+    ...(moneyEntities || []),
+  ];
+
+  const [selectedMoneyEntity, setSelectedMoneyEntity] =
+    useState<IMoneyEntity | null>(null);
+
+  useEffect(() => {
+    refreshInvitations(selectedMoneyEntity);
+  }, [selectedMoneyEntity]);
 
   const executeDeleteInvitation = (item: IInvitation) => {
-    if (!selectedFirma) {
-      return;
-    }
-    deleteInvitation(item, selectedFirma?._id).then(() => {
-      refreshInvitations(selectedFirma);
+    deleteInvitation(item).then(() => {
+      refreshInvitations(selectedMoneyEntity);
     });
   };
 
-  const addAngajat = () => {
+  const addInvitation = () => {
     if (!loggedUser) {
       return;
     }
-    const newItem: IInvitation = {
+    const newInvitation: IInvitation = {
       _id: "",
       dataInvitatie: 0,
       accepted: false,
       email: "",
+      name: "",
       clientId: loggedUser.clientId,
+      entityId: selectedMoneyEntity?._id || "",
     };
 
-    setItem(newItem);
+    setItem(newInvitation);
   };
 
   const executeSaveInvitation = (item: IInvitation) => {
-    if (!selectedFirma) {
-      return;
-    }
-
-    return saveInvitation(item, selectedFirma?._id).then((response) => {
+    return saveInvitation(item).then((response) => {
       helpers.checkHttpResponseForErrors(response);
       setItem(null);
-      refreshInvitations(selectedFirma);
+      refreshInvitations(selectedMoneyEntity);
     });
   };
 
-  useEffect(() => {
-    refreshInvitations(selectedFirma);
-  }, [refreshInvitations, selectedFirma]);
+  // useEffect(() => {
+  //   refreshInvitations(selectedMoneyEntity);
+  // }, []);
 
   const renderAvailableActions = () => {
     return (
@@ -77,9 +79,8 @@ export const CompanyInvitations = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare Invitatie"
-            onClick={() => addAngajat()}
+            onClick={() => addInvitation()}
             className="w300"
-            disabled={!selectedFirma}
           ></MyButton>
         </div>
       </div>
@@ -89,15 +90,6 @@ export const CompanyInvitations = () => {
   return (
     <div className="fcenter ">
       <div className="flex flex-column center-v">
-        <div className="fcenter">
-          <h3 className="fcenter">
-            Selecteaza firma pentru care se doreste invitarea personalelor
-          </h3>
-        </div>
-        <div className="flex cell-h-align  ">
-          <FirmeDropDown></FirmeDropDown>
-        </div>
-
         {!item && invitations.length > 0 && (
           <div className="flex center">
             <h3>Lista invitati</h3>
@@ -105,6 +97,20 @@ export const CompanyInvitations = () => {
         )}
 
         <div className="flex center">{renderAvailableActions()}</div>
+
+        {moneyEntities && moneyEntities.length > 1 && (
+          <LabelDropDown
+            label="Entitati"
+            onChange={(item) => {
+              console.log(item);
+              setSelectedMoneyEntity(item);
+            }}
+            options={moneyEntitiesList}
+            value={selectedMoneyEntity}
+            placeholder="Selecteaza"
+            optionLabel="name"
+          ></LabelDropDown>
+        )}
 
         {item && (
           <Dialog
@@ -124,8 +130,26 @@ export const CompanyInvitations = () => {
           data={invitations}
           fieldHeader={[
             { header: "Email", field: "email" },
-            { header: "Data Invitatie", field: "dataInvitatie" },
-            { header: "Acceptat", field: "accepted" },
+            {
+              header: "Data Invitatie",
+              field: "dataInvitatie",
+              body: (el) => utils.dateNumberToYYYYMMDD(el.dataInvitatie),
+            },
+            {
+              header: "Acceptat",
+              field: "accepted",
+              body: (el) =>
+                el.accepted ? (
+                  <TreeIcon
+                    size={20}
+                    icon="pi pi-check-circle"
+                    color="green"
+                    onClick={() => {}}
+                  />
+                ) : (
+                  <TreeIcon size={20} icon="notcheck" onClick={() => {}} />
+                ),
+            },
             {
               header: "Actiuni",
               body: (el) => {

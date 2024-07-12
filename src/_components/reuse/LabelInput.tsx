@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import observer from "../../_store/observer";
 import { useBetween } from "use-between";
 import useEvents from "../../_store/useEvents";
+import useScreenSize from "../../hooks/useScreenSize";
+import { SCREEN } from "../../constants";
 
 export const LabelInput = ({
   label,
@@ -15,7 +17,12 @@ export const LabelInput = ({
   type = "text",
   disabled = false,
   autoFocus = false,
+  onCancel = () => {},
+  labelStyles = {},
+  inputStyles = {},
+  className = "flex fwrap fcenter",
 }) => {
+  const { popupCss } = useScreenSize();
   const inputRef = useRef<HTMLInputElement>(null);
   const id = utils.createUUID();
   const { triggerEnterPressed } = useBetween(useEvents);
@@ -34,10 +41,15 @@ export const LabelInput = ({
       // observer.publish("ENTER_PRESSED");
       triggerEnterPressed();
     }
+    if (e.key === "Escape") {
+      return onCancel && onCancel();
+    }
+    e.stopPropagation();
   };
+
   return (
     <>
-      <div className="flex fwrap fcenter">
+      <div className={popupCss.css}>
         <label
           htmlFor={id}
           className={labelCss} // ${labelCss}
@@ -46,12 +58,14 @@ export const LabelInput = ({
             width: lwidth,
             display: "inline-block",
             marginTop: "15px",
+            ...labelStyles,
           }}
         >
           {label}
         </label>
-        <div>
+        <div style={popupCss.style}>
           <InputText
+            style={inputStyles}
             ref={inputRef}
             id={id}
             value={value}
@@ -59,7 +73,7 @@ export const LabelInput = ({
             type={type}
             onChange={(e) => onChange(e.target.value)}
             disabled={disabled}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
           />
         </div>
       </div>

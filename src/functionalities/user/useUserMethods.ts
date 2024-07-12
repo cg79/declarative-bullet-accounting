@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { helpers } from "../../_utils/helpers";
-import useApi from "../transactions/hook/useApi";
+import useApi from "../../hooks/useApi";
 
 const useUserMethods = () => {
   const { executeMethodFromModule, callDeleteAccount } = useApi();

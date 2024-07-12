@@ -48,6 +48,17 @@ class Utils {
     }
     return response;
   };
+
+  debounce = (func, delay) => {
+    let timeoutId;
+
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
 }
 
 const utils = new Utils();

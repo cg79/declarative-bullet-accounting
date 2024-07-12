@@ -2,19 +2,20 @@ import "./App.css";
 import "primereact/resources/themes/md-light-indigo/theme.css";
 // import "primereact/resources/themes/md-light-deeppurple/theme.css";
 import "primeicons/primeicons.css";
+import "react-tooltip/dist/react-tooltip.css";
 
-// primereact/resources/themes/bootstrap4-light-blue/theme.css
-// primereact/resources/themes/bootstrap4-light-purple/theme.css
-// primereact/resources/themes/bootstrap4-dark-blue/theme.css
-// primereact/resources/themes/bootstrap4-dark-purple/theme.css
-// primereact/resources/themes/md-light-indigo/theme.css
-// primereact/resources/themes/md-light-deeppurple/theme.css
-// primereact/resources/themes/md-dark-indigo/theme.css
-// primereact/resources/themes/md-dark-deeppurple/theme.css
-// primereact/resources/themes/mdc-light-indigo/theme.css
-// primereact/resources/themes/mdc-light-deeppurple/theme.css
-// primereact/resources/themes/mdc-dark-indigo/theme.css
-// primereact/resources/themes/mdc-dark-deeppurple/theme.css
+//import  primereact/resources/themes/bootstrap4-light-blue/theme.css
+//import  primereact/resources/themes/bootstrap4-light-purple/theme.css
+//import  primereact/resources/themes/bootstrap4-dark-blue/theme.css
+//import  primereact/resources/themes/bootstrap4-dark-purple/theme.css
+//import  primereact/resources/themes/md-light-indigo/theme.css
+//import  primereact/resources/themes/md-light-deeppurple/theme.css
+//import  primereact/resources/themes/md-dark-indigo/theme.css
+//import  primereact/resources/themes/md-dark-deeppurple/theme.css
+//import  primereact/resources/themes/mdc-light-indigo/theme.css
+//import  primereact/resources/themes/mdc-light-deeppurple/theme.css
+//import  primereact/resources/themes/mdc-dark-indigo/theme.css
+// import "primereact/resources/themes/mdc-dark-deeppurple/theme.css";
 
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NoPage from "./no-page";
@@ -46,36 +47,12 @@ import { BancaList } from "./functionalities/banca/list/banca-list";
 import ErrorsComponent from "./functionalities/error/ErrorsComponent";
 import { ForgotPassword } from "./functionalities/user/forgot-password";
 import { ResetPassword } from "./functionalities/user/reset-password";
-import { CompanyInvitations } from "./functionalities/invitations/list/company-invitations";
 import { AcceptInvitation } from "./functionalities/user/accept-invitation";
 import { Home } from "./functionalities/home/home";
-
-// const useScreenSize = () => {
-//   const [screenSize, setScreenSize] = useState({
-//     width: window.innerWidth,
-//     height: window.innerHeight,
-//   });
-
-//   useEffect(() => {
-//     const handleResize = () => {
-//       const newSize = {
-//         width: window.innerWidth,
-//         height: window.innerHeight,
-//       };
-//       setScreenSize(newSize);
-//     };
-
-//     window.addEventListener("resize", handleResize);
-//     handleResize();
-
-//     // Clean up the event listener when the component unmounts
-//     return () => {
-//       window.removeEventListener("resize", handleResize);
-//     };
-//   }, []);
-
-//   return screenSize;
-// };
+import { Categories } from "./functionalities/categories/categories";
+import MoneyEntityList from "./functionalities/money-entity/list/money-entity-list";
+import MoneyAccountList from "./functionalities/money-account/list/money-account-list";
+import { EntityInvitations } from "./functionalities/entity-invitations/list/entity-invitations";
 
 function App() {
   const { loggedUser } = useBetween(useIdentity);
@@ -117,6 +94,23 @@ function App() {
                   }
                 />
                 <Route
+                  path="entity"
+                  element={
+                    <GuardedRoute1 loggedUser={loggedUser}>
+                      <MoneyEntityList />
+                    </GuardedRoute1>
+                  }
+                />
+                <Route
+                  path="accounts"
+                  element={
+                    <GuardedRoute1 loggedUser={loggedUser}>
+                      <MoneyAccountList />
+                    </GuardedRoute1>
+                  }
+                />
+
+                <Route
                   path="stergerecont"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
@@ -135,11 +129,21 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
+                <Route
+                  path="categories"
+                  element={
+                    <GuardedRoute1 loggedUser={loggedUser}>
+                      <Categories />
+                    </GuardedRoute1>
+                  }
+                />
+
                 <Route path="contact" element={<Contact />} />
                 <Route path="crearecont" element={<CreateAccount />} />
                 <Route path="parola" element={<ForgotPassword />} />
                 <Route path="resetareparola" element={<ResetPassword />} />
-                <Route path="invitations" element={<CompanyInvitations />} />
+                {/* <Route path="invitations" element={<CompanyInvitations />} /> */}
+
                 <Route path="home" element={<Home />} />
                 <Route
                   path="acceptare-invitatie"
@@ -154,6 +158,16 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
+
+                <Route
+                  path="entity-invitations"
+                  element={
+                    <GuardedRoute1 loggedUser={loggedUser}>
+                      <EntityInvitations />
+                    </GuardedRoute1>
+                  }
+                />
+
                 <Route
                   path="firme"
                   element={

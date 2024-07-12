@@ -17,7 +17,7 @@ const useIdentity = () => {
   const [loggedUser, setLoggedUser] = React.useState<ILoggedUser | null>(null);
 
   const setareUserLogat = (user: any) => {
-    setLoggedUser(user);
+    setLoggedUser(user as ILoggedUser);
     LocalStorageStorageManager.setItem("username", user);
   };
   const clearLoggedUser = () => {
@@ -41,7 +41,6 @@ const useIdentity = () => {
   };
 
   const deconectare = () => {
-    debugger;
     try {
       GoogleAuth.logout();
     } catch (e) {}

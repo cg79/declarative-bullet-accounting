@@ -1,16 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MyButton } from "../../_components/reuse/my-button";
 import { LabelInput } from "../../_components/reuse/LabelInput";
-import useIdentity from "../../_store/useIdentity";
 import { useBetween } from "use-between";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 // import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
-import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
 import { utils } from "../../_utils/utils";
-import useApi from "../transactions/hook/useApi";
+import useApi from "../../hooks/useApi";
 import useEvents from "../../_store/useEvents";
 
 export const ResetPassword = () => {
@@ -42,7 +40,6 @@ export const ResetPassword = () => {
 
   const callResetPassword = async () => {
     setError("");
-    debugger;
 
     const responseData = await executeMethodFromModule(
       {

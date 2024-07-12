@@ -1,5 +1,3 @@
-import { BULLET_METHOD } from "declarative-fluent-bullet-api/fluent/constants";
-
 import {
   ACCOUNTING_HISTORY,
   ACCOUNTING_START_VALUES,
@@ -20,7 +18,6 @@ import {
   ISalarAddEdit,
   IInvitation,
 } from "../model/accounting_types";
-import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 import { ICompany } from "../../company/types";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import DEFAULT_TAXES from "../../taxes/default-taxes";
@@ -29,7 +26,11 @@ import { useCallback, useEffect } from "react";
 import { helpers } from "../../../_utils/helpers";
 import { useBetween } from "use-between";
 import useIdentity from "../../../_store/useIdentity";
-import useApi from "./useApi";
+import useApi from "../../../hooks/useApi";
+import { utils } from "../../../_utils/utils";
+import { IMoneyEntity } from "../../money-entity/money-entity-type";
+import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
+import { CustomHttpResponse } from "../../../_fluentApi/CustomHttpResponse";
 // import { useBetween } from "use-between";
 // import useFirme from "../../../_store/useFirme";
 
@@ -45,51 +46,107 @@ const useAccountingDbActions = () => {
   const { executeMethodFromModule, executeMethod } = useApi();
 
   // useEffect(() => {
-  //   debugger;
+  //
   //   if (!loggedUser) {
   //     return;
   //   }
   // }, [loggedUser]);
 
-  const saveInvitation = useCallback(
-    async (invitation: IInvitation, firmaId: string) => {
-      // const {startAccountingData}  = useStartAccountingData();
+  const saveInvitation = useCallback(async (invitation: IInvitation) => {
+    // const {startAccountingData}  = useStartAccountingData();
+    if (!loggedUser) {
+      return {
+        success: false,
+        message: "Nu sunteti autentificat",
+      };
+    }
+
+    invitation.dataInvitatie = utils.dateToEpoch(new Date());
+    // - daca nu exista, le insereaza
+    return (
+      executeMethod()
+        .collection((c) =>
+          c
+            .name(INVITATIONS(loggedUser.clientId))
+            .method(BULLET_METHOD.INSERT_OR_UPDATE)
+        )
+        .body(invitation)
+        .flow((f) =>
+          f.lamda((l) =>
+            l.module("user").method("sendInvitation").internalModule(true)
+          )
+        )
+        // .flow((f) => f.))
+        .execute({
+          beforeSendingRequest: (apiBulletJSON: any) => {
+            console.log(JSON.stringify(apiBulletJSON));
+          },
+        })
+        .then((response: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(response);
+          return response;
+        })
+    );
+  }, []);
+
+  const deleteInvitation = useCallback(async (invitation: IInvitation) => {
+    if (!loggedUser) {
+      return {
+        success: false,
+        message: "Nu sunteti autentificat",
+      };
+    }
+
+    // - daca nu exista, le insereaza
+    return executeMethod()
+      .collection((c) =>
+        c
+          .name(INVITATIONS(loggedUser.clientId))
+          .method(BULLET_METHOD.DELETE_ONE)
+      )
+      .body(invitation)
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      });
+  }, []);
+
+  const getInvitations = useCallback(
+    async (selectedMoneyEntity: IMoneyEntity | null) => {
       if (!loggedUser) {
         return {
           success: false,
           message: "Nu sunteti autentificat",
+          data: [],
         };
       }
-
-      const newInvitation = {
-        ...invitation,
-        firmaId,
-      };
-      // - daca nu exista, le insereaza
-      return (
-        executeMethod()
-          .collection((c) =>
-            c
-              .name(INVITATIONS(loggedUser.clientId))
-              .method(BULLET_METHOD.INSERT_OR_UPDATE)
-          )
-          .body(newInvitation)
-          .flow((f) =>
-            f.lamda((l) =>
-              l.module("user").method("sendInvitation").internalModule(true)
-            )
-          )
-          // .flow((f) => f.))
-          .execute({
-            beforeSendingRequest: (apiBulletJSON: any) => {
-              console.log(JSON.stringify(apiBulletJSON));
-            },
-          })
-          .then((response: CustomHttpResponse) => {
-            helpers.checkHttpResponseForErrors(response);
-            return response;
-          })
-      );
+      if (loggedUser.isInvited) {
+        const response = await executeMethodFromModule({
+          method: "getEntitiesForInvitedUser",
+          moduleName: "user",
+          body: {},
+        });
+        return response;
+      }
+      return executeMethod()
+        .collection((c) =>
+          c.name(INVITATIONS(loggedUser.clientId)).method(BULLET_METHOD.FIND)
+        )
+        .search((s) => s.findByObject({ entityId: selectedMoneyEntity?._id }))
+        .sort((s) => s.field("dataInvitatie").ascending(false))
+        .execute({
+          beforeSendingRequest: (apiBulletJSON: any) => {
+            console.log(JSON.stringify(apiBulletJSON));
+          },
+        })
+        .then((val: CustomHttpResponse) => {
+          helpers.checkHttpResponseForErrors(val);
+          if (val.data) {
+            val.data.forEach((el) => (el.date = new Date(el.date)));
+          }
+          return val;
+        });
     },
     []
   );
@@ -107,60 +164,6 @@ const useAccountingDbActions = () => {
 
     return response;
     // - daca nu exista, le insereaza
-  }, []);
-
-  const deleteInvitation = useCallback(
-    async (invitation: IInvitation, firmaId: string) => {
-      if (!loggedUser) {
-        return {
-          success: false,
-          message: "Nu sunteti autentificat",
-        };
-      }
-
-      // - daca nu exista, le insereaza
-      return executeMethod()
-        .collection((c) =>
-          c
-            .name(INVITATIONS(loggedUser.clientId))
-            .method(BULLET_METHOD.DELETE_ONE)
-        )
-        .body(invitation)
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        });
-    },
-    []
-  );
-
-  const getInvitations = useCallback(async (firmaId: string) => {
-    if (!loggedUser) {
-      return {
-        success: false,
-        message: "Nu sunteti autentificat",
-        data: [],
-      };
-    }
-    return executeMethod()
-      .collection((c) =>
-        c.name(INVITATIONS(loggedUser.clientId)).method(BULLET_METHOD.FIND)
-      )
-      .search((s) => s.findByObject({ firmaId }))
-      .sort((s) => s.field("dataInvitatie").ascending(false))
-      .execute({
-        beforeSendingRequest: (apiBulletJSON: any) => {
-          console.log(JSON.stringify(apiBulletJSON));
-        },
-      })
-      .then((val: CustomHttpResponse) => {
-        helpers.checkHttpResponseForErrors(val);
-        if (val.data) {
-          val.data.forEach((el) => (el.date = new Date(el.date)));
-        }
-        return val;
-      });
   }, []);
 
   const getInitialAccountingValues = useCallback(async (selectedFirma) => {
@@ -487,7 +490,6 @@ const useAccountingDbActions = () => {
 
   const setInitialAccountingValues = useCallback(
     async (selectedFirma, accountingValues: IAccountingValues) => {
-      debugger;
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza
@@ -508,7 +510,6 @@ const useAccountingDbActions = () => {
         )
         .execute({
           beforeSendingRequest: (apiBulletJSON: any) => {
-            debugger;
             console.log(JSON.stringify(apiBulletJSON));
           },
         });

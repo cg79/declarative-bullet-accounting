@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import BulletFile from "declarative-fluent-bullet-api/BulletFile";
-import {
-  BULLET_METHOD,
-  STORAGE_PROVIDER,
-} from "declarative-fluent-bullet-api/fluent/constants";
 import { FirmeAngajatiDropDown } from "../../employee/dropdown/firme-angajati-dropdown";
 
 import { MyButton } from "../../../_components/reuse/my-button";
@@ -17,7 +12,12 @@ import useImportTransactions from "./useImportTransactions";
 import { BULLET_IO_URL } from "../../../constants";
 import { utils } from "../../../_utils/utils";
 import { helpers } from "../../../_utils/helpers";
-import useApi from "../../transactions/hook/useApi";
+import useApi from "../../../hooks/useApi";
+import {
+  BULLET_METHOD,
+  STORAGE_PROVIDER,
+} from "../../../_fluentApi/fluent/constants";
+import BulletFile from "../../../_fluentApi/BulletFile";
 
 export const PdfImport = () => {
   const { executeMethod } = useApi();
@@ -105,7 +105,6 @@ export const PdfImport = () => {
 
     helpers.checkHttpResponseForErrors(response);
 
-    debugger;
     if (!response.success) {
       return;
     }

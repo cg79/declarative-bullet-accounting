@@ -1,6 +1,6 @@
 import { IBanca } from "../types";
 import { AddEditBanca } from "../add-edit/add-edit-banca";
-import MyGenericComponent from "../../todo/list/MyGenericList";
+import GenericList from "../../todo/list/GenericList";
 
 export const BancaList = () => {
   const createItem = (): IBanca => {
@@ -26,12 +26,14 @@ export const BancaList = () => {
     );
   };
   return (
-    <MyGenericComponent
+    <GenericList
+      fieldHeader={[]}
       createItem={createItem}
       addItemButtonLabel="Adaugare"
       renderAddEditContent={renderAddEditContent}
       collectionName={"banca"}
-      sortBy={"name"}
-    ></MyGenericComponent>
+      sortBy={[{ field: "name", ascending: true }]}
+      modalTitle={(item: IBanca) => item.name}
+    ></GenericList>
   );
 };

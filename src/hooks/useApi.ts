@@ -1,12 +1,11 @@
-import { MethodExecutionRequest } from "declarative-fluent-bullet-api/facade";
-import { helpers } from "../../../_utils/helpers";
-import PubSub from "../../../_utils/PubSub";
+import PubSub from "../_utils/PubSub";
 import { useBetween } from "use-between";
-import useIdentity from "../../../_store/useIdentity";
+import useIdentity from "../_store/useIdentity";
 import { useCallback } from "react";
-import BulletHttpRequestLibrary from "declarative-fluent-bullet-api/BulletHttpRequestLibrary";
-import { BULLET_IO_URL } from "../../../constants";
-import DeclarativeBulletApi from "declarative-fluent-bullet-api/declarative-bullet-api";
+import { BULLET_IO_URL } from "../constants";
+import BulletHttpRequestLibrary from "../_fluentApi/BulletHttpRequestLibrary";
+import DeclarativeBulletApi from "../_fluentApi/declarative-bullet-api";
+import { MethodExecutionRequest } from "../_fluentApi/facade";
 
 export interface ApiOptions {
   allowAnonymous?: boolean;
@@ -16,7 +15,6 @@ const useApi = () => {
 
   const createBulletHttpRequestLibrary = useCallback(
     (options: ApiOptions = { allowAnonymous: false }) => {
-      debugger;
       const bulletKey = loggedUser?.token || "";
       if (!bulletKey && !options.allowAnonymous) {
         throw new Error("no bullet key");
@@ -43,7 +41,7 @@ const useApi = () => {
         serverUrl: BULLET_IO_URL(),
       });
     },
-    [loggedUser?.token]
+    [loggedUser]
   );
   const executeMethodFromModule = async (
     request: MethodExecutionRequest,

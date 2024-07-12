@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { utils } from "../../_utils/utils";
 import { ReactDatePicker } from "react-datepicker";
 import DatePickerWrapper from "./DatePickerWrapper";
+import useScreenSize from "../../hooks/useScreenSize";
 export const LabelDate = ({
   label,
   onChange,
@@ -9,11 +10,12 @@ export const LabelDate = ({
   error = "",
   lwidth = "160px",
 }) => {
+  const { popupCss } = useScreenSize();
   const inputRef = useRef<ReactDatePicker>(null);
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex fwrap">
+      <div className={popupCss.css}>
         <div className="actionname1">
           <label
             htmlFor={id}
@@ -34,7 +36,7 @@ export const LabelDate = ({
             {label}
           </label>
         </div>
-        <div>
+        <div style={popupCss.style}>
           <DatePickerWrapper
             inputRef={inputRef}
             data={data}

@@ -3,7 +3,7 @@ import { WysYWYG } from "../../_components/reuse/my-wysywyg";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import { useState } from "react";
 import { helpers } from "../../_utils/helpers";
-import useApi from "../transactions/hook/useApi";
+import useApi from "../../hooks/useApi";
 // import useDeclarativeBulletApi from "../../hooks/useDeclarativeBulletApi";
 
 export const Feedback = () => {
