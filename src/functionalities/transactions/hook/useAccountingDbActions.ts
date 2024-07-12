@@ -41,6 +41,13 @@ export type DeltaFunction = {
   method: string;
 };
 
+export type InvitationType = {
+  _id: string;
+  clientId: string;
+  password: string;
+  nick: string;
+};
+
 const useAccountingDbActions = () => {
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethodFromModule, executeMethod } = useApi();
@@ -151,16 +158,19 @@ const useAccountingDbActions = () => {
     []
   );
 
-  const acceptInvitation = useCallback(async (invitation) => {
+  const acceptInvitation = useCallback(async (invitation: InvitationType) => {
     // const {startAccountingData}  = useStartAccountingData();
 
     const { clientId } = invitation;
 
-    const response = await executeMethodFromModule({
-      moduleName: "user",
-      method: "acceptInvitation",
-      body: invitation,
-    });
+    const response = await executeMethodFromModule(
+      {
+        moduleName: "user",
+        method: "acceptInvitation",
+        body: invitation,
+      },
+      { allowAnonymous: true }
+    );
 
     return response;
     // - daca nu exista, le insereaza

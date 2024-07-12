@@ -47,9 +47,10 @@ export const EntityInvitations = () => {
     if (!loggedUser) {
       return;
     }
+
     const newInvitation: IInvitation = {
       _id: "",
-      dataInvitatie: 0,
+      dataInvitatie: utils.dateToEpoch(new Date()),
       accepted: false,
       email: "",
       name: "",
@@ -130,6 +131,7 @@ export const EntityInvitations = () => {
           data={invitations}
           fieldHeader={[
             { header: "Email", field: "email" },
+            { header: "Name", field: "name" },
             {
               header: "Data Invitatie",
               field: "dataInvitatie",

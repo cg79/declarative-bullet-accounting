@@ -206,7 +206,7 @@ export const Navbar = () => {
 
     {
       label: "Utilizator",
-      template: ({}) => <div>{loggedUser?.email}</div>,
+      template: ({}) => <div>{loggedUser?.nick || "no nick"}</div>,
       icon: "pi pi-fw pi-file",
       items: [
         {

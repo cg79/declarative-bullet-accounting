@@ -12,6 +12,7 @@ export interface ILoggedUser {
   clientId: string;
   bulletGuid: string;
   email: string;
+  nick: string;
 }
 const useIdentity = () => {
   const [loggedUser, setLoggedUser] = React.useState<ILoggedUser | null>(null);

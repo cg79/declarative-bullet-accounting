@@ -22,6 +22,7 @@ export const AddEditInvitation = ({
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
   const [error, setError] = useState("");
   const [item, setItem] = useState<IInvitation>(invitation);
+  const [isSaving, setIsSaving] = useState(false);
 
   const triggerSaveInvitation = () => {
     setError("");
@@ -34,7 +35,8 @@ export const AddEditInvitation = ({
       setError("Emailul nu este valid");
       return;
     }
-    onSave(item);
+    setIsSaving(true);
+    onSave(item)?.finally(() => setIsSaving(false));
   };
 
   useEffect(() => {
@@ -109,6 +111,7 @@ export const AddEditInvitation = ({
           <MyButton
             text="Salveaza"
             onClick={() => triggerSaveInvitation()}
+            isLoading={isSaving}
           ></MyButton>
         </div>
       </div>

@@ -11,8 +11,9 @@ import { useBetween } from "use-between";
 import useMoneyEntities from "../money-entity/hooks/useMoneyEntities";
 import { IMoneyEntity } from "../money-entity/money-entity-type";
 import { LabelDropDown } from "../../_components/reuse/LabelDropDown";
-import { IMoneyTransaction } from "../money-transactions/money-transaction-type";
 import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
+import DateStartEnd from "../../_components/reuse/date/date-start-end";
+import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
 
 export const Categories = () => {
   const {
@@ -26,7 +27,6 @@ export const Categories = () => {
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
-
   const { accounts, selectedAccount, setSelectedAccount } =
     useBetween(useMoneyAccounts);
 
@@ -34,6 +34,15 @@ export const Categories = () => {
     { _id: "", name: "--DEFAULT--", date: 0, description: "" },
     ...(moneyEntities || []),
   ];
+
+  const {
+    filterBy,
+    setFilterBy,
+    startDate,
+    updateStartDate,
+    endDate,
+    updateEndDate,
+  } = useBetween(useMoneyTransactionsFilter);
 
   const executeSaveCategory = (val: ICategory) => {
     saveCategory(val, selectedMoneyEntity).then((response: any) => {
@@ -80,7 +89,7 @@ export const Categories = () => {
             value={selectedMoneyEntity}
             placeholder="Selecteaza"
             optionLabel="name"
-            className="w300"
+            className=""
           ></LabelDropDown>
         </div>
       )}
@@ -103,23 +112,33 @@ export const Categories = () => {
       </div>
 
       <div className="fcenter">
-        <div>
-          <div className="flex mt10">
-            <LabelDropDown
-              label={"Cont: "}
-              lwidth="135px"
-              onChange={(accountId) => {
-                setSelectedAccount(accounts.find((a) => a._id === accountId));
-              }}
-              options={accounts}
-              value={selectedAccount?._id}
-              optionLabel="name"
-              optionValue="_id"
-            ></LabelDropDown>
-          </div>
-
-          <MoneyTransactionsList></MoneyTransactionsList>
+        <div className="flex mt10">
+          <LabelDropDown
+            label={"Cont: "}
+            className=""
+            lwidth="135px"
+            onChange={(accountId) => {
+              setSelectedAccount(accounts.find((a) => a._id === accountId));
+            }}
+            options={accounts}
+            value={selectedAccount?._id}
+            optionLabel="name"
+            optionValue="_id"
+          ></LabelDropDown>
         </div>
+      </div>
+
+      <div className="fcenter">
+        <DateStartEnd
+          startDate={startDate}
+          endDate={endDate}
+          onStartDate={updateStartDate}
+          onEndDate={updateEndDate}
+        ></DateStartEnd>
+      </div>
+
+      <div className="fcenter">
+        <MoneyTransactionsList></MoneyTransactionsList>
       </div>
     </div>
   );

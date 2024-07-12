@@ -7,6 +7,7 @@ interface MyButtonProps
   // css?: string;
   disabled?: boolean;
   useBaseButton?: boolean;
+  isLoading?: boolean;
 }
 
 export const MyButton = ({
@@ -21,9 +22,10 @@ export const MyButton = ({
         useBaseButton ? `basebutton ${rest.className}` : rest.className
       }
       onClick={rest.onClick}
-      disabled={rest.disabled}
+      disabled={rest.disabled || rest.isLoading}
     >
       {children || text}
+      {rest.isLoading && <span className="ml10">...</span>}
     </button>
   );
 };

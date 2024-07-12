@@ -13,6 +13,12 @@ import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
 import useApi from "../../hooks/useApi";
 
+export type UserAccount = {
+  email: string;
+  password: string;
+  nick: string;
+};
+
 export const CreateAccount = () => {
   const navigate = useNavigate();
 
@@ -26,19 +32,24 @@ export const CreateAccount = () => {
 
   const [error, setError] = useState("");
 
-  const [data, setData] = React.useState<any>({
+  const [data, setData] = React.useState<UserAccount>({
     email: "",
     password: "",
+    nick: "",
   });
 
   const updateData = (value: string, key: string) => {
     setData((data) => ({ ...data, [key]: value }));
   };
 
-  const callCreateAccount = async (payload: any) => {
+  const callCreateAccount = async (payload: UserAccount) => {
     setError("");
     if (!checked) {
       setError("Trebuie sa fiti de acord cu termenii si conditii");
+      return;
+    }
+    if (!payload.nick) {
+      setError("Numele trebuie sa fie completat");
       return;
     }
     if (!payload.email) {
@@ -55,10 +66,7 @@ export const CreateAccount = () => {
       {
         method: "createUser",
         moduleName: "user",
-        body: {
-          email: payload.email,
-          password: payload.password,
-        },
+        body: payload,
       },
       { allowAnonymous: true }
       // payload.email
@@ -117,6 +125,14 @@ export const CreateAccount = () => {
         />
       </div>
       <div className="flex flex-column center-v">
+        <div className="mt10">
+          <LabelInput
+            label="Nick Name: "
+            onChange={(val: string) => updateData(val, "nick")}
+            value={data.nick}
+          ></LabelInput>
+        </div>
+
         <div className="mt10">
           <LabelInput
             label="Email: "

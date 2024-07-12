@@ -8,8 +8,14 @@ import { useBetween } from "use-between";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import { helpers } from "../../_utils/helpers";
 import { utils } from "../../_utils/utils";
-import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
+import useAccountingDbActions, {
+  InvitationType,
+} from "../transactions/hook/useAccountingDbActions";
 
+type InvitationUIType = {
+  password: string;
+  nick: string;
+};
 export const AcceptInvitation = () => {
   const navigate = useNavigate();
 
@@ -20,8 +26,9 @@ export const AcceptInvitation = () => {
 
   const { _id, clientId } = utils.getQueryAsJson();
 
-  const [data, setData] = React.useState<any>({
+  const [data, setData] = React.useState<InvitationUIType>({
     password: "",
+    nick: "",
   });
 
   const updateData = (value: string, key: string) => {
@@ -31,14 +38,17 @@ export const AcceptInvitation = () => {
   useEffect(() => {
     clearLoggedUser();
   }, []);
-  const callCreateAccountFromInvitation = async (payload: any) => {
+  const callCreateAccountFromInvitation = async (payload: InvitationUIType) => {
     setError("");
 
-    const responseData = await acceptInvitation({
+    const request: InvitationType = {
       _id,
       clientId,
-      password: data.password,
-    });
+      password: payload.password,
+      nick: payload.nick,
+    };
+
+    const responseData = await acceptInvitation(request);
     helpers.checkHttpResponseForErrors(responseData);
 
     if (responseData.success) {
@@ -65,6 +75,13 @@ export const AcceptInvitation = () => {
         />
       </div>
       <div className="flex flex-column center-v">
+        <div className="mt10">
+          <LabelInput
+            label="Nick Name: "
+            onChange={(val: string) => updateData(val, "nick")}
+            value={data.nick}
+          ></LabelInput>
+        </div>
         <div className="mt10">
           <LabelInput
             type="password"
