@@ -70,7 +70,7 @@ class DeclarativeBulletApi extends FluentBulletBase {
   execute(handlers?: {
     beforeSendingRequest?: Function;
   }): Promise<CustomHttpResponse> {
-    // debugger;
+    //
     const request = this.asJson();
 
     if (handlers && handlers.beforeSendingRequest) {

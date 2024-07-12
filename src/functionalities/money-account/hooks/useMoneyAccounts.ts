@@ -32,8 +32,8 @@ const useMoneyAccounts = () => {
   }, [loggedUser]);
 
   return {
-    selectedEntity: selectedAccount,
-    setSelectedEntity: setSelectedAccount,
+    selectedAccount,
+    setSelectedAccount,
     accounts,
   };
 };

@@ -14,7 +14,6 @@ import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
 import { IMoneyAccount } from "../../money-account/money-account-type";
 import { WysYWYG } from "../../../_components/reuse/my-wysywyg";
-import { SelectButtons } from "../../../_components/reuse/SelectButtons";
 import { LabelSelectButtons } from "../../../_components/reuse/LabelSelectButtons";
 import MyIcon from "../../../_components/reuse/my-icon";
 
@@ -86,7 +85,6 @@ export const AddEditMoneyTransaction = ({
             options={moneyTransactionOptionTypes}
             itemTemplate={moneyTransactionOptionTemplate}
             onChange={(val) => {
-              debugger;
               const newV: IMoneyTransaction = {
                 ...currentTransaction,
                 type: val as IMoneyTransactionType,
@@ -133,7 +131,6 @@ export const AddEditMoneyTransaction = ({
             label={"Cont: "}
             lwidth="135px"
             onChange={(accountId) => {
-              debugger;
               const newItem: IMoneyTransaction = {
                 ...moneyTransaction,
                 accountId,

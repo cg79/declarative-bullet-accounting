@@ -76,7 +76,6 @@ const useCategoryState = () => {
         };
       }
 
-      debugger;
       const categoriesResponse = await executeMethod()
         .collection((c) =>
           c

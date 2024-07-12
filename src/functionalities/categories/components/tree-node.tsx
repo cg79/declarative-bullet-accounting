@@ -68,7 +68,7 @@ const TreeNode = ({
       }
       executeArrowUP();
       setDeletedCategory(node);
-      // debugger;
+      //
     });
   };
 
@@ -260,7 +260,7 @@ const TreeNode = ({
     // e.preventDefault();
     e.stopPropagation();
     console.log(node.label);
-    // debugger;
+    //
     e.dataTransfer.setData("draggedNode", node._id);
     node.parent = parent || undefined;
     setDraggedCategory(node);

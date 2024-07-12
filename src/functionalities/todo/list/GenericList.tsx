@@ -125,7 +125,7 @@ function GenericList<T>({
     }
 
     const saveWrapper = async (item: T) => {
-      // debugger;
+      //
       const fct = customSaveFunction || save;
       fct(item).then((response: any) => {
         setItem(null);

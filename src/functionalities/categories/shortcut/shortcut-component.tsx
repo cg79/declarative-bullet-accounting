@@ -55,11 +55,11 @@ const ShortcutComponent = ({ onShortCutAction, children }) => {
     };
 
     observer.subscribe("ENABLE_SHORTCUT", () => {
-      // debugger;
+      //
       document.addEventListener("keydown", handleKeyDown);
     });
     observer.subscribe("DISABLE_SHORTCUT", () => {
-      // debugger;
+      //
       document.removeEventListener("keydown", handleKeyDown);
     });
 

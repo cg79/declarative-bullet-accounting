@@ -18,7 +18,7 @@ import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
 
 const MoneyTransactionsList = () => {
   const { loggedUser } = useBetween(useIdentity);
-  const { accounts } = useBetween(useMoneyAccounts);
+  const { accounts, selectedAccount } = useBetween(useMoneyAccounts);
   const { selectedCategory, setUpdatedCategories, newTransactionAdded } =
     useBetween(useCategoryState);
 
@@ -46,6 +46,16 @@ const MoneyTransactionsList = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
+    if (!selectedAccount) {
+      return;
+    }
+
+    setFilterBy({
+      accountId: selectedAccount?._id,
+    });
+  }, [selectedAccount]);
+
+  useEffect(() => {
     setCollectionName(
       MONEY_TRANSACTIONS_COLLECTION(
         loggedUser as ILoggedUser,
@@ -60,7 +70,7 @@ const MoneyTransactionsList = () => {
   const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
     // console.log(moneyTransaction);
     return saveMoneyTransaction(moneyTransaction).then((response: any) => {
-      // debugger;
+      //
       observer.publish("ENABLE_SHORTCUT", true);
       if (!response.success) {
         return;
@@ -79,7 +89,7 @@ const MoneyTransactionsList = () => {
     moneyTransaction.parentIds = selectedCategory?.parentIds || [];
     // console.log(moneyTransaction);
     return deleteMoneyTransaction(moneyTransaction).then((response: any) => {
-      // debugger;
+      //
       observer.publish("ENABLE_SHORTCUT", true);
       if (!response.success) {
         return;

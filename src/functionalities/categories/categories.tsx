@@ -11,6 +11,8 @@ import { useBetween } from "use-between";
 import useMoneyEntities from "../money-entity/hooks/useMoneyEntities";
 import { IMoneyEntity } from "../money-entity/money-entity-type";
 import { LabelDropDown } from "../../_components/reuse/LabelDropDown";
+import { IMoneyTransaction } from "../money-transactions/money-transaction-type";
+import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
 
 export const Categories = () => {
   const {
@@ -24,6 +26,9 @@ export const Categories = () => {
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
+
+  const { accounts, selectedAccount, setSelectedAccount } =
+    useBetween(useMoneyAccounts);
 
   const moneyEntitiesList: IMoneyEntity[] = [
     { _id: "", name: "--DEFAULT--", date: 0, description: "" },
@@ -96,8 +101,25 @@ export const Categories = () => {
           onNodeSelected={onNodeSelected}
         ></CategoryTree>
       </div>
+
       <div className="fcenter">
-        <MoneyTransactionsList></MoneyTransactionsList>
+        <div>
+          <div className="flex mt10">
+            <LabelDropDown
+              label={"Cont: "}
+              lwidth="135px"
+              onChange={(accountId) => {
+                setSelectedAccount(accounts.find((a) => a._id === accountId));
+              }}
+              options={accounts}
+              value={selectedAccount?._id}
+              optionLabel="name"
+              optionValue="_id"
+            ></LabelDropDown>
+          </div>
+
+          <MoneyTransactionsList></MoneyTransactionsList>
+        </div>
       </div>
     </div>
   );

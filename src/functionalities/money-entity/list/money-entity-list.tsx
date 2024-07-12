@@ -26,7 +26,7 @@ const MoneyEntityList = () => {
   // const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
   //   // console.log(moneyTransaction);
   //   return saveMoneyTransaction(moneyTransaction).then((response: any) => {
-  //     debugger;
+  //
   //     observer.publish("ENABLE_SHORTCUT", true);
   //     if (!response.success) {
   //       return;

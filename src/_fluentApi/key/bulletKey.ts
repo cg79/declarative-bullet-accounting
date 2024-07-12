@@ -32,7 +32,6 @@ export class BulletKey {
   }
 
   fill(obj: any = {}) {
-    debugger;
     const {
       _id,
       guid,

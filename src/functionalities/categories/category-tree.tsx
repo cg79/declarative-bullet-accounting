@@ -50,7 +50,7 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
       setTreeData({ ...treeData });
     }
     droppedCategory?.children?.push(draggedCategory);
-    // debugger;
+    //
 
     draggedCategory.parent = droppedCategory;
     draggedCategory.parentIds = droppedCategory.parentIds.concat(
@@ -123,7 +123,7 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
 
   //   const rootTransaction = updatedCategories.find((c) => c._id === root._id);
   //   if (!rootTransaction) {
-  //     debugger;
+  //
   //     return;
   //   }
 
@@ -135,7 +135,7 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
   //       (child) => child._id === updatedCategories[i]._id
   //     );
   //     if (!node) {
-  //       debugger;
+  //
   //     }
   //     if (node) {
   //       node.transactionsAmount = updatedCategories[i].transactionsAmount;
