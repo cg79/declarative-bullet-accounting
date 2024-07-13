@@ -31,7 +31,9 @@ const MyIcon = ({ icon, onClick, tooltip, ...rest }: CustomProps) => {
         id={id}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={(e) => myClick(e)}
+        onClick={(e) => {
+          myClick(e);
+        }}
         style={isMouseOver ? { color: "slateblue" } : {}}
         className={`text-2xl mb-3 text-color-secondary ml5 mr5 ${icon} ${css}`}
       ></i>

@@ -12,11 +12,18 @@ const useMoneyAccounts = () => {
   const { executeMethod, executeMethodFromModule } = useApi();
   const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount>();
   const [accounts, setAccounts] = useState<IMoneyAccount[]>([]);
+  const [reloadAccounts, setReloadAccounts] = useState("");
+
+  const refresh = useCallback(() => {
+    setReloadAccounts(new Date().toISOString());
+  }, [selectedAccount]);
 
   const refreshAccounts = useCallback(() => {
     if (!loggedUser) {
       return;
     }
+    setReloadAccounts("");
+
     const collectionName = MONEY_ACCOUNT_COLLECTION(loggedUser as ILoggedUser);
     executeMethod()
       .collection((c) => c.name(collectionName).method(BULLET_METHOD.FIND))
@@ -31,10 +38,17 @@ const useMoneyAccounts = () => {
     refreshAccounts();
   }, [loggedUser]);
 
+  useEffect(() => {
+    if (reloadAccounts) {
+      refreshAccounts();
+    }
+  }, [reloadAccounts]);
+
   return {
     selectedAccount,
     setSelectedAccount,
     accounts,
+    refresh,
   };
 };
 

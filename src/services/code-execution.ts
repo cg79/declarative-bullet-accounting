@@ -1,4 +1,9 @@
-import { DeltaFunction } from "../functionalities/transactions/hook/useAccountingDbActions";
+export type DeltaFunction = {
+  functiontext: string;
+  guid: string;
+  module: string;
+  method: string;
+};
 
 class CodeExecutionService {
   executeDelta(delta: DeltaFunction, parameter: any) {

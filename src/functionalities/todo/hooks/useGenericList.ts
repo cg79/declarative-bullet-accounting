@@ -25,6 +25,7 @@ const useGenericList = <T>(
   const { getPagedList, insertOrUpdate, deleteEntityFromDB } = useGenericDB();
 
   const getPaginatedList = useCallback(async () => {
+    debugger;
     return getPagedList(pageState, collectionName, sortBy, filterBy).then(
       (val: any) => {
         const pagedRecords = val.data;
@@ -35,13 +36,7 @@ const useGenericList = <T>(
         });
       }
     );
-  }, [
-    collectionName,
-    getPagedList,
-    pageState,
-    setPageCountAndTotalRecords,
-    sortBy,
-  ]);
+  }, [collectionName, pageState, sortBy, filterBy]);
 
   const save = useCallback(
     async (entity: T) => {

@@ -6,9 +6,7 @@ import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
 import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
 import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
-import TreeIcon from "../../categories/components/icons/tree-icon";
 import MyIcon from "../../../_components/reuse/my-icon";
-import observer from "../../../_store/observer";
 import ShortcutComponent from "../../categories/shortcut/shortcut-component";
 
 // Define the props interface with a generic type
@@ -29,6 +27,7 @@ interface MyGenericListProps<T> {
   customSaveFunction?: (item: T) => Promise<unknown>;
   customDeleteFunction?: (item: T) => Promise<unknown>;
   onAfterItemSaved?: (item: T) => void;
+  renderActions?: (item: T, setItem: any, setItemToBeDeleted: any) => any;
 }
 
 // Define the generic component
@@ -45,6 +44,7 @@ function GenericList<T>({
   customSaveFunction,
   customDeleteFunction,
   onAfterItemSaved,
+  renderActions,
 }: MyGenericListProps<T>) {
   const {
     save,
@@ -88,12 +88,6 @@ function GenericList<T>({
     return (
       <div className="fcenter">
         <div className="ml10">
-          {/* <MyButton
-            text="Editare1"
-            onClick={() => setItem(item)}
-            className="linkbutton"
-            useBaseButton={false}
-          ></MyButton> */}
           <MyIcon
             icon="pi pi-calendar"
             tooltip="Edit"
@@ -102,13 +96,6 @@ function GenericList<T>({
         </div>
 
         <div className="ml10">
-          {/* <MyButton
-            text="Sterge"
-            onClick={() => setItemToBeDeleted(item)}
-            className="linkbutton"
-            useBaseButton={false}
-          ></MyButton> */}
-
           <MyIcon
             icon="pi pi-trash"
             tooltip="Delete"
@@ -172,7 +159,10 @@ function GenericList<T>({
                   {
                     field: "actiuni",
                     header: "Actiuni",
-                    body: renderActiuni,
+                    body: renderActions
+                      ? (item: T) =>
+                          renderActions(item, setItem, setItemToBeDeleted)
+                      : (item) => renderActiuni(item),
                   },
                 ])}
               ></DataTableWrapper>

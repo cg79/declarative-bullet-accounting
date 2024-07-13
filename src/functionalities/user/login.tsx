@@ -57,11 +57,8 @@ export const Login = () => {
       return;
     }
 
-    if (!firme || !firme.length) {
-      return navigate("/start");
-    }
     return navigate("/categories");
-  }, [firme]);
+  }, [loggedUser]);
 
   useEffect(() => {
     if (!enterPressed) {

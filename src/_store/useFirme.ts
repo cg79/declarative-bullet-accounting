@@ -54,25 +54,23 @@ const useFirme = () => {
   }, [loggedUser, selectedAngajat]);
 
   const reload = useCallback(() => {
-    setTimeout(() => {
-      getFirme(pageState).then((val: CustomHttpResponse) => {
-        if (!val || !val.success) {
-          return;
-        }
-        const pagedRecords = val.data;
-        setFirme(pagedRecords.records);
-        setPageCountAndTotalRecords({
-          pageCount: pagedRecords.pageCount,
-          totalRecords: pagedRecords.count,
-          // rowsPerPage: pagedRecords.rowsPerPage,
-        });
+    getFirme(pageState).then((val: CustomHttpResponse) => {
+      if (!val || !val.success) {
+        return;
+      }
+      const pagedRecords = val.data;
+      setFirme(pagedRecords.records);
+      setPageCountAndTotalRecords({
+        pageCount: pagedRecords.pageCount,
+        totalRecords: pagedRecords.count,
+        // rowsPerPage: pagedRecords.rowsPerPage,
       });
-    }, 100);
+    });
   }, [pageState, getFirme, setPageCountAndTotalRecords]);
 
   useEffect(() => {
-    reload();
-  }, [pageState, loggedUser]);
+    // reload();
+  }, [pageState]);
 
   return {
     reload,

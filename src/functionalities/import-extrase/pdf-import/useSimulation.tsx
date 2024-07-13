@@ -12,8 +12,8 @@ import useTaxes from "../../taxes/useTaxes";
 import { useState } from "react";
 import { STARTING_ACCOUNT_VALUES } from "../../transactions/constants/accounting_constants";
 import useLamdaFunctions from "../../lamda/useLamdaFunctions";
-import { DeltaFunction } from "../../transactions/hook/useAccountingDbActions";
 import { utils } from "../../../_utils/utils";
+import { DeltaFunction } from "../../../services/code-execution";
 
 export const useSimulation = () => {
   const [previousCasa, setPreviousCasa] = useState<IAccountingValues>(

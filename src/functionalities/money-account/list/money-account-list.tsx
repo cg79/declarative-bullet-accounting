@@ -7,27 +7,17 @@ import AddEditMoneyEntity from "../add-edit/add-edit-money-account";
 import { getDefaultMoneyEntity } from "../money-account-helpers";
 import { MONEY_ACCOUNT_COLLECTION } from "../constants";
 import { IMoneyAccount } from "../money-account-type";
+import useMoneyAccounts from "../hooks/useMoneyAccounts";
+import MyIcon from "../../../_components/reuse/my-icon";
 
 const MoneyAccountList = () => {
   const { loggedUser } = useBetween(useIdentity);
 
   const collectionName = MONEY_ACCOUNT_COLLECTION(loggedUser as ILoggedUser);
 
-  const createItem = (): IMoneyAccount => getDefaultMoneyEntity();
+  const createItem = (): IMoneyAccount => getDefaultMoneyEntity(loggedUser);
 
-  // const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
-  //   // console.log(moneyTransaction);
-  //   return saveMoneyTransaction(moneyTransaction).then((response: any) => {
-  //
-  //     observer.publish("ENABLE_SHORTCUT", true);
-  //     if (!response.success) {
-  //       return;
-  //     }
-  //     const { categories, transactionResponse } = response.data;
-  //     setUpdatedCategories(categories);
-  //     // observer.publish("UPDATE_TRANSACTION", transactionResponse);
-  //   });
-  // };
+  const { refresh } = useBetween(useMoneyAccounts);
 
   const renderAddEditContent = (
     item: IMoneyAccount,
@@ -46,10 +36,46 @@ const MoneyAccountList = () => {
     );
   };
 
+  const renderActions = (
+    item: IMoneyAccount,
+    setItem: any,
+    setItemToBeDeleted: any
+  ) => {
+    if (item.userid !== loggedUser?._id) {
+      return null;
+    }
+    return (
+      <div className="fcenter">
+        <div className="ml10">
+          <MyIcon
+            disabled={item.userid !== loggedUser?._id}
+            icon="pi pi-calendar"
+            tooltip="Edit"
+            onClick={() => setItem(item)}
+          ></MyIcon>
+        </div>
+
+        <div className="ml10">
+          <MyIcon
+            disabled={item.userid !== loggedUser?._id}
+            icon="pi pi-trash"
+            tooltip="Delete"
+            onClick={() => setItemToBeDeleted(item)}
+          ></MyIcon>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <GenericList
         fieldHeader={[
+          {
+            field: "nick",
+            header: "User",
+            body: (item) => item.nick,
+          },
           {
             field: "date",
             header: "Data",
@@ -72,6 +98,10 @@ const MoneyAccountList = () => {
         modalTitle={(item: IMoneyAccount) => {
           return item?.name ? `${item.name}` : "Adaugare Account";
         }}
+        onAfterItemSaved={(item: IMoneyAccount) => {
+          refresh();
+        }}
+        renderActions={renderActions}
       ></GenericList>
     </>
   );

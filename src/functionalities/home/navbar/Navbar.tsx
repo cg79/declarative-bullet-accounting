@@ -94,7 +94,7 @@ export const Navbar = () => {
         console.log("/accounts");
         navigate("/accounts");
       },
-      visible: !!loggedUser && !loggedUser.isInvited,
+      visible: !!loggedUser,
     },
     {
       label: "Entitati",
@@ -107,71 +107,71 @@ export const Navbar = () => {
       visible: !!loggedUser && !loggedUser.isInvited,
     },
 
-    {
-      label: "Taxe",
-      icon: "pi pi-fw pi-file",
-      items: [
-        {
-          label: "Situatia Initiala",
-          icon: "pi pi-fw pi-external-link",
-          command: () => {
-            navigate("/initial");
-          },
-        },
-        {
-          label: "Taxe",
-          icon: "pi pi-fw pi-external-link",
-          command: () => {
-            navigate("/taxe");
-          },
-        },
-      ],
-      visible: !!loggedUser,
-    },
+    // {
+    //   label: "Taxe",
+    //   icon: "pi pi-fw pi-file",
+    //   items: [
+    //     {
+    //       label: "Situatia Initiala",
+    //       icon: "pi pi-fw pi-external-link",
+    //       command: () => {
+    //         navigate("/initial");
+    //       },
+    //     },
+    //     {
+    //       label: "Taxe",
+    //       icon: "pi pi-fw pi-external-link",
+    //       command: () => {
+    //         navigate("/taxe");
+    //       },
+    //     },
+    //   ],
+    //   visible: !!loggedUser,
+    // },
 
-    {
-      label: "Firme",
-      icon: "pi pi-fw pi-building",
+    // {
+    //   label: "Firme",
+    //   icon: "pi pi-fw pi-building",
 
-      command: () => {
-        console.log("/angajati");
-        navigate("/firme");
-      },
-      visible: !!loggedUser,
-    },
-    {
-      label: "Angajati",
-      icon: "pi pi-fw pi-user",
+    //   command: () => {
+    //     console.log("/angajati");
+    //     navigate("/firme");
+    //   },
+    //   visible: !!loggedUser,
+    // },
+    // {
+    //   label: "Angajati",
+    //   icon: "pi pi-fw pi-user",
 
-      command: () => {
-        console.log("/angajati");
-        navigate("/angajati");
-      },
-      visible: !!loggedUser,
-    },
-    {
-      label: "Salarii",
-      icon: (
-        <div className="mr5">
-          <SvgSalary></SvgSalary>
-        </div>
-      ),
+    //   command: () => {
+    //     console.log("/angajati");
+    //     navigate("/angajati");
+    //   },
+    //   visible: !!loggedUser,
+    // },
+    // {
+    //   label: "Salarii",
+    //   icon: (
+    //     <div className="mr5">
+    //       <SvgSalary></SvgSalary>
+    //     </div>
+    //   ),
 
-      command: () => {
-        navigate("/salarii");
-      },
-      visible: !!loggedUser,
-    },
+    //   command: () => {
+    //     navigate("/salarii");
+    //   },
+    //   visible: !!loggedUser,
+    // },
 
-    {
-      label: "Tranzactii",
-      icon: "pi pi-fw pi-calculator",
-      command: () => {
-        console.log("Tranzactii");
-        navigate("/accounting");
-      },
-      visible: !!loggedUser,
-    },
+    // {
+    //   label: "Tranzactii",
+    //   icon: "pi pi-fw pi-calculator",
+    //   command: () => {
+    //     console.log("Tranzactii");
+    //     navigate("/accounting");
+    //   },
+    //   visible: !!loggedUser,
+    // },
     {
       label: "Money Aggregator",
       icon: "pi pi-fw pi-calculator",
@@ -181,21 +181,21 @@ export const Navbar = () => {
       },
       visible: !!loggedUser,
     },
-    {
-      label: "Import Extrase",
-      // icon: "pi pi-fw pi-power-off",
-      icon: (
-        <div className="mr5">
-          <SvgImport></SvgImport>
-        </div>
-      ),
+    // {
+    //   label: "Import Extrase",
+    //   // icon: "pi pi-fw pi-power-off",
+    //   icon: (
+    //     <div className="mr5">
+    //       <SvgImport></SvgImport>
+    //     </div>
+    //   ),
 
-      command: () => {
-        console.log("Tranzactii");
-        navigate("/pdfimport");
-      },
-      visible: !!loggedUser,
-    },
+    //   command: () => {
+    //     console.log("Tranzactii");
+    //     navigate("/pdfimport");
+    //   },
+    //   visible: !!loggedUser,
+    // },
     // {
     //   label: "Contact",
     //   icon: "pi pi-fw pi-calculator",

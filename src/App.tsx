@@ -39,7 +39,6 @@ import { Navbar } from "./functionalities/home/navbar/Navbar";
 import { LamdaFunctions } from "./functionalities/lamda/lamda_functions";
 import { Contact } from "./functionalities/contact/contact";
 import useIdentity from "./_store/useIdentity";
-import Start from "./functionalities/start/start";
 import { useBetween } from "use-between";
 import Footer from "./functionalities/footer/Footer";
 import { TodoList } from "./functionalities/todo/list/todo-list";
@@ -69,14 +68,14 @@ function App() {
               <Route path="/" element={<Outlet />}>
                 <Route path="login" element={<Login />} />
                 <Route index element={<Home />} />
-                <Route
+                {/* <Route
                   path="accounting"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <DemoAccounting />
                     </GuardedRoute1>
                   }
-                />
+                /> */}
                 <Route
                   path="todo"
                   element={
@@ -85,14 +84,14 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-                <Route
+                {/* <Route
                   path="banci"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <BancaList />
                     </GuardedRoute1>
                   }
-                />
+                /> */}
                 <Route
                   path="entity"
                   element={
@@ -118,17 +117,17 @@ function App() {
                     </GuardedRoute1>
                   }
                 />
-                <Route path="start" element={<Start />} />
+                {/* <Route path="start" element={<Start />} /> */}
                 <Route path="termeni" element={<Terms />} />
                 <Route path="feedback" element={<Feedback />} />
-                <Route
+                {/* <Route
                   path="taxe"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <CountryTaxesList />
                     </GuardedRoute1>
                   }
-                />
+                /> */}
                 <Route
                   path="categories"
                   element={
@@ -150,14 +149,14 @@ function App() {
                   element={<AcceptInvitation />}
                 />
 
-                <Route
+                {/* <Route
                   path="initial"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <AccountingInitialValues />
                     </GuardedRoute1>
                   }
-                />
+                /> */}
 
                 <Route
                   path="entity-invitations"
@@ -168,38 +167,38 @@ function App() {
                   }
                 />
 
-                <Route
+                {/* <Route
                   path="firme"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <CompanyList />
                     </GuardedRoute1>
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path="angajati"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <CompanyAngajati />
                     </GuardedRoute1>
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path="salarii"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <AngajatSalaryList />
                     </GuardedRoute1>
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path="pdfimport"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <PdfImport />
                     </GuardedRoute1>
                   }
-                />
+                /> */}
                 <Route
                   path="lamda"
                   element={

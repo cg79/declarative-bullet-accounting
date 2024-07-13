@@ -14,8 +14,10 @@ import { LabelDropDown } from "../../_components/reuse/LabelDropDown";
 import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
 import DateStartEnd from "../../_components/reuse/date/date-start-end";
 import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
+import { useNavigate } from "react-router-dom";
 
 export const Categories = () => {
+  //#region Hooks
   const {
     newCategory,
     setNewCategory,
@@ -24,6 +26,8 @@ export const Categories = () => {
     getCategories,
     categoryTree,
   } = useBetween(useCategoryState);
+
+  const navigate = useNavigate();
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
@@ -35,21 +39,44 @@ export const Categories = () => {
     ...(moneyEntities || []),
   ];
 
-  const {
-    filterBy,
-    setFilterBy,
-    startDate,
-    updateStartDate,
-    endDate,
-    updateEndDate,
-  } = useBetween(useMoneyTransactionsFilter);
+  const { startDate, updateStartDate, endDate, updateEndDate } = useBetween(
+    useMoneyTransactionsFilter
+  );
+  //#endregion
 
+  //#region States
+  const [message, setMessage] = useState("");
+  //#endregion
+
+  //#region Effects
+  useEffect(() => {
+    getCategories(selectedMoneyEntity);
+  }, [selectedMoneyEntity]);
+
+  useEffect(() => {
+    if (!accounts || accounts.length === 0) {
+      setMessage("Va rugam adaugati conturile necesare");
+      setTimeout(() => {
+        navigate("/accounts");
+      }, 2000);
+    }
+  }, [categoryTree]);
+  //#endregion
+
+  //#region Functions
   const executeSaveCategory = (val: ICategory) => {
     saveCategory(val, selectedMoneyEntity).then((response: any) => {
       setNewCategory(null);
     });
     setNewCategory(null);
   };
+
+  const onNodeSelected = (node: any) => {
+    console.log(node);
+  };
+  //#endregion
+
+  //#region Rendering
   const renderCategoryDialog = () => {
     return newCategory ? (
       <Dialog
@@ -67,16 +94,9 @@ export const Categories = () => {
     ) : null;
   };
 
-  const onNodeSelected = (node: any) => {
-    console.log(node);
-  };
-
-  useEffect(() => {
-    getCategories(selectedMoneyEntity);
-  }, [selectedMoneyEntity]);
-
   return (
     <div className="fcenter1">
+      {message && <div className="error fcenter">{message}</div>}
       {moneyEntitiesList && moneyEntitiesList.length > 1 && (
         <div className="fcenter">
           <LabelDropDown
@@ -142,4 +162,5 @@ export const Categories = () => {
       </div>
     </div>
   );
+  //#endregion
 };

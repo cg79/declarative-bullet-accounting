@@ -31,15 +31,9 @@ import { utils } from "../../../_utils/utils";
 import { IMoneyEntity } from "../../money-entity/money-entity-type";
 import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
 import { CustomHttpResponse } from "../../../_fluentApi/CustomHttpResponse";
+import { DeltaFunction } from "../../../services/code-execution";
 // import { useBetween } from "use-between";
 // import useFirme from "../../../_store/useFirme";
-
-export type DeltaFunction = {
-  functiontext: string;
-  guid: string;
-  module: string;
-  method: string;
-};
 
 export type InvitationType = {
   _id: string;

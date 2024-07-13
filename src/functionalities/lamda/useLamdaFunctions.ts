@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react";
-import useAccountingDbActions, {
-  DeltaFunction,
-} from "../transactions/hook/useAccountingDbActions";
+import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import { DELTA_FUNCTION } from "../transactions/constants/accounting_constants";
+import { DeltaFunction } from "../../services/code-execution";
 
 const useLamdaFunctions = () => {
   const { getDeltaFunctions } = useAccountingDbActions();

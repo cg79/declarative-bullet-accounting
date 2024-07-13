@@ -5,6 +5,7 @@ import {
   IMoneyAccount,
 } from "../money-account/money-account-type";
 import { IMoneyEntity } from "../money-entity/money-entity-type";
+import { IMoneyTransactionsFilter } from "./hooks/useMoneyTransactionsFilter";
 import {
   IMoneyTransaction,
   IMoneyTransactionType,
@@ -31,4 +32,46 @@ const getDefaultMoneyTransaction = (
   };
 };
 
-export { getDefaultMoneyTransaction };
+const createFilterExpression = (filter: IMoneyTransactionsFilter) => {
+  const { accountId, startDate, endDate, categoryId } = filter;
+  let expression = "";
+  let needAND = false;
+
+  if (categoryId) {
+    if (needAND) {
+      expression += " && ";
+    }
+    needAND = true;
+
+    expression += ` categoryId = ${categoryId}`;
+  }
+
+  if (accountId) {
+    if (needAND) {
+      expression += " && ";
+    }
+    needAND = true;
+    expression += `accountId == ${accountId}`;
+  }
+
+  if (startDate) {
+    if (needAND) {
+      expression += " && ";
+    }
+    needAND = true;
+
+    expression += ` date >= ${startDate}`;
+  }
+
+  if (endDate) {
+    if (needAND) {
+      expression += " && ";
+    }
+    needAND = true;
+    expression += ` && date <= ${endDate}`;
+  }
+
+  return expression ? { expression } : {};
+};
+
+export { getDefaultMoneyTransaction, createFilterExpression };

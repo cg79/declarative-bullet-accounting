@@ -5,7 +5,6 @@ import { MyButton } from "../../_components/reuse/my-button";
 import useIdentity from "../../_store/useIdentity";
 import { useBetween } from "use-between";
 import { MyLottie } from "../../_components/reuse/my-lottie";
-// import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
 import useApi from "../../hooks/useApi";
@@ -15,7 +14,6 @@ import { LabelEmail } from "../../_components/reuse/LabelEmail";
 export const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  // const { getFirme } = useAccountingDbActions();
   const { firme } = useBetween(useFirme);
 
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);

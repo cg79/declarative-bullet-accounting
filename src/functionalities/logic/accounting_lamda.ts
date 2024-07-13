@@ -1,6 +1,7 @@
 //v1
-import { DeltaFunction } from "../transactions/hook/useAccountingDbActions";
-import CodeExecutionService from "../../services/code-execution";
+import CodeExecutionService, {
+  DeltaFunction,
+} from "../../services/code-execution";
 export function executeAccountingLamda(
   delta: DeltaFunction,
   previous_casa,

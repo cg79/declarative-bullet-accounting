@@ -8,7 +8,6 @@ import { useBetween } from "use-between";
 import GoogleAuth from "./google-auth";
 import { MyLottie } from "../../_components/reuse/my-lottie";
 import { MyCheckbox } from "../../_components/reuse/my-checkbox";
-// import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import useFirme from "../../_store/useFirme";
 import { helpers } from "../../_utils/helpers";
 import useApi from "../../hooks/useApi";
@@ -22,7 +21,6 @@ export type UserAccount = {
 export const CreateAccount = () => {
   const navigate = useNavigate();
 
-  // const { getFirme } = useAccountingDbActions();
   const { firme } = useBetween(useFirme);
   const { executeMethodFromModule } = useApi();
 

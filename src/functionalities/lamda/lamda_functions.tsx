@@ -3,11 +3,10 @@ import { MonacoEditor } from "../../_components/editor/editor";
 import { MyButton } from "../../_components/reuse/my-button";
 
 import { useBetween } from "use-between";
-import useAccountingDbActions, {
-  DeltaFunction,
-} from "../transactions/hook/useAccountingDbActions";
+import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
 import { utils } from "../../_utils/utils";
 import useLamdaFunctions from "./useLamdaFunctions";
+import { DeltaFunction } from "../../services/code-execution";
 
 export const LamdaFunctions = () => {
   const [selectedLamda, setSelectedLamda] = useState<DeltaFunction | null>(

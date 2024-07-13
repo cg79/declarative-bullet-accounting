@@ -24,5 +24,7 @@ export interface IMoneyAccount {
   amount: number;
   account_type: ACCOUNT_TYPE_VALUE;
   description: string;
+  userid: string;
+  nick: string;
 }
 export { ACCOUNT_TYPES, ACCOUNT_TYPE_VALUE };

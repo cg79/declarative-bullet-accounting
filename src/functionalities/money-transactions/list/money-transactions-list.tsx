@@ -11,10 +11,16 @@ import { MONEY_TRANSACTIONS_COLLECTION } from "../constants";
 import { utils } from "../../../_utils/utils";
 import observer from "../../../_store/observer";
 import { useEffect, useState } from "react";
-import { getDefaultMoneyTransaction } from "../money-helpers";
+import {
+  createFilterExpression,
+  getDefaultMoneyTransaction,
+} from "../money-helpers";
 import useMoneyTransactions from "../hooks/useMoneyTransactions";
 import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
+import useMoneyTransactionsFilter, {
+  IMoneyTransactionsFilter,
+} from "../hooks/useMoneyTransactionsFilter";
 
 const MoneyTransactionsList = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -22,10 +28,14 @@ const MoneyTransactionsList = () => {
   const { selectedCategory, setUpdatedCategories, newTransactionAdded } =
     useBetween(useCategoryState);
 
-  const [filterBy, setFilterBy] = useState({});
+  const { filterBy } = useBetween(useMoneyTransactionsFilter);
+
   const { saveMoneyTransaction, deleteMoneyTransaction } =
     useBetween(useMoneyTransactions);
+  const { moneyTransactionFilter } = useBetween(useMoneyTransactionsFilter);
+
   const { selectedMoneyEntity } = useBetween(useMoneyEntities);
+
   const [collectionName, setCollectionName] = useState(
     MONEY_TRANSACTIONS_COLLECTION(
       loggedUser as ILoggedUser,
@@ -34,35 +44,22 @@ const MoneyTransactionsList = () => {
   );
 
   useEffect(() => {
-    if (!selectedCategory) {
-      return;
-    }
-    if (!selectedCategory.parentId) {
-      return setFilterBy({});
-    }
-    setFilterBy({
-      category_id: selectedCategory?._id,
-    });
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    if (!selectedAccount) {
-      return;
-    }
-
-    setFilterBy({
-      accountId: selectedAccount?._id,
-    });
-  }, [selectedAccount]);
-
-  useEffect(() => {
-    setCollectionName(
-      MONEY_TRANSACTIONS_COLLECTION(
-        loggedUser as ILoggedUser,
-        selectedMoneyEntity
-      )
+    const newCollectionName = MONEY_TRANSACTIONS_COLLECTION(
+      loggedUser as ILoggedUser,
+      selectedMoneyEntity
     );
+    if (collectionName !== newCollectionName) {
+      debugger;
+      setCollectionName(newCollectionName);
+    }
   }, [selectedMoneyEntity]);
+
+  // useEffect(() => {
+  //   debugger;
+  //   updateFilterBy({
+  //     ...moneyTransactionFilter,
+  //   });
+  // }, [moneyTransactionFilter]);
 
   const createItem = (): IMoneyTransaction =>
     getDefaultMoneyTransaction(selectedCategory, selectedMoneyEntity, accounts);
