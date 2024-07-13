@@ -15,6 +15,10 @@ import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
 import DateStartEnd from "../../_components/reuse/date/date-start-end";
 import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
 import { useNavigate } from "react-router-dom";
+import {
+  ACCOUNT_TYPE_VALUE,
+  IMoneyAccount,
+} from "../money-account/money-account-type";
 
 export const Categories = () => {
   //#region Hooks
@@ -31,11 +35,25 @@ export const Categories = () => {
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
-  const { accounts, selectedAccount, setSelectedAccount } =
+  const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
     useBetween(useMoneyAccounts);
 
+  const accountsWithDefaultValue: IMoneyAccount[] = [
+    {
+      _id: "",
+      name: "--DEFAULT--",
+      amount: 0,
+      date: 0,
+      account_type: ACCOUNT_TYPE_VALUE.ALL,
+      description: "",
+      userid: "",
+      nick: "",
+    },
+    ...(accounts || []),
+  ];
+
   const moneyEntitiesList: IMoneyEntity[] = [
-    { _id: "", name: "--DEFAULT--", date: 0, description: "" },
+    { _id: "", name: "--ALL--", date: 0, description: "" },
     ...(moneyEntities || []),
   ];
 
@@ -54,13 +72,16 @@ export const Categories = () => {
   }, [selectedMoneyEntity]);
 
   useEffect(() => {
+    if (!accountsLoaded) {
+      return;
+    }
     if (!accounts || accounts.length === 0) {
       setMessage("Va rugam adaugati conturile necesare");
       setTimeout(() => {
         navigate("/accounts");
       }, 2000);
     }
-  }, [categoryTree]);
+  }, [accounts, accountsLoaded]);
   //#endregion
 
   //#region Functions
@@ -137,18 +158,22 @@ export const Categories = () => {
             label={"Cont: "}
             className=""
             lwidth="135px"
-            onChange={(accountId) => {
-              setSelectedAccount(accounts.find((a) => a._id === accountId));
+            onChange={(accountValue: IMoneyAccount) => {
+              debugger;
+              const account = accountsWithDefaultValue.find(
+                (a) => a._id === accountValue._id
+              );
+              setSelectedAccount(account);
             }}
-            options={accounts}
-            value={selectedAccount?._id}
+            options={accountsWithDefaultValue}
+            value={selectedAccount}
             optionLabel="name"
             optionValue="_id"
           ></LabelDropDown>
         </div>
       </div>
 
-      <div className="fcenter">
+      <div className="fcenter3">
         <DateStartEnd
           startDate={startDate}
           endDate={endDate}

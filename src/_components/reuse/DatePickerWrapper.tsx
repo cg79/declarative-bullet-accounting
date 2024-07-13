@@ -1,5 +1,6 @@
 import DatePicker from "react-datepicker";
 import { utils } from "../../_utils/utils";
+import { Calendar } from "primereact/calendar";
 const DatePickerWrapper = ({
   inputRef,
   data,
@@ -11,14 +12,25 @@ const DatePickerWrapper = ({
 }) => {
   return (
     <div>
-      <DatePicker
+      <Calendar
         ref={inputRef}
-        selected={data ? utils.epochToDate(data) : null}
-        onChange={(date: Date) => onChange(utils.dateToEpoch(date))}
-        showYearDropdown={true}
-        showMonthDropdown={true}
+        value={data ? utils.epochToDate(data) : null}
+        onChange={(date: any) => {
+          debugger;
+          const dateValue = date.value;
+          onChange(utils.dateToEpoch(dateValue));
+        }}
       />
     </div>
+    // <div>
+    //   <DatePicker
+    //     ref={inputRef}
+    //     selected={data ? utils.epochToDate(data) : null}
+    //     onChange={(date: Date) => onChange(utils.dateToEpoch(date))}
+    //     showYearDropdown={true}
+    //     showMonthDropdown={true}
+    //   />
+    // </div>
   );
 };
 

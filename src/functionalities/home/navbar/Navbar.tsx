@@ -181,6 +181,15 @@ export const Navbar = () => {
       },
       visible: !!loggedUser,
     },
+
+    {
+      label: "Invitatii",
+      icon: "pi pi-fw pi-external-link",
+      command: () => {
+        navigate("/entity-invitations");
+      },
+      visible: !!loggedUser && !loggedUser?.isInvited,
+    },
     // {
     //   label: "Import Extrase",
     //   // icon: "pi pi-fw pi-power-off",
@@ -217,14 +226,6 @@ export const Navbar = () => {
             navigate("/login");
           },
           visible: !!loggedUser,
-        },
-        {
-          label: "Invitatii",
-          icon: "pi pi-fw pi-external-link",
-          command: () => {
-            navigate("/entity-invitations");
-          },
-          visible: !!loggedUser && !loggedUser?.isInvited,
         },
       ],
       // visible: !!loggedUser,

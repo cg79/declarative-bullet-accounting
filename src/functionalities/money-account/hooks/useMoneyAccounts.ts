@@ -12,7 +12,15 @@ const useMoneyAccounts = () => {
   const { executeMethod, executeMethodFromModule } = useApi();
   const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount>();
   const [accounts, setAccounts] = useState<IMoneyAccount[]>([]);
+  const [accountsLoaded, setAccountsLoaded] = useState(false);
   const [reloadAccounts, setReloadAccounts] = useState("");
+
+  const getAccountById = useCallback(
+    (id: string) => {
+      return accounts.find((account) => account._id === id);
+    },
+    [accounts]
+  );
 
   const refresh = useCallback(() => {
     setReloadAccounts(new Date().toISOString());
@@ -31,6 +39,7 @@ const useMoneyAccounts = () => {
       .then((response) => {
         helpers.checkHttpResponseForErrors(response);
         setAccounts(response.data);
+        setAccountsLoaded(true);
       });
   }, [loggedUser]);
 
@@ -49,6 +58,8 @@ const useMoneyAccounts = () => {
     setSelectedAccount,
     accounts,
     refresh,
+    accountsLoaded,
+    getAccountById,
   };
 };
 

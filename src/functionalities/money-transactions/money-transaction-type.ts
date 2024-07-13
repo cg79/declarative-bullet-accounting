@@ -14,6 +14,7 @@ export interface IMoneyTransaction {
   type: IMoneyTransactionType;
   entityId: string;
   accountId: string;
+  userid: string;
 }
 
 export const moneyTransactionOptionTypes = [

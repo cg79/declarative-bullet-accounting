@@ -1,4 +1,5 @@
 enum ACCOUNT_TYPE_VALUE {
+  ALL = 0,
   CASH = 1,
   DEBIT = 2,
   CREDIT = 3,

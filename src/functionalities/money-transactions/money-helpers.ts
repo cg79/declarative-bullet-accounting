@@ -1,3 +1,4 @@
+import { ILoggedUser } from "../../_store/useIdentity";
 import { utils } from "../../_utils/utils";
 import { ICategory } from "../categories/category-type";
 import {
@@ -14,7 +15,8 @@ import {
 const getDefaultMoneyTransaction = (
   category: ICategory | null,
   moneyEntity: IMoneyEntity | null,
-  moneyAccounts: IMoneyAccount[]
+  moneyAccounts: IMoneyAccount[],
+  loggedUser: ILoggedUser | null
 ): IMoneyTransaction => {
   const cashAcount = moneyAccounts.find(
     (account) => account.account_type === ACCOUNT_TYPE_VALUE.CASH
@@ -29,6 +31,7 @@ const getDefaultMoneyTransaction = (
     type: IMoneyTransactionType.EXPENSE,
     entityId: moneyEntity?._id || "",
     accountId: cashAcount?._id || "",
+    userid: loggedUser?._id || "",
   };
 };
 

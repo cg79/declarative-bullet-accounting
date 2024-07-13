@@ -25,11 +25,16 @@ const useCategoryState = () => {
   );
   const [updatedCategories, setUpdatedCategories] = useState<ICategory[]>([]);
 
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [categoryTree, setCategoryTree] = useState<any>(null);
 
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethod, executeMethodFromModule } = useApi();
+  const [categories, setCategories] = useState<ICategory[]>([]);
+
+  const getCategoryById = (id: string) => {
+    return categories.find((category) => category._id === id);
+  };
 
   const calculateAmounts = (
     node: ICategory,
@@ -89,7 +94,7 @@ const useCategoryState = () => {
         });
 
       let categoryList = categoriesResponse.data;
-      // setCategories(categoryList);
+      setCategories(categoryList);
 
       const rootCategory = categoryList.find(
         (category) => category.parentId === null
@@ -234,7 +239,7 @@ const useCategoryState = () => {
     updatedCategories,
     setUpdatedCategories,
 
-    categories,
+    // categories,
     getCategories,
     saveCategory,
     deleteCategory,
@@ -243,6 +248,7 @@ const useCategoryState = () => {
     getCategoryParentIds,
     calculateAmounts,
     newTransactionAdded,
+    getCategoryById,
   };
 };
 export default useCategoryState;

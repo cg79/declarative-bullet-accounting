@@ -144,10 +144,10 @@ ul.my{
 }
 
 
-.react-datepicker-wrapper input{
+/* .react-datepicker-wrapper input{
   font-size: 0.9em;
   max-width: 200px;
-}
+} */
 
 .flexcolumn {
   display: flex;
@@ -560,7 +560,7 @@ ul.my{
   transition: all 0.1s ease;
 }
 
-.react-datepicker__input-container input {
+/* .react-datepicker__input-container input {
   height: 40px;
   font-size: 1rem;
     color: rgba(0, 0, 0, 0.87);
@@ -570,8 +570,7 @@ ul.my{
     transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
     appearance: none;
     border-radius: 4px;
-    /* outline-color: transparent; */
-}
+} */
 
 .wswitch {
   width: 40px;

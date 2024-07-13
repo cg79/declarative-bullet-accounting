@@ -15,6 +15,7 @@ import observer from "../../../_store/observer";
 import { getDefaultMoneyTransaction } from "../../money-transactions/money-helpers";
 import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
+import useIdentity from "../../../_store/useIdentity";
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const ItemTypes = {
@@ -34,6 +35,7 @@ const TreeNode = ({
   shortCutAction: any;
   setShortCutAction: any;
 }) => {
+  const { loggedUser } = useBetween(useIdentity);
   const { accounts } = useBetween(useMoneyAccounts);
   const { selectedMoneyEntity } = useBetween(useMoneyEntities);
   const [opacity, setOpacity] = useState(1);
@@ -365,7 +367,8 @@ const TreeNode = ({
             moneyTransaction={getDefaultMoneyTransaction(
               selectedCategory,
               selectedMoneyEntity,
-              accounts
+              accounts,
+              loggedUser
             )}
             onSaveMoneyTransaction={onSaveTransaction}
             onCancel={onCancelAddTransaction}

@@ -21,11 +21,12 @@ import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
 import useMoneyTransactionsFilter, {
   IMoneyTransactionsFilter,
 } from "../hooks/useMoneyTransactionsFilter";
+import MyIcon from "../../../_components/reuse/my-icon";
 
 const MoneyTransactionsList = () => {
   const { loggedUser } = useBetween(useIdentity);
-  const { accounts, selectedAccount } = useBetween(useMoneyAccounts);
-  const { selectedCategory, setUpdatedCategories, newTransactionAdded } =
+  const { accounts, getAccountById } = useBetween(useMoneyAccounts);
+  const { selectedCategory, getCategoryById, newTransactionAdded } =
     useBetween(useCategoryState);
 
   const { filterBy } = useBetween(useMoneyTransactionsFilter);
@@ -62,7 +63,12 @@ const MoneyTransactionsList = () => {
   // }, [moneyTransactionFilter]);
 
   const createItem = (): IMoneyTransaction =>
-    getDefaultMoneyTransaction(selectedCategory, selectedMoneyEntity, accounts);
+    getDefaultMoneyTransaction(
+      selectedCategory,
+      selectedMoneyEntity,
+      accounts,
+      loggedUser
+    );
 
   const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
     // console.log(moneyTransaction);
@@ -92,9 +98,6 @@ const MoneyTransactionsList = () => {
         return;
       }
       newTransactionAdded(response.data.categories[0]);
-      // const { categories, transactionResponse } = response.data;
-      // setUpdatedCategories(categories);
-      // observer.publish("UPDATE_TRANSACTION", transactionResponse);
     });
   };
 
@@ -117,6 +120,37 @@ const MoneyTransactionsList = () => {
     );
   };
 
+  const renderActions = (
+    item: IMoneyTransaction,
+    setItem: any,
+    setItemToBeDeleted: any
+  ) => {
+    if (item.userid !== loggedUser?._id) {
+      return null;
+    }
+    return (
+      <div className="fcenter">
+        <div className="ml10">
+          <MyIcon
+            disabled={item.userid !== loggedUser?._id}
+            icon="pi pi-calendar"
+            tooltip="Edit"
+            onClick={() => setItem(item)}
+          ></MyIcon>
+        </div>
+
+        <div className="ml10">
+          <MyIcon
+            disabled={item.userid !== loggedUser?._id}
+            icon="pi pi-trash"
+            tooltip="Delete"
+            onClick={() => setItemToBeDeleted(item)}
+          ></MyIcon>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <GenericList
@@ -130,11 +164,41 @@ const MoneyTransactionsList = () => {
             field: "amount",
             header: "Suma",
           },
+          {
+            field: "description",
+            header: "Descriere",
+            body: (item) => item.description,
+          },
+          {
+            field: "type",
+            header: "Tip",
+            body: (item) => {
+              switch (item.type) {
+                case IMoneyTransactionType.INCOME:
+                  return "Tranzactie de cheltuiala";
+                case IMoneyTransactionType.EXPENSE:
+                  return "Tranzactie de cheltuiala";
+                case IMoneyTransactionType.TRANSFER:
+                  return "Tranzactie de transfer";
+              }
+            },
+          },
+          {
+            field: "category_id",
+            header: "Categorie",
+            body: (item) =>
+              getCategoryById(item.category_id)?.label || item.category_id,
+          },
+          {
+            field: "account_id",
+            header: "Cont",
+            body: (item: IMoneyTransaction) =>
+              getAccountById(item.accountId)?.name || item.accountId,
+          },
         ]}
         createItem={createItem}
         addItemButtonLabel="Adaugare Tranzactie"
         isButtonDisabled={!selectedCategory}
-        // addItemTemplate={() => <></>}
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
         sortBy={[{ field: "date", ascending: false }]}
