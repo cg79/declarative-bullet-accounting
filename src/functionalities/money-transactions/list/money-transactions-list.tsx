@@ -4,6 +4,7 @@ import AddEditMoneyTransaction from "../add-edit/add-edit-money-transaction";
 import {
   IMoneyTransaction,
   IMoneyTransactionType,
+  IMoneyTransactionTypeIcons,
 } from "../money-transaction-type";
 import useCategoryState from "../../categories/hooks/useCategoryState";
 import useIdentity, { ILoggedUser } from "../../../_store/useIdentity";
@@ -70,6 +71,7 @@ const MoneyTransactionsList = () => {
     );
 
   const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
+    debugger;
     if (selectedMoneyEntity && selectedMoneyEntity?._id) {
       moneyTransaction.entityId = selectedMoneyEntity._id;
     }
@@ -178,11 +180,17 @@ const MoneyTransactionsList = () => {
             body: (item) => {
               switch (item.type) {
                 case IMoneyTransactionType.INCOME:
-                  return <MyIcon icon="pi pi-plus"></MyIcon>;
+                  return (
+                    <MyIcon icon={IMoneyTransactionTypeIcons.INCOME}></MyIcon>
+                  );
                 case IMoneyTransactionType.EXPENSE:
-                  return <MyIcon icon="pi pi-minus"></MyIcon>;
+                  return (
+                    <MyIcon icon={IMoneyTransactionTypeIcons.EXPENSE}></MyIcon>
+                  );
                 case IMoneyTransactionType.TRANSFER:
-                  return "Tranzactie de transfer";
+                  return (
+                    <MyIcon icon={IMoneyTransactionTypeIcons.TRANSFER}></MyIcon>
+                  );
               }
             },
           },

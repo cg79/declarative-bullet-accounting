@@ -3,6 +3,12 @@ export enum IMoneyTransactionType {
   EXPENSE = 2,
   TRANSFER = 3,
 }
+
+export enum IMoneyTransactionTypeIcons {
+  INCOME = "pi pi-caret-left",
+  EXPENSE = "pi pi-caret-right",
+  TRANSFER = "pi pi-arrow-right-arrow-left",
+}
 export interface IMoneyTransaction {
   _id?: string;
   date: number;

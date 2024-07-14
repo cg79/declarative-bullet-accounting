@@ -34,16 +34,14 @@ export const AddEditMoneyTransaction = ({
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
   const [error, setError] = useState("");
   const [currentTransaction, setCurrentTransaction] =
-    useState<IMoneyTransaction>(
-      moneyTransaction || {
-        _id: "",
-        category_id: category?._id || "",
-        description: "",
-        amount: null,
-        addedDate: 0,
-        date: 0,
-      }
-    );
+    useState<IMoneyTransaction>({ ...moneyTransaction });
+
+  const updateCurrentTransaction = (key: string, value: any) => {
+    setCurrentTransaction({
+      ...currentTransaction,
+      [key]: value,
+    });
+  };
 
   const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount | null>(
     getAccountById(currentTransaction?.accountId) || null
@@ -51,21 +49,22 @@ export const AddEditMoneyTransaction = ({
 
   const triggerSaveMoneyTransaction = () => {
     setError("");
+    console.log(currentTransaction.amount);
 
     if (!currentTransaction?.amount) {
       setError("invalid amount");
       return;
     }
     if (currentTransaction._id) {
-      currentTransaction.amount =
-        currentTransaction.amount - moneyTransaction.amount;
+      // currentTransaction.amount =
+      //   currentTransaction.amount - moneyTransaction.amount;
 
       currentTransaction.difs = utils.compareObjects(
         moneyTransaction,
         currentTransaction
       );
     }
-    // onSaveMoneyTransaction(currentTransaction);
+    onSaveMoneyTransaction(currentTransaction);
   };
 
   useEffect(() => {
@@ -82,8 +81,8 @@ export const AddEditMoneyTransaction = ({
 
   return (
     <div className="fcenter">
-      {JSON.stringify(currentTransaction?.amount)}
-      {JSON.stringify(moneyTransaction.amount)}
+      {/* {JSON.stringify(currentTransaction, null, 2)} */}
+      {/* {JSON.stringify(moneyTransaction.amount)} */}
       <div>
         <div className="flex mt10" style={{ marginTop: "50px" }}>
           <LabelSelectButtons
@@ -97,7 +96,7 @@ export const AddEditMoneyTransaction = ({
                 ...currentTransaction,
                 type: val as IMoneyTransactionType,
               };
-              setCurrentTransaction(newV);
+              updateCurrentTransaction("type", val);
             }}
           ></LabelSelectButtons>
         </div>
@@ -113,7 +112,8 @@ export const AddEditMoneyTransaction = ({
                 ...currentTransaction,
                 amount: val,
               };
-              setCurrentTransaction(newV);
+              // setCurrentTransaction(newV);
+              updateCurrentTransaction("amount", val);
             }}
             value={currentTransaction?.amount}
             onEnter={() => triggerSaveMoneyTransaction()}
@@ -128,7 +128,8 @@ export const AddEditMoneyTransaction = ({
                 ...currentTransaction,
                 date: date,
               };
-              setCurrentTransaction(newItem);
+              // setCurrentTransaction(newItem);
+              updateCurrentTransaction("date", date);
             }}
             data={currentTransaction.date}
           ></LabelDate>
@@ -143,7 +144,8 @@ export const AddEditMoneyTransaction = ({
                 ...currentTransaction,
                 accountId: account._id || "",
               };
-              setCurrentTransaction(newItem);
+              // setCurrentTransaction(newItem);
+              updateCurrentTransaction("accountId", account._id);
               setSelectedAccount(account);
             }}
             options={accounts}
@@ -157,7 +159,8 @@ export const AddEditMoneyTransaction = ({
           <WysYWYG
             html={currentTransaction.description}
             setHtml={(val) =>
-              setCurrentTransaction({ ...currentTransaction, description: val })
+              // setCurrentTransaction({ ...currentTransaction, description: val })
+              updateCurrentTransaction("description", val)
             }
           />
         </div>
