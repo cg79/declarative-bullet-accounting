@@ -85,6 +85,7 @@ function GenericList<T>({
   };
 
   const renderActiuni = (item: T) => {
+    debugger;
     return (
       <div className="fcenter">
         <div className="ml10">
@@ -115,6 +116,7 @@ function GenericList<T>({
       //
       const fct = customSaveFunction || save;
       fct(item).then((response: any) => {
+        debugger;
         setItem(null);
         getPaginatedList();
         onAfterItemSaved?.(item);
@@ -151,6 +153,7 @@ function GenericList<T>({
             {/* {JSON.stringify(filterBy)} */}
             {renderNewOrEditItem()}
             {renderAddNewButton()}
+            {/* {JSON.stringify(list, null, 2)} */}
 
             <ShortcutComponent onShortCutAction={onShortCutAction}>
               <DataTableWrapper

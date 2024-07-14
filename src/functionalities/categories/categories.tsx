@@ -118,6 +118,7 @@ export const Categories = () => {
   return (
     <div className="fcenter1">
       {message && <div className="error fcenter">{message}</div>}
+      {/* {JSON.stringify(moneyEntities)} */}
       {moneyEntitiesList && moneyEntitiesList.length > 1 && (
         <div className="fcenter">
           <LabelDropDown
@@ -159,7 +160,6 @@ export const Categories = () => {
             className=""
             lwidth="135px"
             onChange={(accountValue: IMoneyAccount) => {
-              debugger;
               const account = accountsWithDefaultValue.find(
                 (a) => a._id === accountValue._id
               );

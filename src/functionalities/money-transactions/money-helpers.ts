@@ -29,7 +29,6 @@ const getDefaultMoneyTransaction = (
     date: utils.dateToEpoch(new Date()),
     addedDate: 0,
     type: IMoneyTransactionType.EXPENSE,
-    entityId: moneyEntity?._id || "",
     accountId: cashAcount?._id || "",
     userid: loggedUser?._id || "",
   };

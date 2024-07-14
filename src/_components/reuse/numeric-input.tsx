@@ -20,11 +20,12 @@ export const NumericInput = ({
   const lastKeyRef = useRef("");
 
   useEffect(() => {
-    // Focus the input when the component mounts
-    const input = inputRef?.current;
-    if (input && autoFocus) {
-      input.focus();
-    }
+    setTimeout(() => {
+      const input = inputRef?.current;
+      if (input && autoFocus) {
+        input.focus();
+      }
+    }, 0);
   }, []);
 
   return (

@@ -36,7 +36,6 @@ const useMoneyTransactionsFilter = () => {
       endDate !== value.endDate ||
       categoryId !== value.categoryId
     ) {
-      debugger;
       setMoneyTransactionFilter(value);
     }
   };
@@ -64,7 +63,6 @@ const useMoneyTransactionsFilter = () => {
     if (!selectedCategory) {
       return;
     }
-    debugger;
     if (!selectedCategory.parentId) {
       return updateMoneyTransactionFilter({
         ...moneyTransactionFilter,
@@ -92,7 +90,6 @@ const useMoneyTransactionsFilter = () => {
   }, [selectedAccount]);
 
   useEffect(() => {
-    debugger;
     const filterExpression = createFilterExpression(moneyTransactionFilter);
     setFilterBy(filterExpression);
   }, [moneyTransactionFilter]);

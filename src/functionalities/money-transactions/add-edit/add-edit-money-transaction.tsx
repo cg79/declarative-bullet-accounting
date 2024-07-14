@@ -16,6 +16,7 @@ import { IMoneyAccount } from "../../money-account/money-account-type";
 import { WysYWYG } from "../../../_components/reuse/my-wysywyg";
 import { LabelSelectButtons } from "../../../_components/reuse/LabelSelectButtons";
 import MyIcon from "../../../_components/reuse/my-icon";
+import { utils } from "../../../_utils/utils";
 
 export const AddEditMoneyTransaction = ({
   category,
@@ -28,10 +29,7 @@ export const AddEditMoneyTransaction = ({
   onSaveMoneyTransaction: (moneyTransaction: IMoneyTransaction) => void;
   onCancel: () => void;
 }) => {
-  const { accounts } = useBetween(useMoneyAccounts);
-  const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount | null>(
-    null
-  );
+  const { accounts, getAccountById } = useBetween(useMoneyAccounts);
 
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
   const [error, setError] = useState("");
@@ -41,13 +39,17 @@ export const AddEditMoneyTransaction = ({
         _id: "",
         category_id: category?._id || "",
         description: "",
-        amount: 0,
+        amount: null,
         addedDate: 0,
         date: 0,
       }
     );
 
-  const triggerSaveCategory = () => {
+  const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount | null>(
+    getAccountById(currentTransaction?.accountId) || null
+  );
+
+  const triggerSaveMoneyTransaction = () => {
     setError("");
 
     if (!currentTransaction?.amount) {
@@ -57,15 +59,20 @@ export const AddEditMoneyTransaction = ({
     if (currentTransaction._id) {
       currentTransaction.amount =
         currentTransaction.amount - moneyTransaction.amount;
+
+      currentTransaction.difs = utils.compareObjects(
+        moneyTransaction,
+        currentTransaction
+      );
     }
-    onSaveMoneyTransaction(currentTransaction);
+    // onSaveMoneyTransaction(currentTransaction);
   };
 
   useEffect(() => {
     if (!enterPressed) {
       return;
     }
-    triggerSaveCategory();
+    triggerSaveMoneyTransaction();
     clearEnterPressed();
   }, [enterPressed]);
 
@@ -75,7 +82,8 @@ export const AddEditMoneyTransaction = ({
 
   return (
     <div className="fcenter">
-      {/* {JSON.stringify(accounts)} */}
+      {JSON.stringify(currentTransaction?.amount)}
+      {JSON.stringify(moneyTransaction.amount)}
       <div>
         <div className="flex mt10" style={{ marginTop: "50px" }}>
           <LabelSelectButtons
@@ -93,12 +101,12 @@ export const AddEditMoneyTransaction = ({
             }}
           ></LabelSelectButtons>
         </div>
+        {/* {JSON.stringify(currentTransaction)} */}
         <div className="flex mt10">
           <LabelNumericInput
             autoFocus
             label="Suma: "
             lwidth="135px"
-            // autoFocus
             onChange={(val: number) => {
               setError("");
               const newV: IMoneyTransaction = {
@@ -108,7 +116,7 @@ export const AddEditMoneyTransaction = ({
               setCurrentTransaction(newV);
             }}
             value={currentTransaction?.amount}
-            onEnter={() => triggerSaveCategory()}
+            onEnter={() => triggerSaveMoneyTransaction()}
           ></LabelNumericInput>
         </div>
         <div className="flex mt10">
@@ -117,7 +125,7 @@ export const AddEditMoneyTransaction = ({
             lwidth="135px"
             onChange={(date: number) => {
               const newItem: IMoneyTransaction = {
-                ...moneyTransaction,
+                ...currentTransaction,
                 date: date,
               };
               setCurrentTransaction(newItem);
@@ -130,15 +138,16 @@ export const AddEditMoneyTransaction = ({
           <LabelDropDown
             label={"Cont: "}
             lwidth="135px"
-            onChange={(accountId) => {
+            onChange={(account: IMoneyAccount) => {
               const newItem: IMoneyTransaction = {
-                ...moneyTransaction,
-                accountId,
+                ...currentTransaction,
+                accountId: account._id || "",
               };
               setCurrentTransaction(newItem);
+              setSelectedAccount(account);
             }}
             options={accounts}
-            value={currentTransaction.accountId}
+            value={selectedAccount}
             optionLabel="name"
             optionValue="_id"
           ></LabelDropDown>
@@ -159,9 +168,8 @@ export const AddEditMoneyTransaction = ({
           <MyButton
             text="Salveaza"
             onClick={() => {
-              console.log(moneyTransaction);
               console.log(currentTransaction);
-              triggerSaveCategory();
+              triggerSaveMoneyTransaction();
             }}
           ></MyButton>
         </div>

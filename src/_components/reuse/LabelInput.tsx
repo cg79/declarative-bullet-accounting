@@ -1,11 +1,9 @@
 import { InputText } from "primereact/inputtext";
 import { utils } from "../../_utils/utils";
 import { useEffect, useRef } from "react";
-import observer from "../../_store/observer";
 import { useBetween } from "use-between";
 import useEvents from "../../_store/useEvents";
 import useScreenSize from "../../hooks/useScreenSize";
-import { SCREEN } from "../../constants";
 
 export const LabelInput = ({
   label,
@@ -28,11 +26,13 @@ export const LabelInput = ({
   const { triggerEnterPressed } = useBetween(useEvents);
 
   useEffect(() => {
-    // Focus the input when the component mounts
-    const input = inputRef?.current;
-    if (input && autoFocus) {
-      input.focus();
-    }
+    setTimeout(() => {
+      const input = inputRef?.current;
+      if (input && autoFocus) {
+        debugger;
+        input.focus();
+      }
+    }, 0);
   }, []);
 
   const handleKeyPress = (e) => {

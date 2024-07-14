@@ -4,9 +4,9 @@ import useEvents from "../../../_store/useEvents";
 import { useEffect, useState } from "react";
 import { IMoneyEntity } from "../money-entity-type";
 import { LabelInput } from "../../../_components/reuse/LabelInput";
-import useScreenSize from "../../../hooks/useScreenSize";
+import { WysYWYG } from "../../../_components/reuse/my-wysywyg";
 
-export const AddEditMoneyTransaction = ({
+export const AddEditMoneyEntity = ({
   moneyEntity,
   onSave,
   onCancel,
@@ -15,21 +15,18 @@ export const AddEditMoneyTransaction = ({
   onSave: (moneyTransaction: IMoneyEntity) => void;
   onCancel: () => void;
 }) => {
-  const { width } = useScreenSize();
-
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
   const [error, setError] = useState("");
-  const [currentTransaction, setCurrentTransaction] =
-    useState<IMoneyEntity>(moneyEntity);
+  const [currentEntity, setCurrentEntity] = useState<IMoneyEntity>(moneyEntity);
 
   const triggerSaveCategory = () => {
     setError("");
 
-    if (!currentTransaction?.name) {
+    if (!currentEntity?.name) {
       setError("invalid name");
       return;
     }
-    onSave(currentTransaction);
+    onSave(currentEntity);
   };
 
   useEffect(() => {
@@ -52,29 +49,22 @@ export const AddEditMoneyTransaction = ({
             onChange={(val: string) => {
               setError("");
               const newV: IMoneyEntity = {
-                ...currentTransaction,
+                ...currentEntity,
                 name: val,
               };
-              setCurrentTransaction(newV);
+              setCurrentEntity(newV);
             }}
-            value={currentTransaction?.name}
-            // onEnter={() => triggerSaveCategory()}
+            value={currentEntity?.name}
           ></LabelInput>
         </div>
-        {/* <div className="flex mt10">
-          <LabelDate
-            label={"Data tranzactiei: "}
-            lwidth="135px"
-            onChange={(date: number) => {
-              const newItem: IMoneyTransaction = {
-                ...moneyTransaction,
-                date: date,
-              };
-              setCurrentTransaction(newItem);
-            }}
-            data={currentTransaction.date}
-          ></LabelDate>
-        </div> */}
+        <div className="mt10">
+          <WysYWYG
+            html={currentEntity.description}
+            setHtml={(val) =>
+              setCurrentEntity({ ...currentEntity, description: val })
+            }
+          />
+        </div>
         <div className="error">{error}</div>
         <div className="flex space-between mt15">
           <MyButton text="Renunta" onClick={() => onCancel()}></MyButton>
@@ -88,4 +78,4 @@ export const AddEditMoneyTransaction = ({
   );
 };
 
-export default AddEditMoneyTransaction;
+export default AddEditMoneyEntity;

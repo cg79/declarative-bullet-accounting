@@ -57,7 +57,6 @@ const MoneyEntityList = () => {
 
   return (
     <>
-      {JSON.stringify(width)}
       <GenericList
         fieldHeader={[
           {
@@ -69,13 +68,22 @@ const MoneyEntityList = () => {
             field: "name",
             header: "Nume",
           },
+          {
+            field: "description",
+            header: "Description",
+          },
         ]}
         createItem={createItem}
         addItemButtonLabel="Adaugare Entitate"
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
         sortBy={[{ field: "date", ascending: false }]}
-        modalTitle={() => selectedMoneyEntity?.name || "Adaugare Entitate"}
+        modalTitle={() =>
+          selectedMoneyEntity?.name
+            ? `Editare Entitate - ${selectedMoneyEntity.name}` ||
+              selectedMoneyEntity.name
+            : "Adaugare Entitate"
+        }
         onAfterItemSaved={(item) => {
           setReloadItems(new Date().toString());
         }}

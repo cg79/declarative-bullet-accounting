@@ -96,7 +96,9 @@ const MoneyAccountList = () => {
         collectionName={collectionName}
         sortBy={[{ field: "date", ascending: false }]}
         modalTitle={(item: IMoneyAccount) => {
-          return item?.name ? `${item.name}` : "Adaugare Account";
+          return item?.name
+            ? `Editare Account ${item.name}`
+            : "Adaugare Account";
         }}
         onAfterItemSaved={(item: IMoneyAccount) => {
           refresh();

@@ -12,9 +12,10 @@ export interface IMoneyTransaction {
   amount: number;
   addedDate: number;
   type: IMoneyTransactionType;
-  entityId: string;
   accountId: string;
   userid: string;
+  entityId?: string;
+  difs?: any;
 }
 
 export const moneyTransactionOptionTypes = [

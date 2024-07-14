@@ -50,13 +50,12 @@ const MoneyTransactionsList = () => {
       selectedMoneyEntity
     );
     if (collectionName !== newCollectionName) {
-      debugger;
       setCollectionName(newCollectionName);
     }
   }, [selectedMoneyEntity]);
 
   // useEffect(() => {
-  //   debugger;
+  //
   //   updateFilterBy({
   //     ...moneyTransactionFilter,
   //   });
@@ -71,6 +70,10 @@ const MoneyTransactionsList = () => {
     );
 
   const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
+    if (selectedMoneyEntity && selectedMoneyEntity?._id) {
+      moneyTransaction.entityId = selectedMoneyEntity._id;
+    }
+
     // console.log(moneyTransaction);
     return saveMoneyTransaction(moneyTransaction).then((response: any) => {
       //
@@ -110,7 +113,7 @@ const MoneyTransactionsList = () => {
     return (
       <AddEditMoneyTransaction
         category={selectedCategory}
-        moneyTransaction={item}
+        moneyTransaction={{ ...item }}
         onSaveMoneyTransaction={onSave}
         onCancel={() => {
           observer.publish("ENABLE_SHORTCUT", true);
@@ -175,9 +178,9 @@ const MoneyTransactionsList = () => {
             body: (item) => {
               switch (item.type) {
                 case IMoneyTransactionType.INCOME:
-                  return "Tranzactie de cheltuiala";
+                  return <MyIcon icon="pi pi-plus"></MyIcon>;
                 case IMoneyTransactionType.EXPENSE:
-                  return "Tranzactie de cheltuiala";
+                  return <MyIcon icon="pi pi-minus"></MyIcon>;
                 case IMoneyTransactionType.TRANSFER:
                   return "Tranzactie de transfer";
               }
@@ -190,10 +193,13 @@ const MoneyTransactionsList = () => {
               getCategoryById(item.category_id)?.label || item.category_id,
           },
           {
-            field: "account_id",
+            field: "accountId",
             header: "Cont",
-            body: (item: IMoneyTransaction) =>
-              getAccountById(item.accountId)?.name || item.accountId,
+            body: (item: IMoneyTransaction) => {
+              return (
+                getAccountById(item.accountId)?.name || item.accountId || ""
+              );
+            },
           },
         ]}
         createItem={createItem}
@@ -206,6 +212,7 @@ const MoneyTransactionsList = () => {
         modalTitle={() => selectedCategory?.label || "Adaugare Tranzactie"}
         customSaveFunction={onSaveMoneyTransaction}
         customDeleteFunction={onDeleteMoneyTransaction}
+        renderActions={renderActions}
       ></GenericList>
     </>
   );

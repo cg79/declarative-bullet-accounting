@@ -16,7 +16,6 @@ const DatePickerWrapper = ({
         ref={inputRef}
         value={data ? utils.epochToDate(data) : null}
         onChange={(date: any) => {
-          debugger;
           const dateValue = date.value;
           onChange(utils.dateToEpoch(dateValue));
         }}
