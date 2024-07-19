@@ -18,7 +18,6 @@ const useMoneyAccounts = () => {
 
   const updateAccountsValue = useCallback(
     (newAccounts: IMoneyAccount[]) => {
-      debugger;
       setAccounts(newAccounts);
     },
     [setAccounts]

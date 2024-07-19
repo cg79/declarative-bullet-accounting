@@ -17,11 +17,10 @@ const ShortcutComponent = ({ onShortCutAction, children }) => {
   // }, []);
 
   useEffect(() => {
-    debugger;
     if (isShortcutEnabled) {
-      document.addEventListener("keypress", handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
     } else {
-      document.removeEventListener("keypress", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     }
   }, [isShortcutEnabled]);
 

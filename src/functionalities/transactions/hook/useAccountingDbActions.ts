@@ -22,7 +22,7 @@ import { ICompany } from "../../company/types";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import DEFAULT_TAXES from "../../taxes/default-taxes";
 import DEFAULT_SALARIES from "../../employee/salary/list/default-salaries";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { helpers } from "../../../_utils/helpers";
 import { useBetween } from "use-between";
 import useIdentity from "../../../_store/useIdentity";
@@ -32,8 +32,6 @@ import { IMoneyEntity } from "../../money-entity/money-entity-type";
 import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
 import { CustomHttpResponse } from "../../../_fluentApi/CustomHttpResponse";
 import { DeltaFunction } from "../../../services/code-execution";
-// import { useBetween } from "use-between";
-// import useFirme from "../../../_store/useFirme";
 
 export type InvitationType = {
   _id: string;
@@ -46,15 +44,7 @@ const useAccountingDbActions = () => {
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethodFromModule, executeMethod } = useApi();
 
-  // useEffect(() => {
-  //
-  //   if (!loggedUser) {
-  //     return;
-  //   }
-  // }, [loggedUser]);
-
   const saveInvitation = useCallback(async (invitation: IInvitation) => {
-    // const {startAccountingData}  = useStartAccountingData();
     if (!loggedUser) {
       return {
         success: false,
@@ -63,31 +53,27 @@ const useAccountingDbActions = () => {
     }
 
     invitation.dataInvitatie = utils.dateToEpoch(new Date());
-    // - daca nu exista, le insereaza
-    return (
-      executeMethod()
-        .collection((c) =>
-          c
-            .name(INVITATIONS(loggedUser.clientId))
-            .method(BULLET_METHOD.INSERT_OR_UPDATE)
+    return executeMethod()
+      .collection((c) =>
+        c
+          .name(INVITATIONS(loggedUser.clientId))
+          .method(BULLET_METHOD.INSERT_OR_UPDATE)
+      )
+      .body(invitation)
+      .flow((f) =>
+        f.lamda((l) =>
+          l.module("user").method("sendInvitation").internalModule(true)
         )
-        .body(invitation)
-        .flow((f) =>
-          f.lamda((l) =>
-            l.module("user").method("sendInvitation").internalModule(true)
-          )
-        )
-        // .flow((f) => f.))
-        .execute({
-          beforeSendingRequest: (apiBulletJSON: any) => {
-            console.log(JSON.stringify(apiBulletJSON));
-          },
-        })
-        .then((response: CustomHttpResponse) => {
-          helpers.checkHttpResponseForErrors(response);
-          return response;
-        })
-    );
+      )
+      .execute({
+        beforeSendingRequest: (apiBulletJSON: any) => {
+          console.log(JSON.stringify(apiBulletJSON));
+        },
+      })
+      .then((response: CustomHttpResponse) => {
+        helpers.checkHttpResponseForErrors(response);
+        return response;
+      });
   }, []);
 
   const deleteInvitation = useCallback(async (invitation: IInvitation) => {
@@ -98,7 +84,6 @@ const useAccountingDbActions = () => {
       };
     }
 
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) =>
         c
@@ -153,8 +138,6 @@ const useAccountingDbActions = () => {
   );
 
   const acceptInvitation = useCallback(async (invitation: InvitationType) => {
-    // const {startAccountingData}  = useStartAccountingData();
-
     const { clientId } = invitation;
 
     const response = await executeMethodFromModule(
@@ -167,13 +150,9 @@ const useAccountingDbActions = () => {
     );
 
     return response;
-    // - daca nu exista, le insereaza
   }, []);
 
   const getInitialAccountingValues = useCallback(async (selectedFirma) => {
-    // const {startAccountingData}  = useStartAccountingData();
-
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) =>
         c
@@ -199,9 +178,6 @@ const useAccountingDbActions = () => {
   }, []);
 
   const saveCompanyTax = useCallback(async (tax: ICompanyTax) => {
-    // const {startAccountingData}  = useStartAccountingData();
-
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) =>
         c.name(GENERAL_TAXES).method(BULLET_METHOD.INSERT_OR_UPDATE)
@@ -219,9 +195,6 @@ const useAccountingDbActions = () => {
   }, []);
 
   const deleteCompanyTax = useCallback(async (tax: ICompanyTax) => {
-    // const {startAccountingData}  = useStartAccountingData();
-
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) => c.name(GENERAL_TAXES).method(BULLET_METHOD.DELETE_ONE))
       .body(tax)
@@ -233,9 +206,6 @@ const useAccountingDbActions = () => {
   }, []);
 
   const getAngajatSalaries = useCallback(async (selectedAngajat: IAngajat) => {
-    // const {startAccountingData}  = useStartAccountingData();
-
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) =>
         c.name(ANGAJAT_SALARY(selectedAngajat._id)).method(BULLET_METHOD.FIND)
@@ -256,9 +226,6 @@ const useAccountingDbActions = () => {
 
   const deleteAngajatSalary = useCallback(
     async (tax: ISalarAddEdit, selectedAngajat: IAngajat) => {
-      // const {startAccountingData}  = useStartAccountingData();
-
-      // - daca nu exista, le insereaza
       return executeMethod()
         .collection((c) =>
           c
@@ -277,7 +244,6 @@ const useAccountingDbActions = () => {
 
   const saveAngajatSalary = useCallback(
     async (tax: ISalarAddEdit, selectedAngajat: IAngajat) => {
-      // - daca nu exista, le insereaza
       return executeMethod()
         .collection((c) =>
           c
@@ -320,9 +286,6 @@ const useAccountingDbActions = () => {
 
   const deleteAngajat = useCallback(
     async (angajat: IAngajat, firmaId: string) => {
-      // const {startAccountingData}  = useStartAccountingData();
-
-      // - daca nu exista, le insereaza
       return executeMethod()
         .collection((c) =>
           c.name(ANGAJATI(firmaId)).method(BULLET_METHOD.DELETE_ONE)
@@ -344,7 +307,6 @@ const useAccountingDbActions = () => {
         message: "Nu sunteti logat",
       });
     }
-    // const {startAccountingData}  = useStartAccountingData();
     const { pageNo, rowsPerPage } = pageState;
 
     if (loggedUser.isInvited) {
@@ -361,7 +323,6 @@ const useAccountingDbActions = () => {
       return response;
     }
 
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) =>
         c.name(FIRME(loggedUser)).method(BULLET_METHOD.PAGINATION)
@@ -380,14 +341,12 @@ const useAccountingDbActions = () => {
   };
 
   const deleteCompany = useCallback(async (angajat: ICompany) => {
-    // const {startAccountingData}  = useStartAccountingData();
     if (!loggedUser) {
       return {
         success: false,
         message: "Nu sunteti logat",
       };
     }
-    // - daca nu exista, le insereaza
     return executeMethod()
       .collection((c) =>
         c.name(FIRME(loggedUser)).method(BULLET_METHOD.DELETE_ONE)

@@ -107,7 +107,6 @@ const MoneyAccountList = () => {
             : "Adaugare Account";
         }}
         onAfterItemSaved={(item: IMoneyAccount) => {
-          debugger;
           refreshAccounts();
         }}
         renderActions={renderActions}

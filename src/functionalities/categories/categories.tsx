@@ -86,7 +86,6 @@ export const Categories = () => {
   }, [selectedMoneyEntity]);
 
   useEffect(() => {
-    debugger;
     console.log(aggregationFilterBy);
     const entityId = selectedMoneyEntity?._id || "";
     const filterValue = aggregationFilterBy || {};
@@ -98,7 +97,7 @@ export const Categories = () => {
     if (!accountsLoaded) {
       return;
     }
-    debugger;
+
     if (!accounts || accounts.length === 0) {
       setMessage("Va rugam adaugati conturile necesare");
       setTimeout(() => {

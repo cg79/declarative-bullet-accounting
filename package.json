@@ -48,7 +48,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test_jest": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -77,6 +79,9 @@
     "@types/react-datepicker": "^4.11.2",
     "@types/react-syntax-highlighter": "^15.5.5",
     "babel-jest": "^29.6.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.4",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "jasmine": "^5.0.2",
     "jest": "^27.5.1"
   }

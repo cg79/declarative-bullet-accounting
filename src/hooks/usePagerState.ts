@@ -1,5 +1,4 @@
 import React from "react";
-// import { IPager } from "../functionalities/transactions/model/accounting_types";
 
 export interface IPageNoAndRowsPerPage {
   first: number;
@@ -15,8 +14,6 @@ export function usePagerState() {
 
   const [pageCountAndTotalRecords, setPageCountAndTotalRecords] =
     React.useState({
-      // isPreviousDisabled: false,
-      // isNextDisabled: false,
       pageCount: 0,
       totalRecords: 0,
     });

@@ -116,7 +116,6 @@ const TreeNode = ({
   };
 
   const onStartAddTransaction = () => {
-    debugger;
     setShowTransactionScreen(true);
   };
 

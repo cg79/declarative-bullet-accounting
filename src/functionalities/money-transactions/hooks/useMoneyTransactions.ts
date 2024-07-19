@@ -10,7 +10,7 @@ const useMoneyTransactions = () => {
 
   const saveMoneyTransaction = useCallback(
     async (moneyTransaction: IMoneyTransaction) => {
-      // const {startAccountingData}  = useStartAccountingData();
+      var y = 0;
       if (!loggedUser) {
         return {
           success: false,
@@ -23,22 +23,8 @@ const useMoneyTransactions = () => {
 
         body: moneyTransaction,
       });
-      // - daca nu exista, le insereaza
-      // return executeMethod()
-      //   .collection((c) =>
-      //     c
-      //       .name(MONEY_TRANSACTIONS_COLLECTION(loggedUser))
-      //       .method(BULLET_METHOD.INSERT_OR_UPDATE)
-      //   )
-      //   .body(moneyTransaction)
-
-      //   .execute({
-      //     beforeSendingRequest: (apiBulletJSON: any) => {
-      //       console.log(JSON.stringify(apiBulletJSON));
-      //     },
-      //   });
     },
-    []
+    [loggedUser]
   );
 
   const deleteMoneyTransaction = useCallback(

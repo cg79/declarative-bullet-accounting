@@ -123,7 +123,6 @@ const createFilterExpressionGeneric = (
   filter: IMoneyTransactionsFilter,
   operators: FilterOperator
 ) => {
-  debugger;
   let expression = "";
   let needAND = false;
   let propsCount = 0;

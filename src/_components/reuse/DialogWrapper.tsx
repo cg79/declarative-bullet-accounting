@@ -7,7 +7,6 @@ export const DialogWrapper = ({ header, visible, onHide, children }) => {
   const { setShortcutEnabled } = useBetween(useShortcut);
 
   useEffect(() => {
-    debugger;
     setShortcutEnabled(false);
   }, []);
 
