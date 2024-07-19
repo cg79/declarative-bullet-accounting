@@ -1,75 +1,76 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SHORTCUT_ACTIONS } from "../constants";
 import { useBetween } from "use-between";
-import useCategoryState from "../hooks/useCategoryState";
-import observer from "../../../_store/observer";
+import useShortcut from "./useShortcut";
 
 const ShortcutComponent = ({ onShortCutAction, children }) => {
+  const { isShortcutEnabled, setShortcutEnabled } = useBetween(useShortcut);
+
+  // useEffect(() => {
+  //   document.addEventListener("keypress", handleKeyDown);
+  //   console.log("ADD 1");
+
+  //   return () => {
+  //     document.removeEventListener("keypress", handleKeyDown);
+  //     console.log("REMOVE 1");
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      console.log(event.key);
-      switch (event.key) {
-        case "n":
-          event.preventDefault();
-          onShortCutAction(SHORTCUT_ACTIONS.ADD_NODE);
-          break;
-        case "a":
-          event.preventDefault();
-          handleAddTransaction();
-          break;
-        case "i":
-          event.preventDefault();
-          handleIcon();
-          break;
-        case "e":
-          event.preventDefault();
-          handleEdit();
-          break;
-        case "d":
-          event.preventDefault();
-          handleDelete();
-          break;
-        case "Backspace":
-          event.preventDefault();
-          handleDelete();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          handleArrowUp();
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          handleArrowDown();
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          handleArrowLeft();
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          handleArrowRight();
-          break;
-        default:
-          break;
-      }
-    };
+    debugger;
+    if (isShortcutEnabled) {
+      document.addEventListener("keypress", handleKeyDown);
+    } else {
+      document.removeEventListener("keypress", handleKeyDown);
+    }
+  }, [isShortcutEnabled]);
 
-    observer.subscribe("ENABLE_SHORTCUT", () => {
-      //
-      document.addEventListener("keydown", handleKeyDown);
-    });
-    observer.subscribe("DISABLE_SHORTCUT", () => {
-      //
-      document.removeEventListener("keydown", handleKeyDown);
-    });
-
-    // Add event listener for keydown events
-    document.addEventListener("keydown", handleKeyDown);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+  const handleKeyDown = useCallback((event) => {
+    console.log("shortcut" + event.key);
+    switch (event.key) {
+      case "n":
+        event.preventDefault();
+        onShortCutAction(SHORTCUT_ACTIONS.ADD_NODE);
+        break;
+      case "a":
+        event.preventDefault();
+        handleAddTransaction();
+        break;
+      case "i":
+        event.preventDefault();
+        handleIcon();
+        break;
+      case "e":
+        event.preventDefault();
+        handleEdit();
+        break;
+      case "d":
+        event.preventDefault();
+        handleDelete();
+        break;
+      case "Backspace":
+        event.preventDefault();
+        handleDelete();
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        handleArrowUp();
+        break;
+      case "ArrowDown":
+        event.preventDefault();
+        handleArrowDown();
+        break;
+      case "ArrowLeft":
+        event.preventDefault();
+        handleArrowLeft();
+        break;
+      case "ArrowRight":
+        event.preventDefault();
+        handleArrowRight();
+        break;
+      default:
+        break;
+    }
   }, []);
 
   const handleAddTransaction = () => {

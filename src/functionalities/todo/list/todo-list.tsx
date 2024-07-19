@@ -9,6 +9,7 @@ import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
 import useGenericList from "../hooks/useGenericList";
 import { ITodo } from "../types";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const TodoList = () => {
   const {
@@ -84,7 +85,7 @@ export const TodoList = () => {
       <div className="flex center">
         <div className="flex">
           <div className="flex flex-column center-v">
-            <Dialog
+            <DialogWrapper
               header="Date element"
               visible={item !== null}
               // style={{ width: "50vw" }}
@@ -95,7 +96,7 @@ export const TodoList = () => {
                 onSave={save}
                 onCancel={() => setItem(null)}
               />
-            </Dialog>
+            </DialogWrapper>
           </div>
         </div>
       </div>

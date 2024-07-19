@@ -13,12 +13,12 @@ export interface IMoneyTransaction {
   _id?: string;
   date: number;
   category_id: string;
-  parentIds: string[];
   description: string;
   amount: number;
   addedDate: number;
   type: IMoneyTransactionType;
   accountId: string;
+  accountAmount?: number;
   userid: string;
   entityId?: string;
   difs?: any;
@@ -28,16 +28,16 @@ export const moneyTransactionOptionTypes = [
   {
     icon: "pi pi-caret-right",
     value: IMoneyTransactionType.EXPENSE,
-    label: "add",
+    label: "Expense",
   },
   {
     icon: "pi pi-caret-left",
     value: IMoneyTransactionType.INCOME,
-    label: "Tranzactie de cheltuiala",
+    label: "Income",
   },
   {
     icon: "pi pi-arrow-right-arrow-left",
     value: IMoneyTransactionType.TRANSFER,
-    label: "Tranzactie de transfer",
+    label: "Transfer",
   },
 ];

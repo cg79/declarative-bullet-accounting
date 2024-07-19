@@ -19,6 +19,8 @@ import {
   ACCOUNT_TYPE_VALUE,
   IMoneyAccount,
 } from "../money-account/money-account-type";
+import useMoneyTransactions from "../money-transactions/hooks/useMoneyTransactions";
+import { DialogWrapper } from "../../_components/reuse/DialogWrapper";
 
 export const Categories = () => {
   //#region Hooks
@@ -29,14 +31,21 @@ export const Categories = () => {
     saveCategory,
     getCategories,
     categoryTree,
+    aggregateAmountByCategory,
   } = useBetween(useCategoryState);
 
   const navigate = useNavigate();
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
-  const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
-    useBetween(useMoneyAccounts);
+  const {
+    accounts,
+    accountsLoaded,
+    selectedAccount,
+    setSelectedAccount,
+    guid,
+    getAccounts,
+  } = useBetween(useMoneyAccounts);
 
   const accountsWithDefaultValue: IMoneyAccount[] = [
     {
@@ -57,9 +66,14 @@ export const Categories = () => {
     ...(moneyEntities || []),
   ];
 
-  const { startDate, updateStartDate, endDate, updateEndDate } = useBetween(
-    useMoneyTransactionsFilter
-  );
+  const {
+    startDate,
+    updateStartDate,
+    endDate,
+    updateEndDate,
+    aggregationFilterBy,
+  } = useBetween(useMoneyTransactionsFilter);
+
   //#endregion
 
   //#region States
@@ -72,9 +86,19 @@ export const Categories = () => {
   }, [selectedMoneyEntity]);
 
   useEffect(() => {
+    debugger;
+    console.log(aggregationFilterBy);
+    const entityId = selectedMoneyEntity?._id || "";
+    const filterValue = aggregationFilterBy || {};
+    aggregateAmountByCategory(entityId, filterValue);
+  }, [aggregationFilterBy]);
+
+  useEffect(() => {
+    // return;
     if (!accountsLoaded) {
       return;
     }
+    debugger;
     if (!accounts || accounts.length === 0) {
       setMessage("Va rugam adaugati conturile necesare");
       setTimeout(() => {
@@ -100,7 +124,7 @@ export const Categories = () => {
   //#region Rendering
   const renderCategoryDialog = () => {
     return newCategory ? (
-      <Dialog
+      <DialogWrapper
         header="Date categorie"
         visible={newCategory !== null}
         // style={{ width: "50vw" }}
@@ -111,13 +135,15 @@ export const Categories = () => {
           onSave={executeSaveCategory}
           onCancel={() => setNewCategory(null)}
         ></AddEditCategory>
-      </Dialog>
+      </DialogWrapper>
     ) : null;
   };
 
   return (
     <div className="fcenter1">
+      {guid}
       {message && <div className="error fcenter">{message}</div>}
+      {/* {JSON.stringify(accounts, null, 2)} */}
       {/* {JSON.stringify(moneyEntities)} */}
       {moneyEntitiesList && moneyEntitiesList.length > 1 && (
         <div className="fcenter">
@@ -125,6 +151,7 @@ export const Categories = () => {
             label="Entitati"
             onChange={(item) => {
               console.log(item);
+
               setSelectedMoneyEntity(item);
             }}
             options={moneyEntitiesList}
@@ -177,7 +204,11 @@ export const Categories = () => {
         <DateStartEnd
           startDate={startDate}
           endDate={endDate}
-          onStartDate={updateStartDate}
+          onStartDate={(val) => {
+            updateStartDate(val);
+            console.log(getAccounts());
+            console.log(accounts);
+          }}
           onEndDate={updateEndDate}
         ></DateStartEnd>
       </div>

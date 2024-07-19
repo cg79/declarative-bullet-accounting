@@ -17,6 +17,7 @@ import { WysYWYG } from "../../../_components/reuse/my-wysywyg";
 import { LabelSelectButtons } from "../../../_components/reuse/LabelSelectButtons";
 import MyIcon from "../../../_components/reuse/my-icon";
 import { utils } from "../../../_utils/utils";
+import LabelRadioButtonList from "../../../_components/reuse/LabelRadioButtonList";
 
 export const AddEditMoneyTransaction = ({
   category,
@@ -51,7 +52,7 @@ export const AddEditMoneyTransaction = ({
     setError("");
     console.log(currentTransaction.amount);
 
-    if (!currentTransaction?.amount) {
+    if (!currentTransaction.amount === undefined) {
       setError("invalid amount");
       return;
     }
@@ -85,7 +86,7 @@ export const AddEditMoneyTransaction = ({
       {/* {JSON.stringify(moneyTransaction.amount)} */}
       <div>
         <div className="flex mt10" style={{ marginTop: "50px" }}>
-          <LabelSelectButtons
+          {/* <LabelSelectButtons
             label="Tip tranzactie: "
             lwidth="135px"
             value={currentTransaction?.type}
@@ -98,7 +99,24 @@ export const AddEditMoneyTransaction = ({
               };
               updateCurrentTransaction("type", val);
             }}
-          ></LabelSelectButtons>
+          ></LabelSelectButtons> */}
+          <LabelRadioButtonList
+            label="Tip tranzactie: "
+            lwidth="135px"
+            selectedValue={currentTransaction?.type}
+            options={moneyTransactionOptionTypes}
+            // itemTemplate={moneyTransactionOptionTemplate}
+            onChange={(val) => {
+              const newV: IMoneyTransaction = {
+                ...currentTransaction,
+                type: val as IMoneyTransactionType,
+              };
+              updateCurrentTransaction("type", val);
+            }}
+            name="type"
+            labelField="label"
+            valueField="value"
+          ></LabelRadioButtonList>
         </div>
         {/* {JSON.stringify(currentTransaction)} */}
         <div className="flex mt10">

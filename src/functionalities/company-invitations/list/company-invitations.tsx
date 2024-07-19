@@ -14,6 +14,7 @@ import { utils } from "../../../_utils/utils";
 import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
 import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
 import { IMoneyEntity } from "../../money-entity/money-entity-type";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const CompanyInvitations = () => {
   const { deleteInvitation, saveInvitation, getInvitations } =
@@ -116,7 +117,7 @@ export const CompanyInvitations = () => {
         )}
 
         {item && (
-          <Dialog
+          <DialogWrapper
             header="Invita "
             visible={item !== null}
             // style={{ width: "50vw" }}
@@ -127,7 +128,7 @@ export const CompanyInvitations = () => {
               onSave={executeSaveInvitation}
               onCancel={() => setItem(null)}
             ></AddEditInvitation>
-          </Dialog>
+          </DialogWrapper>
         )}
         <DataTableWrapper
           data={invitations}

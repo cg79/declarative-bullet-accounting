@@ -83,7 +83,6 @@ const useMoneyEntities = () => {
       }
     };
 
-    debugger;
     fetchData().then((response) => {
       setMoneyEntities(response?.data);
     });

@@ -16,6 +16,7 @@ import { getDefaultMoneyTransaction } from "../../money-transactions/money-helpe
 import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
 import useIdentity from "../../../_store/useIdentity";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const ItemTypes = {
@@ -108,16 +109,14 @@ const TreeNode = ({
 
   const onSaveTransaction = (moneyTransaction: IMoneyTransaction) => {
     setShowTransactionScreen(false);
-    observer.publish("ENABLE_SHORTCUT", true);
     saveMoneyTransaction(moneyTransaction).then((response: any) => {});
   };
   const onCancelAddTransaction = () => {
-    observer.publish("ENABLE_SHORTCUT", true);
     setShowTransactionScreen(false);
   };
 
   const onStartAddTransaction = () => {
-    observer.publish("DISABLE_SHORTCUT", false);
+    debugger;
     setShowTransactionScreen(true);
   };
 
@@ -336,14 +335,14 @@ const TreeNode = ({
       ></TreeNodeAddEdit>
 
       {isModalIconsVisible && (
-        <Dialog
+        <DialogWrapper
           header="Selectare icon"
           visible={isModalIconsVisible}
           onHide={() => setIsModalIconsVisible(false)}
-          style={{ width: "80vw" }}
+          // style={{ width: "80vw" }}
         >
           <IconGallery onIconChoosed={onIconChoosed}></IconGallery>
-        </Dialog>
+        </DialogWrapper>
       )}
       {isModalDeletionConfirmationVisible && (
         <ConfirmDialogWrapper
@@ -356,11 +355,11 @@ const TreeNode = ({
       )}
 
       {showTransactionScreen && (
-        <Dialog
-          header="Selectare icon"
+        <DialogWrapper
+          header={`Adaugare tranzactie pentru ${node.label}`}
           visible={showTransactionScreen}
           onHide={onCancelAddTransaction}
-          style={{ width: "80vw" }}
+          // style={{ width: "80vw" }}
         >
           <AddEditMoneyTransaction
             category={node}
@@ -373,7 +372,7 @@ const TreeNode = ({
             onSaveMoneyTransaction={onSaveTransaction}
             onCancel={onCancelAddTransaction}
           ></AddEditMoneyTransaction>
-        </Dialog>
+        </DialogWrapper>
       )}
 
       {!isCollapsed && node.children && (

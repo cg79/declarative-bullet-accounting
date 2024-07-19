@@ -8,6 +8,7 @@ import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWr
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import MyIcon from "../../../_components/reuse/my-icon";
 import ShortcutComponent from "../../categories/shortcut/shortcut-component";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 // Define the props interface with a generic type
 interface MyGenericListProps<T> {
@@ -85,7 +86,6 @@ function GenericList<T>({
   };
 
   const renderActiuni = (item: T) => {
-    debugger;
     return (
       <div className="fcenter">
         <div className="ml10">
@@ -116,7 +116,6 @@ function GenericList<T>({
       //
       const fct = customSaveFunction || save;
       fct(item).then((response: any) => {
-        debugger;
         setItem(null);
         getPaginatedList();
         onAfterItemSaved?.(item);
@@ -127,14 +126,14 @@ function GenericList<T>({
       <div className="flex center">
         <div className="flex">
           <div className="flex flex-column center-v">
-            <Dialog
+            <DialogWrapper
               header={modalTitle(item)}
               visible={item !== null}
               // style={{ width: "50vw" }}
               onHide={() => setItem(null)}
             >
               {renderAddEditContent(item, saveWrapper, () => setItem(null))}
-            </Dialog>
+            </DialogWrapper>
           </div>
         </div>
       </div>

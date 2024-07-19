@@ -1,4 +1,4 @@
-import { ICategory } from "./category-type";
+import { AggregateCategory, ICategory } from "./category-type";
 
 function buildTreeFromParent(elements: ICategory[]): ICategory[] | null {
   // Helper function to find element by id

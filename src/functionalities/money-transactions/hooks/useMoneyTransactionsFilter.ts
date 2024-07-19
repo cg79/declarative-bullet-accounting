@@ -2,17 +2,23 @@ import { useEffect, useState } from "react";
 import { useBetween } from "use-between";
 import useCategoryState from "../../categories/hooks/useCategoryState";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
-import { createFilterExpression } from "../money-helpers";
+import {
+  createMoneyAggregationFilterExpression,
+  createMoneyTransactionsFilterExpression,
+} from "../money-helpers";
 
-export type IMoneyTransactionsFilter = {
+export type IMoneyAggregationFilter = {
   accountId: string;
   startDate: number | null;
   endDate: number | null;
-  // entityId: string;
-  categoryId: string;
 };
+export type IMoneyTransactionsFilter = IMoneyAggregationFilter & {
+  category_id: string;
+};
+
 const useMoneyTransactionsFilter = () => {
   const [filterBy, setFilterBy] = useState({});
+  const [aggregationFilterBy, setAggregationFilterBy] = useState({});
   const [startDate, setStartDate] = useState<number | null>(0);
   const [endDate, setEndDate] = useState<number | null>(0);
 
@@ -22,19 +28,26 @@ const useMoneyTransactionsFilter = () => {
   const [moneyTransactionFilter, setMoneyTransactionFilter] =
     useState<IMoneyTransactionsFilter>({
       accountId: "",
-      startDate: 0,
-      endDate: 0,
-      categoryId: "",
+      startDate: null,
+      endDate: null,
+      category_id: "",
+    });
+
+  const [moneyAggregationFilter, setMoneyAggregationFilter] =
+    useState<IMoneyAggregationFilter>({
+      accountId: "",
+      startDate: null,
+      endDate: null,
     });
 
   const updateMoneyTransactionFilter = (value: IMoneyTransactionsFilter) => {
-    const { accountId, startDate, endDate, categoryId } =
+    const { accountId, startDate, endDate, category_id } =
       moneyTransactionFilter;
     if (
       accountId !== value.accountId ||
       startDate !== value.startDate ||
       endDate !== value.endDate ||
-      categoryId !== value.categoryId
+      category_id !== value.category_id
     ) {
       setMoneyTransactionFilter(value);
     }
@@ -47,6 +60,11 @@ const useMoneyTransactionsFilter = () => {
         ...moneyTransactionFilter,
         startDate: date,
       });
+
+      setMoneyAggregationFilter({
+        ...moneyAggregationFilter,
+        startDate: date,
+      });
     }
   };
   const updateEndDate = (date: number | null) => {
@@ -54,6 +72,11 @@ const useMoneyTransactionsFilter = () => {
     if (moneyTransactionFilter.endDate !== date) {
       updateMoneyTransactionFilter({
         ...moneyTransactionFilter,
+        endDate: date,
+      });
+
+      setMoneyAggregationFilter({
+        ...moneyAggregationFilter,
         endDate: date,
       });
     }
@@ -66,12 +89,12 @@ const useMoneyTransactionsFilter = () => {
     if (!selectedCategory.parentId) {
       return updateMoneyTransactionFilter({
         ...moneyTransactionFilter,
-        categoryId: "",
+        category_id: "",
       });
     }
     updateMoneyTransactionFilter({
       ...moneyTransactionFilter,
-      categoryId: selectedCategory._id,
+      category_id: selectedCategory._id,
     });
   }, [selectedCategory]);
 
@@ -87,12 +110,26 @@ const useMoneyTransactionsFilter = () => {
       ...moneyTransactionFilter,
       accountId: selectedAccount._id || "",
     });
+
+    setMoneyAggregationFilter({
+      ...moneyAggregationFilter,
+      accountId: selectedAccount._id || "",
+    });
   }, [selectedAccount]);
 
   useEffect(() => {
-    const filterExpression = createFilterExpression(moneyTransactionFilter);
+    const filterExpression = createMoneyTransactionsFilterExpression(
+      moneyTransactionFilter
+    );
     setFilterBy(filterExpression);
   }, [moneyTransactionFilter]);
+
+  useEffect(() => {
+    const filterExpression = createMoneyAggregationFilterExpression(
+      moneyTransactionFilter
+    );
+    setAggregationFilterBy(filterExpression);
+  }, [moneyAggregationFilter]);
 
   return {
     filterBy,
@@ -102,7 +139,8 @@ const useMoneyTransactionsFilter = () => {
     endDate,
     updateEndDate,
 
-    moneyTransactionFilter,
+    // moneyTransactionFilter,
+    aggregationFilterBy,
   };
 };
 

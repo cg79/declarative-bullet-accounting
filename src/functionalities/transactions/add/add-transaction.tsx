@@ -8,6 +8,7 @@ import { Dialog } from "primereact/dialog";
 import useAccountingDbActions from "../hook/useAccountingDbActions";
 import { createDefaultIAddEditTransactionValues } from "../model/helpers";
 import { useTransactions } from "../hook/useTransactions";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const AddTransaction = () => {
   const [addMode, setAddMode] = useState<boolean>(false);
@@ -48,10 +49,10 @@ export const AddTransaction = () => {
       {error && <p>{error}</p>}
       {addMode ? (
         <div>
-          <Dialog
+          <DialogWrapper
             header="Adaugare tranzactie"
             visible={addMode}
-            style={{ width: "80vw" }}
+            // style={{ width: "80vw" }}
             onHide={() => setAddMode(false)}
           >
             <AccountingInput
@@ -61,7 +62,7 @@ export const AddTransaction = () => {
               onCancel={() => uptadeAddMode()}
               addEditTransactionValues={createDefaultIAddEditTransactionValues()}
             ></AccountingInput>
-          </Dialog>
+          </DialogWrapper>
         </div>
       ) : (
         <div className="fcenter">

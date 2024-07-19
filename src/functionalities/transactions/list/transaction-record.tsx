@@ -18,6 +18,7 @@ import useFirme from "../../../_store/useFirme";
 import { useTransactions } from "../hook/useTransactions";
 import { IAccountingRecord } from "../model/accounting_types";
 import { LabelTooltip } from "../../../_components/reuse/LabelTooltip";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const TransactionRecord = ({
   accountingRecord,
@@ -197,7 +198,7 @@ export const TransactionRecord = ({
           </div>
         </div>
         {editMode === 1 && (
-          <Dialog
+          <DialogWrapper
             header="Editare Tranzactie"
             visible={editMode === 1}
             // style={{ width: "80vw" }}
@@ -209,7 +210,7 @@ export const TransactionRecord = ({
                 onCancel={() => onCancel()}
               ></EditTransaction>
             </div>
-          </Dialog>
+          </DialogWrapper>
         )}
         {/* {editMode === 2 && (
           <Dialog

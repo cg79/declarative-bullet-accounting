@@ -9,6 +9,7 @@ import { useBetween } from "use-between";
 import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
 import { Dialog } from "primereact/dialog";
 import { helpers } from "../../../_utils/helpers";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const CompanyAngajati = () => {
   const { deleteAngajat, saveAngajat } = useAccountingDbActions();
@@ -85,7 +86,7 @@ export const CompanyAngajati = () => {
         <div className="flex center">{renderAvailableActions()}</div>
 
         {item && (
-          <Dialog
+          <DialogWrapper
             header="Date angajat"
             visible={item !== null}
             // style={{ width: "50vw" }}
@@ -96,7 +97,7 @@ export const CompanyAngajati = () => {
               onSave={executeSaveCompanyTax}
               onCancel={() => setItem(null)}
             ></AddEditAngajat>
-          </Dialog>
+          </DialogWrapper>
         )}
         <DataTableWrapper
           data={angajati}

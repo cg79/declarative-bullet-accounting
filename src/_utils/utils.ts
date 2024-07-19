@@ -12,13 +12,30 @@ class Utils {
     return new Date(epoch * 1000);
   };
 
-  // Function to convert date to epoch timestamp
+  millisecondsPassedToday = () => {
+    const now = new Date();
+    const startOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+    const elapsedMilliseconds = now.getTime() - startOfToday.getTime();
+    return elapsedMilliseconds / 1000;
+  };
   dateToEpoch = (date: Date = new Date()) => {
     return Math.floor(date.getTime() / 1000);
   };
+
+  dateToEpochPlusTodayTime = (date: Date = new Date()) => {
+    return Math.floor(date.getTime() / 1000) + this.millisecondsPassedToday();
+  };
+
   dateNumberToYYYYMMDD = (value: number) => {
     const date = this.epochToDate(value);
-    return `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
+    return `${
+      date.getMonth() + 1
+    }-${date.getDate()}-${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}`;
   };
 
   getQueryVariable = (variable) => {

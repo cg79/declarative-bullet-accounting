@@ -14,6 +14,7 @@ import { IMoneyEntity } from "../../money-entity/money-entity-type";
 import { IEntityInvitation } from "../entity-invitation-type";
 import useMoneyInvitations from "../hooks/useMoneyInvitations";
 import TreeIcon from "../../categories/components/icons/tree-icon";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const EntityInvitations = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -113,7 +114,7 @@ export const EntityInvitations = () => {
         )}
 
         {item && (
-          <Dialog
+          <DialogWrapper
             header="Invita "
             visible={item !== null}
             // style={{ width: "50vw" }}
@@ -124,7 +125,7 @@ export const EntityInvitations = () => {
               onSave={executeSaveInvitation}
               onCancel={() => setItem(null)}
             ></AddEditInvitation>
-          </Dialog>
+          </DialogWrapper>
         )}
         <DataTableWrapper
           data={invitations}

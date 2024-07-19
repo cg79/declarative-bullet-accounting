@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { ICategory } from "../category-type";
+import { AggregateCategory, ICategory } from "../category-type";
 import { useBetween } from "use-between";
 import useIdentity from "../../../_store/useIdentity";
 import useApi from "../../../hooks/useApi";
@@ -24,6 +24,8 @@ const useCategoryState = () => {
     null
   );
   const [updatedCategories, setUpdatedCategories] = useState<ICategory[]>([]);
+  const [aggregateCategories, setAggregateCategories] =
+    useState<AggregateCategory>({});
 
   // const [categories, setCategories] = useState([]);
   const [categoryTree, setCategoryTree] = useState<any>(null);
@@ -56,6 +58,30 @@ const useCategoryState = () => {
       node.transactionsAmount +
       node.children.reduce((total, child) => {
         return total + calculateAmounts(child, key, updatedCategory);
+      }, 0);
+
+    return node.props[key];
+  };
+
+  const calculateAmountsWithAggregates = (
+    node: ICategory,
+    key: string = "available",
+    aggregateAmountByCategory: AggregateCategory = {}
+  ): number => {
+    node.transactionsAmount = aggregateAmountByCategory[node._id] || 0;
+
+    if (!node || !node.children) {
+      return node.transactionsAmount;
+    }
+
+    node.props = {};
+    node.props[key] =
+      node.transactionsAmount +
+      node.children.reduce((total, child) => {
+        return (
+          total +
+          calculateAmountsWithAggregates(child, key, aggregateAmountByCategory)
+        );
       }, 0);
 
     return node.props[key];
@@ -225,6 +251,36 @@ const useCategoryState = () => {
     return response;
   }, []);
 
+  const aggregateAmountByCategory = (entityId: string, filterBy = {}) => {
+    if (!loggedUser) {
+      return Promise.resolve({
+        success: false,
+        message: "Nu sunteti autentificat",
+      });
+    }
+    executeMethodFromModule({
+      method: "aggregateAmountByCategory",
+      moduleName: "accounting",
+
+      body: {
+        find: filterBy,
+        entityId,
+      },
+    }).then((response) => {
+      if (!response.success) {
+        return;
+      }
+      setAggregateCategories(response.data);
+
+      calculateAmountsWithAggregates(
+        categoryTree[0],
+        "available",
+        response.data
+      );
+      setCategoryTree([...categoryTree]);
+    });
+  };
+
   return {
     newCategory,
     setNewCategory,
@@ -249,6 +305,7 @@ const useCategoryState = () => {
     calculateAmounts,
     newTransactionAdded,
     getCategoryById,
+    aggregateAmountByCategory,
   };
 };
 export default useCategoryState;

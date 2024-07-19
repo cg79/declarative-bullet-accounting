@@ -18,7 +18,7 @@ const useMoneyTransactions = () => {
         };
       }
       return executeMethodFromModule({
-        method: "addMoneyTransaction",
+        method: "addOrEditMoneyTransaction",
         moduleName: "accounting",
 
         body: moneyTransaction,
@@ -40,6 +40,7 @@ const useMoneyTransactions = () => {
     },
     []
   );
+
   const deleteMoneyTransaction = useCallback(
     async (moneyTransaction: IMoneyTransaction) => {
       // const {startAccountingData}  = useStartAccountingData();

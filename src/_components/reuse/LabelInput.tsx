@@ -29,7 +29,6 @@ export const LabelInput = ({
     setTimeout(() => {
       const input = inputRef?.current;
       if (input && autoFocus) {
-        debugger;
         input.focus();
       }
     }, 0);

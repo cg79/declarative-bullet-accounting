@@ -12,6 +12,7 @@ import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper"
 import { Dialog } from "primereact/dialog";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const CompanyList = () => {
   const { deleteCompany, saveFirma } = useAccountingDbActions();
@@ -94,7 +95,7 @@ export const CompanyList = () => {
         <div className="flex">
           <div className="flex flex-column center-v">
             {item && (
-              <Dialog
+              <DialogWrapper
                 header="Date firma"
                 visible={item !== null}
                 // style={{ minWidth: "414px" }}
@@ -105,7 +106,7 @@ export const CompanyList = () => {
                   onSave={salveazaCompanie}
                   onCancel={() => setItem(null)}
                 ></AddEditCompany>
-              </Dialog>
+              </DialogWrapper>
             )}
             {!item && (
               <>

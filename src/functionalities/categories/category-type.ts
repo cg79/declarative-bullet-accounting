@@ -18,3 +18,6 @@ export interface ICategory {
   level: number;
   props: any;
 }
+export type AggregateCategory = {
+  [category_id: string]: number;
+};

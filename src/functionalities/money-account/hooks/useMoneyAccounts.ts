@@ -6,6 +6,7 @@ import { IMoneyAccount } from "../money-account-type";
 import { helpers } from "../../../_utils/helpers";
 import { MONEY_ACCOUNT_COLLECTION } from "../constants";
 import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
+import { utils } from "../../../_utils/utils";
 
 const useMoneyAccounts = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -13,7 +14,15 @@ const useMoneyAccounts = () => {
   const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount>();
   const [accounts, setAccounts] = useState<IMoneyAccount[]>([]);
   const [accountsLoaded, setAccountsLoaded] = useState(false);
-  const [reloadAccounts, setReloadAccounts] = useState("");
+  const guid = utils.createUUID();
+
+  const updateAccountsValue = useCallback(
+    (newAccounts: IMoneyAccount[]) => {
+      debugger;
+      setAccounts(newAccounts);
+    },
+    [setAccounts]
+  );
 
   const getAccountById = useCallback(
     (id: string) => {
@@ -22,15 +31,16 @@ const useMoneyAccounts = () => {
     [accounts]
   );
 
-  const refresh = useCallback(() => {
-    setReloadAccounts(new Date().toISOString());
-  }, [selectedAccount]);
+  // const refresh = useCallback(() => {
+  //   setReloadAccounts(new Date().toISOString());
+  // }, []);
 
-  const refreshAccounts = useCallback(() => {
+  const getAccounts = () => accounts;
+
+  const refreshAccounts = () => {
     if (!loggedUser) {
       return;
     }
-    setReloadAccounts("");
 
     const collectionName = MONEY_ACCOUNT_COLLECTION(loggedUser as ILoggedUser);
     executeMethod()
@@ -38,28 +48,27 @@ const useMoneyAccounts = () => {
       .execute()
       .then((response) => {
         helpers.checkHttpResponseForErrors(response);
-        setAccounts(response.data);
+        updateAccountsValue(response.data);
         setAccountsLoaded(true);
+      })
+      .catch((error) => {
+        console.error("Error refreshing accounts:", error);
       });
-  }, [loggedUser]);
+  };
 
   useEffect(() => {
     refreshAccounts();
   }, [loggedUser]);
 
-  useEffect(() => {
-    if (reloadAccounts) {
-      refreshAccounts();
-    }
-  }, [reloadAccounts]);
-
   return {
     selectedAccount,
     setSelectedAccount,
     accounts,
-    refresh,
+    refreshAccounts,
     accountsLoaded,
     getAccountById,
+    guid,
+    getAccounts,
   };
 };
 

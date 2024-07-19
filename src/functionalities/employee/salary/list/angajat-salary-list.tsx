@@ -12,6 +12,7 @@ import useSalary from "../useSalary";
 import { utils } from "../../../../_utils/utils";
 import DataTableWrapper from "../../../../_components/reuse/DataTableWrapper";
 import { Dialog } from "primereact/dialog";
+import { DialogWrapper } from "../../../../_components/reuse/DialogWrapper";
 
 export const AngajatSalaryList = () => {
   const { deleteAngajatSalary, saveAngajatSalary, importSalariiForAngajat } =
@@ -85,7 +86,7 @@ export const AngajatSalaryList = () => {
       </div>
 
       {item && (
-        <Dialog
+        <DialogWrapper
           header="Date salar"
           visible={item !== null}
           // style={{ width: "50vw" }}
@@ -96,7 +97,7 @@ export const AngajatSalaryList = () => {
             onSave={executeSaveSalarAngajat}
             onCancel={() => setItem(null)}
           ></AddEditSalar>
-        </Dialog>
+        </DialogWrapper>
       )}
 
       {!item && (

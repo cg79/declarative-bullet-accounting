@@ -6,6 +6,7 @@ import { LabelDate } from "../../../_components/reuse/LabelDate";
 import { Chip } from "primereact/chip";
 import { MyCheckbox } from "../../../_components/reuse/my-checkbox";
 import { utils } from "../../../_utils/utils";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 export const FilterActions = () => {
   // const [semester, setSemester] = useState(1);
@@ -98,7 +99,7 @@ export const FilterActions = () => {
         </div>
       )}
 
-      <Dialog
+      <DialogWrapper
         header="Filtre"
         visible={showFilters}
         // style={{ width: "80vw" }}
@@ -199,7 +200,7 @@ export const FilterActions = () => {
             </div>
           </div> */}
         </>
-      </Dialog>
+      </DialogWrapper>
     </>
   );
 };

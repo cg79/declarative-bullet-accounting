@@ -12,10 +12,7 @@ import { MONEY_TRANSACTIONS_COLLECTION } from "../constants";
 import { utils } from "../../../_utils/utils";
 import observer from "../../../_store/observer";
 import { useEffect, useState } from "react";
-import {
-  createFilterExpression,
-  getDefaultMoneyTransaction,
-} from "../money-helpers";
+import { getDefaultMoneyTransaction } from "../money-helpers";
 import useMoneyTransactions from "../hooks/useMoneyTransactions";
 import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
@@ -34,7 +31,6 @@ const MoneyTransactionsList = () => {
 
   const { saveMoneyTransaction, deleteMoneyTransaction } =
     useBetween(useMoneyTransactions);
-  const { moneyTransactionFilter } = useBetween(useMoneyTransactionsFilter);
 
   const { selectedMoneyEntity } = useBetween(useMoneyEntities);
 
@@ -55,13 +51,6 @@ const MoneyTransactionsList = () => {
     }
   }, [selectedMoneyEntity]);
 
-  // useEffect(() => {
-  //
-  //   updateFilterBy({
-  //     ...moneyTransactionFilter,
-  //   });
-  // }, [moneyTransactionFilter]);
-
   const createItem = (): IMoneyTransaction =>
     getDefaultMoneyTransaction(
       selectedCategory,
@@ -71,7 +60,6 @@ const MoneyTransactionsList = () => {
     );
 
   const onSaveMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
-    debugger;
     if (selectedMoneyEntity && selectedMoneyEntity?._id) {
       moneyTransaction.entityId = selectedMoneyEntity._id;
     }
@@ -83,9 +71,10 @@ const MoneyTransactionsList = () => {
       if (!response.success) {
         return;
       }
-      if (selectedCategory) {
-        newTransactionAdded(response.data.categories[0]);
-      }
+      const { data } = response;
+      // if (selectedCategory) {
+      newTransactionAdded(data.category);
+      // }
 
       // const { categories, transactionResponse } = response.data;
       // setUpdatedCategories(categories);
@@ -94,15 +83,14 @@ const MoneyTransactionsList = () => {
   };
 
   const onDeleteMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
-    moneyTransaction.parentIds = selectedCategory?.parentIds || [];
-    // console.log(moneyTransaction);
     return deleteMoneyTransaction(moneyTransaction).then((response: any) => {
       //
       observer.publish("ENABLE_SHORTCUT", true);
       if (!response.success) {
         return;
       }
-      newTransactionAdded(response.data.categories[0]);
+      newTransactionAdded(response.data.category);
+      // newTransactionAdded(response.data.categories[0]);
     });
   };
 
@@ -205,8 +193,15 @@ const MoneyTransactionsList = () => {
             header: "Cont",
             body: (item: IMoneyTransaction) => {
               return (
-                getAccountById(item.accountId)?.name || item.accountId || ""
+                (getAccountById(item.accountId)?.name || "?") +
+                ": " +
+                item.accountAmount
               );
+              // return item.accountAmount;
+              // return (
+              //   (getAccountById(item.accountId)?.name || item.accountId || "") +
+              //   (item.accountAmount || "")
+              // );
             },
           },
         ]}
