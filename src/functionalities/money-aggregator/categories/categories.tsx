@@ -19,8 +19,8 @@ import {
   ACCOUNT_TYPE_VALUE,
   IMoneyAccount,
 } from "../money-account/money-account-type";
-import useMoneyTransactions from "../money-transactions/hooks/useMoneyTransactions";
 import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import MoneyFilter from "../money-filter/money-filter";
 
 export const Categories = () => {
   //#region Hooks
@@ -172,7 +172,9 @@ export const Categories = () => {
         ></CategoryTree>
       </div>
 
-      <div className="fcenter">
+      <MoneyFilter></MoneyFilter>
+
+      {/* <div className="fcenter">
         <div className="flex mt10">
           <LabelDropDown
             label={"Cont: "}
@@ -190,9 +192,9 @@ export const Categories = () => {
             optionValue="_id"
           ></LabelDropDown>
         </div>
-      </div>
+      </div> */}
 
-      <div className="fcenter3">
+      {/* <div className="fcenter3">
         <DateStartEnd
           startDate={startDate}
           endDate={endDate}
@@ -202,7 +204,7 @@ export const Categories = () => {
           }}
           onEndDate={updateEndDate}
         ></DateStartEnd>
-      </div>
+      </div> */}
 
       <div className="fcenter">
         <MoneyTransactionsList></MoneyTransactionsList>
