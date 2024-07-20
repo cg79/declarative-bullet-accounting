@@ -15,6 +15,8 @@ export interface IMoneyTransaction {
   category_id: string;
   description: string;
   amount: number;
+  income: number;
+  expense: number;
   addedDate: number;
   type: IMoneyTransactionType;
   accountId: string;

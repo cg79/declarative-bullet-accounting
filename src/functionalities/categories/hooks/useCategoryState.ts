@@ -45,22 +45,13 @@ const useCategoryState = () => {
     debugger;
     // Update the node if it matches the updatedCategory
     if (updatedCategory && node._id === updatedCategory._id) {
-      node = {
-        ...node,
-        expense: updatedCategory.expense,
-        income: updatedCategory.income,
-        available: updatedCategory.income - updatedCategory.expense,
-      };
+      node.props.expense = updatedCategory.expense;
+      node.props.income = updatedCategory.income;
+      node.props.available = updatedCategory.income - updatedCategory.expense;
     } else {
-      node = {
-        ...node,
-        props: {
-          ...node.props,
-          income: node.income,
-          expense: node.expense,
-          available: node.income - node.expense,
-        },
-      };
+      node.props.expense = node.expense;
+      node.props.income = node.income;
+      node.props.available = node.income - node.expense;
     }
 
     if (!node.children || node.children.length === 0) {
@@ -86,13 +77,13 @@ const useCategoryState = () => {
     node: ICategory,
     aggregateAmountByCategory: AggregateCategory = {}
   ): ICategory => {
-    node.props = {
-      income: 0,
-      expense: 0,
-      available: 0,
-    };
-    node.props.income = aggregateAmountByCategory[node._id].income || 0;
-    node.props.expense = aggregateAmountByCategory[node._id].expense || 0;
+    // node.props = {
+    //   income: 0,
+    //   expense: 0,
+    //   available: 0,
+    // };
+    node.props.income = aggregateAmountByCategory[node._id]?.income || 0;
+    node.props.expense = aggregateAmountByCategory[node._id]?.expense || 0;
     node.props.available = node.props.income - node.props.expense;
 
     if (!node || !node.children) {

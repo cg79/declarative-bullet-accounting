@@ -27,7 +27,9 @@ const TreeHeaderLabel = ({
     <div onClick={toggleCollapse} style={{ cursor: "pointer" }}>
       <TreeCollapseExpand node={node} isCollapsed={isCollapsed} />
       {renderNodeIcon(node, setIsModalIconsVisible)}
-      <span style={{ marginLeft: "5px" }}>{node.label}</span>
+      <span className="bold" style={{ marginLeft: "5px" }}>
+        {node.label}
+      </span>
     </div>
   );
 };

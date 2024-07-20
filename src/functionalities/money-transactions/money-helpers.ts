@@ -37,6 +37,10 @@ const getDefaultMoneyTransaction = (
     type: IMoneyTransactionType.EXPENSE,
     accountId: cashAcount?._id || "",
     userid: loggedUser?._id || "",
+    entityId: moneyEntity?._id || "",
+    difs: {},
+    income: 0,
+    expense: 0,
   };
 };
 
