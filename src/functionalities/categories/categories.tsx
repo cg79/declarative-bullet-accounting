@@ -38,14 +38,8 @@ export const Categories = () => {
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
-  const {
-    accounts,
-    accountsLoaded,
-    selectedAccount,
-    setSelectedAccount,
-    guid,
-    getAccounts,
-  } = useBetween(useMoneyAccounts);
+  const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
+    useBetween(useMoneyAccounts);
 
   const accountsWithDefaultValue: IMoneyAccount[] = [
     {
@@ -140,7 +134,6 @@ export const Categories = () => {
 
   return (
     <div className="fcenter1">
-      {guid}
       {message && <div className="error fcenter">{message}</div>}
       {/* {JSON.stringify(accounts, null, 2)} */}
       {/* {JSON.stringify(moneyEntities)} */}
@@ -205,7 +198,6 @@ export const Categories = () => {
           endDate={endDate}
           onStartDate={(val) => {
             updateStartDate(val);
-            console.log(getAccounts());
             console.log(accounts);
           }}
           onEndDate={updateEndDate}

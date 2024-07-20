@@ -57,7 +57,7 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
       droppedCategory._id
     );
 
-    calculateAmounts(categoryTree[0], "available");
+    calculateAmounts(categoryTree[0]);
 
     updateCategory(
       draggedCategory._id,

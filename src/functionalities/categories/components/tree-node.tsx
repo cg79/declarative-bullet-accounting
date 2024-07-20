@@ -11,12 +11,12 @@ import AddEditMoneyTransaction from "../../money-transactions/add-edit/add-edit-
 import useMoneyTransactions from "../../money-transactions/hooks/useMoneyTransactions";
 import { IMoneyTransaction } from "../../money-transactions/money-transaction-type";
 import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
-import observer from "../../../_store/observer";
 import { getDefaultMoneyTransaction } from "../../money-transactions/money-helpers";
 import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
 import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
 import useIdentity from "../../../_store/useIdentity";
 import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { defaultCategory } from "../category-helpers";
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const ItemTypes = {
@@ -89,21 +89,7 @@ const TreeNode = ({
       setNewNode(null);
       return;
     }
-    const newNodeInstance: ICategory = {
-      children: [],
-      _id: "",
-      parentId: node._id,
-      label: "",
-      icon: "",
-      description: "",
-      transactionsAmount: 0,
-      childTransactionsAmount: 0,
-      spent: 0,
-      blocked: 0,
-      parentIds: (node.parentIds || []).concat(node._id),
-      level: node.level + 1,
-      props: {},
-    };
+    const newNodeInstance: ICategory = defaultCategory(node);
     setNewNode(newNodeInstance);
   };
 
@@ -307,7 +293,7 @@ const TreeNode = ({
       onDrop={(e) => onDrop(e, node)}
       style={{
         marginLeft: "20px",
-        marginTop: "10px",
+        marginTop: "2px",
         opacity,
         // backgroundColor: isMouseOver ? "lightgray" : "white",
       }}

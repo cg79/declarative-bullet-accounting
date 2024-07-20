@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import TreeCollapseExpand from "./tree-collapse-expand";
 import TreeHeaderLabel from "./tree-header-label";
 import TreeNodeAmounts from "./tree-node-amounts";
 import TreeNodeHeaderActions from "./tree-node-header-actions";
@@ -47,10 +45,11 @@ const TreeHeader = ({
       style={{
         cursor: "pointer",
         backgroundColor: getBackgroundColor(),
+        height: "50px",
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="flex space-between"
+      className="flex space-between center"
     >
       <TreeHeaderLabel
         node={node}

@@ -6,7 +6,7 @@ import useApi from "../../../hooks/useApi";
 import { CATEGORY_COLLECTION } from "../constants";
 import { IMoneyEntity } from "../../money-entity/money-entity-type";
 import { utils } from "../../../_utils/utils";
-import { buildTreeFromParent } from "../category-helpers";
+import { buildTreeFromParent, defaultCategory } from "../category-helpers";
 import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
 
 const useCategoryState = () => {
@@ -27,8 +27,8 @@ const useCategoryState = () => {
   const [aggregateCategories, setAggregateCategories] =
     useState<AggregateCategory>({});
 
-  // const [categories, setCategories] = useState([]);
-  const [categoryTree, setCategoryTree] = useState<any>(null);
+  // const [categories, setCategories] = useState([]);x
+  const [categoryTree, setCategoryTree] = useState<ICategory[]>([]);
 
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethod, executeMethodFromModule } = useApi();
@@ -40,60 +40,87 @@ const useCategoryState = () => {
 
   const calculateAmounts = (
     node: ICategory,
-    key: string = "available",
-    updatedCategory: ICategory | undefined = undefined
-  ): number => {
-    if (updatedCategory) {
-      if (node._id === updatedCategory._id) {
-        node.transactionsAmount = updatedCategory.transactionsAmount;
+    updatedCategory?: ICategory
+  ): ICategory => {
+    debugger;
+    // Update the node if it matches the updatedCategory
+    if (updatedCategory && node._id === updatedCategory._id) {
+      node = {
+        ...node,
+        expense: updatedCategory.expense,
+        income: updatedCategory.income,
+        available: updatedCategory.income - updatedCategory.expense,
+      };
+    } else {
+      node = {
+        ...node,
+        props: {
+          ...node.props,
+          income: node.income,
+          expense: node.expense,
+          available: node.income - node.expense,
+        },
+      };
+    }
+
+    if (!node.children || node.children.length === 0) {
+      return node;
+    }
+
+    node.children = node.children.map((child) =>
+      calculateAmounts(child, updatedCategory)
+    );
+
+    node.children.forEach((child) => {
+      if (child) {
+        node.props!.income += child.props.income;
+        node.props!.expense += child.props.expense;
+        node.props!.available += child.props.available;
       }
-    }
+    });
 
-    if (!node || !node.children) {
-      return node.transactionsAmount;
-    }
-
-    node.props = {};
-    node.props[key] =
-      node.transactionsAmount +
-      node.children.reduce((total, child) => {
-        return total + calculateAmounts(child, key, updatedCategory);
-      }, 0);
-
-    return node.props[key];
+    return node;
   };
 
   const calculateAmountsWithAggregates = (
     node: ICategory,
-    key: string = "available",
     aggregateAmountByCategory: AggregateCategory = {}
-  ): number => {
-    node.transactionsAmount = aggregateAmountByCategory[node._id] || 0;
+  ): ICategory => {
+    node.props = {
+      income: 0,
+      expense: 0,
+      available: 0,
+    };
+    node.props.income = aggregateAmountByCategory[node._id].income || 0;
+    node.props.expense = aggregateAmountByCategory[node._id].expense || 0;
+    node.props.available = node.props.income - node.props.expense;
 
     if (!node || !node.children) {
-      return node.transactionsAmount;
+      return node;
     }
 
-    node.props = {};
-    node.props[key] =
-      node.transactionsAmount +
-      node.children.reduce((total, child) => {
-        return (
-          total +
-          calculateAmountsWithAggregates(child, key, aggregateAmountByCategory)
-        );
-      }, 0);
+    node.children = node.children.map((child) =>
+      calculateAmountsWithAggregates(child, aggregateAmountByCategory)
+    );
 
-    return node.props[key];
+    node.children.forEach((child) => {
+      if (child) {
+        node.props!.income += child.props.income;
+        node.props!.expense += child.props.expense;
+        node.props!.available += child.props.available;
+      }
+    });
+
+    return node;
   };
 
   const updateCategoryTree = (category: ICategory[] = categoryTree) => {
-    calculateAmounts(category[0], "available");
-    setCategoryTree(category);
+    const newRootNode = calculateAmounts(category[0]);
+    setCategoryTree([newRootNode]);
   };
 
   const newTransactionAdded = (category: ICategory) => {
-    calculateAmounts(categoryTree[0], "available", category);
+    calculateAmounts(categoryTree[0], category);
     setCategoryTree([...categoryTree]);
   };
 
@@ -126,21 +153,8 @@ const useCategoryState = () => {
         (category) => category.parentId === null
       );
       if (!rootCategory) {
-        const rootCategory: ICategory = {
-          label: "Root",
-          parentId: null,
-          addedDate: utils.dateToEpoch(new Date()),
-          transactionsAmount: 0,
-          childTransactionsAmount: 0,
-          spent: 0,
-          blocked: 0,
-          icon: "pi pi-folder",
-          description: "",
-          _id: "",
-          parentIds: [],
-          level: 0,
-          props: {},
-        };
+        const rootCategory: ICategory = defaultCategory();
+        rootCategory.label = "Categorii";
         const saveResponse = await saveCategory(
           rootCategory,
           selectedMoneyEntity
@@ -272,11 +286,7 @@ const useCategoryState = () => {
       }
       setAggregateCategories(response.data);
 
-      calculateAmountsWithAggregates(
-        categoryTree[0],
-        "available",
-        response.data
-      );
+      calculateAmountsWithAggregates(categoryTree[0], response.data);
       setCategoryTree([...categoryTree]);
     });
   };

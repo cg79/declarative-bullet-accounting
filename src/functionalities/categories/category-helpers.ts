@@ -1,4 +1,5 @@
-import { AggregateCategory, ICategory } from "./category-type";
+import { utils } from "../../_utils/utils";
+import { ICategory } from "./category-type";
 
 function buildTreeFromParent(elements: ICategory[]): ICategory[] | null {
   // Helper function to find element by id
@@ -42,20 +43,26 @@ function buildTreeFromParent(elements: ICategory[]): ICategory[] | null {
   return [tree];
 }
 
-const defaultCategory = (): ICategory => {
+const defaultCategory = (node?: ICategory): ICategory => {
   return {
     _id: "",
-    parentId: null,
+    parentId: node?._id || null,
     label: "",
-    icon: "",
+    icon: "pi pi-folder",
     description: "",
-    transactionsAmount: 0,
-    childTransactionsAmount: 0,
-    spent: 0,
+    available: 0,
+    expense: 0,
+    income: 0,
     blocked: 0,
-    parentIds: [],
+    parentIds: node ? (node.parentIds || []).concat(node._id) : [],
     level: 0,
-    props: {},
+    props: {
+      income: 0,
+      expense: 0,
+      available: 0,
+    },
+    date: utils.dateToEpoch(new Date()),
+    children: [],
   };
 };
 

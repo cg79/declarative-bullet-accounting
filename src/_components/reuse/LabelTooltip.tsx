@@ -5,7 +5,7 @@ export const LabelTooltip = ({
   label,
   tooltip = "",
   labelCss = "",
-  lwidth = "80px",
+  lwidth = "15px",
   content = <></>,
 }) => {
   const id = "a" + utils.createUUID().substring(0, 8);
@@ -17,7 +17,7 @@ export const LabelTooltip = ({
           cursor: "pointer",
           width: lwidth,
           display: "inline-block",
-          fontSize: "0.7em",
+          // fontSize: "0.7em",
         }}
       >
         {label}

@@ -15,53 +15,53 @@ const useApi = () => {
 
   const createBulletHttpRequestLibrary = useCallback(
     (options: ApiOptions = { allowAnonymous: false }) => {
-      const bulletKey = loggedUser?.token || "";
-      if (!bulletKey && !options.allowAnonymous) {
+      if (!loggedUser && !options.allowAnonymous) {
         throw new Error("no bullet key");
       }
 
       return new BulletHttpRequestLibrary({
-        authentication: bulletKey,
-        serverUrl: BULLET_IO_URL(),
-      });
-    },
-    [loggedUser?.token]
-  );
-
-  const createDeclarativeBulletApi = useCallback(
-    (options: ApiOptions = { allowAnonymous: false }) => {
-      let authentication = loggedUser?.token;
-
-      if (!authentication && !options?.allowAnonymous) {
-        throw new Error("no token. please get a token first");
-      }
-
-      return new DeclarativeBulletApi({
-        authentication: authentication || "",
+        authentication: loggedUser?.token || "",
         serverUrl: BULLET_IO_URL(),
       });
     },
     [loggedUser]
   );
-  const executeMethodFromModule = async (
-    request: MethodExecutionRequest,
-    options: { allowAnonymous?: boolean } = { allowAnonymous: false }
-  ) => {
-    const bulletHttp = createBulletHttpRequestLibrary(options);
-    const response = await bulletHttp.executeMethodFromModule(request);
 
-    if (!response.success) {
-      if (response.message === "jwt expired") {
-        clearLoggedUser();
+  const createDeclarativeBulletApi = useCallback(
+    (options: ApiOptions = { allowAnonymous: false }) => {
+      if (!loggedUser && !options?.allowAnonymous) {
+        throw new Error("no token. please get a token first");
       }
-      PubSub.publish("onError", response.message);
-    }
-    return response;
-  };
 
-  const executeMethod = () => {
+      return new DeclarativeBulletApi({
+        authentication: loggedUser?.token || "",
+        serverUrl: BULLET_IO_URL(),
+      });
+    },
+    [loggedUser]
+  );
+  const executeMethodFromModule = useCallback(
+    async (
+      request: MethodExecutionRequest,
+      options: { allowAnonymous?: boolean } = { allowAnonymous: false }
+    ) => {
+      const bulletHttp = createBulletHttpRequestLibrary(options);
+      const response = await bulletHttp.executeMethodFromModule(request);
+
+      if (!response.success) {
+        if (response.message === "jwt expired") {
+          clearLoggedUser();
+        }
+        PubSub.publish("onError", response.message);
+      }
+      return response;
+    },
+    [createBulletHttpRequestLibrary, clearLoggedUser]
+  );
+
+  const executeMethod = useCallback(() => {
     return createDeclarativeBulletApi();
-  };
+  }, [createDeclarativeBulletApi]);
 
   const callDeleteAccount = async () => {
     const bulletHttp = createBulletHttpRequestLibrary();

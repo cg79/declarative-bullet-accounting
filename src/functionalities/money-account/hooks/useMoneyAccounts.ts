@@ -6,15 +6,13 @@ import { IMoneyAccount } from "../money-account-type";
 import { helpers } from "../../../_utils/helpers";
 import { MONEY_ACCOUNT_COLLECTION } from "../constants";
 import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
-import { utils } from "../../../_utils/utils";
 
 const useMoneyAccounts = () => {
   const { loggedUser } = useBetween(useIdentity);
-  const { executeMethod, executeMethodFromModule } = useApi();
+  const { executeMethod } = useApi();
   const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount>();
   const [accounts, setAccounts] = useState<IMoneyAccount[]>([]);
   const [accountsLoaded, setAccountsLoaded] = useState(false);
-  const guid = utils.createUUID();
 
   const updateAccountsValue = useCallback(
     (newAccounts: IMoneyAccount[]) => {
@@ -30,13 +28,7 @@ const useMoneyAccounts = () => {
     [accounts]
   );
 
-  // const refresh = useCallback(() => {
-  //   setReloadAccounts(new Date().toISOString());
-  // }, []);
-
-  const getAccounts = () => accounts;
-
-  const refreshAccounts = () => {
+  const refreshAccounts = useCallback(() => {
     if (!loggedUser) {
       return;
     }
@@ -53,7 +45,7 @@ const useMoneyAccounts = () => {
       .catch((error) => {
         console.error("Error refreshing accounts:", error);
       });
-  };
+  }, [executeMethod, loggedUser, updateAccountsValue]);
 
   useEffect(() => {
     refreshAccounts();
@@ -66,8 +58,6 @@ const useMoneyAccounts = () => {
     refreshAccounts,
     accountsLoaded,
     getAccountById,
-    guid,
-    getAccounts,
   };
 };
 

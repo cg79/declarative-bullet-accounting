@@ -9,7 +9,7 @@ import { MONEY_ACCOUNT_COLLECTION } from "../constants";
 import { IMoneyAccount } from "../money-account-type";
 import useMoneyAccounts from "../hooks/useMoneyAccounts";
 import MyIcon from "../../../_components/reuse/my-icon";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const MoneyAccountList = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -18,7 +18,7 @@ const MoneyAccountList = () => {
 
   const createItem = (): IMoneyAccount => getDefaultMoneyEntity(loggedUser);
 
-  const { refreshAccounts, accounts, guid } = useBetween(useMoneyAccounts);
+  const { refreshAccounts, accounts } = useBetween(useMoneyAccounts);
 
   const renderAddEditContent = (
     item: IMoneyAccount,
@@ -68,13 +68,14 @@ const MoneyAccountList = () => {
     );
   };
 
-  // useEffect(() => {
-  //   alert(JSON.stringify(accounts));
-  // }, [accounts]);
+  const onAfterItemSaved = useCallback((item: IMoneyAccount) => {
+    setTimeout(() => {
+      refreshAccounts();
+    }, 500);
+  }, []);
 
   return (
     <>
-      {guid}
       <GenericList
         fieldHeader={[
           {
@@ -106,9 +107,7 @@ const MoneyAccountList = () => {
             ? `Editare Account ${item.name}`
             : "Adaugare Account";
         }}
-        onAfterItemSaved={(item: IMoneyAccount) => {
-          refreshAccounts();
-        }}
+        onAfterItemSaved={onAfterItemSaved}
         renderActions={renderActions}
       ></GenericList>
     </>
