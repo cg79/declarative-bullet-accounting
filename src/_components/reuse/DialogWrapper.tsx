@@ -1,5 +1,5 @@
 import { Dialog } from "primereact/dialog";
-import useShortcut from "../../functionalities/categories/shortcut/useShortcut";
+import useShortcut from "../../functionalities/money-aggregator/categories/shortcut/useShortcut";
 import { useBetween } from "use-between";
 import { useEffect } from "react";
 

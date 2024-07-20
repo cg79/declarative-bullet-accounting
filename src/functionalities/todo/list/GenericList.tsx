@@ -7,7 +7,7 @@ import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper"
 import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
 import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
 import MyIcon from "../../../_components/reuse/my-icon";
-import ShortcutComponent from "../../categories/shortcut/shortcut-component";
+import ShortcutComponent from "../../money-aggregator/categories/shortcut/shortcut-component";
 import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
 
 // Define the props interface with a generic type

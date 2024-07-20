@@ -1,41 +1,37 @@
 import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { FirmeDropDown } from "../../company/dropdown/firme-dropdown";
-import useFirme from "../../../_store/useFirme";
-import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
+import { MyButton } from "../../../../_components/reuse/my-button";
 import { useBetween } from "use-between";
-import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
+import DataTableWrapper from "../../../../_components/reuse/DataTableWrapper";
 import { Dialog } from "primereact/dialog";
-import { helpers } from "../../../_utils/helpers";
+import { helpers } from "../../../../_utils/helpers";
 import { AddEditInvitation } from "../add-edit/add-edit-invitation";
-import { IInvitation } from "../../transactions/model/accounting_types";
-import useIdentity from "../../../_store/useIdentity";
-import { utils } from "../../../_utils/utils";
-import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
-import useMoneyEntities from "../../money-aggregator/money-entity/hooks/useMoneyEntities";
-import { IMoneyEntity } from "../../money-aggregator/money-entity/money-entity-type";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { IInvitation } from "../../../transactions/model/accounting_types";
+import useIdentity from "../../../../_store/useIdentity";
+import { utils } from "../../../../_utils/utils";
+import { LabelDropDown } from "../../../../_components/reuse/LabelDropDown";
+import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
+import { IMoneyEntity } from "../../money-entity/money-entity-type";
+import { IEntityInvitation } from "../entity-invitation-type";
+import useMoneyInvitations from "../hooks/useMoneyInvitations";
+import TreeIcon from "../../categories/components/icons/tree-icon";
+import { DialogWrapper } from "../../../../_components/reuse/DialogWrapper";
 
-export const CompanyInvitations = () => {
-  const { deleteInvitation, saveInvitation, getInvitations } =
-    useAccountingDbActions();
-  const [item, setItem] = useState<IInvitation | null>(null);
-  const [invitations, setInvitations] = useState<IInvitation[]>([]);
+export const EntityInvitations = () => {
+  const { loggedUser } = useBetween(useIdentity);
   const { moneyEntities } = useBetween(useMoneyEntities);
+
+  const { deleteInvitation, saveInvitation, refreshInvitations, invitations } =
+    useMoneyInvitations();
+
+  const [item, setItem] = useState<IEntityInvitation | null>(null);
+
+  const moneyEntitiesList: IMoneyEntity[] = [
+    { _id: "", name: "--ALL--", date: 0, description: "" },
+    ...(moneyEntities || []),
+  ];
+
   const [selectedMoneyEntity, setSelectedMoneyEntity] =
     useState<IMoneyEntity | null>(null);
-
-  const { loggedUser } = useBetween(useIdentity);
-
-  const refreshInvitations = useCallback(
-    (selectedMoneyEntity: IMoneyEntity | null) => {
-      getInvitations(selectedMoneyEntity).then((response) => {
-        helpers.checkHttpResponseForErrors(response);
-        setInvitations(response.data);
-      });
-    },
-    []
-  );
 
   useEffect(() => {
     refreshInvitations(selectedMoneyEntity);
@@ -51,9 +47,10 @@ export const CompanyInvitations = () => {
     if (!loggedUser) {
       return;
     }
+
     const newInvitation: IInvitation = {
       _id: "",
-      dataInvitatie: 0,
+      dataInvitatie: utils.dateToEpoch(new Date()),
       accepted: false,
       email: "",
       name: "",
@@ -72,9 +69,9 @@ export const CompanyInvitations = () => {
     });
   };
 
-  useEffect(() => {
-    refreshInvitations(selectedMoneyEntity);
-  }, []);
+  // useEffect(() => {
+  //   refreshInvitations(selectedMoneyEntity);
+  // }, []);
 
   const renderAvailableActions = () => {
     return (
@@ -102,16 +99,16 @@ export const CompanyInvitations = () => {
 
         <div className="flex center">{renderAvailableActions()}</div>
 
-        {moneyEntities && moneyEntities.length > 0 && (
+        {moneyEntities && moneyEntities.length > 1 && (
           <LabelDropDown
             label="Entitati"
             onChange={(item) => {
               console.log(item);
               setSelectedMoneyEntity(item);
             }}
-            options={moneyEntities}
+            options={moneyEntitiesList}
             value={selectedMoneyEntity}
-            placeholder="Selecteaza firme"
+            placeholder="Selecteaza"
             optionLabel="name"
           ></LabelDropDown>
         )}
@@ -134,12 +131,27 @@ export const CompanyInvitations = () => {
           data={invitations}
           fieldHeader={[
             { header: "Email", field: "email" },
+            { header: "Name", field: "name" },
             {
               header: "Data Invitatie",
               field: "dataInvitatie",
               body: (el) => utils.dateNumberToYYYYMMDD(el.dataInvitatie),
             },
-            { header: "Acceptat", field: "accepted" },
+            {
+              header: "Acceptat",
+              field: "accepted",
+              body: (el) =>
+                el.accepted ? (
+                  <TreeIcon
+                    size={20}
+                    icon="pi pi-check-circle"
+                    color="green"
+                    onClick={() => {}}
+                  />
+                ) : (
+                  <TreeIcon size={20} icon="notcheck" onClick={() => {}} />
+                ),
+            },
             {
               header: "Actiuni",
               body: (el) => {

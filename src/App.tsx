@@ -48,10 +48,10 @@ import { ForgotPassword } from "./functionalities/user/forgot-password";
 import { ResetPassword } from "./functionalities/user/reset-password";
 import { AcceptInvitation } from "./functionalities/user/accept-invitation";
 import { Home } from "./functionalities/home/home";
-import { Categories } from "./functionalities/categories/categories";
-import MoneyEntityList from "./functionalities/money-entity/list/money-entity-list";
-import MoneyAccountList from "./functionalities/money-account/list/money-account-list";
-import { EntityInvitations } from "./functionalities/entity-invitations/list/entity-invitations";
+import { Categories } from "./functionalities/money-aggregator/categories/categories";
+import MoneyEntityList from "./functionalities/money-aggregator/money-entity/list/money-entity-list";
+import MoneyAccountList from "./functionalities/money-aggregator/money-account/list/money-account-list";
+import { EntityInvitations } from "./functionalities/money-aggregator/entity-invitations/list/entity-invitations";
 
 function App() {
   const { loggedUser } = useBetween(useIdentity);

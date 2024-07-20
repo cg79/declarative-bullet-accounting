@@ -28,7 +28,7 @@ import { useBetween } from "use-between";
 import useIdentity from "../../../_store/useIdentity";
 import useApi from "../../../hooks/useApi";
 import { utils } from "../../../_utils/utils";
-import { IMoneyEntity } from "../../money-entity/money-entity-type";
+import { IMoneyEntity } from "../../money-aggregator/money-entity/money-entity-type";
 import { BULLET_METHOD } from "../../../_fluentApi/fluent/constants";
 import { CustomHttpResponse } from "../../../_fluentApi/CustomHttpResponse";
 import { DeltaFunction } from "../../../services/code-execution";
