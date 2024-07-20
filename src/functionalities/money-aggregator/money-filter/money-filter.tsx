@@ -7,6 +7,8 @@ import {
 } from "../money-account/money-account-type";
 import DateStartEnd from "../../../_components/reuse/date/date-start-end";
 import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
+import AcceptedInvitations from "../entity-invitations/accepted-invitations/accepted-invitations";
+import { Panel } from "primereact/panel";
 
 const MoneyFilter = () => {
   const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
@@ -37,35 +39,41 @@ const MoneyFilter = () => {
   return (
     <>
       <div className="fcenter">
-        <div className="flex mt10">
-          <LabelDropDown
-            label={"Cont: "}
-            className=""
-            lwidth="135px"
-            onChange={(accountValue: IMoneyAccount) => {
-              const account = accountsWithDefaultValue.find(
-                (a) => a._id === accountValue._id
-              );
-              setSelectedAccount(account);
-            }}
-            options={accountsWithDefaultValue}
-            value={selectedAccount}
-            optionLabel="name"
-            optionValue="_id"
-          ></LabelDropDown>
-        </div>
+        <Panel header="FIltre" toggleable>
+          <div className="flex mt10">
+            <LabelDropDown
+              label={"Cont: "}
+              className=""
+              lwidth="135px"
+              onChange={(accountValue: IMoneyAccount) => {
+                const account = accountsWithDefaultValue.find(
+                  (a) => a._id === accountValue._id
+                );
+                setSelectedAccount(account);
+              }}
+              options={accountsWithDefaultValue}
+              value={selectedAccount}
+              optionLabel="name"
+              optionValue="_id"
+            ></LabelDropDown>
+          </div>
 
-        <div className="fcenter3">
-          <DateStartEnd
-            startDate={startDate}
-            endDate={endDate}
-            onStartDate={(val) => {
-              updateStartDate(val);
-              console.log(accounts);
-            }}
-            onEndDate={updateEndDate}
-          ></DateStartEnd>
-        </div>
+          <div className="flex mt10">
+            <AcceptedInvitations></AcceptedInvitations>
+          </div>
+
+          <div className="fcenter3">
+            <DateStartEnd
+              startDate={startDate}
+              endDate={endDate}
+              onStartDate={(val) => {
+                updateStartDate(val);
+                console.log(accounts);
+              }}
+              onEndDate={updateEndDate}
+            ></DateStartEnd>
+          </div>
+        </Panel>
       </div>
     </>
   );

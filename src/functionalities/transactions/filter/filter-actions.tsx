@@ -126,7 +126,6 @@ export const FilterActions = () => {
                 data={endDate}
                 onChange={(date: number | null) => {
                   setEndDate(date);
-                  // triggerFiltering();
                 }}
               ></LabelDate>
             </div>
@@ -136,20 +135,8 @@ export const FilterActions = () => {
                 <div
                   className="mycardFilter"
                   style={{ marginLeft: "1px", marginTop: "1px" }}
-                  // onClick={() => {
-                  //   toggleFilter(el);
-                  // }}
                   key={el.label}
                 >
-                  {/* <input
-                    type="checkbox"
-                    id="toggle"
-                    className="checkbox"
-                    checked={el["checked"]}
-                  /> */}
-
-                  {/* <label className="switch"></label> */}
-
                   <MyCheckbox
                     css="checkbox"
                     id={el.value}
@@ -158,9 +145,6 @@ export const FilterActions = () => {
                     label={el.label}
                     checked={el["checked"]}
                   />
-                  {/* <div className="ml5" style={{ fontSize: "0.8em" }}>
-                    {el.label}
-                  </div> */}
                 </div>
               ))}
             </div>

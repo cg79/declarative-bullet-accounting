@@ -22,7 +22,7 @@ export const LabelDate = ({
             className="bold"
             onClick={() => {
               if (inputRef.current) {
-                inputRef.current.setFocus();
+                inputRef.current["focus"]();
               }
               onChange(null);
             }}

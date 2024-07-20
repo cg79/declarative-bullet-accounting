@@ -47,7 +47,7 @@ const getDefaultMoneyTransaction = (
 const createMoneyTransactionsFilterExpression = (
   filter: IMoneyTransactionsFilter
 ) => {
-  const { accountId, startDate, endDate, category_id } = filter;
+  const { accountId, startDate, endDate, category_id, users } = filter;
   let expression = "";
   let needAND = false;
 
@@ -82,7 +82,17 @@ const createMoneyTransactionsFilterExpression = (
       expression += " && ";
     }
     needAND = true;
-    expression += ` && date <= ${endDate}`;
+    expression += `date <= ${endDate}`;
+  }
+
+  if (users && users.length > 0) {
+    if (needAND) {
+      expression += " && ";
+    }
+    needAND = true;
+    expression += ` (userid == ${users
+      .map((el) => el._id)
+      .join(" || userid == ")})`;
   }
 
   return expression ? { expression } : {};

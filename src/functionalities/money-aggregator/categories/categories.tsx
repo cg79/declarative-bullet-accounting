@@ -174,38 +174,6 @@ export const Categories = () => {
 
       <MoneyFilter></MoneyFilter>
 
-      {/* <div className="fcenter">
-        <div className="flex mt10">
-          <LabelDropDown
-            label={"Cont: "}
-            className=""
-            lwidth="135px"
-            onChange={(accountValue: IMoneyAccount) => {
-              const account = accountsWithDefaultValue.find(
-                (a) => a._id === accountValue._id
-              );
-              setSelectedAccount(account);
-            }}
-            options={accountsWithDefaultValue}
-            value={selectedAccount}
-            optionLabel="name"
-            optionValue="_id"
-          ></LabelDropDown>
-        </div>
-      </div> */}
-
-      {/* <div className="fcenter3">
-        <DateStartEnd
-          startDate={startDate}
-          endDate={endDate}
-          onStartDate={(val) => {
-            updateStartDate(val);
-            console.log(accounts);
-          }}
-          onEndDate={updateEndDate}
-        ></DateStartEnd>
-      </div> */}
-
       <div className="fcenter">
         <MoneyTransactionsList></MoneyTransactionsList>
       </div>

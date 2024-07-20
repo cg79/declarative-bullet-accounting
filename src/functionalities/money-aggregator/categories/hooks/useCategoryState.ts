@@ -42,7 +42,6 @@ const useCategoryState = () => {
     node: ICategory,
     updatedCategory?: ICategory
   ): ICategory => {
-    debugger;
     // Update the node if it matches the updatedCategory
     if (updatedCategory && node._id === updatedCategory._id) {
       node.props.expense = updatedCategory.expense;
@@ -77,6 +76,9 @@ const useCategoryState = () => {
     node: ICategory,
     aggregateAmountByCategory: AggregateCategory = {}
   ): ICategory => {
+    if (!node.props) {
+      node.props = { income: 0, expense: 0, available: 0 };
+    }
     node.props.income = aggregateAmountByCategory[node._id]?.income || 0;
     node.props.expense = aggregateAmountByCategory[node._id]?.expense || 0;
     node.props.available = node.props.income - node.props.expense;

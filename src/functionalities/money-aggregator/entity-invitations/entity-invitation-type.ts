@@ -6,4 +6,5 @@ export interface IEntityInvitation {
   name: string;
   clientId: string;
   entityId: string;
+  selected?: boolean;
 }

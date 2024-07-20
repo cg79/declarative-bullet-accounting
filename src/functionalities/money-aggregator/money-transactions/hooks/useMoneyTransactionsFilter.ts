@@ -6,11 +6,13 @@ import {
   createMoneyAggregationFilterExpression,
   createMoneyTransactionsFilterExpression,
 } from "../money-helpers";
+import { IEntityInvitation } from "../../entity-invitations/entity-invitation-type";
 
 export type IMoneyAggregationFilter = {
   accountId: string;
   startDate: number | null;
   endDate: number | null;
+  users: IEntityInvitation[];
 };
 export type IMoneyTransactionsFilter = IMoneyAggregationFilter & {
   category_id: string;
@@ -21,6 +23,7 @@ const useMoneyTransactionsFilter = () => {
   const [aggregationFilterBy, setAggregationFilterBy] = useState({});
   const [startDate, setStartDate] = useState<number | null>(0);
   const [endDate, setEndDate] = useState<number | null>(0);
+  const [selectedUsers, setSelectedUsers] = useState<IEntityInvitation[]>([]);
 
   const { selectedCategory } = useBetween(useCategoryState);
   const { selectedAccount } = useBetween(useMoneyAccounts);
@@ -31,6 +34,7 @@ const useMoneyTransactionsFilter = () => {
       startDate: null,
       endDate: null,
       category_id: "",
+      users: [],
     });
 
   const [moneyAggregationFilter, setMoneyAggregationFilter] =
@@ -38,16 +42,41 @@ const useMoneyTransactionsFilter = () => {
       accountId: "",
       startDate: null,
       endDate: null,
+      users: [],
     });
 
+  const twoArraysContainsTheSameElements = (
+    arr1: IEntityInvitation[],
+    arr2: IEntityInvitation[]
+  ) => {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+
+    arr1.forEach((el) => {
+      if (!arr2.find((a2) => a2._id === el._id)) {
+        return false;
+      }
+    });
+
+    return true;
+  };
+
   const updateMoneyTransactionFilter = (value: IMoneyTransactionsFilter) => {
-    const { accountId, startDate, endDate, category_id } =
+    const { accountId, startDate, endDate, category_id, users } =
       moneyTransactionFilter;
+
+    const needUpdate = !twoArraysContainsTheSameElements(
+      selectedUsers,
+      moneyTransactionFilter.users
+    );
+
     if (
       accountId !== value.accountId ||
       startDate !== value.startDate ||
       endDate !== value.endDate ||
-      category_id !== value.category_id
+      category_id !== value.category_id ||
+      needUpdate
     ) {
       setMoneyTransactionFilter(value);
     }
@@ -118,6 +147,18 @@ const useMoneyTransactionsFilter = () => {
   }, [selectedAccount]);
 
   useEffect(() => {
+    debugger;
+    if (!selectedUsers) {
+      return;
+    }
+
+    updateMoneyTransactionFilter({
+      ...moneyTransactionFilter,
+      users: selectedUsers,
+    });
+  }, [selectedUsers]);
+
+  useEffect(() => {
     const filterExpression = createMoneyTransactionsFilterExpression(
       moneyTransactionFilter
     );
@@ -141,6 +182,7 @@ const useMoneyTransactionsFilter = () => {
 
     // moneyTransactionFilter,
     aggregationFilterBy,
+    setSelectedUsers,
   };
 };
 

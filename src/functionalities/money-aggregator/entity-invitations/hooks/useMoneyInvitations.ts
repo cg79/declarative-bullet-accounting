@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useApi from "../../../../hooks/useApi";
 import { useBetween } from "use-between";
 import { IEntityInvitation } from "../entity-invitation-type";
@@ -6,12 +6,28 @@ import useIdentity from "../../../../_store/useIdentity";
 import { ENTITY_INVITATIONS } from "../constants";
 import { IMoneyEntity } from "../../money-entity/money-entity-type";
 import { BULLET_METHOD } from "../../../../_fluentApi/fluent/constants";
+import useMoneyTransactionsFilter from "../../money-transactions/hooks/useMoneyTransactionsFilter";
 // import { utils } from "../../../_utils/utils";
 
 const useMoneyInvitations = () => {
   const { executeMethodFromModule, executeMethod } = useBetween(useApi);
   const { loggedUser } = useBetween(useIdentity);
+  const { setSelectedUsers } = useBetween(useMoneyTransactionsFilter);
   const [invitations, setInvitations] = useState<IEntityInvitation[]>([]);
+
+  const toggleInvitationSelection = (el: IEntityInvitation) => {
+    const updatedFilters = invitations.map((filter) => {
+      if (filter._id === el._id) {
+        return {
+          ...filter,
+          selected: !filter.selected,
+        };
+      }
+      return filter;
+    });
+    setInvitations(updatedFilters);
+    setSelectedUsers(updatedFilters.filter((el) => el.selected));
+  };
 
   const saveInvitation = useCallback(async (invitation: IEntityInvitation) => {
     // const {startAccountingData}  = useStartAccountingData();
@@ -53,7 +69,7 @@ const useMoneyInvitations = () => {
           },
         });
     },
-    []
+    [loggedUser]
   );
 
   const getInvitations = useCallback(
@@ -76,26 +92,8 @@ const useMoneyInvitations = () => {
         body,
       });
       return response;
-      // return executeMethod()
-      //   .collection((c) =>
-      //     c.name(ENTITY_INVITATIONS(loggedUser)).method(BULLET_METHOD.FIND)
-      //   )
-      //   .search((s) => s.findByObject({ entityId: selectedMoneyEntity?._id }))
-      //   .sort((s) => s.field("dataInvitatie").ascending(false))
-      //   .execute({
-      //     beforeSendingRequest: (apiBulletJSON: any) => {
-      //       console.log(JSON.stringify(apiBulletJSON));
-      //     },
-      //   })
-      //   .then((val: CustomHttpResponse) => {
-      //     //   helpers.checkHttpResponseForErrors(val);
-      //     if (val.data) {
-      //       val.data.forEach((el) => (el.date = new Date(el.date)));
-      //     }
-      //     return val;
-      //   });
     },
-    []
+    [loggedUser]
   );
 
   const refreshInvitations = useCallback(
@@ -108,8 +106,6 @@ const useMoneyInvitations = () => {
   );
 
   const acceptInvitation = useCallback(async (invitation) => {
-    // const {startAccountingData}  = useStartAccountingData();
-
     const { clientId } = invitation;
 
     const response = await executeMethodFromModule({
@@ -122,6 +118,10 @@ const useMoneyInvitations = () => {
     // - daca nu exista, le insereaza
   }, []);
 
+  useEffect(() => {
+    refreshInvitations(null);
+  }, []);
+
   return {
     saveInvitation,
     deleteInvitation,
@@ -130,6 +130,7 @@ const useMoneyInvitations = () => {
     refreshInvitations,
     invitations,
     setInvitations,
+    toggleInvitationSelection,
   };
 };
 export default useMoneyInvitations;
