@@ -13,8 +13,8 @@ import {
 } from 'chart.js';
 
 import { Bar } from 'react-chartjs-2';
-import { useBetween } from 'src/hooks/useBetween';
 import { useTransactions } from '../hook/useTransactions';
+import { useBetween } from '../../../hooks/useBetween';
 
 ChartJS.register(
   CategoryScale,

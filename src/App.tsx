@@ -39,7 +39,6 @@ import { Navbar } from './functionalities/home/navbar/Navbar';
 import { LamdaFunctions } from './functionalities/lamda/lamda_functions';
 import { Contact } from './functionalities/contact/contact';
 import useIdentity from './_store/useIdentity';
-import { useBetween } from 'src/hooks/useBetween';
 import Footer from './functionalities/footer/Footer';
 import { TodoList } from './functionalities/todo/list/todo-list';
 import { BancaList } from './functionalities/banca/list/banca-list';
@@ -52,6 +51,7 @@ import { Categories } from './functionalities/money-aggregator/categories/catego
 import MoneyEntityList from './functionalities/money-aggregator/money-entity/list/money-entity-list';
 import MoneyAccountList from './functionalities/money-aggregator/money-account/list/money-account-list';
 import { EntityInvitations } from './functionalities/money-aggregator/entity-invitations/list/entity-invitations';
+import { useBetween } from './hooks/useBetween';
 
 function App() {
   const { loggedUser } = useBetween(useIdentity);

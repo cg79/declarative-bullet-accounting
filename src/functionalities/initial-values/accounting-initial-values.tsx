@@ -6,7 +6,7 @@ import { FirmeDropDown } from '../company/dropdown/firme-dropdown';
 import { utils } from '../../_utils/utils';
 import useFirme from '../../_store/useFirme';
 import useAccountingDbActions from '../transactions/hook/useAccountingDbActions';
-import { useBetween } from 'src/hooks/useBetween';
+import { useBetween } from '../../hooks/useBetween';
 
 // STARTING_ACCOUNT_VALUES;
 export const AccountingInitialValues = () => {
@@ -92,16 +92,15 @@ export const AccountingInitialValues = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const xxx = await getInitialAccountingValues(selectedFirma);
-
-      setInitialState({ ...xxx });
+      // const xxx = await getInitialAccountingValues(selectedFirma);
+      // setInitialState({ ...xxx });
     }
     fetchData();
   }, [getInitialAccountingValues, selectedFirma]);
 
   const saveInitialValues = () => {
     initialState.numar = -1;
-    setInitialAccountingValues(selectedFirma, initialState);
+    // setInitialAccountingValues(selectedFirma, initialState);
     setEditMode(false);
   };
   const render = () => {

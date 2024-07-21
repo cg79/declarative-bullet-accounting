@@ -13,7 +13,7 @@ import { EditTransaction } from '../add/edit-transaction';
 // import { InsertTransaction } from "../add/insert-transaction";
 import { SplitButton } from 'primereact/splitbutton';
 import useAccountingDbActions from '../hook/useAccountingDbActions';
-import { useBetween } from 'src/hooks/useBetween';
+import { useBetween } from '../../../hooks/useBetween';
 import useFirme from '../../../_store/useFirme';
 import { useTransactions } from '../hook/useTransactions';
 import { IAccountingRecord } from '../model/accounting_types';

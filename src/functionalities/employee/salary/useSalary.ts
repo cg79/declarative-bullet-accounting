@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ISalarAddEdit } from '../../transactions/model/accounting_types';
-import { useBetween } from 'src/hooks/useBetween';
 import useFirme from '../../../_store/useFirme';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
+import { useBetween } from '../../../hooks/useBetween';
 
 const useSalary = () => {
   const [salaries, setSalaries] = useState<ISalarAddEdit[]>([]);

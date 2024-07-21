@@ -2,7 +2,6 @@ import { Card } from 'primereact/card';
 import { utils } from '../../../_utils/utils';
 import { Dropdown } from 'primereact/dropdown';
 import { ddOptions } from '../../transactions/constants/dd-options';
-import { useBetween } from 'src/hooks/useBetween';
 import useImportTransactions from './useImportTransactions';
 import { MyButton } from '../../../_components/reuse/my-button';
 import { TransactionRecord } from '../../transactions/list/transaction-record';
@@ -13,6 +12,7 @@ import DatePickerWrapper from '../../../_components/reuse/DatePickerWrapper';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
 import useFirme from '../../../_store/useFirme';
 import { LabelDate } from '../../../_components/reuse/LabelDate';
+import { useBetween } from '../../../hooks/useBetween';
 
 export const Transaction = ({
   trans,

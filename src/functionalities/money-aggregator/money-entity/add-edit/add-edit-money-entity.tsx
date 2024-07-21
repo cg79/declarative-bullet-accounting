@@ -1,10 +1,10 @@
-import { useBetween } from 'src/hooks/useBetween';
 import { MyButton } from '../../../../_components/reuse/my-button';
 import useEvents from '../../../../_store/useEvents';
 import { useEffect, useState } from 'react';
 import { IMoneyEntity } from '../money-entity-type';
 import { LabelInput } from '../../../../_components/reuse/LabelInput';
 import { WysYWYG } from '../../../../_components/reuse/my-wysywyg';
+import { useBetween } from '../../../../hooks/useBetween';
 
 export const AddEditMoneyEntity = ({
   moneyEntity,

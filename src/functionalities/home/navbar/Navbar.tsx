@@ -1,10 +1,9 @@
 import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { useNavigate } from 'react-router-dom';
-import { SvgImport } from '../../../_components/svgs/svg-import';
-import { useBetween } from 'src/hooks/useBetween';
 import useIdentity from '../../../_store/useIdentity';
 import { SvgSalary } from '../../../_components/svgs/svg-salary';
+import { useBetween } from '../../../hooks/useBetween';
 
 export const Navbar = () => {
   const { loggedUser, deconectare } = useBetween(useIdentity);

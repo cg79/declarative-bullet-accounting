@@ -1,4 +1,3 @@
-import { useBetween } from 'src/hooks/useBetween';
 import useFirme from '../../_store/useFirme';
 import { ICompany } from '../company/types';
 import { utils } from '../../_utils/utils';
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { MyLottie } from '../../_components/reuse/my-lottie';
 import useIdentity from '../../_store/useIdentity';
 import { helpers } from '../../_utils/helpers';
+import { useBetween } from '../../hooks/useBetween';
 
 const Start = () => {
   const { setSelectedFirma, reload, firme } = useBetween(useFirme);

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import useApi from '../../../../hooks/useApi';
-import { useBetween } from 'src/hooks/useBetween';
 import { IEntityInvitation } from '../entity-invitation-type';
 import useIdentity from '../../../../_store/useIdentity';
 import { ENTITY_INVITATIONS } from '../constants';
 import { IMoneyEntity } from '../../money-entity/money-entity-type';
 import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
 import useMoneyTransactionsFilter from '../../money-transactions/hooks/useMoneyTransactionsFilter';
+import { useBetween } from '../../../../hooks/useBetween';
 // import { utils } from "../../../_utils/utils";
 
 const useMoneyInvitations = () => {

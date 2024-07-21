@@ -2,8 +2,8 @@ import { InputText } from 'primereact/inputtext';
 import { utils } from '../../_utils/utils';
 import { useEffect, useRef, useState } from 'react';
 import { helpers } from '../../_utils/helpers';
-import { useBetween } from 'src/hooks/useBetween';
 import useEvents from '../../_store/useEvents';
+import { useBetween } from '../../hooks/useBetween';
 
 export type LabelProps = {
   label: string;

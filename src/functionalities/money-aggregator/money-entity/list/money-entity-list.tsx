@@ -1,4 +1,3 @@
-import { useBetween } from 'src/hooks/useBetween';
 import GenericList from '../../../todo/list/GenericList';
 import { IMoneyEntity } from '../money-entity-type';
 import useCategoryState from '../../categories/hooks/useCategoryState';
@@ -11,6 +10,7 @@ import AddEditMoneyEntity from '../add-edit/add-edit-money-entity';
 import { MONEY_ENTITY_COLLECTION } from '../constants';
 import { getDefaultMoneyEntity } from '../money-entity-helpers';
 import useScreenSize from '../../../../hooks/useScreenSize';
+import { useBetween } from '../../../../hooks/useBetween';
 
 const MoneyEntityList = () => {
   const { width } = useScreenSize();

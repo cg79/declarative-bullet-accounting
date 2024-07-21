@@ -1,7 +1,7 @@
-import { useBetween } from 'src/hooks/useBetween';
 import useMoneyInvitations from '../hooks/useMoneyInvitations';
 import { MyCheckbox } from '../../../../_components/reuse/my-checkbox';
 import { IEntityInvitation } from '../entity-invitation-type';
+import { useBetween } from '../../../../hooks/useBetween';
 
 const AcceptedInvitations = () => {
   const { invitations, toggleInvitationSelection } =

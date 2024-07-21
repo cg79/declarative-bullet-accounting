@@ -6,7 +6,7 @@ import {
   createMoneyTransactionsFilterExpression,
 } from '../money-helpers';
 import { IEntityInvitation } from '../../entity-invitations/entity-invitation-type';
-import { useBetween } from 'src/hooks/useBetween';
+import { useBetween } from '../../../../hooks/useBetween';
 
 export type IMoneyAggregationFilter = {
   accountId: string;

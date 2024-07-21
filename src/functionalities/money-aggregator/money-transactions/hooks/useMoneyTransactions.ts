@@ -5,7 +5,7 @@ import {
   IMoneyTransaction,
   IMoneyTransactionType,
 } from '../money-transaction-type';
-import { useBetween } from 'src/hooks/useBetween';
+import { useBetween } from '../../../../hooks/useBetween';
 
 const useMoneyTransactions = () => {
   const { loggedUser } = useBetween(useIdentity);

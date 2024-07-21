@@ -1,9 +1,9 @@
 import { InputText } from 'primereact/inputtext';
 import { utils } from '../../_utils/utils';
 import { useEffect, useRef } from 'react';
-import { useBetween } from 'src/hooks/useBetween';
 import useEvents from '../../_store/useEvents';
 import useScreenSize from '../../hooks/useScreenSize';
+import { useBetween } from '../../hooks/useBetween';
 
 export const LabelInput = ({
   label,

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { MyButton } from '../../../_components/reuse/my-button';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
-import { useBetween } from 'src/hooks/useBetween';
 import DataTableWrapper from '../../../_components/reuse/data-table/DataTableWrapper';
 import { helpers } from '../../../_utils/helpers';
 import { AddEditInvitation } from '../add-edit/add-edit-invitation';
@@ -12,6 +11,7 @@ import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
 import useMoneyEntities from '../../money-aggregator/money-entity/hooks/useMoneyEntities';
 import { IMoneyEntity } from '../../money-aggregator/money-entity/money-entity-type';
 import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
+import { useBetween } from '../../../hooks/useBetween';
 
 export const CompanyInvitations = () => {
   const { deleteInvitation, saveInvitation, getInvitations } =

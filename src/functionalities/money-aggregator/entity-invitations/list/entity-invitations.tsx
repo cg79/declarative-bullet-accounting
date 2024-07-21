@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { MyButton } from '../../../../_components/reuse/my-button';
-import { useBetween } from 'src/hooks/useBetween';
 import DataTableWrapper from '../../../../_components/reuse/data-table/DataTableWrapper';
-import { Dialog } from 'primereact/dialog';
 import { helpers } from '../../../../_utils/helpers';
 import { AddEditInvitation } from '../add-edit/add-edit-invitation';
 import { IInvitation } from '../../../transactions/model/accounting_types';
@@ -15,6 +13,7 @@ import { IEntityInvitation } from '../entity-invitation-type';
 import useMoneyInvitations from '../hooks/useMoneyInvitations';
 import TreeIcon from '../../categories/components/icons/tree-icon';
 import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
+import { useBetween } from '../../../../hooks/useBetween';
 
 export const EntityInvitations = () => {
   const { loggedUser } = useBetween(useIdentity);

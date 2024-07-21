@@ -1,7 +1,7 @@
 import { Dialog } from 'primereact/dialog';
 import useShortcut from '../../functionalities/money-aggregator/categories/shortcut/useShortcut';
-import { useBetween } from 'src/hooks/useBetween';
 import { useEffect } from 'react';
+import { useBetween } from '../../hooks/useBetween';
 
 export const DialogWrapper = ({ header, visible, onHide, children }) => {
   const { enableDisableShortcut } = useBetween(useShortcut);

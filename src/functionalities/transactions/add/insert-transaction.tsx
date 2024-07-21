@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { AccountingInput } from './accounting-input';
 import { IAddEditTransactionValues } from '../model/accounting_types';
 import useFirme from '../../../_store/useFirme';
-import { useBetween } from 'src/hooks/useBetween';
 import useAccountingDbActions from '../hook/useAccountingDbActions';
 import { createDefaultIAddEditTransactionValues } from '../model/helpers';
 import { useTransactions } from '../hook/useTransactions';
+import { useBetween } from '../../../hooks/useBetween';
 
 //not used
 export const InsertTransaction = ({ onCancel, accountingRecord }) => {

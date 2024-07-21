@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useBetween } from 'src/hooks/useBetween';
 import useEvents from '../../../../_store/useEvents';
 import { ICategory } from '../category-type';
 import { InputText } from 'primereact/inputtext';
 import { LabelInput } from '../../../../_components/reuse/LabelInput';
+import { useBetween } from '../../../../hooks/useBetween';
 
 export const AddEditCategoryInline = ({
   category,

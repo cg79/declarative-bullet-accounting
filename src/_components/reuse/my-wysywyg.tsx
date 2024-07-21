@@ -1,6 +1,6 @@
 import Editor from 'react-simple-wysiwyg';
-import { useBetween } from 'src/hooks/useBetween';
-import useScreenSize from 'src/hooks/useScreenSize';
+import useScreenSize from '../../hooks/useScreenSize';
+import { useBetween } from '../../hooks/useBetween';
 export const WysYWYG = ({
   html,
   setHtml,

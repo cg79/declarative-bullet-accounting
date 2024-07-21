@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useBetween } from 'src/hooks/useBetween';
 import useApi from '../../../../hooks/useApi';
 import useIdentity from '../../../../_store/useIdentity';
 import { IMoneyEntity } from '../money-entity-type';
 import { MONEY_ENTITY_COLLECTION } from '../constants';
 import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
 import { CustomHttpResponse } from '../../../../_fluentApi/CustomHttpResponse';
+import { useBetween } from '../../../../hooks/useBetween';
 
 const useMoneyEntities = () => {
   const { loggedUser } = useBetween(useIdentity);

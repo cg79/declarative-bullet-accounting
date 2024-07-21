@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Tree from './components/tree';
 import ShortcutComponent from './shortcut/shortcut-component';
-import { useBetween } from 'src/hooks/useBetween';
 import useCategoryState from './hooks/useCategoryState';
 import { ICategory } from './category-type';
 import useMoneyEntities from '../money-entity/hooks/useMoneyEntities';
+import { useBetween } from '../../../hooks/useBetween';
 
 export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
   const { selectedMoneyEntity } = useBetween(useMoneyEntities);

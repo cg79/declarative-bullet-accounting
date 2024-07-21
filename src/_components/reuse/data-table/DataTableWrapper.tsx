@@ -3,10 +3,10 @@
 // import { utils } from '../../_utils/utils';
 // import { useState } from 'react';
 
-import useScreenSize from 'src/hooks/useScreenSize';
+import { useBetween } from '../../../hooks/useBetween';
+import useScreenSize from '../../../hooks/useScreenSize';
 import DataCardRenderer from './DataCardRenderer';
 import DataTableRenderer from './DataTableRenderer';
-import { useBetween } from 'src/hooks/useBetween';
 
 export type FieldHeaderType = {
   field?: string;

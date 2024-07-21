@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { MyButton } from '../../../_components/reuse/my-button';
 import { MyLottie } from '../../../_components/reuse/my-lottie';
-import { useBetween } from 'src/hooks/useBetween';
 import useIdentity from '../../../_store/useIdentity';
 import { useUserMethods } from '../../user/useUserMethods';
+import { useBetween } from '../../../hooks/useBetween';
 
 export const DeleteAccount = () => {
   const { deleteAccount } = useUserMethods();

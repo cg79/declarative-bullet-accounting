@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { AggregateCategory, ICategory } from '../category-type';
-import { useBetween } from 'src/hooks/useBetween';
 import useIdentity from '../../../../_store/useIdentity';
 import useApi from '../../../../hooks/useApi';
 import { CATEGORY_COLLECTION } from '../constants';
@@ -8,6 +7,7 @@ import { IMoneyEntity } from '../../money-entity/money-entity-type';
 import { utils } from '../../../../_utils/utils';
 import { buildTreeFromParent, defaultCategory } from '../category-helpers';
 import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
+import { useBetween } from '../../../../hooks/useBetween';
 
 const useCategoryState = () => {
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(

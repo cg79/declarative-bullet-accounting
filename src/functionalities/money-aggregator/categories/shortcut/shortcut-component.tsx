@@ -4,7 +4,7 @@ import { useBetween } from '../../../../hooks/useBetween';
 import useShortcut from './useShortcut';
 
 const ShortcutComponent = ({ onShortCutAction, children }) => {
-  const { isShortcutEnabled, setShortcutEnabled } = useBetween(useShortcut);
+  const { isShortcutEnabled } = useBetween(useShortcut);
 
   // useEffect(() => {
   //   document.addEventListener("keypress", handleKeyDown);

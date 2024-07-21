@@ -16,7 +16,7 @@ import { WysYWYG } from '../../../../_components/reuse/my-wysywyg';
 import MyIcon from '../../../../_components/reuse/my-icon';
 import { utils } from '../../../../_utils/utils';
 import LabelRadioButtonList from '../../../../_components/reuse/LabelRadioButtonList';
-import { useBetween } from 'src/hooks/useBetween';
+import { useBetween } from '../../../../hooks/useBetween';
 
 export const AddEditMoneyTransaction = ({
   moneyTransaction,

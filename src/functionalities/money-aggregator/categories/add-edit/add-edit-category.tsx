@@ -2,13 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { MyButton } from '../../../../_components/reuse/my-button';
 import { Tooltip } from 'react-tooltip';
 import { LabelInput } from '../../../../_components/reuse/LabelInput';
-import { LabelDate } from '../../../../_components/reuse/LabelDate';
-import { LabelEmail } from '../../../../_components/reuse/LabelEmail';
-import { helpers } from '../../../../_utils/helpers';
-import observer from '../../../../_store/observer';
-import { useBetween } from 'src/hooks/useBetween';
 import useEvents from '../../../../_store/useEvents';
 import { ICategory } from '../category-type';
+import { useBetween } from '../../../../hooks/useBetween';
 
 export const AddEditCategory = ({
   category,

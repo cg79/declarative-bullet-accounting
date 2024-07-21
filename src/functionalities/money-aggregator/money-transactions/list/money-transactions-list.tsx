@@ -219,12 +219,6 @@ const MoneyTransactionsList = () => {
         customSaveFunction={onSaveMoneyTransaction}
         customDeleteFunction={onDeleteMoneyTransaction}
         renderActions={renderActions}
-        newItem={getDefaultMoneyTransaction(
-          selectedCategory,
-          selectedMoneyEntity,
-          accounts,
-          loggedUser
-        )}
       ></GenericList>
     </>
   );

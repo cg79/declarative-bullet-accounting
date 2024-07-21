@@ -1,4 +1,3 @@
-import { useBetween } from 'src/hooks/useBetween';
 import GenericList from '../../../todo/list/GenericList';
 import useIdentity, { ILoggedUser } from '../../../../_store/useIdentity';
 import { utils } from '../../../../_utils/utils';
@@ -10,6 +9,7 @@ import { IMoneyAccount } from '../money-account-type';
 import useMoneyAccounts from '../hooks/useMoneyAccounts';
 import MyIcon from '../../../../_components/reuse/my-icon';
 import { useCallback, useEffect } from 'react';
+import { useBetween } from '../../../../hooks/useBetween';
 
 const MoneyAccountList = () => {
   const { loggedUser } = useBetween(useIdentity);

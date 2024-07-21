@@ -5,14 +5,13 @@ import { AddEditCompany } from '../add-edit/add-edit-company';
 import useFirme from '../../../_store/useFirme';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
 import { utils } from '../../../_utils/utils';
-import { useBetween } from 'src/hooks/useBetween';
 import { ICompany } from '../types';
 import DataTableWrapper from '../../../_components/reuse/data-table/DataTableWrapper';
 import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
-import { Dialog } from 'primereact/dialog';
 import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
 import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
 import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
+import { useBetween } from '../../../hooks/useBetween';
 
 export const CompanyList = () => {
   const { deleteCompany, saveFirma } = useAccountingDbActions();

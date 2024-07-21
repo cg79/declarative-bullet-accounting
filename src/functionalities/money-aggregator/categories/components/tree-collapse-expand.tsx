@@ -1,4 +1,4 @@
-import MyIcon from 'src/_components/reuse/my-icon';
+import MyIcon from '../../../../_components/reuse/my-icon';
 import { ICategory } from '../category-type';
 
 const TreeCollapseExpand = ({

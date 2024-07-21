@@ -1,39 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": false,
-
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "commonjs",
+    "target": "es2017",
+    "declaration": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "@api": ["target/generated-sources/xs2r-client"],
-      "@assets": ["src/main/webapp/assets"],
-      "@assets/*": ["src/main/webapp/assets/*"],
-      "@config": ["src/main/webapp/config"],
-      "@config/*": ["src/main/webapp/config/*"],
-      "@components": ["src/main/webapp/components"],
-      "@components/*": ["src/main/webapp/components/*"],
-      "@hooks": ["src/main/webapp/hooks"],
-      "@hooks/*": ["src/main/webapp/hooks/*"],
-      "@util": ["src/main/webapp/util"],
-      "@util/*": ["src/main/webapp/util/*"]
-    },
-    "allowSyntheticDefaultImports": true
+    "noImplicitAny": false
   },
-  "include": ["src/**/*"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
