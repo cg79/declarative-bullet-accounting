@@ -1,13 +1,13 @@
-import { useCallback, useState } from "react";
-import { AggregateCategory, ICategory } from "../category-type";
-import { useBetween } from "use-between";
-import useIdentity from "../../../../_store/useIdentity";
-import useApi from "../../../../hooks/useApi";
-import { CATEGORY_COLLECTION } from "../constants";
-import { IMoneyEntity } from "../../money-entity/money-entity-type";
-import { utils } from "../../../../_utils/utils";
-import { buildTreeFromParent, defaultCategory } from "../category-helpers";
-import { BULLET_METHOD } from "../../../../_fluentApi/fluent/constants";
+import { useCallback, useState } from 'react';
+import { AggregateCategory, ICategory } from '../category-type';
+import { useBetween } from 'use-between';
+import useIdentity from '../../../../_store/useIdentity';
+import useApi from '../../../../hooks/useApi';
+import { CATEGORY_COLLECTION } from '../constants';
+import { IMoneyEntity } from '../../money-entity/money-entity-type';
+import { utils } from '../../../../_utils/utils';
+import { buildTreeFromParent, defaultCategory } from '../category-helpers';
+import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
 
 const useCategoryState = () => {
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
@@ -117,7 +117,7 @@ const useCategoryState = () => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
           data: [],
         };
       }
@@ -142,7 +142,7 @@ const useCategoryState = () => {
       );
       if (!rootCategory) {
         const rootCategory: ICategory = defaultCategory();
-        rootCategory.label = "Categorii";
+        rootCategory.label = 'Categorii';
         const saveResponse = await saveCategory(
           rootCategory,
           selectedMoneyEntity
@@ -179,7 +179,7 @@ const useCategoryState = () => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
           data: null,
         };
       }
@@ -211,7 +211,7 @@ const useCategoryState = () => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
         };
       }
       // - daca nu exista, le insereaza
@@ -236,14 +236,14 @@ const useCategoryState = () => {
     if (!loggedUser) {
       return {
         success: false,
-        message: "Nu sunteti autentificat",
+        message: 'Nu sunteti autentificat',
       };
     }
 
     // - daca nu exista, le insereaza
     const response = await executeMethodFromModule({
-      method: "deleteCategory",
-      moduleName: "accounting",
+      method: 'deleteCategory',
+      moduleName: 'accounting',
       body: {
         _id: category._id,
         parentId: category.parentId,
@@ -257,12 +257,12 @@ const useCategoryState = () => {
     if (!loggedUser) {
       return Promise.resolve({
         success: false,
-        message: "Nu sunteti autentificat",
+        message: 'Nu sunteti autentificat',
       });
     }
     executeMethodFromModule({
-      method: "aggregateAmountByCategory",
-      moduleName: "accounting",
+      method: 'aggregateAmountByCategory',
+      moduleName: 'accounting',
 
       body: {
         find: filterBy,
@@ -274,8 +274,10 @@ const useCategoryState = () => {
       }
       setAggregateCategories(response.data);
 
-      calculateAmountsWithAggregates(categoryTree[0], response.data);
-      setCategoryTree([...categoryTree]);
+      if (categoryTree.length) {
+        calculateAmountsWithAggregates(categoryTree[0], response.data);
+        setCategoryTree([...categoryTree]);
+      }
     });
   };
 

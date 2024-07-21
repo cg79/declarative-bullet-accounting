@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { FirmeDropDown } from "../../company/dropdown/firme-dropdown";
-import useFirme from "../../../_store/useFirme";
-import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
-import { useBetween } from "use-between";
-import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
-import { Dialog } from "primereact/dialog";
-import { helpers } from "../../../_utils/helpers";
-import { AddEditInvitation } from "../add-edit/add-edit-invitation";
-import { IInvitation } from "../../transactions/model/accounting_types";
-import useIdentity from "../../../_store/useIdentity";
-import { utils } from "../../../_utils/utils";
-import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
-import useMoneyEntities from "../../money-aggregator/money-entity/hooks/useMoneyEntities";
-import { IMoneyEntity } from "../../money-aggregator/money-entity/money-entity-type";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { useCallback, useEffect, useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
+import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
+import { useBetween } from 'use-between';
+import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import { helpers } from '../../../_utils/helpers';
+import { AddEditInvitation } from '../add-edit/add-edit-invitation';
+import { IInvitation } from '../../transactions/model/accounting_types';
+import useIdentity from '../../../_store/useIdentity';
+import { utils } from '../../../_utils/utils';
+import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
+import useMoneyEntities from '../../money-aggregator/money-entity/hooks/useMoneyEntities';
+import { IMoneyEntity } from '../../money-aggregator/money-entity/money-entity-type';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const CompanyInvitations = () => {
   const { deleteInvitation, saveInvitation, getInvitations } =
@@ -52,13 +49,13 @@ export const CompanyInvitations = () => {
       return;
     }
     const newInvitation: IInvitation = {
-      _id: "",
+      _id: '',
       dataInvitatie: 0,
       accepted: false,
-      email: "",
-      name: "",
+      email: '',
+      name: '',
       clientId: loggedUser.clientId,
-      entityId: selectedMoneyEntity?._id || "",
+      entityId: selectedMoneyEntity?._id || '',
     };
 
     setItem(newInvitation);
@@ -133,15 +130,15 @@ export const CompanyInvitations = () => {
         <DataTableWrapper
           data={invitations}
           fieldHeader={[
-            { header: "Email", field: "email" },
+            { header: 'Email', field: 'email' },
             {
-              header: "Data Invitatie",
-              field: "dataInvitatie",
+              header: 'Data Invitatie',
+              field: 'dataInvitatie',
               body: (el) => utils.dateNumberToYYYYMMDD(el.dataInvitatie),
             },
-            { header: "Acceptat", field: "accepted" },
+            { header: 'Acceptat', field: 'accepted' },
             {
-              header: "Actiuni",
+              header: 'Actiuni',
               body: (el) => {
                 return (
                   <div className="fcenter">
