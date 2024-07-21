@@ -3,9 +3,16 @@
 // import { utils } from '../../_utils/utils';
 // import { useState } from 'react';
 
+export type FieldHeaderType = {
+  field?: string;
+  header: string;
+  body?: any;
+  style?: any;
+};
+
 export interface MyDataTableProps {
   data: any[];
-  fieldHeader: { field?: string; header: string; body?: any }[];
+  fieldHeader: FieldHeaderType[];
 
   onRowClick?: (data: any) => void;
   renderDefaultActions?: (data: any) => any;
@@ -19,32 +26,39 @@ const DataTableWrapper = ({
 }: MyDataTableProps) => {
   return (
     <div className="hscroll" key={Math.random()}>
-      <div className="flex mt10 bold">
-        {fieldHeader.map((header) => (
-          <div key={header.field} style={{ flex: 1 }} className="bold tcell">
-            {header.header}
-          </div>
-        ))}
-        {renderDefaultActions && (
-          <div style={{ flex: 1 }}>{renderDefaultActions(null)}</div>
-        )}
-      </div>
-      <div className="mt10">
-        {data.map((item) => (
-          <div
-            key={item._id}
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-            className="mycardFilter"
-            onClick={() => onRowClick && onRowClick(item)}
-          >
+      <table>
+        <tbody>
+          <tr>
             {fieldHeader.map((header) => (
-              <div key={Math.random()} style={{ flex: 1 }}>
-                {header.body ? header.body(item) : item[header.field || '']}
-              </div>
+              <th
+                key={header.field}
+                className="bold tcell"
+                style={header.style}
+              >
+                {header.header}
+              </th>
             ))}
-          </div>
-        ))}
-      </div>
+            {renderDefaultActions && (
+              <th style={{ flex: 1 }}>{renderDefaultActions(null)}</th>
+            )}
+          </tr>
+
+          {data.map((item) => (
+            <tr
+              key={item._id}
+              // style={{ display: 'flex' }}
+              className="mycardFilter"
+              onClick={() => onRowClick && onRowClick(item)}
+            >
+              {fieldHeader.map((header) => (
+                <td key={Math.random()} style={header.style}>
+                  {header.body ? header.body(item) : item[header.field || '']}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

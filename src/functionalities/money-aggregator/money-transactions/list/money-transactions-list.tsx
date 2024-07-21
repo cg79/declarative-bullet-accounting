@@ -153,6 +153,7 @@ const MoneyTransactionsList = () => {
             field: 'date',
             header: 'Data',
             body: (item) => utils.dateNumberToYYYYMMDD(item.date),
+            style: { flex: 1.5, border: '1px solid black' },
           },
           {
             field: 'amount',

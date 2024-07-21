@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import useGenericList from '../hooks/useGenericList';
 import { MyButton } from '../../../_components/reuse/my-button';
-import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import DataTableWrapper, {
+  FieldHeaderType,
+} from '../../../_components/reuse/DataTableWrapper';
 import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
 import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
 import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
@@ -23,7 +25,7 @@ interface MyGenericListProps<T> {
   sortBy: { field: string; ascending: boolean }[];
   filterBy?: any;
   modalTitle: Function;
-  fieldHeader: { field?: string; header: string; body?: any }[];
+  fieldHeader: FieldHeaderType[];
   customSaveFunction?: (item: T) => Promise<unknown>;
   customDeleteFunction?: (item: T) => Promise<unknown>;
   onAfterItemSaved?: (item: T) => void;
