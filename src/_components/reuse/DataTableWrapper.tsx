@@ -38,16 +38,20 @@ const DataTableWrapper = ({
       <table className="my-table">
         <tbody>
           <tr className="header">
-            {fieldHeader.map((header) => (
+            {fieldHeader.map((header, index) => (
               <th
                 key={header.field}
                 className="bold "
                 style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
               >
-                <span>{header.header}</span>
+                <div className="flex">
+                  {header.header}
+                  {index === fieldHeader.length - 1 &&
+                    renderDefaultActions &&
+                    renderDefaultActions(null)}
+                </div>
               </th>
             ))}
-            {renderDefaultActions && <th>{renderDefaultActions(null)}</th>}
           </tr>
 
           {data.map((item) => (
