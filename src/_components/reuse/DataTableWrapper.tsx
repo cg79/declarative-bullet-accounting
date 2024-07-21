@@ -10,6 +10,15 @@ export type FieldHeaderType = {
   style?: any;
 };
 
+const DEFAULT_STYLE = {
+  // minWidth: '100px',
+  // flex: 1,
+  // padding: '0 10px',
+  // boxSizing: 'border-box',
+  // padding: '5px',
+  // 'border-bottom': '1px solid lightgray',
+};
+
 export interface MyDataTableProps {
   data: any[];
   fieldHeader: FieldHeaderType[];
@@ -26,32 +35,33 @@ const DataTableWrapper = ({
 }: MyDataTableProps) => {
   return (
     <div className="hscroll" key={Math.random()}>
-      <table>
+      <table className="my-table">
         <tbody>
-          <tr>
+          <tr className="header">
             {fieldHeader.map((header) => (
               <th
                 key={header.field}
-                className="bold tcell"
-                style={header.style}
+                className="bold "
+                style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
               >
-                {header.header}
+                <span>{header.header}</span>
               </th>
             ))}
-            {renderDefaultActions && (
-              <th style={{ flex: 1 }}>{renderDefaultActions(null)}</th>
-            )}
+            {renderDefaultActions && <th>{renderDefaultActions(null)}</th>}
           </tr>
 
           {data.map((item) => (
             <tr
               key={item._id}
-              // style={{ display: 'flex' }}
-              className="mycardFilter"
+              className="mycardFilter1 "
               onClick={() => onRowClick && onRowClick(item)}
             >
               {fieldHeader.map((header) => (
-                <td key={Math.random()} style={header.style}>
+                <td
+                  key={Math.random()}
+                  className="tcellh"
+                  style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
+                >
                   {header.body ? header.body(item) : item[header.field || '']}
                 </td>
               ))}

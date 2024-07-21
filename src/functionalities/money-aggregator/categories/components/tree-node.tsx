@@ -5,7 +5,7 @@ import TreeNodeAddEdit from './tree-node-add-edit';
 import { Dialog } from 'primereact/dialog';
 import IconGallery from './icons/icons-gallery';
 import { SHORTCUT_ACTIONS } from '../constants';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import useCategoryState from '../hooks/useCategoryState';
 import AddEditMoneyTransaction from '../../money-transactions/add-edit/add-edit-money-transaction';
 import useMoneyTransactions from '../../money-transactions/hooks/useMoneyTransactions';

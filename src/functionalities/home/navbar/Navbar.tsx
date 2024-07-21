@@ -1,63 +1,63 @@
-import { Menubar } from "primereact/menubar";
-import { MenuItem } from "primereact/menuitem";
-import { useNavigate } from "react-router-dom";
-import { SvgImport } from "../../../_components/svgs/svg-import";
-import { useBetween } from "use-between";
-import useIdentity from "../../../_store/useIdentity";
-import { SvgSalary } from "../../../_components/svgs/svg-salary";
+import { Menubar } from 'primereact/menubar';
+import { MenuItem } from 'primereact/menuitem';
+import { useNavigate } from 'react-router-dom';
+import { SvgImport } from '../../../_components/svgs/svg-import';
+import { useBetween } from 'src/hooks/useBetween';
+import useIdentity from '../../../_store/useIdentity';
+import { SvgSalary } from '../../../_components/svgs/svg-salary';
 
 export const Navbar = () => {
   const { loggedUser, deconectare } = useBetween(useIdentity);
   const navigate = useNavigate();
   const items: MenuItem[] = [
     {
-      label: "Acasa",
-      icon: "pi pi-fw pi-building",
+      label: 'Acasa',
+      icon: 'pi pi-fw pi-building',
 
       command: () => {
-        console.log("/");
-        navigate("/");
+        console.log('/');
+        navigate('/');
       },
     },
     {
-      label: "Start",
-      icon: "pi pi-fw pi-file",
+      label: 'Start',
+      icon: 'pi pi-fw pi-file',
       items: [
         {
-          label: "Termeni",
-          icon: "pi pi-fw pi-external-link",
+          label: 'Termeni',
+          icon: 'pi pi-fw pi-external-link',
           command: () => {
-            navigate("/termeni");
+            navigate('/termeni');
           },
         },
         {
-          label: "Feedback",
-          icon: "pi pi-fw pi-external-link",
+          label: 'Feedback',
+          icon: 'pi pi-fw pi-external-link',
           command: () => {
-            navigate("/feedback");
+            navigate('/feedback');
           },
         },
         {
-          label: "Sterge Cont",
-          icon: "pi pi-fw pi-trash",
+          label: 'Sterge Cont',
+          icon: 'pi pi-fw pi-trash',
           command: () => {
-            navigate("/stergerecont");
-          },
-          visible: !!loggedUser,
-        },
-        {
-          label: "Lista Banci",
-          icon: "pi pi-fw pi-trash",
-          command: () => {
-            navigate("/banci");
+            navigate('/stergerecont');
           },
           visible: !!loggedUser,
         },
         {
-          label: "Todo",
-          icon: "pi pi-fw pi-calculator",
+          label: 'Lista Banci',
+          icon: 'pi pi-fw pi-trash',
           command: () => {
-            navigate("/todo");
+            navigate('/banci');
+          },
+          visible: !!loggedUser,
+        },
+        {
+          label: 'Todo',
+          icon: 'pi pi-fw pi-calculator',
+          command: () => {
+            navigate('/todo');
           },
           visible: !!loggedUser,
         },
@@ -74,7 +74,7 @@ export const Navbar = () => {
     },
 
     {
-      label: "Logare",
+      label: 'Logare',
       icon: (
         <div className="mr5">
           <SvgSalary></SvgSalary>
@@ -82,27 +82,27 @@ export const Navbar = () => {
       ),
 
       command: () => {
-        navigate("/login");
+        navigate('/login');
       },
       visible: !!!loggedUser,
     },
     {
-      label: "Conturi",
-      icon: "pi pi-fw pi-building",
+      label: 'Conturi',
+      icon: 'pi pi-fw pi-building',
 
       command: () => {
-        console.log("/accounts");
-        navigate("/accounts");
+        console.log('/accounts');
+        navigate('/accounts');
       },
       visible: !!loggedUser,
     },
     {
-      label: "Entitati",
-      icon: "pi pi-fw pi-building",
+      label: 'Entitati',
+      icon: 'pi pi-fw pi-building',
 
       command: () => {
-        console.log("/entitiy");
-        navigate("/entity");
+        console.log('/entitiy');
+        navigate('/entity');
       },
       visible: !!loggedUser && !loggedUser.isInvited,
     },
@@ -173,20 +173,20 @@ export const Navbar = () => {
     //   visible: !!loggedUser,
     // },
     {
-      label: "Money Aggregator",
-      icon: "pi pi-fw pi-calculator",
+      label: 'Money Aggregator',
+      icon: 'pi pi-fw pi-calculator',
       command: () => {
-        console.log("Tranzactii");
-        navigate("/categories");
+        console.log('Tranzactii');
+        navigate('/categories');
       },
       visible: !!loggedUser,
     },
 
     {
-      label: "Invitatii",
-      icon: "pi pi-fw pi-external-link",
+      label: 'Invitatii',
+      icon: 'pi pi-fw pi-external-link',
       command: () => {
-        navigate("/entity-invitations");
+        navigate('/entity-invitations');
       },
       visible: !!loggedUser && !loggedUser?.isInvited,
     },
@@ -214,16 +214,16 @@ export const Navbar = () => {
     // },
 
     {
-      label: "Utilizator",
-      template: ({}) => <div>{loggedUser?.nick || "no nick"}</div>,
-      icon: "pi pi-fw pi-file",
+      label: 'Utilizator',
+      template: ({}) => <div>{loggedUser?.nick || 'no nick'}</div>,
+      icon: 'pi pi-fw pi-file',
       items: [
         {
-          label: "Deconectare",
-          icon: "pi pi-fw pi-power-off",
+          label: 'Deconectare',
+          icon: 'pi pi-fw pi-power-off',
           command: () => {
             deconectare();
-            navigate("/login");
+            navigate('/login');
           },
           visible: !!loggedUser,
         },

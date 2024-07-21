@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
-import { useBetween } from "use-between";
-import useApi from "../../../../hooks/useApi";
-import useIdentity from "../../../../_store/useIdentity";
+import { useCallback, useState } from 'react';
+import useApi from '../../../../hooks/useApi';
+import useIdentity from '../../../../_store/useIdentity';
 import {
   IMoneyTransaction,
   IMoneyTransactionType,
-} from "../money-transaction-type";
+} from '../money-transaction-type';
+import { useBetween } from 'src/hooks/useBetween';
 
 const useMoneyTransactions = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -16,7 +16,7 @@ const useMoneyTransactions = () => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
         };
       }
       if (moneyTransaction.amount < 0) {
@@ -30,8 +30,8 @@ const useMoneyTransactions = () => {
       }
 
       return executeMethodFromModule({
-        method: "addOrEditMoneyTransaction",
-        moduleName: "accounting",
+        method: 'addOrEditMoneyTransaction',
+        moduleName: 'accounting',
 
         body: moneyTransaction,
       });
@@ -45,12 +45,12 @@ const useMoneyTransactions = () => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
         };
       }
       return executeMethodFromModule({
-        method: "deleteMoneyTransaction",
-        moduleName: "accounting",
+        method: 'deleteMoneyTransaction',
+        moduleName: 'accounting',
 
         body: moneyTransaction,
       });

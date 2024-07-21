@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import useApi from '../../../../hooks/useApi';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import { IEntityInvitation } from '../entity-invitation-type';
 import useIdentity from '../../../../_store/useIdentity';
 import { ENTITY_INVITATIONS } from '../constants';

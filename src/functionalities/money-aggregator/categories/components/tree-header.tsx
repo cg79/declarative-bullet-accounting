@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TreeHeaderLabel from './tree-header-label';
 import TreeNodeAmounts from './tree-node-amounts';
 import TreeNodeHeaderActions from './tree-node-header-actions';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import useCategoryState from '../hooks/useCategoryState';
 import { ICategory } from '../category-type';
 import APP_CONSTANTS from '../../money-constants';

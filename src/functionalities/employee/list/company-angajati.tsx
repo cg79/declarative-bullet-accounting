@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { AddEditAngajat } from "../add-edit/add-edit-angajat";
-import { IAngajat } from "../../transactions/model/accounting_types";
-import { FirmeDropDown } from "../../company/dropdown/firme-dropdown";
-import useFirme from "../../../_store/useFirme";
-import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
-import { useBetween } from "use-between";
-import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
-import { Dialog } from "primereact/dialog";
-import { helpers } from "../../../_utils/helpers";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { AddEditAngajat } from '../add-edit/add-edit-angajat';
+import { IAngajat } from '../../transactions/model/accounting_types';
+import { FirmeDropDown } from '../../company/dropdown/firme-dropdown';
+import useFirme from '../../../_store/useFirme';
+import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
+import { useBetween } from 'src/hooks/useBetween';
+import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import { Dialog } from 'primereact/dialog';
+import { helpers } from '../../../_utils/helpers';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const CompanyAngajati = () => {
   const { deleteAngajat, saveAngajat } = useAccountingDbActions();
@@ -28,12 +28,12 @@ export const CompanyAngajati = () => {
 
   const addAngajat = () => {
     const newItem: IAngajat = {
-      _id: "",
-      nume: "",
+      _id: '',
+      nume: '',
       dataAngajare: 0,
       salarii: [],
       showDemisie: false,
-      contPersonal: "",
+      contPersonal: '',
     };
     setItem(newItem);
   };
@@ -102,9 +102,9 @@ export const CompanyAngajati = () => {
         <DataTableWrapper
           data={angajati}
           fieldHeader={[
-            { header: "Nume", field: "nume" },
+            { header: 'Nume', field: 'nume' },
             {
-              header: "Actiuni",
+              header: 'Actiuni',
               body: (el) => {
                 return (
                   <div className="fcenter">

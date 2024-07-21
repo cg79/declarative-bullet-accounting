@@ -1,6 +1,6 @@
-import ChartDataLabels from "chartjs-plugin-datalabels";
-import "react-dropdown/style.css";
-import "react-datepicker/dist/react-datepicker.css";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import 'react-dropdown/style.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   Chart as ChartJS,
@@ -10,11 +10,11 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
+} from 'chart.js';
 
-import { Bar } from "react-chartjs-2";
-import { useBetween } from "use-between";
-import { useTransactions } from "../hook/useTransactions";
+import { Bar } from 'react-chartjs-2';
+import { useBetween } from 'src/hooks/useBetween';
+import { useTransactions } from '../hook/useTransactions';
 
 ChartJS.register(
   CategoryScale,
@@ -29,11 +29,11 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      position: 'top' as const,
     },
     title: {
       display: true,
-      text: "Charts",
+      text: 'Charts',
     },
   },
 };

@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useBetween } from "use-between";
-import useEvents from "../../../../_store/useEvents";
-import { ICategory } from "../category-type";
-import { InputText } from "primereact/inputtext";
-import { LabelInput } from "../../../../_components/reuse/LabelInput";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useBetween } from 'src/hooks/useBetween';
+import useEvents from '../../../../_store/useEvents';
+import { ICategory } from '../category-type';
+import { InputText } from 'primereact/inputtext';
+import { LabelInput } from '../../../../_components/reuse/LabelInput';
 
 export const AddEditCategoryInline = ({
   category,
@@ -15,7 +15,7 @@ export const AddEditCategoryInline = ({
   onCancel: () => void;
 }) => {
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [item, setItem] = useState<ICategory>(category);
   const inputRef = useRef<HTMLInputElement>(null);
   const { triggerEnterPressed } = useBetween(useEvents);
@@ -30,15 +30,15 @@ export const AddEditCategoryInline = ({
     if (input) {
       input.focus();
     } else {
-      console.log("input is null");
+      console.log('input is null');
     }
   }, []);
 
   const triggerSaveCategory = () => {
-    setError("");
+    setError('');
 
     if (!item.label) {
-      setError("Nume categorie invalid");
+      setError('Nume categorie invalid');
       return;
     }
     onSave(item);
@@ -54,13 +54,13 @@ export const AddEditCategoryInline = ({
 
   const handleKeyPress = (e: any) => {
     console.log(e.key);
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       // Your code here, e.g., submit the form, call an API, etc.
       // observer.publish("ENTER_PRESSED");
       return triggerEnterPressed();
     }
 
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       return onCancel();
     }
     e.stopPropagation();
@@ -83,8 +83,8 @@ export const AddEditCategoryInline = ({
         labelCss="bold"
         lwidth="auto"
         label="Nume categorie:"
-        labelStyles={{ marginRight: "5px" }}
-        inputStyles={{ width: "130px" }}
+        labelStyles={{ marginRight: '5px' }}
+        inputStyles={{ width: '130px' }}
         // type="text"
         onChange={(e) => {
           onChange(e);

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { STARTING_ACCOUNT_VALUES } from "../transactions/constants/accounting_constants";
-import { AccountingField } from "../transactions/add/accounting-field";
-import { MyButton } from "../../_components/reuse/my-button";
-import { FirmeDropDown } from "../company/dropdown/firme-dropdown";
-import { utils } from "../../_utils/utils";
-import useFirme from "../../_store/useFirme";
-import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
-import { useBetween } from "use-between";
+import { useEffect, useState } from 'react';
+import { STARTING_ACCOUNT_VALUES } from '../transactions/constants/accounting_constants';
+import { AccountingField } from '../transactions/add/accounting-field';
+import { MyButton } from '../../_components/reuse/my-button';
+import { FirmeDropDown } from '../company/dropdown/firme-dropdown';
+import { utils } from '../../_utils/utils';
+import useFirme from '../../_store/useFirme';
+import useAccountingDbActions from '../transactions/hook/useAccountingDbActions';
+import { useBetween } from 'src/hooks/useBetween';
 
 // STARTING_ACCOUNT_VALUES;
 export const AccountingInitialValues = () => {
@@ -20,42 +20,42 @@ export const AccountingInitialValues = () => {
 
   const arr = [
     {
-      label: "TAXE",
+      label: 'TAXE',
       items: [
         {
-          label: "Pensie",
+          label: 'Pensie',
           onChange: (val: string) => (initialState.taxe.pensie = Number(val)),
           value: () => initialState.taxe.pensie,
         },
         {
-          label: "Sanatate",
+          label: 'Sanatate',
           onChange: (val: string) => (initialState.taxe.sanatate = Number(val)),
           value: () => initialState.taxe.sanatate,
         },
         {
-          label: "Munca",
+          label: 'Munca',
           onChange: (val: string) => (initialState.taxe.munca = Number(val)),
           value: () => initialState.taxe.munca,
         },
         {
-          label: "Dividende",
+          label: 'Dividende',
           onChange: (val: string) =>
             (initialState.taxe.dividende = Number(val)),
           value: () => initialState.taxe.dividende,
         },
         {
-          label: "Tva",
+          label: 'Tva',
           onChange: (val: string) => (initialState.taxe.tva = Number(val)),
           value: () => initialState.taxe.tva,
         },
         {
-          label: "Taxe Profit",
+          label: 'Taxe Profit',
           onChange: (val: string) =>
             (initialState.taxe.taxa_profit = Number(val)),
           value: () => initialState.taxe.taxa_profit,
         },
         {
-          label: "Tva deductibil",
+          label: 'Tva deductibil',
           onChange: (val: string) =>
             (initialState.taxe.tva_deductibil = Number(val)),
           value: () => initialState.taxe.tva_deductibil,
@@ -63,10 +63,10 @@ export const AccountingInitialValues = () => {
       ],
     },
     {
-      label: "Casa",
+      label: 'Casa',
       items: [
         {
-          label: "Firma",
+          label: 'Firma',
           onChange: (val: string) => {
             initialState.casa.firma = Number(val);
           },
@@ -75,13 +75,13 @@ export const AccountingInitialValues = () => {
           },
         },
         {
-          label: "Cont Personal",
+          label: 'Cont Personal',
           onChange: (val: string) =>
             (initialState.casa.cont_personal = Number(val)),
           value: () => initialState.casa.cont_personal,
         },
         {
-          label: "Disponibil",
+          label: 'Disponibil',
           onChange: (val: string) =>
             (initialState.casa.disponibil = Number(val)),
           value: () => initialState.casa.disponibil,
@@ -144,12 +144,12 @@ export const AccountingInitialValues = () => {
               <MyButton
                 text="Renunta"
                 onClick={() => setEditMode(false)}
-                disabled={selectedFirma?._id === ""}
+                disabled={selectedFirma?._id === ''}
               ></MyButton>
               <MyButton
                 text="Salveaza"
                 onClick={() => saveInitialValues()}
-                disabled={selectedFirma?._id === ""}
+                disabled={selectedFirma?._id === ''}
               ></MyButton>
             </div>
           )}
@@ -157,7 +157,7 @@ export const AccountingInitialValues = () => {
             <MyButton
               text="Editeaza"
               onClick={() => setEditMode(true)}
-              disabled={selectedFirma?._id === ""}
+              disabled={selectedFirma?._id === ''}
             ></MyButton>
           )}
         </div>

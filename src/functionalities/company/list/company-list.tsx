@@ -1,18 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
+import { useCallback, useEffect, useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
 
-import { AddEditCompany } from "../add-edit/add-edit-company";
-import useFirme from "../../../_store/useFirme";
-import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
-import { utils } from "../../../_utils/utils";
-import { useBetween } from "use-between";
-import { ICompany } from "../types";
-import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
-import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
-import { Dialog } from "primereact/dialog";
-import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
-import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { AddEditCompany } from '../add-edit/add-edit-company';
+import useFirme from '../../../_store/useFirme';
+import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
+import { utils } from '../../../_utils/utils';
+import { useBetween } from 'src/hooks/useBetween';
+import { ICompany } from '../types';
+import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
+import { Dialog } from 'primereact/dialog';
+import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
+import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const CompanyList = () => {
   const { deleteCompany, saveFirma } = useAccountingDbActions();
@@ -32,11 +32,11 @@ export const CompanyList = () => {
 
   const addCompany = () => {
     const newItem: ICompany = {
-      _id: "",
-      nume: "",
+      _id: '',
+      nume: '',
       dataInfiintare: utils.dateToEpoch(),
       isActive: false,
-      codFiscal: "",
+      codFiscal: '',
     };
     setItem(newItem);
   };
@@ -119,8 +119,8 @@ export const CompanyList = () => {
             <DataTableWrapper
               data={firme}
               fieldHeader={[
-                { field: "nume", header: "Nume" },
-                { header: "Actiuni", body: (item) => renderActiuni(item) },
+                { field: 'nume', header: 'Nume' },
+                { header: 'Actiuni', body: (item) => renderActiuni(item) },
               ]}
             ></DataTableWrapper>
             <div className="flex center mt10">
@@ -147,7 +147,7 @@ export const CompanyList = () => {
                 headerMessage={() =>
                   `Esti sigur ca vrei sa stergi ${itemToBedeleted.nume} ?`
                 }
-                customStyles={{ maxWidth: "500px" }}
+                customStyles={{ maxWidth: '500px' }}
               ></ConfirmDialogWrapper>
             )}
           </div>

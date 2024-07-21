@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { MyButton } from "../../_components/reuse/my-button";
-import { LabelInput } from "../../_components/reuse/LabelInput";
-import useIdentity from "../../_store/useIdentity";
-import { useBetween } from "use-between";
-import { MyLottie } from "../../_components/reuse/my-lottie";
-import { helpers } from "../../_utils/helpers";
-import { utils } from "../../_utils/utils";
+import { useCallback, useEffect, useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MyButton } from '../../_components/reuse/my-button';
+import { LabelInput } from '../../_components/reuse/LabelInput';
+import useIdentity from '../../_store/useIdentity';
+import { useBetween } from '../../hooks/useBetween';
+import { MyLottie } from '../../_components/reuse/my-lottie';
+import { helpers } from '../../_utils/helpers';
+import { utils } from '../../_utils/utils';
 import useAccountingDbActions, {
   InvitationType,
-} from "../transactions/hook/useAccountingDbActions";
+} from '../transactions/hook/useAccountingDbActions';
 
 type InvitationUIType = {
   password: string;
@@ -22,13 +22,13 @@ export const AcceptInvitation = () => {
   const { acceptInvitation } = useAccountingDbActions();
   const { clearLoggedUser, setareUserLogat } = useBetween(useIdentity);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const { _id, clientId } = utils.getQueryAsJson();
 
   const [data, setData] = React.useState<InvitationUIType>({
-    password: "",
-    nick: "",
+    password: '',
+    nick: '',
   });
 
   const updateData = (value: string, key: string) => {
@@ -39,7 +39,7 @@ export const AcceptInvitation = () => {
     clearLoggedUser();
   }, []);
   const callCreateAccountFromInvitation = async (payload: InvitationUIType) => {
-    setError("");
+    setError('');
 
     const request: InvitationType = {
       _id,
@@ -53,13 +53,13 @@ export const AcceptInvitation = () => {
 
     if (responseData.success) {
       setareUserLogat(responseData.data);
-      return navigate("/home");
+      return navigate('/home');
     }
     if (!responseData.success) {
-      if (typeof responseData.message === "string") {
-        setError(responseData.message || "Eroare la acceptarea invitatiei");
+      if (typeof responseData.message === 'string') {
+        setError(responseData.message || 'Eroare la acceptarea invitatiei');
       } else {
-        setError("Eroare la resetarea parolei");
+        setError('Eroare la resetarea parolei');
       }
     }
   };
@@ -78,7 +78,7 @@ export const AcceptInvitation = () => {
         <div className="mt10">
           <LabelInput
             label="Nick Name: "
-            onChange={(val: string) => updateData(val, "nick")}
+            onChange={(val: string) => updateData(val, 'nick')}
             value={data.nick}
           ></LabelInput>
         </div>
@@ -86,12 +86,12 @@ export const AcceptInvitation = () => {
           <LabelInput
             type="password"
             label="Setare parola: "
-            onChange={(val: string) => updateData(val, "password")}
+            onChange={(val: string) => updateData(val, 'password')}
             value={data.password}
           ></LabelInput>
         </div>
 
-        <div className="flex" style={{ marginTop: "20px" }}>
+        <div className="flex" style={{ marginTop: '20px' }}>
           <MyButton
             onClick={() => callCreateAccountFromInvitation(data)}
             text="Setare Parola"
@@ -100,7 +100,7 @@ export const AcceptInvitation = () => {
 
         <div className="fcenter mt10">
           <MyButton
-            onClick={() => navigate("/login")}
+            onClick={() => navigate('/login')}
             text="Navigare catre ecranul de autentificare"
             className="linkbutton ml5"
             useBaseButton={false}

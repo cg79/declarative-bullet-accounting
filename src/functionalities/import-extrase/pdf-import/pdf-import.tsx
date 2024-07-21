@@ -1,23 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FirmeAngajatiDropDown } from "../../employee/dropdown/firme-angajati-dropdown";
+import { FirmeAngajatiDropDown } from '../../employee/dropdown/firme-angajati-dropdown';
 
-import { MyButton } from "../../../_components/reuse/my-button";
+import { MyButton } from '../../../_components/reuse/my-button';
 
-import useFirme from "../../../_store/useFirme";
-import { useBetween } from "use-between";
-import { TabView, TabPanel } from "primereact/tabview";
-import { Transactions } from "./transactions";
-import useImportTransactions from "./useImportTransactions";
-import { BULLET_IO_URL } from "../../../constants";
-import { utils } from "../../../_utils/utils";
-import { helpers } from "../../../_utils/helpers";
-import useApi from "../../../hooks/useApi";
+import useFirme from '../../../_store/useFirme';
+import { useBetween } from 'src/hooks/useBetween';
+import { TabView, TabPanel } from 'primereact/tabview';
+import { Transactions } from './transactions';
+import useImportTransactions from './useImportTransactions';
+import { BULLET_IO_URL } from '../../../constants';
+import { utils } from '../../../_utils/utils';
+import { helpers } from '../../../_utils/helpers';
+import useApi from '../../../hooks/useApi';
 import {
   BULLET_METHOD,
   STORAGE_PROVIDER,
-} from "../../../_fluentApi/fluent/constants";
-import BulletFile from "../../../_fluentApi/BulletFile";
+} from '../../../_fluentApi/fluent/constants';
+import BulletFile from '../../../_fluentApi/BulletFile';
 
 export const PdfImport = () => {
   const { executeMethod } = useApi();
@@ -92,7 +92,7 @@ export const PdfImport = () => {
       .storage((s) =>
         s
           .addFiles(ifiles)
-          .bucket(selectedAngajat?._id || "")
+          .bucket(selectedAngajat?._id || '')
           .provider(STORAGE_PROVIDER.LOCAL)
       )
       // .flow((f) => f.name("pdf_import"))
@@ -222,17 +222,17 @@ export const PdfImport = () => {
 
             <MyButton
               onClick={() => selectDeselectAllUploadedFiles(true)}
-              text={"Select All"}
+              text={'Select All'}
             ></MyButton>
 
             <MyButton
               onClick={() => selectDeselectAllUploadedFiles(false)}
-              text={"Deselectare"}
+              text={'Deselectare'}
               disabled={selectedCount === 0}
             ></MyButton>
             <MyButton
               onClick={() => deleteSelectedUploadedFiles()}
-              text={"Stergere"}
+              text={'Stergere'}
               disabled={selectedCount === 0}
             ></MyButton>
           </div>

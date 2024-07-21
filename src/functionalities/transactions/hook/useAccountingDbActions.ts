@@ -24,7 +24,7 @@ import DEFAULT_TAXES from '../../taxes/default-taxes';
 import DEFAULT_SALARIES from '../../employee/salary/list/default-salaries';
 import { useCallback } from 'react';
 import { helpers } from '../../../_utils/helpers';
-import { useBetween } from 'use-between';
+import { useBetween } from '../../../hooks/useBetween';
 import useIdentity from '../../../_store/useIdentity';
 import useApi from '../../../hooks/useApi';
 import { utils } from '../../../_utils/utils';
@@ -145,7 +145,6 @@ const useAccountingDbActions = () => {
 
   const acceptInvitation = useCallback(
     async (invitation: InvitationType) => {
-
       const response = await executeMethodFromModule(
         {
           moduleName: 'user',
@@ -486,7 +485,7 @@ const useAccountingDbActions = () => {
   );
 
   const setInitialAccountingValues = useCallback(
-    async (selectedFirma:ICompany, accountingValues: IAccountingValues) => {
+    async (selectedFirma: ICompany, accountingValues: IAccountingValues) => {
       // const {startAccountingData}  = useStartAccountingData();
 
       // - daca nu exista, le insereaza

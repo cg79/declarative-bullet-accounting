@@ -5,7 +5,7 @@ import { LabelInput } from '../../_components/reuse/LabelInput';
 import { MyButton } from '../../_components/reuse/my-button';
 import { MyLottie } from '../../_components/reuse/my-lottie';
 import useIdentity from '../../_store/useIdentity';
-import { useBetween } from 'use-between';
+import { useBetween } from '../../hooks/useBetween';
 // import GoogleAuth from "./google-auth";
 // import { gapi } from "gapi-script";
 

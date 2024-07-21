@@ -1,4 +1,4 @@
-import { useBetween } from 'use-between';
+import { useBetween } from '../../../../hooks/useBetween';
 import GenericList from '../../../todo/list/GenericList';
 import AddEditMoneyTransaction from '../add-edit/add-edit-money-transaction';
 import {
@@ -153,7 +153,6 @@ const MoneyTransactionsList = () => {
             field: 'date',
             header: 'Data',
             body: (item) => utils.dateNumberToYYYYMMDD(item.date),
-            style: { flex: 1.5, border: '1px solid black' },
           },
           {
             field: 'amount',
@@ -168,6 +167,7 @@ const MoneyTransactionsList = () => {
           {
             field: 'type',
             header: 'Tip',
+            style: { textAlign: 'center' },
             body: (item) => {
               switch (item.type) {
                 case IMoneyTransactionType.INCOME:

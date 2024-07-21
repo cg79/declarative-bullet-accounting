@@ -1,19 +1,19 @@
-import { useBetween } from "use-between";
-import useFirme from "../../../_store/useFirme";
+import { useBetween } from 'src/hooks/useBetween';
+import useFirme from '../../../_store/useFirme';
 
 import {
   IAccountingRecord,
   IAccountingValues,
   IAddEditTransactionValues,
-} from "../../transactions/model/accounting_types";
-import { executeAccountingLamda } from "../../logic/accounting_lamda";
-import useSalary from "../../employee/salary/useSalary";
-import useTaxes from "../../taxes/useTaxes";
-import { useState } from "react";
-import { STARTING_ACCOUNT_VALUES } from "../../transactions/constants/accounting_constants";
-import useLamdaFunctions from "../../lamda/useLamdaFunctions";
-import { utils } from "../../../_utils/utils";
-import { DeltaFunction } from "../../../services/code-execution";
+} from '../../transactions/model/accounting_types';
+import { executeAccountingLamda } from '../../logic/accounting_lamda';
+import useSalary from '../../employee/salary/useSalary';
+import useTaxes from '../../taxes/useTaxes';
+import { useState } from 'react';
+import { STARTING_ACCOUNT_VALUES } from '../../transactions/constants/accounting_constants';
+import useLamdaFunctions from '../../lamda/useLamdaFunctions';
+import { utils } from '../../../_utils/utils';
+import { DeltaFunction } from '../../../services/code-execution';
 
 export const useSimulation = () => {
   const [previousCasa, setPreviousCasa] = useState<IAccountingValues>(

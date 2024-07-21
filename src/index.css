@@ -780,9 +780,37 @@ ul.my{
   gap: 15px;
 }
 
-.tcell {
-  /* border: 1px solid red; */
-  /* width: 150px; */
-
+.my-table {
+  width: 100%;
+  border-collapse: collapse;
 }
+
+.my-table tr {
+  background: transparent;
+    color: #4b5563;
+}
+
+.my-table tr.header {
+  background: rgb(247, 246, 246);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.my-table tr:hover {
+  background: lightgray;
+    color: #4b5563;
+}
+
+.my-table td, th {
+  text-align: left;
+  /* border: 1px solid #e5e7eb; */
+  /* border-width: 0 0 1px 0; */
+  padding: 1rem 1rem;
+  /* border-collapse: collapse; */
+}
+
+.my-table th {
+    text-align: left;
+}
+
 

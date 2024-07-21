@@ -1,4 +1,4 @@
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
 import useMoneyAccounts from '../money-account/hooks/useMoneyAccounts';
 import {
@@ -57,48 +57,50 @@ const MoneyFilter = () => {
         ></MyButton>
       </div>
 
-      <DialogWrapper
-        header="Filtre"
-        visible={showFilters}
-        // style={{ width: "80vw" }}
-        onHide={() => setShowFilters(false)}
-      >
-        <div className="fcenter">
-          <div className="flex mt10">
-            <LabelDropDown
-              label={'Cont: '}
-              className=""
-              lwidth="135px"
-              onChange={(accountValue: IMoneyAccount) => {
-                const account = accountsWithDefaultValue.find(
-                  (a) => a._id === accountValue._id
-                );
-                setSelectedAccount(account);
-              }}
-              options={accountsWithDefaultValue}
-              value={selectedAccount}
-              optionLabel="name"
-              optionValue="_id"
-            ></LabelDropDown>
-          </div>
+      {showFilters && (
+        <DialogWrapper
+          header="Filtre"
+          visible={showFilters}
+          // style={{ width: "80vw" }}
+          onHide={() => setShowFilters(false)}
+        >
+          <div className="fcenter">
+            <div className="flex mt10">
+              <LabelDropDown
+                label={'Cont: '}
+                className=""
+                lwidth="135px"
+                onChange={(accountValue: IMoneyAccount) => {
+                  const account = accountsWithDefaultValue.find(
+                    (a) => a._id === accountValue._id
+                  );
+                  setSelectedAccount(account);
+                }}
+                options={accountsWithDefaultValue}
+                value={selectedAccount}
+                optionLabel="name"
+                optionValue="_id"
+              ></LabelDropDown>
+            </div>
 
-          <div className="flex mt10">
-            <AcceptedInvitations></AcceptedInvitations>
-          </div>
+            <div className="flex mt10">
+              <AcceptedInvitations></AcceptedInvitations>
+            </div>
 
-          <div className="fcenter3">
-            <DateStartEnd
-              startDate={startDate}
-              endDate={endDate}
-              onStartDate={(val) => {
-                updateStartDate(val);
-                console.log(accounts);
-              }}
-              onEndDate={updateEndDate}
-            ></DateStartEnd>
+            <div className="fcenter3">
+              <DateStartEnd
+                startDate={startDate}
+                endDate={endDate}
+                onStartDate={(val) => {
+                  updateStartDate(val);
+                  console.log(accounts);
+                }}
+                onEndDate={updateEndDate}
+              ></DateStartEnd>
+            </div>
           </div>
-        </div>
-      </DialogWrapper>
+        </DialogWrapper>
+      )}
     </>
   );
 };

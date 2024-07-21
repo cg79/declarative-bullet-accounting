@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { AccountingInput } from "./accounting-input";
-import { IAddEditTransactionValues } from "../model/accounting_types";
-import useFirme from "../../../_store/useFirme";
-import { useBetween } from "use-between";
-import { Dialog } from "primereact/dialog";
-import useAccountingDbActions from "../hook/useAccountingDbActions";
-import { createDefaultIAddEditTransactionValues } from "../model/helpers";
-import { useTransactions } from "../hook/useTransactions";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { AccountingInput } from './accounting-input';
+import { IAddEditTransactionValues } from '../model/accounting_types';
+import useFirme from '../../../_store/useFirme';
+import { useBetween } from 'src/hooks/useBetween';
+import { Dialog } from 'primereact/dialog';
+import useAccountingDbActions from '../hook/useAccountingDbActions';
+import { createDefaultIAddEditTransactionValues } from '../model/helpers';
+import { useTransactions } from '../hook/useTransactions';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const AddTransaction = () => {
   const [addMode, setAddMode] = useState<boolean>(false);
   const uptadeAddMode = () => setAddMode(!addMode);
   const { selectedAngajat, selectedFirma } = useBetween(useFirme);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const { addAccountingRecord } = useAccountingDbActions();
   const { reloadAccountingRecords } = useBetween(useTransactions);
 
@@ -27,7 +27,7 @@ export const AddTransaction = () => {
     if (!selectedFirma) {
       return;
     }
-    setError("");
+    setError('');
 
     return addAccountingRecord(accountingValues, selectedAngajat._id).then(
       (value) => {
@@ -68,8 +68,8 @@ export const AddTransaction = () => {
         <div className="fcenter">
           <MyButton
             onClick={() => uptadeAddMode()}
-            text={"Adaugare Tranzactie"}
-            disabled={selectedAngajat?._id === ""}
+            text={'Adaugare Tranzactie'}
+            disabled={selectedAngajat?._id === ''}
           ></MyButton>
         </div>
       )}

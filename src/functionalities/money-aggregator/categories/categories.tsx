@@ -4,7 +4,7 @@ import { ICategory } from './category-type';
 import useCategoryState from './hooks/useCategoryState';
 import { AddEditCategory } from './add-edit/add-edit-category';
 import MoneyTransactionsList from '../money-transactions/list/money-transactions-list';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import useMoneyEntities from '../money-entity/hooks/useMoneyEntities';
 import { IMoneyEntity } from '../money-entity/money-entity-type';
 import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
@@ -85,22 +85,22 @@ export const Categories = () => {
   //#endregion
 
   //#region Rendering
-  const renderCategoryDialog = () => {
-    return newCategory ? (
-      <DialogWrapper
-        header="Date categorie"
-        visible={newCategory !== null}
-        // style={{ width: "50vw" }}
-        onHide={() => setNewCategory(null)}
-      >
-        <AddEditCategory
-          category={newCategory}
-          onSave={executeSaveCategory}
-          onCancel={() => setNewCategory(null)}
-        ></AddEditCategory>
-      </DialogWrapper>
-    ) : null;
-  };
+  // const renderCategoryDialog = () => {
+  //   return newCategory ? (
+  //     <DialogWrapper
+  //       header="Date categorie"
+  //       visible={newCategory !== null}
+  //       // style={{ width: "50vw" }}
+  //       onHide={() => setNewCategory(null)}
+  //     >
+  //       <AddEditCategory
+  //         category={newCategory}
+  //         onSave={executeSaveCategory}
+  //         onCancel={() => setNewCategory(null)}
+  //       ></AddEditCategory>
+  //     </DialogWrapper>
+  //   ) : null;
+  // };
 
   return (
     <div className="fcenter1">

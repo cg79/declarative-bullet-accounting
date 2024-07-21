@@ -1,12 +1,12 @@
-import useFilters from "../../../_store/useFilters";
-import { useBetween } from "use-between";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { Dialog } from "primereact/dialog";
-import { LabelDate } from "../../../_components/reuse/LabelDate";
-import { Chip } from "primereact/chip";
-import { MyCheckbox } from "../../../_components/reuse/my-checkbox";
-import { utils } from "../../../_utils/utils";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import useFilters from '../../../_store/useFilters';
+import { useBetween } from 'src/hooks/useBetween';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { Dialog } from 'primereact/dialog';
+import { LabelDate } from '../../../_components/reuse/LabelDate';
+import { Chip } from 'primereact/chip';
+import { MyCheckbox } from '../../../_components/reuse/my-checkbox';
+import { utils } from '../../../_utils/utils';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const FilterActions = () => {
   // const [semester, setSemester] = useState(1);
@@ -50,7 +50,7 @@ export const FilterActions = () => {
     <>
       <div className="fcenter">
         <MyButton
-          text={showFilters ? "Ascunde Filtre" : "Arata Filtre"}
+          text={showFilters ? 'Ascunde Filtre' : 'Arata Filtre'}
           onClick={() => {
             toggleFilters();
           }}
@@ -63,7 +63,7 @@ export const FilterActions = () => {
         <div className="fcenter mt10">
           <MyCheckbox
             id={utils.createUUID()}
-            label={include ? "Contin" : "Nu Contin"}
+            label={include ? 'Contin' : 'Nu Contin'}
             onChange={() => {
               togleInclude();
             }}
@@ -72,7 +72,7 @@ export const FilterActions = () => {
         </div>
       )}
 
-      <div className="fcenter fwrap mt10" style={{ gap: "10px" }}>
+      <div className="fcenter fwrap mt10" style={{ gap: '10px' }}>
         {checkedFilters.map((el, i) => (
           <Chip
             key={utils.createUUID()}
@@ -81,7 +81,7 @@ export const FilterActions = () => {
             onRemove={() => {
               deselectFilter(el);
             }}
-            style={include ? { color: "green" } : { color: "brown" }}
+            style={include ? { color: 'green' } : { color: 'brown' }}
           ></Chip>
         ))}
       </div>
@@ -109,7 +109,7 @@ export const FilterActions = () => {
           <div className="fcenter fwrap ">
             <div
               className="fcenter   fwrap"
-              style={{ marginTop: "10px", gap: "40px" }}
+              style={{ marginTop: '10px', gap: '40px' }}
             >
               <LabelDate
                 label="Data Start:"
@@ -130,11 +130,11 @@ export const FilterActions = () => {
               ></LabelDate>
             </div>
 
-            <div style={{ marginTop: "30px" }} className="flex fwrap fcenter">
+            <div style={{ marginTop: '30px' }} className="flex fwrap fcenter">
               {filters.map((el) => (
                 <div
                   className="mycardFilter"
-                  style={{ marginLeft: "1px", marginTop: "1px" }}
+                  style={{ marginLeft: '1px', marginTop: '1px' }}
                   key={el.label}
                 >
                   <MyCheckbox
@@ -143,7 +143,7 @@ export const FilterActions = () => {
                     value={el.value}
                     onChange={() => toggleFilter(el)}
                     label={el.label}
-                    checked={el["checked"]}
+                    checked={el['checked']}
                   />
                 </div>
               ))}

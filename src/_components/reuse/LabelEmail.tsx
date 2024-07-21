@@ -1,9 +1,9 @@
-import { InputText } from "primereact/inputtext";
-import { utils } from "../../_utils/utils";
-import { useEffect, useRef, useState } from "react";
-import { helpers } from "../../_utils/helpers";
-import { useBetween } from "use-between";
-import useEvents from "../../_store/useEvents";
+import { InputText } from 'primereact/inputtext';
+import { utils } from '../../_utils/utils';
+import { useEffect, useRef, useState } from 'react';
+import { helpers } from '../../_utils/helpers';
+import { useBetween } from 'src/hooks/useBetween';
+import useEvents from '../../_store/useEvents';
 
 export type LabelProps = {
   label: string;
@@ -12,19 +12,19 @@ export type LabelProps = {
 };
 
 export const DEFAULT_LABEL_PROPS: LabelProps = {
-  label: "",
-  labelCss: "bold",
-  lwidth: "80px",
+  label: '',
+  labelCss: 'bold',
+  lwidth: '80px',
 };
 
 export const LabelEmail = ({
   label,
-  labelCss = "bold",
+  labelCss = 'bold',
   onChange,
-  error = "",
-  value = "",
-  lwidth = "80px",
-  type = "text",
+  error = '',
+  value = '',
+  lwidth = '80px',
+  type = 'text',
   disabled = false,
   autoFocus = false,
 }) => {
@@ -39,7 +39,7 @@ export const LabelEmail = ({
   }, []);
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       // Your code here, e.g., submit the form, call an API, etc.
       // observer.publish("ENTER_PRESSED");
       triggerEnterPressed();
@@ -61,10 +61,10 @@ export const LabelEmail = ({
           htmlFor={id}
           className={labelCss} // ${labelCss}
           style={{
-            cursor: "pointer",
+            cursor: 'pointer',
             width: lwidth,
-            display: "inline-block",
-            marginTop: "15px",
+            display: 'inline-block',
+            marginTop: '15px',
           }}
         >
           {label}
@@ -74,7 +74,7 @@ export const LabelEmail = ({
             ref={inputRef}
             id={id}
             value={value}
-            className={`myInput  ${isValidEmail ? "valid" : "error"}`}
+            className={`myInput  ${isValidEmail ? 'valid' : 'error'}`}
             type={type}
             onChange={(e) => inputChanged(e.target.value)}
             disabled={disabled}

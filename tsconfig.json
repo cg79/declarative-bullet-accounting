@@ -4,7 +4,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "skipLibCheck": true,
+    "skipLibCheck": false,
 
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
@@ -30,7 +30,7 @@
       "@hooks": ["src/main/webapp/hooks"],
       "@hooks/*": ["src/main/webapp/hooks/*"],
       "@util": ["src/main/webapp/util"],
-      "@util/*": ["src/main/webapp/util/*"],
+      "@util/*": ["src/main/webapp/util/*"]
     },
     "allowSyntheticDefaultImports": true
   },

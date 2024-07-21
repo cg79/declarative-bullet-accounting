@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { IInvitation } from "../../transactions/model/accounting_types";
-import { Tooltip } from "react-tooltip";
-import { LabelInput } from "../../../_components/reuse/LabelInput";
-import { LabelDate } from "../../../_components/reuse/LabelDate";
-import { LabelEmail } from "../../../_components/reuse/LabelEmail";
-import { helpers } from "../../../_utils/helpers";
-import observer from "../../../_store/observer";
-import { useBetween } from "use-between";
-import useEvents from "../../../_store/useEvents";
+import { useCallback, useEffect, useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { IInvitation } from '../../transactions/model/accounting_types';
+import { Tooltip } from 'react-tooltip';
+import { LabelInput } from '../../../_components/reuse/LabelInput';
+import { LabelDate } from '../../../_components/reuse/LabelDate';
+import { LabelEmail } from '../../../_components/reuse/LabelEmail';
+import { helpers } from '../../../_utils/helpers';
+import observer from '../../../_store/observer';
+import { useBetween } from 'src/hooks/useBetween';
+import useEvents from '../../../_store/useEvents';
 
 export const AddEditInvitation = ({
   invitation,
@@ -20,18 +20,18 @@ export const AddEditInvitation = ({
   onCancel: () => void;
 }) => {
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [item, setItem] = useState<IInvitation>(invitation);
 
   const triggerSaveInvitation = () => {
-    setError("");
+    setError('');
 
     if (!item.email) {
-      setError("Emailul trebuie sa fie completat");
+      setError('Emailul trebuie sa fie completat');
       return;
     }
     if (!helpers.isValidEmail(item.email)) {
-      setError("Emailul nu este valid");
+      setError('Emailul nu este valid');
       return;
     }
     onSave(item);
@@ -60,7 +60,7 @@ export const AddEditInvitation = ({
             lwidth="135px"
             autoFocus
             onChange={(val: string) => {
-              setError("");
+              setError('');
               const newV: IInvitation = {
                 ...item,
                 name: val,
@@ -76,7 +76,7 @@ export const AddEditInvitation = ({
             label="Email: "
             lwidth="135px"
             onChange={(val: string) => {
-              setError("");
+              setError('');
               const newV: IInvitation = {
                 ...item,
                 email: val,

@@ -1,7 +1,7 @@
-import { useBetween } from "use-between";
-import { ICategory } from "../category-type";
-import TreeNode from "./tree-node";
-import useCategoryState from "../hooks/useCategoryState";
+import { useBetween } from 'src/hooks/useBetween';
+import { ICategory } from '../category-type';
+import TreeNode from './tree-node';
+import useCategoryState from '../hooks/useCategoryState';
 
 const Tree = ({
   nodes,

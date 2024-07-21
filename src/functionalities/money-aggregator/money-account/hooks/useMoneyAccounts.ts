@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
-import { useBetween } from "use-between";
-import useApi from "../../../../hooks/useApi";
-import useIdentity, { ILoggedUser } from "../../../../_store/useIdentity";
-import { IMoneyAccount } from "../money-account-type";
-import { helpers } from "../../../../_utils/helpers";
-import { MONEY_ACCOUNT_COLLECTION } from "../constants";
-import { BULLET_METHOD } from "../../../../_fluentApi/fluent/constants";
+import { useCallback, useEffect, useState } from 'react';
+import { useBetween } from 'src/hooks/useBetween';
+import useApi from '../../../../hooks/useApi';
+import useIdentity, { ILoggedUser } from '../../../../_store/useIdentity';
+import { IMoneyAccount } from '../money-account-type';
+import { helpers } from '../../../../_utils/helpers';
+import { MONEY_ACCOUNT_COLLECTION } from '../constants';
+import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
 
 const useMoneyAccounts = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -43,7 +43,7 @@ const useMoneyAccounts = () => {
         setAccountsLoaded(true);
       })
       .catch((error) => {
-        console.error("Error refreshing accounts:", error);
+        console.error('Error refreshing accounts:', error);
       });
   }, [executeMethod, loggedUser, updateAccountsValue]);
 

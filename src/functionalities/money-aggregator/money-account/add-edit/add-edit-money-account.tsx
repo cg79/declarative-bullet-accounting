@@ -1,14 +1,14 @@
-import { useBetween } from "use-between";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import { ICategory } from "../../categories/category-type";
-import useEvents from "../../../../_store/useEvents";
-import { useEffect, useState } from "react";
-import { LabelNumericInput } from "../../../../_components/reuse/LabelNumericInput";
-import { LabelDate } from "../../../../_components/reuse/LabelDate";
-import { LabelInput } from "../../../../_components/reuse/LabelInput";
-import { ACCOUNT_TYPES, IMoneyAccount } from "../money-account-type";
-import RadioButtonList from "../../../../_components/reuse/radio-button-list";
-import LabelRadioButtonList from "../../../../_components/reuse/LabelRadioButtonList";
+import { useBetween } from 'src/hooks/useBetween';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import { ICategory } from '../../categories/category-type';
+import useEvents from '../../../../_store/useEvents';
+import { useEffect, useState } from 'react';
+import { LabelNumericInput } from '../../../../_components/reuse/LabelNumericInput';
+import { LabelDate } from '../../../../_components/reuse/LabelDate';
+import { LabelInput } from '../../../../_components/reuse/LabelInput';
+import { ACCOUNT_TYPES, IMoneyAccount } from '../money-account-type';
+import RadioButtonList from '../../../../_components/reuse/radio-button-list';
+import LabelRadioButtonList from '../../../../_components/reuse/LabelRadioButtonList';
 
 export const AddEditMoneyAccount = ({
   moneyEntity: moneyAccount,
@@ -20,15 +20,15 @@ export const AddEditMoneyAccount = ({
   onCancel: () => void;
 }) => {
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [currentTransaction, setCurrentTransaction] =
     useState<IMoneyAccount>(moneyAccount);
 
   const triggerSaveCategory = () => {
-    setError("");
+    setError('');
 
     if (!currentTransaction?.name) {
-      setError("invalid name");
+      setError('invalid name');
       return;
     }
     onSave(currentTransaction);
@@ -52,7 +52,7 @@ export const AddEditMoneyAccount = ({
             lwidth="135px"
             // autoFocus
             onChange={(val: string) => {
-              setError("");
+              setError('');
               const newV: IMoneyAccount = {
                 ...currentTransaction,
                 name: val,
@@ -69,7 +69,7 @@ export const AddEditMoneyAccount = ({
             lwidth="135px"
             // autoFocus
             onChange={(val: number) => {
-              setError("");
+              setError('');
               const newV: IMoneyAccount = {
                 ...currentTransaction,
                 amount: val,

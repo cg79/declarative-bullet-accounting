@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { MyButton } from '../../../_components/reuse/my-button';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
 import { helpers } from '../../../_utils/helpers';
 import { AddEditInvitation } from '../add-edit/add-edit-invitation';

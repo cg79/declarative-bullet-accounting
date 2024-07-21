@@ -1,17 +1,17 @@
-import { useEffect, useRef } from "react";
-import { utils } from "../../_utils/utils";
-import { NumericInput } from "./numeric-input";
-import { useBetween } from "use-between";
-import useEvents from "../../_store/useEvents";
-import useScreenSize from "../../hooks/useScreenSize";
+import { useEffect, useRef } from 'react';
+import { utils } from '../../_utils/utils';
+import { NumericInput } from './numeric-input';
+import { useBetween } from 'src/hooks/useBetween';
+import useEvents from '../../_store/useEvents';
+import useScreenSize from '../../hooks/useScreenSize';
 
 export const LabelNumericInput = ({
   label,
-  labelCss = "bold",
+  labelCss = 'bold',
   onChange,
-  error = "",
+  error = '',
   value = 0,
-  lwidth = "160px",
+  lwidth = '160px',
   autoFocus = false,
   onEnter = () => {},
 }) => {
@@ -21,7 +21,7 @@ export const LabelNumericInput = ({
   const { triggerEnterPressed } = useBetween(useEvents);
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       triggerEnterPressed();
     }
     // if (e.key === "Escape") {
@@ -37,10 +37,10 @@ export const LabelNumericInput = ({
           htmlFor={id}
           className={labelCss} // ${labelCss}
           style={{
-            cursor: "pointer",
+            cursor: 'pointer',
             width: lwidth,
-            display: "inline-block",
-            marginTop: "15px",
+            display: 'inline-block',
+            marginTop: '15px',
           }}
         >
           {label}

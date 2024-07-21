@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import Tree from "./components/tree";
-import ShortcutComponent from "./shortcut/shortcut-component";
-import { useBetween } from "use-between";
-import useCategoryState from "./hooks/useCategoryState";
-import { ICategory } from "./category-type";
-import useMoneyEntities from "../money-entity/hooks/useMoneyEntities";
+import { useEffect, useState } from 'react';
+import Tree from './components/tree';
+import ShortcutComponent from './shortcut/shortcut-component';
+import { useBetween } from 'src/hooks/useBetween';
+import useCategoryState from './hooks/useCategoryState';
+import { ICategory } from './category-type';
+import useMoneyEntities from '../money-entity/hooks/useMoneyEntities';
 
 export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
   const { selectedMoneyEntity } = useBetween(useMoneyEntities);
   const [treeData, setTreeData] = useState(categoryTree);
-  const [shortCutAction, setShortCutAction] = useState<string>("");
+  const [shortCutAction, setShortCutAction] = useState<string>('');
   const {
     draggedCategory,
     setDraggedCategory,
@@ -149,7 +149,7 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
     <div
       id="category-tree"
       className="category-tree"
-      style={{ width: "100%", padding: "50px" }}
+      style={{ width: '100%', padding: '50px' }}
     >
       {/* <div className="flex flex-wrap gap-2 mb-4">
         <Button

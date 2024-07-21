@@ -1,15 +1,15 @@
-import { useBetween } from "use-between";
-import GenericList from "../../../todo/list/GenericList";
-import useIdentity, { ILoggedUser } from "../../../../_store/useIdentity";
-import { utils } from "../../../../_utils/utils";
-import observer from "../../../../_store/observer";
-import AddEditMoneyEntity from "../add-edit/add-edit-money-account";
-import { getDefaultMoneyEntity } from "../money-account-helpers";
-import { MONEY_ACCOUNT_COLLECTION } from "../constants";
-import { IMoneyAccount } from "../money-account-type";
-import useMoneyAccounts from "../hooks/useMoneyAccounts";
-import MyIcon from "../../../../_components/reuse/my-icon";
-import { useCallback, useEffect } from "react";
+import { useBetween } from 'src/hooks/useBetween';
+import GenericList from '../../../todo/list/GenericList';
+import useIdentity, { ILoggedUser } from '../../../../_store/useIdentity';
+import { utils } from '../../../../_utils/utils';
+import observer from '../../../../_store/observer';
+import AddEditMoneyEntity from '../add-edit/add-edit-money-account';
+import { getDefaultMoneyEntity } from '../money-account-helpers';
+import { MONEY_ACCOUNT_COLLECTION } from '../constants';
+import { IMoneyAccount } from '../money-account-type';
+import useMoneyAccounts from '../hooks/useMoneyAccounts';
+import MyIcon from '../../../../_components/reuse/my-icon';
+import { useCallback, useEffect } from 'react';
 
 const MoneyAccountList = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -29,7 +29,7 @@ const MoneyAccountList = () => {
       <AddEditMoneyEntity
         moneyEntity={item || createItem()}
         onCancel={() => {
-          observer.publish("ENABLE_SHORTCUT", true);
+          observer.publish('ENABLE_SHORTCUT', true);
           onCancel();
         }}
         onSave={onSave}
@@ -79,33 +79,33 @@ const MoneyAccountList = () => {
       <GenericList
         fieldHeader={[
           {
-            field: "nick",
-            header: "User",
+            field: 'nick',
+            header: 'User',
             body: (item) => item.nick,
           },
           {
-            field: "date",
-            header: "Data",
+            field: 'date',
+            header: 'Data',
             body: (item) => utils.dateNumberToYYYYMMDD(item.date),
           },
           {
-            field: "name",
-            header: "Nume",
+            field: 'name',
+            header: 'Nume',
           },
           {
-            field: "amount",
-            header: "Amount",
+            field: 'amount',
+            header: 'Amount',
           },
         ]}
         createItem={createItem}
         addItemButtonLabel="Adaugare Account"
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
-        sortBy={[{ field: "date", ascending: false }]}
+        sortBy={[{ field: 'date', ascending: false }]}
         modalTitle={(item: IMoneyAccount) => {
           return item?.name
             ? `Editare Account ${item.name}`
-            : "Adaugare Account";
+            : 'Adaugare Account';
         }}
         onAfterItemSaved={onAfterItemSaved}
         renderActions={renderActions}

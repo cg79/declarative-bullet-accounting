@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
-import { useBetween } from "use-between";
-import useApi from "../../../../hooks/useApi";
-import useIdentity from "../../../../_store/useIdentity";
-import { IMoneyEntity } from "../money-entity-type";
-import { MONEY_ENTITY_COLLECTION } from "../constants";
-import { BULLET_METHOD } from "../../../../_fluentApi/fluent/constants";
-import { CustomHttpResponse } from "../../../../_fluentApi/CustomHttpResponse";
+import { useCallback, useEffect, useState } from 'react';
+import { useBetween } from 'src/hooks/useBetween';
+import useApi from '../../../../hooks/useApi';
+import useIdentity from '../../../../_store/useIdentity';
+import { IMoneyEntity } from '../money-entity-type';
+import { MONEY_ENTITY_COLLECTION } from '../constants';
+import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
+import { CustomHttpResponse } from '../../../../_fluentApi/CustomHttpResponse';
 
 const useMoneyEntities = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -13,21 +13,21 @@ const useMoneyEntities = () => {
   const [selectedMoneyEntity, setSelectedMoneyEntity] =
     useState<IMoneyEntity | null>(null);
   const [moneyEntities, setMoneyEntities] = useState<IMoneyEntity[]>([]);
-  const [reloadItems, setReloadItems] = useState("");
+  const [reloadItems, setReloadItems] = useState('');
 
   const getAllEntities = useCallback(
     async (selectedMoneyEntity: IMoneyEntity | null) => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
           data: [],
         };
       }
       if (loggedUser.isInvited) {
         const response = await executeMethodFromModule({
-          method: "getEntitiesForInvitedUser",
-          moduleName: "user",
+          method: 'getEntitiesForInvitedUser',
+          moduleName: 'user',
           body: {},
         });
         return response;
@@ -79,7 +79,7 @@ const useMoneyEntities = () => {
 
         return categoriesResponse;
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error('Error fetching categories:', error);
       }
     };
 

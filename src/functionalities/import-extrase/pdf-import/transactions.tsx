@@ -1,18 +1,18 @@
-import { useBetween } from "use-between";
-import useImportTransactions from "./useImportTransactions";
+import { useBetween } from 'src/hooks/useBetween';
+import useImportTransactions from './useImportTransactions';
 
-import { utils } from "../../../_utils/utils";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { useRef } from "react";
-import useFirme from "../../../_store/useFirme";
+import { utils } from '../../../_utils/utils';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { useRef } from 'react';
+import useFirme from '../../../_store/useFirme';
 
-import { BULLET_IO_URL } from "../../../constants";
-import { Transaction } from "./transaction";
-import { store } from "../../../_store/store";
-import { helpers } from "../../../_utils/helpers";
-import useApi from "../../../hooks/useApi";
-import { STORAGE_PROVIDER } from "../../../_fluentApi/fluent/constants";
-import BulletFile from "../../../_fluentApi/BulletFile";
+import { BULLET_IO_URL } from '../../../constants';
+import { Transaction } from './transaction';
+import { store } from '../../../_store/store';
+import { helpers } from '../../../_utils/helpers';
+import useApi from '../../../hooks/useApi';
+import { STORAGE_PROVIDER } from '../../../_fluentApi/fluent/constants';
+import BulletFile from '../../../_fluentApi/BulletFile';
 
 export const Transactions = () => {
   const {
@@ -47,7 +47,7 @@ export const Transactions = () => {
       .storage((s) =>
         s
           .addFiles(ifiles)
-          .bucket(selectedAngajat?._id || "")
+          .bucket(selectedAngajat?._id || '')
           .provider(STORAGE_PROVIDER.LOCAL)
       )
       // .flow((f) => f.name("pdf_import"))
@@ -88,7 +88,7 @@ export const Transactions = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const selectFacturaForTransaction = (transaction: any) => {
-    store.set("TRANZACTION", transaction);
+    store.set('TRANZACTION', transaction);
     inputRef.current?.click();
   };
   const renderTransactions = () => {
@@ -113,7 +113,7 @@ export const Transactions = () => {
             // setFilesForUpload(e.target.files);
             handleUploadClick(e.target.files).then((val) => {
               console.log(val);
-              const tranzaction = store.get("TRANZACTION");
+              const tranzaction = store.get('TRANZACTION');
               setFacturaForTransaction(tranzaction, val);
             });
           }}
@@ -164,7 +164,7 @@ export const Transactions = () => {
           <div className="bottompage">
             <MyButton
               onClick={importTransactions}
-              text={"Import Transactions"}
+              text={'Import Transactions'}
               disabled={selectedCount === 0}
             ></MyButton>
 

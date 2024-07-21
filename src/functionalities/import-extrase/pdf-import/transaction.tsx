@@ -1,18 +1,18 @@
-import { Card } from "primereact/card";
-import { utils } from "../../../_utils/utils";
-import { Dropdown } from "primereact/dropdown";
-import { ddOptions } from "../../transactions/constants/dd-options";
-import { useBetween } from "use-between";
-import useImportTransactions from "./useImportTransactions";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { TransactionRecord } from "../../transactions/list/transaction-record";
-import { SplitButton } from "primereact/splitbutton";
-import useSimulation from "./useSimulation";
-import { IAddEditTransactionValues } from "../../transactions/model/accounting_types";
-import DatePickerWrapper from "../../../_components/reuse/DatePickerWrapper";
-import useAccountingDbActions from "../../transactions/hook/useAccountingDbActions";
-import useFirme from "../../../_store/useFirme";
-import { LabelDate } from "../../../_components/reuse/LabelDate";
+import { Card } from 'primereact/card';
+import { utils } from '../../../_utils/utils';
+import { Dropdown } from 'primereact/dropdown';
+import { ddOptions } from '../../transactions/constants/dd-options';
+import { useBetween } from 'src/hooks/useBetween';
+import useImportTransactions from './useImportTransactions';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { TransactionRecord } from '../../transactions/list/transaction-record';
+import { SplitButton } from 'primereact/splitbutton';
+import useSimulation from './useSimulation';
+import { IAddEditTransactionValues } from '../../transactions/model/accounting_types';
+import DatePickerWrapper from '../../../_components/reuse/DatePickerWrapper';
+import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
+import useFirme from '../../../_store/useFirme';
+import { LabelDate } from '../../../_components/reuse/LabelDate';
 
 export const Transaction = ({
   trans,
@@ -104,11 +104,11 @@ export const Transaction = ({
       <p className="m-0">
         <p
           style={{
-            fontSize: "0.8em",
-            width: "300px",
+            fontSize: '0.8em',
+            width: '300px',
           }}
         >
-          {trans.description.replace(/;/g, " ")}
+          {trans.description.replace(/;/g, ' ')}
         </p>
       </p>
     );
@@ -116,8 +116,8 @@ export const Transaction = ({
 
   const items = (trans) => [
     {
-      label: "Simulare Import",
-      icon: "pi pi-times",
+      label: 'Simulare Import',
+      icon: 'pi pi-times',
       command: async () => {
         console.log(this);
         if (!trans) {
@@ -129,8 +129,8 @@ export const Transaction = ({
       },
     },
     {
-      label: "Resetare valori casa",
-      icon: "pi pi-times",
+      label: 'Resetare valori casa',
+      icon: 'pi pi-times',
       command: async () => {
         console.log(this);
         resetCasa();

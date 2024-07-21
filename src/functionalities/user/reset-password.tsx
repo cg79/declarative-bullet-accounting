@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyButton } from '../../_components/reuse/my-button';
 import { LabelInput } from '../../_components/reuse/LabelInput';
-import { useBetween } from 'use-between';
+import { useBetween } from '../../hooks/useBetween';
 import { MyLottie } from '../../_components/reuse/my-lottie';
 import { helpers } from '../../_utils/helpers';
 import { utils } from '../../_utils/utils';

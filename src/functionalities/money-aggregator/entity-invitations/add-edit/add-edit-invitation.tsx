@@ -4,7 +4,7 @@ import { Tooltip } from 'react-tooltip';
 import { LabelInput } from '../../../../_components/reuse/LabelInput';
 import { LabelEmail } from '../../../../_components/reuse/LabelEmail';
 import { helpers } from '../../../../_utils/helpers';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import useEvents from '../../../../_store/useEvents';
 import { utils } from 'src/_utils/utils';
 import { IEntityInvitation } from '../entity-invitation-type';

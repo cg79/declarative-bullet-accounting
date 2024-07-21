@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import { ISalarAddEdit } from "../../../transactions/model/accounting_types";
+import { useState } from 'react';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import { ISalarAddEdit } from '../../../transactions/model/accounting_types';
 
-import { FirmeAngajatiDropDown } from "../../dropdown/firme-angajati-dropdown";
-import { AddEditSalar } from "../../../company/company-general-taxes/add-edit-salar";
+import { FirmeAngajatiDropDown } from '../../dropdown/firme-angajati-dropdown';
+import { AddEditSalar } from '../../../company/company-general-taxes/add-edit-salar';
 
-import useFirme from "../../../../_store/useFirme";
-import useAccountingDbActions from "../../../transactions/hook/useAccountingDbActions";
-import { useBetween } from "use-between";
-import useSalary from "../useSalary";
-import { utils } from "../../../../_utils/utils";
-import DataTableWrapper from "../../../../_components/reuse/DataTableWrapper";
-import { Dialog } from "primereact/dialog";
-import { DialogWrapper } from "../../../../_components/reuse/DialogWrapper";
+import useFirme from '../../../../_store/useFirme';
+import useAccountingDbActions from '../../../transactions/hook/useAccountingDbActions';
+import { useBetween } from 'src/hooks/useBetween';
+import useSalary from '../useSalary';
+import { utils } from '../../../../_utils/utils';
+import DataTableWrapper from '../../../../_components/reuse/DataTableWrapper';
+import { Dialog } from 'primereact/dialog';
+import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 
 export const AngajatSalaryList = () => {
   const { deleteAngajatSalary, saveAngajatSalary, importSalariiForAngajat } =
@@ -30,7 +30,7 @@ export const AngajatSalaryList = () => {
     });
   };
 
-  const addTaxa = (nume, value, description = "") => {
+  const addTaxa = (nume, value, description = '') => {
     const newItem: ISalarAddEdit = {
       nume,
       value,
@@ -58,7 +58,7 @@ export const AngajatSalaryList = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare Salar"
-            onClick={() => addTaxa("Salar", 2020)}
+            onClick={() => addTaxa('Salar', 2020)}
             className="w300"
             disabled={selectedAngajat === null}
           ></MyButton>
@@ -120,17 +120,17 @@ export const AngajatSalaryList = () => {
         <DataTableWrapper
           data={salaries}
           fieldHeader={[
-            { field: "nume", header: "Nume" },
-            { field: "value", header: "Valoare" },
-            { header: "Scutire Impozit", field: "scutire_impozit" },
+            { field: 'nume', header: 'Nume' },
+            { field: 'value', header: 'Valoare' },
+            { header: 'Scutire Impozit', field: 'scutire_impozit' },
             {
-              header: "Data",
+              header: 'Data',
               body: (item) => {
                 return <div>{utils.dateNumberToYYYYMMDD(item.dataSalar)}</div>;
               },
             },
             {
-              header: "Actiuni",
+              header: 'Actiuni',
               body: (el: ISalarAddEdit) => {
                 return (
                   <div className="fcenter">

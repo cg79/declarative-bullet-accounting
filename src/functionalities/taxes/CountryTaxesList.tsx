@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { MyButton } from "../../_components/reuse/my-button";
-import { ICompanyTax } from "../transactions/model/accounting_types";
+import { useEffect, useState } from 'react';
+import { MyButton } from '../../_components/reuse/my-button';
+import { ICompanyTax } from '../transactions/model/accounting_types';
 
-import { AddEditTax } from "./add-edit-tax";
+import { AddEditTax } from './add-edit-tax';
 
-import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
-import { utils } from "../../_utils/utils";
-import { useBetween } from "use-between";
-import useTaxes from "./useTaxes";
-import DataTableWrapper from "../../_components/reuse/DataTableWrapper";
-import { ConfirmDialogWrapper } from "../../_components/reuse/ConfirmDialogWrapper";
-import { Dialog } from "primereact/dialog";
+import useAccountingDbActions from '../transactions/hook/useAccountingDbActions';
+import { utils } from '../../_utils/utils';
+import { useBetween } from 'src/hooks/useBetween';
+import useTaxes from './useTaxes';
+import DataTableWrapper from '../../_components/reuse/DataTableWrapper';
+import { ConfirmDialogWrapper } from '../../_components/reuse/ConfirmDialogWrapper';
+import { Dialog } from 'primereact/dialog';
 
 export const CountryTaxesList = () => {
   const { deleteCompanyTax, saveCompanyTax, importTaxe } =
@@ -32,7 +32,7 @@ export const CountryTaxesList = () => {
     });
   };
 
-  const addTaxa = (nume, value, description = "") => {
+  const addTaxa = (nume, value, description = '') => {
     const newItem: ICompanyTax = {
       nume,
       value,
@@ -55,7 +55,7 @@ export const CountryTaxesList = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare TVA"
-            onClick={() => addTaxa("TVA", 0.19, "TVA")}
+            onClick={() => addTaxa('TVA', 0.19, 'TVA')}
             className="w300 linkbutton"
             useBaseButton={false}
           ></MyButton>
@@ -64,7 +64,7 @@ export const CountryTaxesList = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare Dividende"
-            onClick={() => addTaxa("Dividende", 0.5)}
+            onClick={() => addTaxa('Dividende', 0.5)}
             className="w300 linkbutton"
             useBaseButton={false}
           ></MyButton>
@@ -72,7 +72,7 @@ export const CountryTaxesList = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare Taxa Profit"
-            onClick={() => addTaxa("TaxaProfit", 0.1, "Taxa Profit")}
+            onClick={() => addTaxa('TaxaProfit', 0.1, 'Taxa Profit')}
             className="w300 linkbutton"
             useBaseButton={false}
           ></MyButton>
@@ -81,7 +81,7 @@ export const CountryTaxesList = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare Taxa Pensie"
-            onClick={() => addTaxa("TaxaPensie", 0.25, "Taxa Pensie")}
+            onClick={() => addTaxa('TaxaPensie', 0.25, 'Taxa Pensie')}
             className="w300 linkbutton"
             useBaseButton={false}
           ></MyButton>
@@ -90,7 +90,7 @@ export const CountryTaxesList = () => {
         <div className="ml5">
           <MyButton
             text="Adaugare Taxa Sanatate"
-            onClick={() => addTaxa("TaxaSanatate", 0.1, "Taxa Sanatate")}
+            onClick={() => addTaxa('TaxaSanatate', 0.1, 'Taxa Sanatate')}
             className="w300 linkbutton"
             useBaseButton={false}
           ></MyButton>
@@ -100,7 +100,7 @@ export const CountryTaxesList = () => {
           <MyButton
             text="Adaugare Taxa Asigurare munca"
             onClick={() =>
-              addTaxa("TaxaAsigurareMunca", 0.0225, "Taxa Asigurare Munca")
+              addTaxa('TaxaAsigurareMunca', 0.0225, 'Taxa Asigurare Munca')
             }
             className="w300 linkbutton"
             useBaseButton={false}
@@ -111,7 +111,7 @@ export const CountryTaxesList = () => {
   };
 
   const executeImportTAxe = async () => {
-    console.log("importTaxe");
+    console.log('importTaxe');
     await importTaxe();
     reload();
   };
@@ -175,19 +175,19 @@ export const CountryTaxesList = () => {
                 {renderAvailableActions()}
               </div>
             )}
-            <div style={{ marginTop: "15px" }}>
+            <div style={{ marginTop: '15px' }}>
               <DataTableWrapper
                 data={countryTaxesList}
                 fieldHeader={[
-                  { field: "nume", header: "Nume" },
-                  { field: "value", header: "Valoare" },
+                  { field: 'nume', header: 'Nume' },
+                  { field: 'value', header: 'Valoare' },
                   {
-                    field: "dataTaxa",
-                    header: "Data",
+                    field: 'dataTaxa',
+                    header: 'Data',
                     body: (el) => utils.dateNumberToYYYYMMDD(el.dataTaxa),
                   },
                   {
-                    header: "Actiuni",
+                    header: 'Actiuni',
                     body: (item: ICompanyTax) => renderActiuni(item),
                   },
                 ]}

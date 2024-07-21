@@ -1,23 +1,23 @@
-import { useBetween } from "use-between";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import { ICategory } from "../../categories/category-type";
-import useEvents from "../../../../_store/useEvents";
-import { useEffect, useState } from "react";
+import { MyButton } from '../../../../_components/reuse/my-button';
+import { ICategory } from '../../categories/category-type';
+import useEvents from '../../../../_store/useEvents';
+import { useEffect, useState } from 'react';
 import {
   IMoneyTransaction,
   moneyTransactionOptionTypes,
   IMoneyTransactionType,
-} from "../money-transaction-type";
-import { LabelNumericInput } from "../../../../_components/reuse/LabelNumericInput";
-import { LabelDate } from "../../../../_components/reuse/LabelDate";
-import { LabelDropDown } from "../../../../_components/reuse/LabelDropDown";
-import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
-import { IMoneyAccount } from "../../money-account/money-account-type";
-import { WysYWYG } from "../../../../_components/reuse/my-wysywyg";
-import { LabelSelectButtons } from "../../../../_components/reuse/LabelSelectButtons";
-import MyIcon from "../../../../_components/reuse/my-icon";
-import { utils } from "../../../../_utils/utils";
-import LabelRadioButtonList from "../../../../_components/reuse/LabelRadioButtonList";
+} from '../money-transaction-type';
+import { LabelNumericInput } from '../../../../_components/reuse/LabelNumericInput';
+import { LabelDate } from '../../../../_components/reuse/LabelDate';
+import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
+import useMoneyAccounts from '../../money-account/hooks/useMoneyAccounts';
+import { IMoneyAccount } from '../../money-account/money-account-type';
+import { WysYWYG } from '../../../../_components/reuse/my-wysywyg';
+import { LabelSelectButtons } from '../../../../_components/reuse/LabelSelectButtons';
+import MyIcon from '../../../../_components/reuse/my-icon';
+import { utils } from '../../../../_utils/utils';
+import LabelRadioButtonList from '../../../../_components/reuse/LabelRadioButtonList';
+import { useBetween } from 'src/hooks/useBetween';
 
 export const AddEditMoneyTransaction = ({
   category,
@@ -33,7 +33,7 @@ export const AddEditMoneyTransaction = ({
   const { accounts, getAccountById } = useBetween(useMoneyAccounts);
 
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [currentTransaction, setCurrentTransaction] =
     useState<IMoneyTransaction>({ ...moneyTransaction });
 
@@ -49,11 +49,11 @@ export const AddEditMoneyTransaction = ({
   );
 
   const triggerSaveMoneyTransaction = () => {
-    setError("");
+    setError('');
     console.log(currentTransaction.amount);
 
     if (!currentTransaction.amount === undefined) {
-      setError("invalid amount");
+      setError('invalid amount');
       return;
     }
     if (currentTransaction._id) {
@@ -77,7 +77,7 @@ export const AddEditMoneyTransaction = ({
   }, [enterPressed]);
 
   const moneyTransactionOptionTemplate = (option) => {
-    return <MyIcon icon={option.icon} tooltip={"option.label"}></MyIcon>;
+    return <MyIcon icon={option.icon} tooltip={'option.label'}></MyIcon>;
   };
 
   return (
@@ -85,7 +85,7 @@ export const AddEditMoneyTransaction = ({
       {/* {JSON.stringify(currentTransaction, null, 2)} */}
       {/* {JSON.stringify(moneyTransaction.amount)} */}
       <div>
-        <div className="flex mt10" style={{ marginTop: "50px" }}>
+        <div className="flex mt10" style={{ marginTop: '50px' }}>
           {/* <LabelSelectButtons
             label="Tip tranzactie: "
             lwidth="135px"
@@ -111,7 +111,7 @@ export const AddEditMoneyTransaction = ({
                 ...currentTransaction,
                 type: val as IMoneyTransactionType,
               };
-              updateCurrentTransaction("type", val);
+              updateCurrentTransaction('type', val);
             }}
             name="type"
             labelField="label"
@@ -125,13 +125,13 @@ export const AddEditMoneyTransaction = ({
             label="Suma: "
             lwidth="135px"
             onChange={(val: number) => {
-              setError("");
+              setError('');
               const newV: IMoneyTransaction = {
                 ...currentTransaction,
                 amount: val,
               };
               // setCurrentTransaction(newV);
-              updateCurrentTransaction("amount", val);
+              updateCurrentTransaction('amount', val);
             }}
             value={currentTransaction?.amount}
             onEnter={() => triggerSaveMoneyTransaction()}
@@ -139,7 +139,7 @@ export const AddEditMoneyTransaction = ({
         </div>
         <div className="flex mt10">
           <LabelDate
-            label={"Data tranzactiei: "}
+            label={'Data tranzactiei: '}
             lwidth="135px"
             onChange={(date: number) => {
               const newItem: IMoneyTransaction = {
@@ -147,7 +147,7 @@ export const AddEditMoneyTransaction = ({
                 date: date,
               };
               // setCurrentTransaction(newItem);
-              updateCurrentTransaction("date", date);
+              updateCurrentTransaction('date', date);
             }}
             data={currentTransaction.date}
           ></LabelDate>
@@ -155,15 +155,15 @@ export const AddEditMoneyTransaction = ({
 
         <div className="flex mt10">
           <LabelDropDown
-            label={"Cont: "}
+            label={'Cont: '}
             lwidth="135px"
             onChange={(account: IMoneyAccount) => {
               const newItem: IMoneyTransaction = {
                 ...currentTransaction,
-                accountId: account._id || "",
+                accountId: account._id || '',
               };
               // setCurrentTransaction(newItem);
-              updateCurrentTransaction("accountId", account._id);
+              updateCurrentTransaction('accountId', account._id);
               setSelectedAccount(account);
             }}
             options={accounts}
@@ -178,7 +178,7 @@ export const AddEditMoneyTransaction = ({
             html={currentTransaction.description}
             setHtml={(val) =>
               // setCurrentTransaction({ ...currentTransaction, description: val })
-              updateCurrentTransaction("description", val)
+              updateCurrentTransaction('description', val)
             }
           />
         </div>

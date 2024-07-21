@@ -1,6 +1,6 @@
-import { Dropdown } from "primereact/dropdown";
-import useFirme from "../../../_store/useFirme";
-import { useBetween } from "use-between";
+import { Dropdown } from 'primereact/dropdown';
+import useFirme from '../../../_store/useFirme';
+import { useBetween } from 'src/hooks/useBetween';
 
 export const AngajatiDropDown = () => {
   const { selectedAngajat, setSelectedAngajat, angajati } =

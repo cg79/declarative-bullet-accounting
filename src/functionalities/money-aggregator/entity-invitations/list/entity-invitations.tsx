@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import { useBetween } from "use-between";
-import DataTableWrapper from "../../../../_components/reuse/DataTableWrapper";
-import { Dialog } from "primereact/dialog";
-import { helpers } from "../../../../_utils/helpers";
-import { AddEditInvitation } from "../add-edit/add-edit-invitation";
-import { IInvitation } from "../../../transactions/model/accounting_types";
-import useIdentity from "../../../../_store/useIdentity";
-import { utils } from "../../../../_utils/utils";
-import { LabelDropDown } from "../../../../_components/reuse/LabelDropDown";
-import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
-import { IMoneyEntity } from "../../money-entity/money-entity-type";
-import { IEntityInvitation } from "../entity-invitation-type";
-import useMoneyInvitations from "../hooks/useMoneyInvitations";
-import TreeIcon from "../../categories/components/icons/tree-icon";
-import { DialogWrapper } from "../../../../_components/reuse/DialogWrapper";
+import { useCallback, useEffect, useState } from 'react';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import { useBetween } from 'src/hooks/useBetween';
+import DataTableWrapper from '../../../../_components/reuse/DataTableWrapper';
+import { Dialog } from 'primereact/dialog';
+import { helpers } from '../../../../_utils/helpers';
+import { AddEditInvitation } from '../add-edit/add-edit-invitation';
+import { IInvitation } from '../../../transactions/model/accounting_types';
+import useIdentity from '../../../../_store/useIdentity';
+import { utils } from '../../../../_utils/utils';
+import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
+import useMoneyEntities from '../../money-entity/hooks/useMoneyEntities';
+import { IMoneyEntity } from '../../money-entity/money-entity-type';
+import { IEntityInvitation } from '../entity-invitation-type';
+import useMoneyInvitations from '../hooks/useMoneyInvitations';
+import TreeIcon from '../../categories/components/icons/tree-icon';
+import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 
 export const EntityInvitations = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -26,7 +26,7 @@ export const EntityInvitations = () => {
   const [item, setItem] = useState<IEntityInvitation | null>(null);
 
   const moneyEntitiesList: IMoneyEntity[] = [
-    { _id: "", name: "--ALL--", date: 0, description: "" },
+    { _id: '', name: '--ALL--', date: 0, description: '' },
     ...(moneyEntities || []),
   ];
 
@@ -49,13 +49,13 @@ export const EntityInvitations = () => {
     }
 
     const newInvitation: IInvitation = {
-      _id: "",
+      _id: '',
       dataInvitatie: utils.dateToEpoch(new Date()),
       accepted: false,
-      email: "",
-      name: "",
+      email: '',
+      name: '',
       clientId: loggedUser.clientId,
-      entityId: selectedMoneyEntity?._id || "",
+      entityId: selectedMoneyEntity?._id || '',
     };
 
     setItem(newInvitation);
@@ -130,16 +130,16 @@ export const EntityInvitations = () => {
         <DataTableWrapper
           data={invitations}
           fieldHeader={[
-            { header: "Email", field: "email" },
-            { header: "Name", field: "name" },
+            { header: 'Email', field: 'email' },
+            { header: 'Name', field: 'name' },
             {
-              header: "Data Invitatie",
-              field: "dataInvitatie",
+              header: 'Data Invitatie',
+              field: 'dataInvitatie',
               body: (el) => utils.dateNumberToYYYYMMDD(el.dataInvitatie),
             },
             {
-              header: "Acceptat",
-              field: "accepted",
+              header: 'Acceptat',
+              field: 'accepted',
               body: (el) =>
                 el.accepted ? (
                   <TreeIcon
@@ -153,7 +153,7 @@ export const EntityInvitations = () => {
                 ),
             },
             {
-              header: "Actiuni",
+              header: 'Actiuni',
               body: (el) => {
                 return (
                   <div className="fcenter">

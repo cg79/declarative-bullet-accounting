@@ -1,11 +1,11 @@
-import PubSub from "../_utils/PubSub";
-import { useBetween } from "use-between";
-import useIdentity from "../_store/useIdentity";
-import { useCallback } from "react";
-import { BULLET_IO_URL } from "../constants";
-import BulletHttpRequestLibrary from "../_fluentApi/BulletHttpRequestLibrary";
-import DeclarativeBulletApi from "../_fluentApi/declarative-bullet-api";
-import { MethodExecutionRequest } from "../_fluentApi/facade";
+import PubSub from '../_utils/PubSub';
+import { useBetween } from './useBetween';
+import useIdentity from '../_store/useIdentity';
+import { useCallback } from 'react';
+import { BULLET_IO_URL } from '../constants';
+import BulletHttpRequestLibrary from '../_fluentApi/BulletHttpRequestLibrary';
+import DeclarativeBulletApi from '../_fluentApi/declarative-bullet-api';
+import { MethodExecutionRequest } from '../_fluentApi/facade';
 
 export interface ApiOptions {
   allowAnonymous?: boolean;
@@ -16,11 +16,11 @@ const useApi = () => {
   const createBulletHttpRequestLibrary = useCallback(
     (options: ApiOptions = { allowAnonymous: false }) => {
       if (!loggedUser && !options.allowAnonymous) {
-        throw new Error("no bullet key");
+        throw new Error('no bullet key');
       }
 
       return new BulletHttpRequestLibrary({
-        authentication: loggedUser?.token || "",
+        authentication: loggedUser?.token || '',
         serverUrl: BULLET_IO_URL(),
       });
     },
@@ -30,11 +30,11 @@ const useApi = () => {
   const createDeclarativeBulletApi = useCallback(
     (options: ApiOptions = { allowAnonymous: false }) => {
       if (!loggedUser && !options?.allowAnonymous) {
-        throw new Error("no token. please get a token first");
+        throw new Error('no token. please get a token first');
       }
 
       return new DeclarativeBulletApi({
-        authentication: loggedUser?.token || "",
+        authentication: loggedUser?.token || '',
         serverUrl: BULLET_IO_URL(),
       });
     },
@@ -49,10 +49,10 @@ const useApi = () => {
       const response = await bulletHttp.executeMethodFromModule(request);
 
       if (!response.success) {
-        if (response.message === "jwt expired") {
+        if (response.message === 'jwt expired') {
           clearLoggedUser();
         }
-        PubSub.publish("onError", response.message);
+        PubSub.publish('onError', response.message);
       }
       return response;
     },

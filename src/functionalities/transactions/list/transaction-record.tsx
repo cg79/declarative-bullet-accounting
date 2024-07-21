@@ -1,24 +1,24 @@
-import { useState } from "react";
-import { Dialog } from "primereact/dialog";
-import { MyTooltip } from "../../../_components/reuse/my-tooltip";
-import { TabPanel, TabView } from "primereact/tabview";
-import { Card } from "primereact/card";
-import { parseAccountingRecord } from "../model/helpers";
-import Situatie from "./components/situatie";
-import Debts from "./components/debts";
-import DebtsDetails from "./components/debts-details";
-import TaxeAplicate from "./components/taxe-aplicate";
-import Info from "./components/info";
-import { EditTransaction } from "../add/edit-transaction";
+import { useState } from 'react';
+import { Dialog } from 'primereact/dialog';
+import { MyTooltip } from '../../../_components/reuse/my-tooltip';
+import { TabPanel, TabView } from 'primereact/tabview';
+import { Card } from 'primereact/card';
+import { parseAccountingRecord } from '../model/helpers';
+import Situatie from './components/situatie';
+import Debts from './components/debts';
+import DebtsDetails from './components/debts-details';
+import TaxeAplicate from './components/taxe-aplicate';
+import Info from './components/info';
+import { EditTransaction } from '../add/edit-transaction';
 // import { InsertTransaction } from "../add/insert-transaction";
-import { SplitButton } from "primereact/splitbutton";
-import useAccountingDbActions from "../hook/useAccountingDbActions";
-import { useBetween } from "use-between";
-import useFirme from "../../../_store/useFirme";
-import { useTransactions } from "../hook/useTransactions";
-import { IAccountingRecord } from "../model/accounting_types";
-import { LabelTooltip } from "../../../_components/reuse/LabelTooltip";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { SplitButton } from 'primereact/splitbutton';
+import useAccountingDbActions from '../hook/useAccountingDbActions';
+import { useBetween } from 'src/hooks/useBetween';
+import useFirme from '../../../_store/useFirme';
+import { useTransactions } from '../hook/useTransactions';
+import { IAccountingRecord } from '../model/accounting_types';
+import { LabelTooltip } from '../../../_components/reuse/LabelTooltip';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const TransactionRecord = ({
   accountingRecord,
@@ -101,16 +101,16 @@ export const TransactionRecord = ({
     //   },
     // },
     {
-      label: "Delete",
-      icon: "pi pi-times",
+      label: 'Delete',
+      icon: 'pi pi-times',
       command: () => {
         console.log(this);
         deleteTransaction();
       },
     },
     {
-      label: "Import",
-      icon: "pi pi-times",
+      label: 'Import',
+      icon: 'pi pi-times',
       command: () => {
         console.log(this);
       },

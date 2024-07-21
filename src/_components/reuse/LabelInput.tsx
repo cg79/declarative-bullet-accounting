@@ -1,24 +1,24 @@
-import { InputText } from "primereact/inputtext";
-import { utils } from "../../_utils/utils";
-import { useEffect, useRef } from "react";
-import { useBetween } from "use-between";
-import useEvents from "../../_store/useEvents";
-import useScreenSize from "../../hooks/useScreenSize";
+import { InputText } from 'primereact/inputtext';
+import { utils } from '../../_utils/utils';
+import { useEffect, useRef } from 'react';
+import { useBetween } from 'src/hooks/useBetween';
+import useEvents from '../../_store/useEvents';
+import useScreenSize from '../../hooks/useScreenSize';
 
 export const LabelInput = ({
   label,
-  labelCss = "bold",
+  labelCss = 'bold',
   onChange,
-  error = "",
-  value = "",
-  lwidth = "80px",
-  type = "text",
+  error = '',
+  value = '',
+  lwidth = '80px',
+  type = 'text',
   disabled = false,
   autoFocus = false,
   onCancel = () => {},
   labelStyles = {},
   inputStyles = {},
-  className = "flex fwrap fcenter",
+  className = 'flex fwrap fcenter',
 }) => {
   const { popupCss } = useScreenSize();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,12 +35,12 @@ export const LabelInput = ({
   }, []);
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       // Your code here, e.g., submit the form, call an API, etc.
       // observer.publish("ENTER_PRESSED");
       triggerEnterPressed();
     }
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       return onCancel && onCancel();
     }
     e.stopPropagation();
@@ -53,10 +53,10 @@ export const LabelInput = ({
           htmlFor={id}
           className={labelCss} // ${labelCss}
           style={{
-            cursor: "pointer",
+            cursor: 'pointer',
             width: lwidth,
-            display: "inline-block",
-            marginTop: "15px",
+            display: 'inline-block',
+            marginTop: '15px',
             ...labelStyles,
           }}
         >

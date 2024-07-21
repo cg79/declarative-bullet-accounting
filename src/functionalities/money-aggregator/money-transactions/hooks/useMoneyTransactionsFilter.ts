@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useBetween } from "use-between";
-import useCategoryState from "../../categories/hooks/useCategoryState";
-import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
+import { useEffect, useState } from 'react';
+import useCategoryState from '../../categories/hooks/useCategoryState';
+import useMoneyAccounts from '../../money-account/hooks/useMoneyAccounts';
 import {
   createMoneyAggregationFilterExpression,
   createMoneyTransactionsFilterExpression,
-} from "../money-helpers";
-import { IEntityInvitation } from "../../entity-invitations/entity-invitation-type";
+} from '../money-helpers';
+import { IEntityInvitation } from '../../entity-invitations/entity-invitation-type';
+import { useBetween } from 'src/hooks/useBetween';
 
 export type IMoneyAggregationFilter = {
   accountId: string;
@@ -30,16 +30,16 @@ const useMoneyTransactionsFilter = () => {
 
   const [moneyTransactionFilter, setMoneyTransactionFilter] =
     useState<IMoneyTransactionsFilter>({
-      accountId: "",
+      accountId: '',
       startDate: null,
       endDate: null,
-      category_id: "",
+      category_id: '',
       users: [],
     });
 
   const [moneyAggregationFilter, setMoneyAggregationFilter] =
     useState<IMoneyAggregationFilter>({
-      accountId: "",
+      accountId: '',
       startDate: null,
       endDate: null,
       users: [],
@@ -118,7 +118,7 @@ const useMoneyTransactionsFilter = () => {
     if (!selectedCategory.parentId) {
       return updateMoneyTransactionFilter({
         ...moneyTransactionFilter,
-        category_id: "",
+        category_id: '',
       });
     }
     updateMoneyTransactionFilter({
@@ -137,12 +137,12 @@ const useMoneyTransactionsFilter = () => {
 
     updateMoneyTransactionFilter({
       ...moneyTransactionFilter,
-      accountId: selectedAccount._id || "",
+      accountId: selectedAccount._id || '',
     });
 
     setMoneyAggregationFilter({
       ...moneyAggregationFilter,
-      accountId: selectedAccount._id || "",
+      accountId: selectedAccount._id || '',
     });
   }, [selectedAccount]);
 

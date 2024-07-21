@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import { Tooltip } from "react-tooltip";
-import { LabelInput } from "../../../../_components/reuse/LabelInput";
-import { LabelDate } from "../../../../_components/reuse/LabelDate";
-import { LabelEmail } from "../../../../_components/reuse/LabelEmail";
-import { helpers } from "../../../../_utils/helpers";
-import observer from "../../../../_store/observer";
-import { useBetween } from "use-between";
-import useEvents from "../../../../_store/useEvents";
-import { ICategory } from "../category-type";
+import { useCallback, useEffect, useState } from 'react';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import { Tooltip } from 'react-tooltip';
+import { LabelInput } from '../../../../_components/reuse/LabelInput';
+import { LabelDate } from '../../../../_components/reuse/LabelDate';
+import { LabelEmail } from '../../../../_components/reuse/LabelEmail';
+import { helpers } from '../../../../_utils/helpers';
+import observer from '../../../../_store/observer';
+import { useBetween } from 'src/hooks/useBetween';
+import useEvents from '../../../../_store/useEvents';
+import { ICategory } from '../category-type';
 
 export const AddEditCategory = ({
   category,
@@ -20,14 +20,14 @@ export const AddEditCategory = ({
   onCancel: () => void;
 }) => {
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [item, setItem] = useState<ICategory>(category);
 
   const triggerSaveCategory = () => {
-    setError("");
+    setError('');
 
     if (!item.label) {
-      setError("Nume categorie invalid");
+      setError('Nume categorie invalid');
       return;
     }
     onSave(item);
@@ -53,7 +53,7 @@ export const AddEditCategory = ({
             lwidth="135px"
             autoFocus
             onChange={(val: string) => {
-              setError("");
+              setError('');
               const newV: ICategory = {
                 ...item,
                 label: val,

@@ -1,4 +1,4 @@
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import { MyButton } from '../../../../_components/reuse/my-button';
 import useEvents from '../../../../_store/useEvents';
 import { useEffect, useState } from 'react';

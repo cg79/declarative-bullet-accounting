@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { AggregateCategory, ICategory } from '../category-type';
-import { useBetween } from 'use-between';
+import { useBetween } from 'src/hooks/useBetween';
 import useIdentity from '../../../../_store/useIdentity';
 import useApi from '../../../../hooks/useApi';
 import { CATEGORY_COLLECTION } from '../constants';

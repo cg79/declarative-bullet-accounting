@@ -1,16 +1,16 @@
-import { useBetween } from "use-between";
-import GenericList from "../../../todo/list/GenericList";
-import { IMoneyEntity } from "../money-entity-type";
-import useCategoryState from "../../categories/hooks/useCategoryState";
-import useIdentity, { ILoggedUser } from "../../../../_store/useIdentity";
-import { utils } from "../../../../_utils/utils";
-import observer from "../../../../_store/observer";
-import { useEffect, useState } from "react";
-import useMoneyEntities from "../hooks/useMoneyEntities";
-import AddEditMoneyEntity from "../add-edit/add-edit-money-entity";
-import { MONEY_ENTITY_COLLECTION } from "../constants";
-import { getDefaultMoneyEntity } from "../money-entity-helpers";
-import useScreenSize from "../../../../hooks/useScreenSize";
+import { useBetween } from 'src/hooks/useBetween';
+import GenericList from '../../../todo/list/GenericList';
+import { IMoneyEntity } from '../money-entity-type';
+import useCategoryState from '../../categories/hooks/useCategoryState';
+import useIdentity, { ILoggedUser } from '../../../../_store/useIdentity';
+import { utils } from '../../../../_utils/utils';
+import observer from '../../../../_store/observer';
+import { useEffect, useState } from 'react';
+import useMoneyEntities from '../hooks/useMoneyEntities';
+import AddEditMoneyEntity from '../add-edit/add-edit-money-entity';
+import { MONEY_ENTITY_COLLECTION } from '../constants';
+import { getDefaultMoneyEntity } from '../money-entity-helpers';
+import useScreenSize from '../../../../hooks/useScreenSize';
 
 const MoneyEntityList = () => {
   const { width } = useScreenSize();
@@ -42,12 +42,12 @@ const MoneyEntityList = () => {
     onSave: (item: IMoneyEntity) => Promise<unknown>,
     onCancel: () => void
   ) => {
-    observer.publish("DISABLE_SHORTCUT", false);
+    observer.publish('DISABLE_SHORTCUT', false);
     return (
       <AddEditMoneyEntity
         moneyEntity={item || createItem()}
         onCancel={() => {
-          observer.publish("ENABLE_SHORTCUT", true);
+          observer.publish('ENABLE_SHORTCUT', true);
           onCancel();
         }}
         onSave={onSave}
@@ -60,29 +60,29 @@ const MoneyEntityList = () => {
       <GenericList
         fieldHeader={[
           {
-            field: "date",
-            header: "Data",
+            field: 'date',
+            header: 'Data',
             body: (item) => utils.dateNumberToYYYYMMDD(item.date),
           },
           {
-            field: "name",
-            header: "Nume",
+            field: 'name',
+            header: 'Nume',
           },
           {
-            field: "description",
-            header: "Description",
+            field: 'description',
+            header: 'Description',
           },
         ]}
         createItem={createItem}
         addItemButtonLabel="Adaugare Entitate"
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
-        sortBy={[{ field: "date", ascending: false }]}
+        sortBy={[{ field: 'date', ascending: false }]}
         modalTitle={() =>
           selectedMoneyEntity?.name
             ? `Editare Entitate - ${selectedMoneyEntity.name}` ||
               selectedMoneyEntity.name
-            : "Adaugare Entitate"
+            : 'Adaugare Entitate'
         }
         onAfterItemSaved={(item) => {
           setReloadItems(new Date().toString());

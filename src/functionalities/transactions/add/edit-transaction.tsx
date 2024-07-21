@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { AccountingInput } from "./accounting-input";
-import { IAddEditTransactionValues } from "../model/accounting_types";
-import useFirme from "../../../_store/useFirme";
-import { useBetween } from "use-between";
-import { Dialog } from "primereact/dialog";
-import useAccountingDbActions from "../hook/useAccountingDbActions";
-import { accountingRecordToIAddEditTransactionValues } from "../model/helpers";
-import { useTransactions } from "../hook/useTransactions";
+import { useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { AccountingInput } from './accounting-input';
+import { IAddEditTransactionValues } from '../model/accounting_types';
+import useFirme from '../../../_store/useFirme';
+import { useBetween } from 'src/hooks/useBetween';
+import { Dialog } from 'primereact/dialog';
+import useAccountingDbActions from '../hook/useAccountingDbActions';
+import { accountingRecordToIAddEditTransactionValues } from '../model/helpers';
+import { useTransactions } from '../hook/useTransactions';
 
 export const EditTransaction = ({ onCancel, accountingRecord }) => {
   const [addMode, setAddMode] = useState<boolean>(true);
@@ -16,7 +16,7 @@ export const EditTransaction = ({ onCancel, accountingRecord }) => {
     onCancel();
   };
   const { selectedAngajat, selectedFirma } = useBetween(useFirme);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const { updateAccountingAction } = useAccountingDbActions();
   const { reloadAccountingRecords } = useBetween(useTransactions);
 
@@ -29,7 +29,7 @@ export const EditTransaction = ({ onCancel, accountingRecord }) => {
     if (!selectedFirma) {
       return;
     }
-    setError("");
+    setError('');
 
     return updateAccountingAction(
       accountingRecord,
@@ -92,8 +92,8 @@ export const EditTransaction = ({ onCancel, accountingRecord }) => {
         <div>
           <MyButton
             onClick={() => uptadeAddMode()}
-            text={"Adaugare"}
-            disabled={selectedAngajat?._id === ""}
+            text={'Adaugare'}
+            disabled={selectedAngajat?._id === ''}
           ></MyButton>
         </div>
       )}
