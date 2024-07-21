@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import useGenericList from "../hooks/useGenericList";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { Dialog } from "primereact/dialog";
-import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
-import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
-import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
-import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
-import MyIcon from "../../../_components/reuse/my-icon";
-import ShortcutComponent from "../../money-aggregator/categories/shortcut/shortcut-component";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import React, { useEffect } from 'react';
+import useGenericList from '../hooks/useGenericList';
+import { MyButton } from '../../../_components/reuse/my-button';
+import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
+import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
+import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
+import MyIcon from '../../../_components/reuse/my-icon';
+import ShortcutComponent from '../../money-aggregator/categories/shortcut/shortcut-component';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 // Define the props interface with a generic type
 interface MyGenericListProps<T> {
@@ -29,6 +28,7 @@ interface MyGenericListProps<T> {
   customDeleteFunction?: (item: T) => Promise<unknown>;
   onAfterItemSaved?: (item: T) => void;
   renderActions?: (item: T, setItem: any, setItemToBeDeleted: any) => any;
+  onRowClick?: (item: T) => void;
 }
 
 // Define the generic component
@@ -69,6 +69,7 @@ function GenericList<T>({
   }, [filterBy, pageState]);
 
   const renderAddNewButton = () => {
+    return null;
     return (
       <div className="mt10">
         <div className="ml5">
@@ -144,6 +145,18 @@ function GenericList<T>({
     // alert(shortcut);
   };
 
+  const renderAddItem = () => {
+    return createItem ? (
+      <div className="ml10">
+        <MyIcon
+          icon="pi pi-plus"
+          tooltip="Adaugare"
+          onClick={() => setItem(createItem())}
+        ></MyIcon>
+      </div>
+    ) : null;
+  };
+
   return (
     <>
       <div className="flex center">
@@ -159,14 +172,16 @@ function GenericList<T>({
                 data={list}
                 fieldHeader={fieldHeader.concat([
                   {
-                    field: "actiuni",
-                    header: "Actiuni",
+                    field: 'actiuni',
+                    header: 'Actiuni',
                     body: renderActions
                       ? (item: T) =>
                           renderActions(item, setItem, setItemToBeDeleted)
                       : (item) => renderActiuni(item),
                   },
                 ])}
+                // onRowClick={(item) => setItem(item)}
+                renderDefaultActions={(item) => renderAddItem()}
               ></DataTableWrapper>
             </ShortcutComponent>
             <div className="flex center mt10">

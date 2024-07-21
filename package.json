@@ -17,6 +17,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "faker": "^6.6.6",
     "gapi-script": "^1.2.0",
+    "html-react-parser": "^5.1.12",
     "i": "^0.3.7",
     "install": "^0.13.0",
     "markdown-to-jsx": "^7.4.0",

@@ -1,25 +1,26 @@
-import { useBetween } from "use-between";
-import GenericList from "../../../todo/list/GenericList";
-import AddEditMoneyTransaction from "../add-edit/add-edit-money-transaction";
+import { useBetween } from 'use-between';
+import GenericList from '../../../todo/list/GenericList';
+import AddEditMoneyTransaction from '../add-edit/add-edit-money-transaction';
 import {
   IMoneyTransaction,
   IMoneyTransactionType,
   IMoneyTransactionTypeIcons,
-} from "../money-transaction-type";
-import useCategoryState from "../../categories/hooks/useCategoryState";
-import useIdentity, { ILoggedUser } from "../../../../_store/useIdentity";
-import { MONEY_TRANSACTIONS_COLLECTION } from "../constants";
-import { utils } from "../../../../_utils/utils";
-import observer from "../../../../_store/observer";
-import { useEffect, useState } from "react";
-import { getDefaultMoneyTransaction } from "../money-helpers";
-import useMoneyTransactions from "../hooks/useMoneyTransactions";
-import useMoneyEntities from "../../money-entity/hooks/useMoneyEntities";
-import useMoneyAccounts from "../../money-account/hooks/useMoneyAccounts";
+} from '../money-transaction-type';
+import useCategoryState from '../../categories/hooks/useCategoryState';
+import useIdentity, { ILoggedUser } from '../../../../_store/useIdentity';
+import { MONEY_TRANSACTIONS_COLLECTION } from '../constants';
+import { utils } from '../../../../_utils/utils';
+import observer from '../../../../_store/observer';
+import { useEffect, useState } from 'react';
+import { getDefaultMoneyTransaction } from '../money-helpers';
+import useMoneyTransactions from '../hooks/useMoneyTransactions';
+import useMoneyEntities from '../../money-entity/hooks/useMoneyEntities';
+import useMoneyAccounts from '../../money-account/hooks/useMoneyAccounts';
 import useMoneyTransactionsFilter, {
   IMoneyTransactionsFilter,
-} from "../hooks/useMoneyTransactionsFilter";
-import MyIcon from "../../../../_components/reuse/my-icon";
+} from '../hooks/useMoneyTransactionsFilter';
+import MyIcon from '../../../../_components/reuse/my-icon';
+import parse from 'html-react-parser';
 
 const MoneyTransactionsList = () => {
   const { loggedUser } = useBetween(useIdentity);
@@ -67,7 +68,7 @@ const MoneyTransactionsList = () => {
     // console.log(moneyTransaction);
     return saveMoneyTransaction(moneyTransaction).then((response: any) => {
       //
-      observer.publish("ENABLE_SHORTCUT", true);
+      observer.publish('ENABLE_SHORTCUT', true);
       if (!response.success) {
         return;
       }
@@ -85,7 +86,7 @@ const MoneyTransactionsList = () => {
   const onDeleteMoneyTransaction = (moneyTransaction: IMoneyTransaction) => {
     return deleteMoneyTransaction(moneyTransaction).then((response: any) => {
       //
-      observer.publish("ENABLE_SHORTCUT", true);
+      observer.publish('ENABLE_SHORTCUT', true);
       if (!response.success) {
         return;
       }
@@ -99,14 +100,14 @@ const MoneyTransactionsList = () => {
     onSave: (item: IMoneyTransaction) => Promise<unknown>,
     onCancel: () => void
   ) => {
-    observer.publish("DISABLE_SHORTCUT", false);
+    observer.publish('DISABLE_SHORTCUT', false);
     return (
       <AddEditMoneyTransaction
         category={selectedCategory}
         moneyTransaction={{ ...item }}
         onSaveMoneyTransaction={onSave}
         onCancel={() => {
-          observer.publish("ENABLE_SHORTCUT", true);
+          observer.publish('ENABLE_SHORTCUT', true);
           onCancel();
         }}
       ></AddEditMoneyTransaction>
@@ -149,22 +150,23 @@ const MoneyTransactionsList = () => {
       <GenericList
         fieldHeader={[
           {
-            field: "date",
-            header: "Data",
+            field: 'date',
+            header: 'Data',
             body: (item) => utils.dateNumberToYYYYMMDD(item.date),
           },
           {
-            field: "amount",
-            header: "Suma",
+            field: 'amount',
+            header: 'Suma',
           },
           {
-            field: "description",
-            header: "Descriere",
-            body: (item) => item.description,
+            field: 'description',
+            header: 'Descriere',
+            body: (item: IMoneyTransaction) =>
+              item.description ? parse(item.description) : null,
           },
           {
-            field: "type",
-            header: "Tip",
+            field: 'type',
+            header: 'Tip',
             body: (item) => {
               switch (item.type) {
                 case IMoneyTransactionType.INCOME:
@@ -183,18 +185,18 @@ const MoneyTransactionsList = () => {
             },
           },
           {
-            field: "category_id",
-            header: "Categorie",
+            field: 'category_id',
+            header: 'Categorie',
             body: (item) =>
               getCategoryById(item.category_id)?.label || item.category_id,
           },
           {
-            field: "accountId",
-            header: "Cont",
+            field: 'accountId',
+            header: 'Cont',
             body: (item: IMoneyTransaction) => {
               return (
-                (getAccountById(item.accountId)?.name || "?") +
-                ": " +
+                (getAccountById(item.accountId)?.name || '?') +
+                ': ' +
                 item.accountAmount
               );
               // return item.accountAmount;
@@ -210,12 +212,18 @@ const MoneyTransactionsList = () => {
         isButtonDisabled={!selectedCategory}
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
-        sortBy={[{ field: "date", ascending: false }]}
+        sortBy={[{ field: 'date', ascending: false }]}
         filterBy={filterBy}
-        modalTitle={() => selectedCategory?.label || "Adaugare Tranzactie"}
+        modalTitle={() => selectedCategory?.label || 'Adaugare Tranzactie'}
         customSaveFunction={onSaveMoneyTransaction}
         customDeleteFunction={onDeleteMoneyTransaction}
         renderActions={renderActions}
+        newItem={getDefaultMoneyTransaction(
+          selectedCategory,
+          selectedMoneyEntity,
+          accounts,
+          loggedUser
+        )}
       ></GenericList>
     </>
   );

@@ -339,6 +339,12 @@ ul.my{
   display: flex;
   justify-content: center;
 }
+
+.fend{
+  display: flex;
+  justify-content: end;
+}
+
 .fcenterv{
   display: flex;
   align-items: center;
@@ -772,5 +778,11 @@ ul.my{
 
 .radio-button-list {
   gap: 15px;
+}
+
+.tcell {
+  /* border: 1px solid red; */
+  /* width: 150px; */
+
 }
 
