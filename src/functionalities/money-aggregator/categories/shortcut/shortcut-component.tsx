@@ -119,7 +119,7 @@ const ShortcutComponent = ({ onShortCutAction, children }) => {
 
   return (
     <>
-      ggg
+      ISShortcutenabled
       {isShortcutEnabled ? 'DA' : 'NU'}
       {children}
     </>

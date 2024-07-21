@@ -7,7 +7,7 @@ import useAccountingDbActions from '../../transactions/hook/useAccountingDbActio
 import { utils } from '../../../_utils/utils';
 import { useBetween } from 'src/hooks/useBetween';
 import { ICompany } from '../types';
-import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import DataTableWrapper from '../../../_components/reuse/data-table/DataTableWrapper';
 import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
 import { Dialog } from 'primereact/dialog';
 import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';

@@ -3,7 +3,7 @@ import useGenericList from '../hooks/useGenericList';
 import { MyButton } from '../../../_components/reuse/my-button';
 import DataTableWrapper, {
   FieldHeaderType,
-} from '../../../_components/reuse/DataTableWrapper';
+} from '../../../_components/reuse/data-table/DataTableWrapper';
 import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
 import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
 import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';

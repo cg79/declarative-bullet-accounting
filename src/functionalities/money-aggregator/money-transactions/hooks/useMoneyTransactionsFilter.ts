@@ -147,7 +147,6 @@ const useMoneyTransactionsFilter = () => {
   }, [selectedAccount]);
 
   useEffect(() => {
-    debugger;
     if (!selectedUsers) {
       return;
     }

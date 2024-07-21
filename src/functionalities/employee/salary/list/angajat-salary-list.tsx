@@ -10,7 +10,7 @@ import useAccountingDbActions from '../../../transactions/hook/useAccountingDbAc
 import { useBetween } from 'src/hooks/useBetween';
 import useSalary from '../useSalary';
 import { utils } from '../../../../_utils/utils';
-import DataTableWrapper from '../../../../_components/reuse/DataTableWrapper';
+import DataTableWrapper from '../../../../_components/reuse/data-table/DataTableWrapper';
 import { Dialog } from 'primereact/dialog';
 import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 

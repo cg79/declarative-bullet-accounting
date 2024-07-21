@@ -3,12 +3,7 @@
 // import { utils } from '../../_utils/utils';
 // import { useState } from 'react';
 
-export type FieldHeaderType = {
-  field?: string;
-  header: string;
-  body?: any;
-  style?: any;
-};
+import { MyDataTableProps } from './DataTableWrapper';
 
 const DEFAULT_STYLE = {
   // minWidth: '100px',
@@ -19,14 +14,7 @@ const DEFAULT_STYLE = {
   // 'border-bottom': '1px solid lightgray',
 };
 
-export interface MyDataTableProps {
-  data: any[];
-  fieldHeader: FieldHeaderType[];
-
-  onRowClick?: (data: any) => void;
-  renderDefaultActions?: (data: any) => any;
-}
-const DataTableWrapper = ({
+const DataTableRenderer = ({
   data,
   fieldHeader,
   // actions,
@@ -77,4 +65,4 @@ const DataTableWrapper = ({
   );
 };
 
-export default DataTableWrapper;
+export default DataTableRenderer;

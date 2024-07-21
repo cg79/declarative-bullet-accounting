@@ -4,7 +4,6 @@ const useShortcut = () => {
   const [isShortcutEnabled, setShortcutEnabled] = useState(true);
 
   const enableDisableShortcut = (value: boolean) => {
-    debugger;
     setShortcutEnabled(value);
   };
   return {

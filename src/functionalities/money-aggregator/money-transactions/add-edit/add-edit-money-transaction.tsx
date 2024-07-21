@@ -13,14 +13,12 @@ import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
 import useMoneyAccounts from '../../money-account/hooks/useMoneyAccounts';
 import { IMoneyAccount } from '../../money-account/money-account-type';
 import { WysYWYG } from '../../../../_components/reuse/my-wysywyg';
-import { LabelSelectButtons } from '../../../../_components/reuse/LabelSelectButtons';
 import MyIcon from '../../../../_components/reuse/my-icon';
 import { utils } from '../../../../_utils/utils';
 import LabelRadioButtonList from '../../../../_components/reuse/LabelRadioButtonList';
 import { useBetween } from 'src/hooks/useBetween';
 
 export const AddEditMoneyTransaction = ({
-  category,
   moneyTransaction,
   onSaveMoneyTransaction,
   onCancel,
@@ -86,20 +84,6 @@ export const AddEditMoneyTransaction = ({
       {/* {JSON.stringify(moneyTransaction.amount)} */}
       <div>
         <div className="flex mt10" style={{ marginTop: '50px' }}>
-          {/* <LabelSelectButtons
-            label="Tip tranzactie: "
-            lwidth="135px"
-            value={currentTransaction?.type}
-            options={moneyTransactionOptionTypes}
-            itemTemplate={moneyTransactionOptionTemplate}
-            onChange={(val) => {
-              const newV: IMoneyTransaction = {
-                ...currentTransaction,
-                type: val as IMoneyTransactionType,
-              };
-              updateCurrentTransaction("type", val);
-            }}
-          ></LabelSelectButtons> */}
           <LabelRadioButtonList
             label="Tip tranzactie: "
             lwidth="135px"
@@ -176,8 +160,7 @@ export const AddEditMoneyTransaction = ({
         <div className="mt10">
           <WysYWYG
             html={currentTransaction.description}
-            setHtml={(val) =>
-              // setCurrentTransaction({ ...currentTransaction, description: val })
+            setHtml={(val: string) =>
               updateCurrentTransaction('description', val)
             }
           />

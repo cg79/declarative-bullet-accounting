@@ -146,11 +146,7 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
   // }, [updatedCategories]);
 
   return (
-    <div
-      id="category-tree"
-      className="category-tree"
-      style={{ width: '100%', padding: '50px' }}
-    >
+    <div id="category-tree" className="category-tree">
       {/* <div className="flex flex-wrap gap-2 mb-4">
         <Button
           type="button"

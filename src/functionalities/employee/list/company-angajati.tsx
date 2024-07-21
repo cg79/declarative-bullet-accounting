@@ -6,7 +6,7 @@ import { FirmeDropDown } from '../../company/dropdown/firme-dropdown';
 import useFirme from '../../../_store/useFirme';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
 import { useBetween } from 'src/hooks/useBetween';
-import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import DataTableWrapper from '../../../_components/reuse/data-table/DataTableWrapper';
 import { Dialog } from 'primereact/dialog';
 import { helpers } from '../../../_utils/helpers';
 import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';

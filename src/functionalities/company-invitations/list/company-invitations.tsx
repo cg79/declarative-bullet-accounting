@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { MyButton } from '../../../_components/reuse/my-button';
 import useAccountingDbActions from '../../transactions/hook/useAccountingDbActions';
 import { useBetween } from 'src/hooks/useBetween';
-import DataTableWrapper from '../../../_components/reuse/DataTableWrapper';
+import DataTableWrapper from '../../../_components/reuse/data-table/DataTableWrapper';
 import { helpers } from '../../../_utils/helpers';
 import { AddEditInvitation } from '../add-edit/add-edit-invitation';
 import { IInvitation } from '../../transactions/model/accounting_types';

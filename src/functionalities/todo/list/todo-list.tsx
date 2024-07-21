@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
+import { useCallback, useEffect, useState } from 'react';
+import { MyButton } from '../../../_components/reuse/my-button';
 
-import { AddEditTodo } from "../add-edit/add-edit-todo";
-import DataTableWrapper from "../../../_components/reuse/DataTableWrapper";
-import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
-import { Dialog } from "primereact/dialog";
-import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
-import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
-import useGenericList from "../hooks/useGenericList";
-import { ITodo } from "../types";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { AddEditTodo } from '../add-edit/add-edit-todo';
+import DataTableWrapper from '../../../_components/reuse/data-table/DataTableWrapper';
+import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
+import { Dialog } from 'primereact/dialog';
+import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
+import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
+import useGenericList from '../hooks/useGenericList';
+import { ITodo } from '../types';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
 
 export const TodoList = () => {
   const {
@@ -24,7 +24,7 @@ export const TodoList = () => {
     setItemToBeDeleted,
     pageCountAndTotalRecords,
     goToPage,
-  } = useGenericList<ITodo>("todo", [{ field: "name", ascending: true }]);
+  } = useGenericList<ITodo>('todo', [{ field: 'name', ascending: true }]);
 
   useEffect(() => {
     getPaginatedList();
@@ -38,9 +38,9 @@ export const TodoList = () => {
             text="Adaugare Todo"
             onClick={() => {
               const newItem: ITodo = {
-                _id: "",
-                name: "",
-                description: "",
+                _id: '',
+                name: '',
+                description: '',
                 status: 0,
               };
               setItem(newItem);
@@ -114,8 +114,8 @@ export const TodoList = () => {
             <DataTableWrapper
               data={list}
               fieldHeader={[
-                { field: "name", header: "Nume" },
-                { header: "Actiuni", body: (item) => renderActiuni(item) },
+                { field: 'name', header: 'Nume' },
+                { header: 'Actiuni', body: (item) => renderActiuni(item) },
               ]}
             ></DataTableWrapper>
             <div className="flex center mt10">

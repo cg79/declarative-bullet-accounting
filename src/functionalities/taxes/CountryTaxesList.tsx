@@ -8,7 +8,7 @@ import useAccountingDbActions from '../transactions/hook/useAccountingDbActions'
 import { utils } from '../../_utils/utils';
 import { useBetween } from 'src/hooks/useBetween';
 import useTaxes from './useTaxes';
-import DataTableWrapper from '../../_components/reuse/DataTableWrapper';
+import DataTableWrapper from '../../_components/reuse/data-table/DataTableWrapper';
 import { ConfirmDialogWrapper } from '../../_components/reuse/ConfirmDialogWrapper';
 import { Dialog } from 'primereact/dialog';
 
