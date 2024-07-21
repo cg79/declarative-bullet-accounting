@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { MyButton } from "../../_components/reuse/my-button";
-import { LabelInput } from "../../_components/reuse/LabelInput";
-import useIdentity from "../../_store/useIdentity";
-import { useBetween } from "use-between";
-import GoogleAuth from "./google-auth";
-import { MyLottie } from "../../_components/reuse/my-lottie";
-import { MyCheckbox } from "../../_components/reuse/my-checkbox";
-import useFirme from "../../_store/useFirme";
-import { helpers } from "../../_utils/helpers";
-import useApi from "../../hooks/useApi";
+import { useEffect, useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MyButton } from '../../_components/reuse/my-button';
+import { LabelInput } from '../../_components/reuse/LabelInput';
+import useIdentity from '../../_store/useIdentity';
+import { useBetween } from 'use-between';
+import { MyLottie } from '../../_components/reuse/my-lottie';
+import { MyCheckbox } from '../../_components/reuse/my-checkbox';
+import useFirme from '../../_store/useFirme';
+import { helpers } from '../../_utils/helpers';
+import useApi from '../../hooks/useApi';
 
 export type UserAccount = {
   email: string;
@@ -28,12 +27,12 @@ export const CreateAccount = () => {
 
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const [data, setData] = React.useState<UserAccount>({
-    email: "",
-    password: "",
-    nick: "",
+    email: '',
+    password: '',
+    nick: '',
   });
 
   const updateData = (value: string, key: string) => {
@@ -41,29 +40,29 @@ export const CreateAccount = () => {
   };
 
   const callCreateAccount = async (payload: UserAccount) => {
-    setError("");
+    setError('');
     if (!checked) {
-      setError("Trebuie sa fiti de acord cu termenii si conditii");
+      setError('Trebuie sa fiti de acord cu termenii si conditii');
       return;
     }
     if (!payload.nick) {
-      setError("Numele trebuie sa fie completat");
+      setError('Numele trebuie sa fie completat');
       return;
     }
     if (!payload.email) {
-      setError("Email-ul trebuie sa fie completat");
+      setError('Email-ul trebuie sa fie completat');
       return;
     }
 
     if (!payload.password) {
-      setError("Parola trebuie completata");
+      setError('Parola trebuie completata');
       return;
     }
 
     const responseData = await executeMethodFromModule(
       {
-        method: "createUser",
-        moduleName: "user",
+        method: 'createUser',
+        moduleName: 'user',
         body: payload,
       },
       { allowAnonymous: true }
@@ -75,10 +74,10 @@ export const CreateAccount = () => {
     helpers.checkHttpResponseForErrors(responseData);
 
     if (!responseData.success) {
-      if (typeof responseData.message === "string") {
-        setError(responseData.message || "Eroare la crearea contului");
+      if (typeof responseData.message === 'string') {
+        setError(responseData.message || 'Eroare la crearea contului');
       } else {
-        setError("Eroare la crearea contului");
+        setError('Eroare la crearea contului');
       }
 
       return;
@@ -107,10 +106,10 @@ export const CreateAccount = () => {
     }
 
     if (!firme || !firme.length) {
-      return navigate("/start");
+      return navigate('/start');
     }
-    return navigate("/accounting");
-  }, [firme]);
+    return navigate('/accounting');
+  }, [loggedUser, navigate, firme]);
 
   return !loggedUser ? (
     <>
@@ -126,7 +125,7 @@ export const CreateAccount = () => {
         <div className="mt10">
           <LabelInput
             label="Nick Name: "
-            onChange={(val: string) => updateData(val, "nick")}
+            onChange={(val: string) => updateData(val, 'nick')}
             value={data.nick}
           ></LabelInput>
         </div>
@@ -134,7 +133,7 @@ export const CreateAccount = () => {
         <div className="mt10">
           <LabelInput
             label="Email: "
-            onChange={(val: string) => updateData(val, "email")}
+            onChange={(val: string) => updateData(val, 'email')}
             value={data.email}
           ></LabelInput>
         </div>
@@ -143,7 +142,7 @@ export const CreateAccount = () => {
           <LabelInput
             label="Parola:"
             // type="password"
-            onChange={(val: string) => updateData(val, "password")}
+            onChange={(val: string) => updateData(val, 'password')}
             value={data.password}
           ></LabelInput>
         </div>
@@ -157,7 +156,7 @@ export const CreateAccount = () => {
             onChange={() => setChecked(!checked)}
           ></MyCheckbox>
         </div>
-        <div className="flex" style={{ marginTop: "20px" }}>
+        <div className="flex" style={{ marginTop: '20px' }}>
           <MyButton
             onClick={() => callCreateAccount(data)}
             text="Creaza Utilizator"
@@ -182,7 +181,7 @@ export const CreateAccount = () => {
 
         <div className="fcenter mt10">
           <MyButton
-            onClick={() => navigate("/login")}
+            onClick={() => navigate('/login')}
             text="Navigare catre ecranul de autentificare"
             className="linkbutton ml5"
             useBaseButton={false}

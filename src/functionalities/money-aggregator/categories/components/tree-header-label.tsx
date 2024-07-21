@@ -1,7 +1,7 @@
-import { ICategory } from "../category-type";
-import TreeCollapseExpand from "./tree-collapse-expand";
-import TreeIcon from "./icons/tree-icon";
-import DelayClick from "./delay-click/delay-click";
+import { ICategory } from '../category-type';
+import TreeCollapseExpand from './tree-collapse-expand';
+import TreeIcon from './icons/tree-icon';
+import DelayClick from './delay-click/delay-click';
 
 const renderNodeIcon = (node: ICategory, onClick: () => void) => {
   if (node.icon) {
@@ -22,12 +22,17 @@ const TreeHeaderLabel = ({
   toggleCollapse,
   isCollapsed,
   setIsModalIconsVisible,
+}: {
+  node: ICategory;
+  toggleCollapse: () => void;
+  isCollapsed: boolean;
+  setIsModalIconsVisible: () => void;
 }) => {
   return (
-    <div onClick={toggleCollapse} style={{ cursor: "pointer" }}>
+    <div onClick={toggleCollapse} style={{ cursor: 'pointer' }}>
       <TreeCollapseExpand node={node} isCollapsed={isCollapsed} />
       {renderNodeIcon(node, setIsModalIconsVisible)}
-      <span className="bold" style={{ marginLeft: "5px" }}>
+      <span className="bold mycardFilter" style={{ marginLeft: '5px' }}>
         {node.label}
       </span>
     </div>

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import TreeHeaderLabel from "./tree-header-label";
-import TreeNodeAmounts from "./tree-node-amounts";
-import TreeNodeHeaderActions from "./tree-node-header-actions";
-import { useBetween } from "use-between";
-import useCategoryState from "../hooks/useCategoryState";
+import { useState } from 'react';
+import TreeHeaderLabel from './tree-header-label';
+import TreeNodeAmounts from './tree-node-amounts';
+import TreeNodeHeaderActions from './tree-node-header-actions';
+import { useBetween } from 'use-between';
+import useCategoryState from '../hooks/useCategoryState';
+import { ICategory } from '../category-type';
 
 const TreeHeader = ({
   node,
@@ -15,6 +16,16 @@ const TreeHeader = ({
   selectedCategory,
   onStartAddTransaction,
   onStartDeleteNode,
+}: {
+  node: ICategory;
+  toggleCollapse: () => void;
+  isCollapsed: boolean;
+  onAddNewNode: () => void;
+  onEditNode: () => void;
+  setIsModalIconsVisible: () => void;
+  selectedCategory: any;
+  onStartAddTransaction: () => void;
+  onStartDeleteNode: () => void;
 }) => {
   const [isMouseHover, setIsMouseHover] = useState(false);
   const { setSelectedCategory } = useBetween(useCategoryState);
@@ -34,18 +45,18 @@ const TreeHeader = ({
 
   const getBackgroundColor = () => {
     if (node === selectedCategory) {
-      return "lightgray";
+      return 'lightgray';
     }
-    return isMouseHover ? "lightgray" : "white";
+    return isMouseHover ? 'lightgray' : 'white';
   };
 
   return (
     <div
       onClick={onNodeClicked}
       style={{
-        cursor: "pointer",
+        cursor: 'pointer',
         backgroundColor: getBackgroundColor(),
-        height: "50px",
+        height: '50px',
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

@@ -1,26 +1,27 @@
-import { useCallback } from "react";
-import { helpers } from "../../_utils/helpers";
-import useApi from "../../hooks/useApi";
+import { useCallback } from 'react';
+import { helpers } from '../../_utils/helpers';
+import useApi from '../../hooks/useApi';
+import { LoginRequest } from './types';
 
 const useUserMethods = () => {
   const { executeMethodFromModule, callDeleteAccount } = useApi();
 
   const callLoginMethod = useCallback(
-    async (payload, route = "loginWithGoogle") => {
+    async (payload: LoginRequest, route = 'loginWithGoogle') => {
       const { email } = payload;
       if (!payload.email) {
-        throw new Error("Email-ul trebuie sa fie completat");
+        throw new Error('Email-ul trebuie sa fie completat');
       }
 
       if (!payload.password) {
-        throw new Error("Parola trebuie completata");
+        throw new Error('Parola trebuie completata');
       }
 
       // const bulletHttp = createBulletHttpRequestLibrary(true);
       const response = await executeMethodFromModule(
         {
-          method: "login",
-          moduleName: "user",
+          method: 'login',
+          moduleName: 'user',
           body: {
             email,
             password: payload.password,
@@ -40,28 +41,28 @@ const useUserMethods = () => {
       }
       return response.data;
     },
-    []
+    [executeMethodFromModule]
   );
 
-  const createAccount = async ({ email, password }, sendEmail = false) => {
-    const responseData = await executeMethodFromModule(
-      {
-        method: "createUser",
-        moduleName: "user",
+  // const createAccount = async ({ email, password }, sendEmail = false) => {
+  //   const responseData = await executeMethodFromModule(
+  //     {
+  //       method: 'createUser',
+  //       moduleName: 'user',
 
-        body: {
-          email,
-          password,
-        },
-      },
-      {
-        allowAnonymous: true,
-      }
-    );
+  //       body: {
+  //         email,
+  //         password,
+  //       },
+  //     },
+  //     {
+  //       allowAnonymous: true,
+  //     }
+  //   );
 
-    helpers.checkHttpResponseForErrors(responseData);
-    return responseData;
-  };
+  //   helpers.checkHttpResponseForErrors(responseData);
+  //   return responseData;
+  // };
 
   const deleteAccount = async () => {
     const response = await callDeleteAccount();
@@ -72,7 +73,7 @@ const useUserMethods = () => {
 
   return {
     callLoginMethod,
-    createAccount,
+    // createAccount,
     deleteAccount,
   };
 };

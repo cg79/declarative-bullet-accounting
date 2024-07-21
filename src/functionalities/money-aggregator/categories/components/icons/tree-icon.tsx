@@ -1,6 +1,6 @@
-import { InputHTMLAttributes, PropsWithChildren, useState } from "react";
-import { Tooltip } from "react-tooltip";
-import { utils } from "../../../../../_utils/utils";
+import { InputHTMLAttributes, PropsWithChildren, useState } from 'react';
+import { Tooltip } from 'react-tooltip';
+import { utils } from '../../../../../_utils/utils';
 
 interface CustomProps
   extends PropsWithChildren<InputHTMLAttributes<HTMLInputElement>> {
@@ -23,8 +23,8 @@ const TreeIcon = ({ icon, onClick, tooltip, ...rest }: CustomProps) => {
     onClick();
   };
 
-  const id = "t" + utils.createUUID().substring(0, 8);
-  const css = isMouseOver ? "color: #ebef0b" : "hover:text-color-primary";
+  const id = 't' + utils.createUUID().substring(0, 8);
+  const css = isMouseOver ? 'color: #ebef0b' : 'hover:text-color-primary';
   return (
     <>
       <i
@@ -32,8 +32,8 @@ const TreeIcon = ({ icon, onClick, tooltip, ...rest }: CustomProps) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={(e) => myClick(e)}
-        style={isMouseOver ? { color: "slateblue" } : {}}
-        className={`text-2xl mb-3 text-color-secondary ml5 mr5 ${icon} ${css}`}
+        style={isMouseOver ? { color: 'slateblue' } : {}}
+        className={`mycardFilter text-2xl mb-3 text-color-secondary ml5 mr5 ${icon} ${css}`}
       ></i>
       {tooltip && (
         <>

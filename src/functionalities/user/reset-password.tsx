@@ -1,49 +1,42 @@
-import { useEffect, useState } from "react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { MyButton } from "../../_components/reuse/my-button";
-import { LabelInput } from "../../_components/reuse/LabelInput";
-import { useBetween } from "use-between";
-import { MyLottie } from "../../_components/reuse/my-lottie";
-import { helpers } from "../../_utils/helpers";
-import { utils } from "../../_utils/utils";
-import useApi from "../../hooks/useApi";
-import useEvents from "../../_store/useEvents";
+import { useCallback, useEffect, useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MyButton } from '../../_components/reuse/my-button';
+import { LabelInput } from '../../_components/reuse/LabelInput';
+import { useBetween } from 'use-between';
+import { MyLottie } from '../../_components/reuse/my-lottie';
+import { helpers } from '../../_utils/helpers';
+import { utils } from '../../_utils/utils';
+import useApi from '../../hooks/useApi';
+import useEvents from '../../_store/useEvents';
+import { ResetRequest } from './types';
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
 
-  const resetcode = utils.getQueryVariable("resetcode") || "";
-  const email = utils.getQueryVariable("email") || "";
+  const resetcode = utils.getQueryVariable('resetcode') || '';
+  const email = utils.getQueryVariable('email') || '';
   const { executeMethodFromModule } = useApi();
 
-  const [data, setData] = React.useState<any>({
-    email: "",
-    password: "",
+  const [data, setData] = React.useState<ResetRequest>({
+    email: '',
+    password: '',
   });
 
   const updateData = (value: string, key: string) => {
-    setData((data) => ({ ...data, [key]: value }));
+    setData((data: ResetRequest) => ({ ...data, [key]: value }));
   };
 
-  useEffect(() => {
-    if (!enterPressed) {
-      return;
-    }
-    callResetPassword();
-    clearEnterPressed();
-  }, [enterPressed]);
-
-  const callResetPassword = async () => {
-    setError("");
+  const callResetPassword = useCallback(async () => {
+    setError('');
 
     const responseData = await executeMethodFromModule(
       {
-        method: "resetPassword",
-        moduleName: "user",
+        method: 'resetPassword',
+        moduleName: 'user',
 
         body: {
           reset: resetcode,
@@ -58,16 +51,24 @@ export const ResetPassword = () => {
     helpers.checkHttpResponseForErrors(responseData);
 
     if (responseData.success) {
-      return navigate("/login");
+      return navigate('/login');
     }
     if (!responseData.success) {
-      if (typeof responseData.message === "string") {
-        setError(responseData.message || "Eroare la resetarea parolei");
+      if (typeof responseData.message === 'string') {
+        setError(responseData.message || 'Eroare la resetarea parolei');
       } else {
-        setError("Eroare la resetarea parolei");
+        setError('Eroare la resetarea parolei');
       }
     }
-  };
+  }, [data, resetcode, email, executeMethodFromModule, navigate]);
+
+  useEffect(() => {
+    if (!enterPressed) {
+      return;
+    }
+    callResetPassword();
+    clearEnterPressed();
+  }, [enterPressed, callResetPassword, clearEnterPressed]);
 
   return (
     <>
@@ -85,12 +86,12 @@ export const ResetPassword = () => {
           <LabelInput
             type="password"
             label="Noua Parola: "
-            onChange={(val: string) => updateData(val, "password")}
+            onChange={(val: string) => updateData(val, 'password')}
             value={data.password}
           ></LabelInput>
         </div>
 
-        <div className="flex" style={{ marginTop: "20px" }}>
+        <div className="flex" style={{ marginTop: '20px' }}>
           <MyButton
             onClick={() => callResetPassword()}
             text="Resetare Parola"
@@ -99,7 +100,7 @@ export const ResetPassword = () => {
 
         <div className="fcenter mt10">
           <MyButton
-            onClick={() => navigate("/login")}
+            onClick={() => navigate('/login')}
             text="Navigare catre ecranul de autentificare"
             className="linkbutton ml5"
             useBaseButton={false}

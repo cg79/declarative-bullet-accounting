@@ -699,14 +699,14 @@ ul.my{
 }
 
 .mycardFilter {
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
   border: 1px solid #eee;
   border-radius: 4px;
-  margin: 0 8px 16px;
-  max-width: 200px;
+  /* margin: 0 8px 16px; */
+  /* max-width: 200px; */
   padding: 5px;
   transition: all .2s ease-in-out;
-  width: 150px;
+  /* width: 150px; */
   box-shadow: 0.6em 0.6em 1.2em #d2dce9, -0.5em -0.5em 1em #ffffff;
 }
 .mycardFilter:hover {

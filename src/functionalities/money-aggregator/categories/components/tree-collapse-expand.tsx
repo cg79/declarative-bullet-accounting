@@ -1,14 +1,20 @@
-import { useState } from "react";
-import { MyButton } from "../../../../_components/reuse/my-button";
+import MyIcon from 'src/_components/reuse/my-icon';
+import { ICategory } from '../category-type';
 
-const TreeCollapseExpand = ({ node, isCollapsed }) => {
+const TreeCollapseExpand = ({
+  node,
+  isCollapsed,
+}: {
+  node: ICategory;
+  isCollapsed: boolean;
+}) => {
   if (node.children && node.children.length === 0) {
-    return (
-      // <i className="text-2xl mb-3 text-color-secondary pi pi-arrow-circle">d</i>
-      <span className="hidden">no.</span>
-    );
+    return <span className="hidden">no.</span>;
   }
   if (isCollapsed) {
+    // return (
+    //   <MyIcon icon="text-2xl mb-3 text-color-secondary pi pi-arrow-circle-right"></MyIcon>
+    // );
     return (
       <i className="text-2xl mb-3 text-color-secondary pi pi-arrow-circle-right"></i>
     );

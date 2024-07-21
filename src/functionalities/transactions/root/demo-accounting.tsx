@@ -1,6 +1,6 @@
-import "react-dropdown/style.css";
-import "react-datepicker/dist/react-datepicker.css";
-import { TabView, TabPanel } from "primereact/tabview";
+import 'react-dropdown/style.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import { TabView, TabPanel } from 'primereact/tabview';
 
 import {
   Chart as ChartJS,
@@ -10,23 +10,23 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
+} from 'chart.js';
 
-import { TransactionRecords } from "../list/transaction-records";
+import { TransactionRecords } from '../list/transaction-records';
 
-import { useTransactions } from "../hook/useTransactions";
+import { useTransactions } from '../hook/useTransactions';
 
-import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
-import { AddTransaction } from "../add/add-transaction";
-import { FirmeAngajatiDropDown } from "../../employee/dropdown/firme-angajati-dropdown";
+import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
+import { AddTransaction } from '../add/add-transaction';
+import { FirmeAngajatiDropDown } from '../../employee/dropdown/firme-angajati-dropdown';
 // import { useEffect, useState } from "react";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { FilterActions } from "../filter/filter-actions";
-import useFirme from "../../../_store/useFirme";
-import { useBetween } from "use-between";
-import { ChartGraph } from "../charts/chart-graph";
-import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
-import { useEffect, useState } from "react";
+import { MyButton } from '../../../_components/reuse/my-button';
+import { FilterActions } from '../filter/filter-actions';
+import useFirme from '../../../_store/useFirme';
+import { useBetween } from 'use-between';
+import { ChartGraph } from '../charts/chart-graph';
+import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
+import { useEffect, useState } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -38,7 +38,7 @@ ChartJS.register(
 );
 
 export const DemoAccounting = () => {
-  const { selectedAngajat, firme, reload } = useBetween(useFirme);
+  const { selectedAngajat } = useBetween(useFirme);
   const {
     accountingRecords,
     error,
