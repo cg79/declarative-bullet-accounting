@@ -1,19 +1,23 @@
-import { useBetween } from "use-between";
-import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
-import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
+import { useBetween } from 'use-between';
+import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
+import useMoneyAccounts from '../money-account/hooks/useMoneyAccounts';
 import {
   ACCOUNT_TYPE_VALUE,
   IMoneyAccount,
-} from "../money-account/money-account-type";
-import DateStartEnd from "../../../_components/reuse/date/date-start-end";
-import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
-import AcceptedInvitations from "../entity-invitations/accepted-invitations/accepted-invitations";
-import { Panel } from "primereact/panel";
+} from '../money-account/money-account-type';
+import DateStartEnd from '../../../_components/reuse/date/date-start-end';
+import useMoneyTransactionsFilter from '../money-transactions/hooks/useMoneyTransactionsFilter';
+import AcceptedInvitations from '../entity-invitations/accepted-invitations/accepted-invitations';
+import { Panel } from 'primereact/panel';
+import { MyButton } from 'src/_components/reuse/my-button';
+import { useState } from 'react';
+import { DialogWrapper } from 'src/_components/reuse/DialogWrapper';
 
 const MoneyFilter = () => {
   const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
     useBetween(useMoneyAccounts);
 
+  const [showFilters, setShowFilters] = useState(false);
   const {
     startDate,
     updateStartDate,
@@ -22,16 +26,20 @@ const MoneyFilter = () => {
     aggregationFilterBy,
   } = useBetween(useMoneyTransactionsFilter);
 
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
+
   const accountsWithDefaultValue: IMoneyAccount[] = [
     {
-      _id: "",
-      name: "--DEFAULT--",
+      _id: '',
+      name: '--DEFAULT--',
       amount: 0,
       date: 0,
       account_type: ACCOUNT_TYPE_VALUE.ALL,
-      description: "",
-      userid: "",
-      nick: "",
+      description: '',
+      userid: '',
+      nick: '',
     },
     ...(accounts || []),
   ];
@@ -39,10 +47,26 @@ const MoneyFilter = () => {
   return (
     <>
       <div className="fcenter">
-        <Panel header="FIltre" toggleable>
+        <MyButton
+          text={showFilters ? 'Ascunde Filtre' : 'Arata Filtre'}
+          onClick={() => {
+            toggleFilters();
+          }}
+          useBaseButton={false}
+          className="mt10 linkbutton"
+        ></MyButton>
+      </div>
+
+      <DialogWrapper
+        header="Filtre"
+        visible={showFilters}
+        // style={{ width: "80vw" }}
+        onHide={() => setShowFilters(false)}
+      >
+        <div className="fcenter">
           <div className="flex mt10">
             <LabelDropDown
-              label={"Cont: "}
+              label={'Cont: '}
               className=""
               lwidth="135px"
               onChange={(accountValue: IMoneyAccount) => {
@@ -73,8 +97,8 @@ const MoneyFilter = () => {
               onEndDate={updateEndDate}
             ></DateStartEnd>
           </div>
-        </Panel>
-      </div>
+        </div>
+      </DialogWrapper>
     </>
   );
 };
