@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import useApi from "../../../../hooks/useApi";
-import { useBetween } from "use-between";
-import { IEntityInvitation } from "../entity-invitation-type";
-import useIdentity from "../../../../_store/useIdentity";
-import { ENTITY_INVITATIONS } from "../constants";
-import { IMoneyEntity } from "../../money-entity/money-entity-type";
-import { BULLET_METHOD } from "../../../../_fluentApi/fluent/constants";
-import useMoneyTransactionsFilter from "../../money-transactions/hooks/useMoneyTransactionsFilter";
+import { useCallback, useEffect, useState } from 'react';
+import useApi from '../../../../hooks/useApi';
+import { useBetween } from 'use-between';
+import { IEntityInvitation } from '../entity-invitation-type';
+import useIdentity from '../../../../_store/useIdentity';
+import { ENTITY_INVITATIONS } from '../constants';
+import { IMoneyEntity } from '../../money-entity/money-entity-type';
+import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
+import useMoneyTransactionsFilter from '../../money-transactions/hooks/useMoneyTransactionsFilter';
 // import { utils } from "../../../_utils/utils";
 
 const useMoneyInvitations = () => {
@@ -15,43 +15,49 @@ const useMoneyInvitations = () => {
   const { setSelectedUsers } = useBetween(useMoneyTransactionsFilter);
   const [invitations, setInvitations] = useState<IEntityInvitation[]>([]);
 
-  const toggleInvitationSelection = (el: IEntityInvitation) => {
-    const updatedFilters = invitations.map((filter) => {
-      if (filter._id === el._id) {
+  const toggleInvitationSelection = useCallback(
+    (el: IEntityInvitation) => {
+      const updatedFilters = invitations.map((filter) => {
+        if (filter._id === el._id) {
+          return {
+            ...filter,
+            selected: !filter.selected,
+          };
+        }
+        return filter;
+      });
+      setInvitations(updatedFilters);
+      setSelectedUsers(updatedFilters.filter((el) => el.selected));
+    },
+    [invitations, setInvitations, setSelectedUsers]
+  );
+
+  const saveInvitation = useCallback(
+    async (invitation: IEntityInvitation) => {
+      // const {startAccountingData}  = useStartAccountingData();
+      if (!loggedUser) {
         return {
-          ...filter,
-          selected: !filter.selected,
+          success: false,
+          message: 'Nu sunteti autentificat',
         };
       }
-      return filter;
-    });
-    setInvitations(updatedFilters);
-    setSelectedUsers(updatedFilters.filter((el) => el.selected));
-  };
 
-  const saveInvitation = useCallback(async (invitation: IEntityInvitation) => {
-    // const {startAccountingData}  = useStartAccountingData();
-    if (!loggedUser) {
-      return {
-        success: false,
-        message: "Nu sunteti autentificat",
-      };
-    }
-
-    const response = await executeMethodFromModule({
-      method: "sendEntityInvitation",
-      moduleName: "user",
-      body: invitation,
-    });
-    return response;
-  }, []);
+      const response = await executeMethodFromModule({
+        method: 'sendEntityInvitation',
+        moduleName: 'user',
+        body: invitation,
+      });
+      return response;
+    },
+    [loggedUser, executeMethodFromModule]
+  );
 
   const deleteInvitation = useCallback(
     async (invitation: IEntityInvitation) => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
         };
       }
 
@@ -69,7 +75,7 @@ const useMoneyInvitations = () => {
           },
         });
     },
-    [loggedUser]
+    [loggedUser, executeMethod]
   );
 
   const getInvitations = useCallback(
@@ -77,7 +83,7 @@ const useMoneyInvitations = () => {
       if (!loggedUser) {
         return {
           success: false,
-          message: "Nu sunteti autentificat",
+          message: 'Nu sunteti autentificat',
           data: [],
         };
       }
@@ -87,13 +93,13 @@ const useMoneyInvitations = () => {
           }
         : {};
       const response = await executeMethodFromModule({
-        method: "getEntityInvitations",
-        moduleName: "user",
+        method: 'getEntityInvitations',
+        moduleName: 'user',
         body,
       });
       return response;
     },
-    [loggedUser]
+    [loggedUser, executeMethodFromModule]
   );
 
   const refreshInvitations = useCallback(
@@ -102,25 +108,26 @@ const useMoneyInvitations = () => {
         setInvitations(response.data);
       });
     },
-    []
+    [getInvitations]
   );
 
-  const acceptInvitation = useCallback(async (invitation) => {
-    const { clientId } = invitation;
+  const acceptInvitation = useCallback(
+    async (invitation: IEntityInvitation) => {
+      const response = await executeMethodFromModule({
+        moduleName: 'user',
+        method: 'acceptInvitation',
+        body: invitation,
+      });
 
-    const response = await executeMethodFromModule({
-      moduleName: "user",
-      method: "acceptInvitation",
-      body: invitation,
-    });
-
-    return response;
-    // - daca nu exista, le insereaza
-  }, []);
+      return response;
+      // - daca nu exista, le insereaza
+    },
+    [executeMethodFromModule]
+  );
 
   useEffect(() => {
     refreshInvitations(null);
-  }, []);
+  }, [refreshInvitations]);
 
   return {
     saveInvitation,

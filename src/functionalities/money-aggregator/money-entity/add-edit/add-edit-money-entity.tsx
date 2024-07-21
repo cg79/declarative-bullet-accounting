@@ -1,10 +1,10 @@
-import { useBetween } from "use-between";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import useEvents from "../../../../_store/useEvents";
-import { useEffect, useState } from "react";
-import { IMoneyEntity } from "../money-entity-type";
-import { LabelInput } from "../../../../_components/reuse/LabelInput";
-import { WysYWYG } from "../../../../_components/reuse/my-wysywyg";
+import { useBetween } from 'use-between';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import useEvents from '../../../../_store/useEvents';
+import { useEffect, useState } from 'react';
+import { IMoneyEntity } from '../money-entity-type';
+import { LabelInput } from '../../../../_components/reuse/LabelInput';
+import { WysYWYG } from '../../../../_components/reuse/my-wysywyg';
 
 export const AddEditMoneyEntity = ({
   moneyEntity,
@@ -16,14 +16,14 @@ export const AddEditMoneyEntity = ({
   onCancel: () => void;
 }) => {
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [currentEntity, setCurrentEntity] = useState<IMoneyEntity>(moneyEntity);
 
   const triggerSaveCategory = () => {
-    setError("");
+    setError('');
 
     if (!currentEntity?.name) {
-      setError("invalid name");
+      setError('invalid name');
       return;
     }
     onSave(currentEntity);
@@ -47,7 +47,7 @@ export const AddEditMoneyEntity = ({
             lwidth="135px"
             // autoFocus
             onChange={(val: string) => {
-              setError("");
+              setError('');
               const newV: IMoneyEntity = {
                 ...currentEntity,
                 name: val,
@@ -60,7 +60,7 @@ export const AddEditMoneyEntity = ({
         <div className="mt10">
           <WysYWYG
             html={currentEntity.description}
-            setHtml={(val) =>
+            setHtml={(val: string) =>
               setCurrentEntity({ ...currentEntity, description: val })
             }
           />
