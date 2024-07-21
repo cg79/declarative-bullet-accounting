@@ -29,10 +29,18 @@ const TreeHeaderLabel = ({
   setIsModalIconsVisible: () => void;
 }) => {
   return (
-    <div onClick={toggleCollapse} style={{ cursor: 'pointer' }}>
-      <TreeCollapseExpand node={node} isCollapsed={isCollapsed} />
+    <div style={{ cursor: 'pointer' }}>
+      <TreeCollapseExpand
+        node={node}
+        isCollapsed={isCollapsed}
+        onClick={toggleCollapse}
+      />
       {renderNodeIcon(node, setIsModalIconsVisible)}
-      <span className="bold mycardFilter" style={{ marginLeft: '5px' }}>
+      <span
+        className="bold mycardFilter"
+        style={{ marginLeft: '5px' }}
+        onClick={toggleCollapse}
+      >
         {node.label}
       </span>
     </div>

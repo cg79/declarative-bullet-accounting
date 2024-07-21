@@ -5,6 +5,7 @@ import TreeNodeHeaderActions from './tree-node-header-actions';
 import { useBetween } from 'use-between';
 import useCategoryState from '../hooks/useCategoryState';
 import { ICategory } from '../category-type';
+import APP_CONSTANTS from '../../money-constants';
 
 const TreeHeader = ({
   node,
@@ -44,10 +45,11 @@ const TreeHeader = ({
   };
 
   const getBackgroundColor = () => {
+    // return 'transparent';
     if (node === selectedCategory) {
-      return 'lightgray';
+      return APP_CONSTANTS.HOVER_COLOR;
     }
-    return isMouseHover ? 'lightgray' : 'white';
+    return isMouseHover ? APP_CONSTANTS.HOVER_COLOR : 'transparent';
   };
 
   return (
