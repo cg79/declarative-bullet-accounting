@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { ReactCurrentDispatcher } from './lib/react-shared-internals';
-import { useForceUpdate } from './lib/use-force-update';
+import { useEffect, useRef } from "react";
+import { ReactCurrentDispatcher } from "./lib/react-shared-internals";
+import { useForceUpdate } from "./lib/use-force-update";
 
 const notImplemented = (name: string) => () => {
   const msg = `Hook "${name}" no possible to using inside useBetween scope.`;
@@ -15,7 +15,7 @@ const shouldUpdate = (a: any[], b: any[]) =>
   a.length !== b.length ||
   a.some((dep: any, index: any) => !equals(dep, b[index]));
 
-const detectServer = () => typeof window === 'undefined';
+const detectServer = () => typeof window === "undefined";
 
 const instances = new Map<any, any>();
 
@@ -40,9 +40,9 @@ const ownDisptacher = {
 
     if (!box.initialized) {
       box.state =
-        typeof initialState === 'function' ? initialState() : initialState;
+        typeof initialState === "function" ? initialState() : initialState;
       box.set = (fn: any) => {
-        if (typeof fn === 'function') {
+        if (typeof fn === "function") {
           return box.set(fn(box.state));
         }
         if (!equals(fn, box.state)) {
@@ -155,7 +155,7 @@ const ownDisptacher = {
         box,
         deps,
         () => {
-          typeof ref === 'function' ? ref(fn()) : (ref.current = fn());
+          typeof ref === "function" ? ref(fn()) : (ref.current = fn());
         },
       ]);
     } else if (shouldUpdate(box.deps, deps)) {
@@ -164,19 +164,19 @@ const ownDisptacher = {
         box,
         deps,
         () => {
-          typeof ref === 'function' ? ref(fn()) : (ref.current = fn());
+          typeof ref === "function" ? ref(fn()) : (ref.current = fn());
         },
       ]);
     }
   },
 };
 [
-  'readContext',
-  'useContext',
-  'useDebugValue',
-  'useResponder',
-  'useDeferredValue',
-  'useTransition',
+  "readContext",
+  "useContext",
+  "useDebugValue",
+  "useResponder",
+  "useDeferredValue",
+  "useTransition",
 ].forEach((key) => ((ownDisptacher as any)[key] = notImplemented(key)));
 
 const factory = (hook: any, options?: any) => {
@@ -234,7 +234,7 @@ const factory = (hook: any, options?: any) => {
           unsub();
         }
         const unsub = fn();
-        if (typeof unsub === 'function') {
+        if (typeof unsub === "function") {
           unsubs.push(unsub);
           box.unsub = unsub;
         } else {
@@ -310,7 +310,7 @@ export const useBetween = <T>(hook: Hook<T>): T => {
 export const useInitial = <T = any>(data?: T, server?: boolean) => {
   const ref = useRef<number>();
   if (!ref.current) {
-    isServer = typeof server === 'undefined' ? detectServer() : server;
+    isServer = typeof server === "undefined" ? detectServer() : server;
     isServer && clear();
     initialData = data;
     ref.current = 1;

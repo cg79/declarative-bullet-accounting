@@ -21,6 +21,7 @@ const SHORTCUT_ACTIONS = {
   ARROW_RIGHT: "arrowRight",
   ICON: "icon",
   ADD_TRANSACTION: "add",
+  FILTERS: "filters",
 };
 
 export { CATEGORY_COLLECTION, SHORTCUT_ACTIONS };

@@ -1,19 +1,21 @@
-import { useCallback, useEffect, useState } from 'react';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LabelInput } from '../../_components/reuse/LabelInput';
-import { MyButton } from '../../_components/reuse/my-button';
-import { MyLottie } from '../../_components/reuse/my-lottie';
-import useIdentity from '../../_store/useIdentity';
-import { useBetween } from '../../hooks/useBetween';
-// import GoogleAuth from "./google-auth";
-// import { gapi } from "gapi-script";
+import { useCallback, useEffect, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { LabelInput } from "../../_components/reuse/LabelInput";
+import { MyButton } from "../../_components/reuse/my-button";
+import { MyLottie } from "../../_components/reuse/my-lottie";
+import useIdentity from "../../_store/useIdentity";
+import { useBetween } from "../../hooks/useBetween";
+import GoogleAuth from "./google-auth";
+import { gapi } from "gapi-script";
 
-import { useUserMethods } from './useUserMethods';
-import useEvents from '../../_store/useEvents';
-import { MyCheckbox } from '../../_components/reuse/my-checkbox';
-import LocalStorageStorageManager from './localstorage-management';
-import { LoginRequest } from './types';
+import { useUserMethods } from "./useUserMethods";
+import useEvents from "../../_store/useEvents";
+import { MyCheckbox } from "../../_components/reuse/my-checkbox";
+import LocalStorageStorageManager from "./localstorage-management";
+import { LoginRequest } from "./types";
+import { LabelButton } from "../../_components/reuse/LabelButton";
+import { GOOGLECLIENTID } from "./constants";
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 export const Login = () => {
@@ -21,18 +23,20 @@ export const Login = () => {
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
   const { callLoginMethod } = useUserMethods();
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
+
+  const [error, setError] = useState("");
   // const storedEmail = LocalStorageStorageManager.getItem("email");
 
   const [data, setData] = React.useState<LoginRequest>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [checked, setChecked] = useState(false);
   const updateChecked = (value: boolean) => {
     setChecked(value);
     if (value && !data.email) {
-      const storedEmail = LocalStorageStorageManager.getItem<string>('email');
+      const storedEmail = LocalStorageStorageManager.getItem<string>("email");
       if (storedEmail) {
         setData((data: LoginRequest) => ({ ...data, email: storedEmail }));
       }
@@ -44,11 +48,12 @@ export const Login = () => {
 
   const onLogin = useCallback(
     (user: any) => {
+      debugger;
       setareUserLogat(user);
       if (checked) {
-        LocalStorageStorageManager.setItem('email', user.email);
+        LocalStorageStorageManager.setItem("email", user.email);
       } else {
-        LocalStorageStorageManager.removeItem('email');
+        LocalStorageStorageManager.removeItem("email");
       }
     },
     [checked, setareUserLogat]
@@ -59,14 +64,14 @@ export const Login = () => {
       return;
     }
 
-    return navigate('/categories');
+    return navigate("/categories");
   }, [loggedUser, navigate]);
 
   useEffect(() => {
     if (!enterPressed) {
       return;
     }
-    callLoginMethod(data, 'login')
+    callLoginMethod(data)
       .then((res) => onLogin(res))
       .catch((err) => {
         setError(err.message);
@@ -74,43 +79,63 @@ export const Login = () => {
     clearEnterPressed();
   }, [enterPressed, data, callLoginMethod, clearEnterPressed, onLogin]);
 
-  const [error, setError] = useState('');
+  useEffect(() => {
+    const initializeGapi = () => {
+      gapi.load("auth2", () => {
+        gapi.auth2.init({
+          client_id: GOOGLECLIENTID,
+        });
+      });
+    };
+
+    initializeGapi();
+  }, []);
 
   return (
     <div className="flex flex-column center-v">
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ marginBottom: "20px" }}>
         <MyLottie></MyLottie>
       </div>
 
-      {/* <div className="mt10 fcenter">
+      <div className="mt10 fcenter">
         <LabelButton label="">
           <MyButton
             text="Logare cu Google"
             onClick={() => {
-              function start() {
-                gapi.client.init({
-                  clientId,
-                  scope: "",
-                });
-                GoogleAuth.login().then((res: any): any => {
-                  callLoginMethod(res, "loginWithGoogle")
+              const auth2 = gapi.auth2.getAuthInstance();
+              auth2
+                .signIn()
+                .then((googleUser) => {
+                  debugger;
+                  const profile = googleUser.getBasicProfile();
+                  const email = profile.getEmail();
+                  const password = profile.getId();
+                  callLoginMethod({ email, password, provider: "google" })
                     .then((res) => onLogin(res))
                     .catch((err) => {
-                      setError(err);
+                      setError(err.message);
                     });
+                  // console.log("ID: " + profile.getId());
+                  // console.log("Name: " + profile.getName());
+                  // console.log("Image URL: " + profile.getImageUrl());
+                  // console.log("Email: " + profile.getEmail());
+                  // Handle login success, e.g., send the profile info to your server or update your app's state
+                })
+                .catch((error) => {
+                  console.error("Login failed:", error);
                 });
-              }
-              gapi.load("client:auth2", start);
             }}
             className="linkbutton"
-          ></MyButton>
+          >
+            <img src="/images/btn_google_signin_dark_normal_web.png" />
+          </MyButton>
         </LabelButton>
-      </div> */}
+      </div>
 
       <div className="">
         <LabelInput
           label="Email: "
-          onChange={(val: string) => updateData(val, 'email')}
+          onChange={(val: string) => updateData(val, "email")}
           value={data.email}
         ></LabelInput>
 
@@ -118,13 +143,13 @@ export const Login = () => {
           <LabelInput
             label="Parola:"
             // type="password"
-            onChange={(val: string) => updateData(val, 'password')}
+            onChange={(val: string) => updateData(val, "password")}
             value={data.password}
             type="password"
           ></LabelInput>
         </div>
 
-        <div className="fcenter " style={{ marginTop: '20px' }}>
+        <div className="fcenter " style={{ marginTop: "20px" }}>
           <MyCheckbox
             id="remember"
             label="Pastreaza utilizatorul"
@@ -133,10 +158,10 @@ export const Login = () => {
             onChange={() => updateChecked(!checked)}
           ></MyCheckbox>
         </div>
-        <div className="fcenter " style={{ marginTop: '20px' }}>
+        <div className="fcenter " style={{ marginTop: "20px" }}>
           <MyButton
             onClick={() =>
-              callLoginMethod(data, 'login')
+              callLoginMethod(data)
                 .then((res) => onLogin(res))
                 .catch((err) => {
                   setError(err.message);
@@ -152,7 +177,7 @@ export const Login = () => {
 
         <div className="fcenter mt10">
           <MyButton
-            onClick={() => navigate('/parola')}
+            onClick={() => navigate("/parola")}
             text="Am uitat Parola"
             className="linkbutton ml5"
             useBaseButton={false}
@@ -161,7 +186,7 @@ export const Login = () => {
 
         <div className="fcenter mt10">
           <MyButton
-            onClick={() => navigate('/crearecont')}
+            onClick={() => navigate("/crearecont")}
             text="Navigare catre ecranul de creare utilizator"
             className="linkbutton ml5"
             useBaseButton={false}

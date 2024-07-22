@@ -1,5 +1,4 @@
 import { ILoggedUser } from "../../../_store/useIdentity";
-import { clientId } from "../../user/constants";
 import { IAccountingValues } from "../model/accounting_types";
 
 export const DELTA_FUNCTION = "accounting";

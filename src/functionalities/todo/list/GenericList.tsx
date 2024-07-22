@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
-import useGenericList from '../hooks/useGenericList';
-import { MyButton } from '../../../_components/reuse/my-button';
+import React, { useEffect } from "react";
+import useGenericList from "../hooks/useGenericList";
+import { MyButton } from "../../../_components/reuse/my-button";
 import DataTableWrapper, {
   FieldHeaderType,
-} from '../../../_components/reuse/data-table/DataTableWrapper';
-import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
-import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
-import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
-import MyIcon from '../../../_components/reuse/my-icon';
-import ShortcutComponent from '../../money-aggregator/categories/shortcut/shortcut-component';
-import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
+} from "../../../_components/reuse/data-table/DataTableWrapper";
+import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
+import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
+import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
+import MyIcon from "../../../_components/reuse/my-icon";
+import ShortcutComponent from "../../money-aggregator/categories/shortcut/shortcut-component";
+import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
+import { SHORTCUT_ACTIONS } from "../../money-aggregator/categories/constants";
+import { useBetween } from "use-between";
+import useShortcut from "../../money-aggregator/categories/shortcut/useShortcut";
 
 // Define the props interface with a generic type
 interface MyGenericListProps<T> {
@@ -63,12 +66,23 @@ function GenericList<T>({
     goToPage,
   } = useGenericList<T>(collectionName, sortBy, filterBy);
 
+  const { shortcutKey, setShortcutKey } = useBetween(useShortcut);
+
   useEffect(() => {
     // if (!filterBy) {
     //   return;
     // }
     getPaginatedList();
   }, [filterBy, pageState]);
+
+  useEffect(() => {
+    debugger;
+    if (shortcutKey === SHORTCUT_ACTIONS.FILTERS) {
+      alert("generic");
+      setShortcutKey("");
+      setItem(createItem());
+    }
+  }, [shortcutKey]);
 
   const renderAddNewButton = () => {
     return null;
@@ -143,10 +157,6 @@ function GenericList<T>({
     );
   };
 
-  const onShortCutAction = (shortcut) => {
-    // alert(shortcut);
-  };
-
   const renderAddItem = () => {
     return createItem ? (
       <div className="ml10">
@@ -169,23 +179,21 @@ function GenericList<T>({
             {renderAddNewButton()}
             {/* {JSON.stringify(list, null, 2)} */}
 
-            <ShortcutComponent onShortCutAction={onShortCutAction}>
-              <DataTableWrapper
-                data={list}
-                fieldHeader={fieldHeader.concat([
-                  {
-                    field: 'actiuni',
-                    header: 'Actiuni',
-                    body: renderActions
-                      ? (item: T) =>
-                          renderActions(item, setItem, setItemToBeDeleted)
-                      : (item) => renderActiuni(item),
-                  },
-                ])}
-                // onRowClick={(item) => setItem(item)}
-                renderDefaultActions={(item) => renderAddItem()}
-              ></DataTableWrapper>
-            </ShortcutComponent>
+            <DataTableWrapper
+              data={list}
+              fieldHeader={fieldHeader.concat([
+                {
+                  field: "actiuni",
+                  header: "Actiuni",
+                  body: renderActions
+                    ? (item: T) =>
+                        renderActions(item, setItem, setItemToBeDeleted)
+                    : (item) => renderActiuni(item),
+                },
+              ])}
+              // onRowClick={(item) => setItem(item)}
+              renderDefaultActions={(item) => renderAddItem()}
+            ></DataTableWrapper>
             <div className="flex center mt10">
               <PaginationWrapper
                 pageState={pageState}

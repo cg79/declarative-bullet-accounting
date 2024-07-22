@@ -1,4 +1,4 @@
-import { clientId } from "./constants";
+import { GOOGLECLIENTID } from "./constants";
 import SessionStorageManager from "./session-management";
 
 class GoogleAuth {
@@ -6,7 +6,7 @@ class GoogleAuth {
     try {
       const gapi = (window as any).gapi;
       gapi.auth2.init({
-        client_id: clientId,
+        client_id: GOOGLECLIENTID,
       });
 
       return gapi.auth2
@@ -29,7 +29,7 @@ class GoogleAuth {
   public static logout = () => {
     const gapi = (window as any).gapi;
     gapi.auth2.init({
-      client_id: clientId,
+      client_id: GOOGLECLIENTID,
     });
     return gapi.auth2
       .getAuthInstance()

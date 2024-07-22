@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
-import { SHORTCUT_ACTIONS } from '../constants';
-import { useBetween } from '../../../../hooks/useBetween';
-import useShortcut from './useShortcut';
+import React, { useCallback, useEffect } from "react";
+import { SHORTCUT_ACTIONS } from "../constants";
+import { useBetween } from "../../../../hooks/useBetween";
+import useShortcut from "./useShortcut";
 
 const ShortcutComponent = ({ onShortCutAction, children }) => {
-  const { isShortcutEnabled } = useBetween(useShortcut);
+  const { isShortcutEnabled, setShortcutKey } = useBetween(useShortcut);
 
   // useEffect(() => {
   //   document.addEventListener("keypress", handleKeyDown);
@@ -18,52 +18,56 @@ const ShortcutComponent = ({ onShortCutAction, children }) => {
 
   useEffect(() => {
     if (isShortcutEnabled) {
-      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
     } else {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     }
   }, [isShortcutEnabled]);
 
   const handleKeyDown = useCallback((event) => {
-    console.log('shortcut' + event.key);
+    console.log("shortcut" + event.key);
     switch (event.key) {
-      case 'n':
+      case "n":
         event.preventDefault();
         onShortCutAction(SHORTCUT_ACTIONS.ADD_NODE);
         break;
-      case 'a':
+      case "a":
         event.preventDefault();
         handleAddTransaction();
         break;
-      case 'i':
+      case "i":
         event.preventDefault();
         handleIcon();
         break;
-      case 'e':
+      case "e":
         event.preventDefault();
         handleEdit();
         break;
-      case 'd':
+      case "d":
         event.preventDefault();
         handleDelete();
         break;
-      case 'Backspace':
+      case "f":
+        event.preventDefault();
+        handleFilters();
+        break;
+      case "Backspace":
         event.preventDefault();
         handleDelete();
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         event.preventDefault();
         handleArrowUp();
         break;
-      case 'ArrowDown':
+      case "ArrowDown":
         event.preventDefault();
         handleArrowDown();
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         event.preventDefault();
         handleArrowLeft();
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         event.preventDefault();
         handleArrowRight();
         break;
@@ -81,6 +85,13 @@ const ShortcutComponent = ({ onShortCutAction, children }) => {
   const handleIcon = () => {
     // alert("Icon shortcut triggered!");
     onShortCutAction(SHORTCUT_ACTIONS.ICON);
+    // Add your icon functionality here
+  };
+
+  const handleFilters = () => {
+    // alert("Icon shortcut triggered!");
+    setShortcutKey(SHORTCUT_ACTIONS.FILTERS);
+    onShortCutAction && onShortCutAction(SHORTCUT_ACTIONS.FILTERS);
     // Add your icon functionality here
   };
   const handleEdit = () => {
@@ -117,13 +128,7 @@ const ShortcutComponent = ({ onShortCutAction, children }) => {
     // Add your delete functionality here
   };
 
-  return (
-    <>
-      ISShortcutenabled
-      {isShortcutEnabled ? 'DA' : 'NU'}
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default ShortcutComponent;
