@@ -1,18 +1,16 @@
-import React, { useEffect } from "react";
-import useGenericList from "../hooks/useGenericList";
-import { MyButton } from "../../../_components/reuse/my-button";
+import React, { useEffect } from 'react';
+import useGenericList from '../hooks/useGenericList';
+import { MyButton } from '../../../_components/reuse/my-button';
 import DataTableWrapper, {
   FieldHeaderType,
-} from "../../../_components/reuse/data-table/DataTableWrapper";
-import { PaginationWrapper } from "../../../_components/reuse/PaginationWrapper";
-import { ConfirmDialogWrapper } from "../../../_components/reuse/ConfirmDialogWrapper";
-import { IPageNoAndRowsPerPage } from "../../../hooks/usePagerState";
-import MyIcon from "../../../_components/reuse/my-icon";
-import ShortcutComponent from "../../money-aggregator/categories/shortcut/shortcut-component";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
-import { SHORTCUT_ACTIONS } from "../../money-aggregator/categories/constants";
-import { useBetween } from "use-between";
-import useShortcut from "../../money-aggregator/categories/shortcut/useShortcut";
+} from '../../../_components/reuse/data-table/DataTableWrapper';
+import { PaginationWrapper } from '../../../_components/reuse/PaginationWrapper';
+import { ConfirmDialogWrapper } from '../../../_components/reuse/ConfirmDialogWrapper';
+import { IPageNoAndRowsPerPage } from '../../../hooks/usePagerState';
+import MyIcon from '../../../_components/reuse/my-icon';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
+import { SHORTCUT_ACTIONS } from '../../money-aggregator/categories/constants';
+import useShortcut from '../../money-aggregator/categories/shortcut/useShortcut';
 
 // Define the props interface with a generic type
 interface MyGenericListProps<T> {
@@ -66,23 +64,12 @@ function GenericList<T>({
     goToPage,
   } = useGenericList<T>(collectionName, sortBy, filterBy);
 
-  const { shortcutKey, setShortcutKey } = useBetween(useShortcut);
-
   useEffect(() => {
     // if (!filterBy) {
     //   return;
     // }
     getPaginatedList();
   }, [filterBy, pageState]);
-
-  useEffect(() => {
-    debugger;
-    if (shortcutKey === SHORTCUT_ACTIONS.FILTERS) {
-      alert("generic");
-      setShortcutKey("");
-      setItem(createItem());
-    }
-  }, [shortcutKey]);
 
   const renderAddNewButton = () => {
     return null;
@@ -169,6 +156,22 @@ function GenericList<T>({
     ) : null;
   };
 
+  const headers = (): FieldHeaderType[] => {
+    if (fieldHeader.length > 0) {
+      return fieldHeader;
+    }
+    if (!list.length) {
+      return [];
+    }
+    const first = list[0] as any;
+    const response = Object.keys(first).map((el) => {
+      return { field: el, header: el };
+    });
+
+    console.log(response);
+    return response;
+  };
+
   return (
     <>
       <div className="flex center">
@@ -181,10 +184,10 @@ function GenericList<T>({
 
             <DataTableWrapper
               data={list}
-              fieldHeader={fieldHeader.concat([
+              fieldHeader={headers().concat([
                 {
-                  field: "actiuni",
-                  header: "Actiuni",
+                  field: 'actiuni',
+                  header: 'Actiuni',
                   body: renderActions
                     ? (item: T) =>
                         renderActions(item, setItem, setItemToBeDeleted)

@@ -2,6 +2,7 @@ export type LoginRequest = {
   email: string;
   password: string;
   provider?: string;
+  nick?: string;
 };
 export type ResetRequest = LoginRequest;
 export type ForgotPasswordRequest = LoginRequest;

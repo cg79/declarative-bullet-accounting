@@ -13,6 +13,17 @@ const DataCardRenderer = ({
   onRowClick,
   renderDefaultActions,
 }: MyDataTableProps) => {
+  const getVal = (item: any, field?: string) => {
+    if (!field) {
+      return 'no';
+    }
+    if (item && item[field]) {
+      const val = item[field];
+      console.log(val);
+      return JSON.stringify(val) || val;
+    }
+    return 'no';
+  };
   return (
     <div className="card-list">
       <div className="cards-container">
@@ -24,17 +35,10 @@ const DataCardRenderer = ({
                   <strong>{header.header}: </strong>
                 </div>
                 <div className="flex flex1 flex-end">
-                  {header.body ? header.body(item) : item[header.field || '']}
+                  {header.body ? header.body(item) : getVal(item, header.field)}
                 </div>
               </div>
             ))}
-            {/* <div key={header.field} className="card-field1 flex">
-                <strong>{header.header}: </strong>
-                <span>
-                  {header.body ? header.body(item) : item[header.field || '']}
-                </span>
-              </div> */}
-            {/* ))} */}
           </div>
         ))}
       </div>

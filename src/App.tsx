@@ -52,6 +52,7 @@ import MoneyEntityList from './functionalities/money-aggregator/money-entity/lis
 import MoneyAccountList from './functionalities/money-aggregator/money-account/list/money-account-list';
 import { EntityInvitations } from './functionalities/money-aggregator/entity-invitations/list/entity-invitations';
 import { useBetween } from './hooks/useBetween';
+import MongoUi from './functionalities/mongoui/mongoui';
 
 function App() {
   const { loggedUser } = useBetween(useIdentity);
@@ -114,6 +115,14 @@ function App() {
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <DeleteAccount />
+                    </GuardedRoute1>
+                  }
+                />
+                <Route
+                  path="mongoui"
+                  element={
+                    <GuardedRoute1 loggedUser={loggedUser}>
+                      <MongoUi />
                     </GuardedRoute1>
                   }
                 />
