@@ -189,6 +189,14 @@ export const Navbar = () => {
       },
       visible: !!loggedUser && !loggedUser?.isInvited,
     },
+    {
+      label: 'Mongo',
+      icon: 'pi pi-fw pi-external-link',
+      command: () => {
+        navigate('/mongoui');
+      },
+      visible: !!loggedUser && !loggedUser?.isInvited,
+    },
     // {
     //   label: "Import Extrase",
     //   // icon: "pi pi-fw pi-power-off",

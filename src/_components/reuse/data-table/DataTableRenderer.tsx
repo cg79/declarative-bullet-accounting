@@ -3,6 +3,8 @@
 // import { utils } from '../../_utils/utils';
 // import { useState } from 'react';
 
+import { useBetween } from '../../../hooks/useBetween';
+import useScreenSize from '../../../hooks/useScreenSize';
 import { MyDataTableProps } from './DataTableWrapper';
 
 const DEFAULT_STYLE = {
@@ -21,8 +23,29 @@ const DataTableRenderer = ({
   onRowClick,
   renderDefaultActions,
 }: MyDataTableProps) => {
+  const { width } = useBetween(useScreenSize);
+
+  const isObject = (value) => {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      !Array.isArray(value) &&
+      !(value instanceof Date)
+    );
+  };
+  const getVal = (item: any, field?: string) => {
+    if (!field) {
+      return 'no';
+    }
+    if (item && item[field]) {
+      const val = item[field];
+      console.log(val);
+      return isObject(val) ? JSON.stringify(val) : val;
+    }
+    return 'no';
+  };
   return (
-    <div className="hscroll" key={Math.random()}>
+    <div className="hscroll" key={Math.random()} style={{ width }}>
       <table className="my-table">
         <tbody>
           <tr className="header">
@@ -54,7 +77,7 @@ const DataTableRenderer = ({
                   className="tcellh"
                   style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
                 >
-                  {header.body ? header.body(item) : item[header.field || '']}
+                  {header.body ? header.body(item) : getVal(item, header.field)}
                 </td>
               ))}
             </tr>

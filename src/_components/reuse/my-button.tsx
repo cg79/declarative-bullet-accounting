@@ -1,8 +1,8 @@
-import { InputHTMLAttributes, PropsWithChildren } from "react";
+import { InputHTMLAttributes, PropsWithChildren } from 'react';
 
 interface MyButtonProps
   extends PropsWithChildren<InputHTMLAttributes<HTMLInputElement>> {
-  onClick: () => void;
+  onClick: (event: any) => void;
   text: string;
   // css?: string;
   disabled?: boolean;

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import PubSub from "../../_utils/PubSub";
+import { useEffect, useState } from 'react';
+import PubSub from '../../_utils/PubSub';
 
 const ErrorsComponent = () => {
   const [errors, setErrors] = useState<any[]>([]);
 
   useEffect(() => {
-    PubSub.subscribe("onError", (data) => {
+    PubSub.subscribe('onError', (data) => {
       console.log(data);
       const newErrors = [...errors, data];
       setErrors(newErrors);
@@ -19,7 +19,9 @@ const ErrorsComponent = () => {
   return (
     <div className="">
       {errors.map((error) => (
-        <div className="error">{error}</div>
+        <div className="error" key={error}>
+          {error}
+        </div>
       ))}
     </div>
   );
