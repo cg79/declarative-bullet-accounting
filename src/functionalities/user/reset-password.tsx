@@ -72,7 +72,6 @@ export const ResetPassword = () => {
 
   return (
     <>
-      {resetcode}
       <div className="fcenter mt15">
         <MyLottie
           fileName="create-account"

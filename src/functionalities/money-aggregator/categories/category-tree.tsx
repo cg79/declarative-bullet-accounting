@@ -17,7 +17,6 @@ export const CategoryTree = ({ categoryTree, onNodeSelected }) => {
     setDroppedCategory,
     deletedCategory,
     setDeletedCategory,
-    updatedCategories,
     updateCategory,
     calculateAmounts,
   } = useBetween(useCategoryState);

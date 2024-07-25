@@ -48,7 +48,6 @@ export const Login = () => {
 
   const onLogin = useCallback(
     (user: any) => {
-      debugger;
       setareUserLogat(user);
       if (checked) {
         LocalStorageStorageManager.setItem('email', user.email);
@@ -107,7 +106,6 @@ export const Login = () => {
               auth2
                 .signIn()
                 .then((googleUser) => {
-                  debugger;
                   const profile = googleUser.getBasicProfile();
                   const email = profile.getEmail();
                   const password = profile.getId();
