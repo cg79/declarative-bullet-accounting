@@ -818,3 +818,7 @@ ul.my{
   width: 100%;
   padding: 13px;
 }
+
+.p-paginator .p-dropdown {
+  max-width: 100px;
+}

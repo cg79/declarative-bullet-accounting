@@ -1,6 +1,7 @@
-import { SelectItemOptionsType } from "primereact/selectitem";
-import { utils } from "../../_utils/utils";
-import { Dropdown } from "primereact/dropdown";
+import { SelectItemOptionsType } from 'primereact/selectitem';
+import { utils } from '../../_utils/utils';
+import { Dropdown } from 'primereact/dropdown';
+import useScreenSize from '../../hooks/useScreenSize';
 
 type LabelDropDownProps = {
   label?: string;
@@ -18,35 +19,36 @@ type LabelDropDownProps = {
 };
 export const LabelDropDown = ({
   label,
-  labelCss = "bold",
+  labelCss = 'bold',
   onChange,
-  error = "",
-  lwidth = "160px",
+  error = '',
+  lwidth = '160px',
   defaultOption,
   value,
   options = [],
-  placeholder = "Selectati o optiune",
+  placeholder = 'Selectati o optiune',
   optionLabel,
-  optionValue = "_id",
-  className = "flex fwrap",
+  optionValue = '_id',
+  className = 'flex fwrap',
 }: LabelDropDownProps) => {
   const id = utils.createUUID();
+  const { popupCss } = useScreenSize();
   return (
     <>
       {/* {JSON.stringify(value, null, 2)} */}
-      <div className={className}>
+      <div className={popupCss.css}>
         <div className="actionname1u">
           <label
             htmlFor={id}
             className={labelCss}
             style={{
-              cursor: "pointer",
+              cursor: 'pointer',
               width: lwidth,
-              display: "inline-block",
-              marginTop: "15px",
+              display: 'inline-block',
+              marginTop: '15px',
             }}
           >
-            {label || "asd"}
+            {label || 'asd'}
           </label>
         </div>
         <div className="flex checkbox-wrapper">

@@ -121,6 +121,7 @@ export const CompanyList = () => {
                 { field: 'nume', header: 'Nume' },
                 { header: 'Actiuni', body: (item) => renderActiuni(item) },
               ]}
+              renderCreateFirstItem={() => null}
             ></DataTableWrapper>
             <div className="flex center mt10">
               <PaginationWrapper

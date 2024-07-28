@@ -76,7 +76,7 @@ export const LabelInput = ({
           />
         </div>
       </div>
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error mt15">{error}</div>}
     </>
   );
 };

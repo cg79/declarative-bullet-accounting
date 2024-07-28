@@ -6,6 +6,7 @@ import useCategoryState from '../hooks/useCategoryState';
 import { ICategory } from '../category-type';
 import APP_CONSTANTS from '../../money-constants';
 import { useBetween } from '../../../../hooks/useBetween';
+import useScreenSize from '../../../../hooks/useScreenSize';
 
 const TreeHeader = ({
   node,
@@ -30,6 +31,7 @@ const TreeHeader = ({
 }) => {
   const [isMouseHover, setIsMouseHover] = useState(false);
   const { setSelectedCategory } = useBetween(useCategoryState);
+  const { width } = useBetween(useScreenSize);
 
   const handleMouseEnter = () => {
     setIsMouseHover(true);
@@ -74,14 +76,16 @@ const TreeHeader = ({
       {/* {JSON.stringify(node.parentIds)} */}
 
       <div className="ml10 flex flex-end">
-        <TreeNodeHeaderActions
-          node={node}
-          isMouseHover={isMouseHover}
-          onAddNewNode={onAddNewNode}
-          onEditNode={onEditNode}
-          onStartAddTransaction={onStartAddTransaction}
-          onStartDeleteNode={onStartDeleteNode}
-        ></TreeNodeHeaderActions>
+        {width > 500 && (
+          <TreeNodeHeaderActions
+            node={node}
+            isMouseHover={isMouseHover}
+            onAddNewNode={onAddNewNode}
+            onEditNode={onEditNode}
+            onStartAddTransaction={onStartAddTransaction}
+            onStartDeleteNode={onStartDeleteNode}
+          ></TreeNodeHeaderActions>
+        )}
         <TreeNodeAmounts
           node={node}
           isCollapsed={isCollapsed}

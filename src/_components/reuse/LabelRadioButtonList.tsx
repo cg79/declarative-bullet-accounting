@@ -3,6 +3,7 @@ import useEvents from '../../_store/useEvents';
 import RadioButtonList, { RadioButtonListProps } from './radio-button-list';
 import { LabelProps, DEFAULT_LABEL_PROPS } from './LabelEmail';
 import { useBetween } from '../../hooks/useBetween';
+import useScreenSize from '../../hooks/useScreenSize';
 
 export type LabelRadioButtonListProps = LabelProps & RadioButtonListProps;
 
@@ -18,6 +19,7 @@ const LabelRadioButtonList: React.FC<LabelRadioButtonListProps> = ({
   valueField,
 }) => {
   const { triggerEnterPressed } = useBetween(useEvents);
+  const { popupCss } = useScreenSize();
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -30,7 +32,7 @@ const LabelRadioButtonList: React.FC<LabelRadioButtonListProps> = ({
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex fwrap fcenter">
+      <div className={popupCss.css}>
         <label
           htmlFor={id}
           className={labelCss} // ${labelCss}

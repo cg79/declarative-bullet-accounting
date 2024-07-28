@@ -9,6 +9,15 @@ import { buildTreeFromParent, defaultCategory } from '../category-helpers';
 import { BULLET_METHOD } from '../../../../_fluentApi/fluent/constants';
 import { useBetween } from '../../../../hooks/useBetween';
 
+export const TREE_ACTION = {
+  ADD_NEW_CATEGORY: 1,
+  EDIT_CATEGORY: 2,
+  DELETE_CATEGORY: 3,
+  ADD_NEW_TRANSACTION: 4,
+  EDIT_TRANSACTION: 5,
+  DELETE_TRANSACTION: 6,
+};
+
 const useCategoryState = () => {
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
     null
@@ -33,6 +42,7 @@ const useCategoryState = () => {
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethod, executeMethodFromModule } = useApi();
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [treeAction, setTreeAction] = useState<number>(0);
 
   const getCategoryById = (id: string) => {
     return categories.find((category) => category._id === id);
@@ -306,6 +316,8 @@ const useCategoryState = () => {
     newTransactionAdded,
     getCategoryById,
     aggregateAmountByCategory,
+    treeAction,
+    setTreeAction,
   };
 };
 export default useCategoryState;

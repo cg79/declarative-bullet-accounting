@@ -4,7 +4,7 @@ import { ICategory } from '../category-type';
 import TreeNodeAddEdit from './tree-node-add-edit';
 import IconGallery from './icons/icons-gallery';
 import { SHORTCUT_ACTIONS } from '../constants';
-import useCategoryState from '../hooks/useCategoryState';
+import useCategoryState, { TREE_ACTION } from '../hooks/useCategoryState';
 import AddEditMoneyTransaction from '../../money-transactions/add-edit/add-edit-money-transaction';
 import useMoneyTransactions from '../../money-transactions/hooks/useMoneyTransactions';
 import { IMoneyTransaction } from '../../money-transactions/money-transaction-type';
@@ -17,10 +17,6 @@ import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 import { defaultCategory } from '../category-helpers';
 import { useBetween } from '../../../../hooks/useBetween';
 // import { faL } from "@fortawesome/free-solid-svg-icons";
-
-const ItemTypes = {
-  NODE: 'node',
-};
 
 const TreeNode = ({
   node,
@@ -56,6 +52,8 @@ const TreeNode = ({
     deleteCategory,
     saveCategory,
     updateCategory,
+    treeAction,
+    setTreeAction,
   } = useBetween(useCategoryState);
   const { saveMoneyTransaction } = useMoneyTransactions();
 
@@ -239,6 +237,34 @@ const TreeNode = ({
     //   setIsCollapsed(true);
     // }
   }, [selectedCategory, shortCutAction]);
+
+  useEffect(() => {
+    if (!treeAction) {
+      return;
+    }
+    if (selectedCategory !== node) {
+      return;
+    }
+    setTreeAction(0);
+    switch (treeAction) {
+      case TREE_ACTION.ADD_NEW_CATEGORY: {
+        onAddNewNode();
+        break;
+      }
+      case TREE_ACTION.EDIT_CATEGORY: {
+        onEditNode();
+        break;
+      }
+      case TREE_ACTION.DELETE_CATEGORY: {
+        onStartDeleteNode();
+        break;
+      }
+      case TREE_ACTION.ADD_NEW_TRANSACTION: {
+        onStartAddTransaction();
+        break;
+      }
+    }
+  }, [treeAction]);
 
   /* #region Drag Drop */
   const onDragStart = (e, draggedNode) => {

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { helpers } from '../../_utils/helpers';
 import useEvents from '../../_store/useEvents';
 import { useBetween } from '../../hooks/useBetween';
+import useScreenSize from '../../hooks/useScreenSize';
 
 export type LabelProps = {
   label: string;
@@ -29,6 +30,7 @@ export const LabelEmail = ({
   autoFocus = false,
 }) => {
   const { triggerEnterPressed } = useBetween(useEvents);
+  const { popupCss } = useScreenSize();
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     // Focus the input when the component mounts
@@ -56,7 +58,7 @@ export const LabelEmail = ({
   const id = utils.createUUID();
   return (
     <>
-      <div className="flex fwrap fcenter">
+      <div className={popupCss.css}>
         <label
           htmlFor={id}
           className={labelCss} // ${labelCss}

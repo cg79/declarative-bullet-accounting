@@ -67,6 +67,7 @@ const MongoUi = () => {
             sortBy={[{ field: 'name', ascending: true }]}
             filterBy={{}}
             fieldHeader={[]}
+            renderCreateFirstItem={() => null}
           ></GenericList>
         </div>
       )}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from '../../_utils/PubSub';
+import { utils } from '../../_utils/utils';
 
 const ErrorsComponent = () => {
   const [errors, setErrors] = useState<any[]>([]);
@@ -19,7 +20,7 @@ const ErrorsComponent = () => {
   return (
     <div className="">
       {errors.map((error) => (
-        <div className="error" key={error}>
+        <div className="error" key={utils.createUUID()}>
           {error}
         </div>
       ))}

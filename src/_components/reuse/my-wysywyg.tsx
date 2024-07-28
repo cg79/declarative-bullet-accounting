@@ -13,18 +13,25 @@ export const WysYWYG = ({
     setHtml(e.target.value);
   };
 
+  const getWidth = () => {
+    return width < 500 ? width - 40 : 'auto';
+  };
+
   return (
-    <Editor
-      value={html}
-      onChange={onChange}
-      containerProps={{
-        style: {
-          resize: 'vertical',
-          // height: '200px',
-          width: width - 40,
-          border: '1px solid lightgray',
-        },
-      }}
-    />
+    <>
+      {width}
+      <Editor
+        value={html}
+        onChange={onChange}
+        containerProps={{
+          style: {
+            resize: 'vertical',
+            // height: '200px',
+            width: getWidth(),
+            border: '1px solid lightgray',
+          },
+        }}
+      />
+    </>
   );
 };

@@ -130,6 +130,7 @@ export const CompanyAngajati = () => {
               },
             },
           ]}
+          renderCreateFirstItem={() => null}
         ></DataTableWrapper>
       </div>
     </div>

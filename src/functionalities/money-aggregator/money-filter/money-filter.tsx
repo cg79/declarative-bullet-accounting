@@ -1,19 +1,18 @@
-import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
-import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
+import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
+import useMoneyAccounts from '../money-account/hooks/useMoneyAccounts';
 import {
   ACCOUNT_TYPE_VALUE,
   IMoneyAccount,
-} from "../money-account/money-account-type";
-import DateStartEnd from "../../../_components/reuse/date/date-start-end";
-import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
-import AcceptedInvitations from "../entity-invitations/accepted-invitations/accepted-invitations";
-import { Panel } from "primereact/panel";
-import { useEffect, useState } from "react";
-import { DialogWrapper } from "../../../_components/reuse/DialogWrapper";
-import { MyButton } from "../../../_components/reuse/my-button";
-import { useBetween } from "../../../hooks/useBetween";
-import { SHORTCUT_ACTIONS } from "../categories/constants";
-import useShortcut from "../categories/shortcut/useShortcut";
+} from '../money-account/money-account-type';
+import DateStartEnd from '../../../_components/reuse/date/date-start-end';
+import useMoneyTransactionsFilter from '../money-transactions/hooks/useMoneyTransactionsFilter';
+import AcceptedInvitations from '../entity-invitations/accepted-invitations/accepted-invitations';
+import { useEffect, useState } from 'react';
+import { DialogWrapper } from '../../../_components/reuse/DialogWrapper';
+import { MyButton } from '../../../_components/reuse/my-button';
+import { useBetween } from '../../../hooks/useBetween';
+import { SHORTCUT_ACTIONS } from '../categories/constants';
+import useShortcut from '../categories/shortcut/useShortcut';
 
 const MoneyFilter = () => {
   const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
@@ -36,21 +35,21 @@ const MoneyFilter = () => {
 
   const accountsWithDefaultValue: IMoneyAccount[] = [
     {
-      _id: "",
-      name: "--DEFAULT--",
+      _id: '',
+      name: '--DEFAULT--',
       amount: 0,
       date: 0,
       account_type: ACCOUNT_TYPE_VALUE.ALL,
-      description: "",
-      userid: "",
-      nick: "",
+      description: '',
+      userid: '',
+      nick: '',
     },
     ...(accounts || []),
   ];
 
   useEffect(() => {
     if (shortcutKey === SHORTCUT_ACTIONS.FILTERS) {
-      setShortcutKey("");
+      setShortcutKey('');
       setShowFilters(true);
     }
   }, [shortcutKey]);
@@ -58,7 +57,7 @@ const MoneyFilter = () => {
     <>
       <div className="fcenter">
         <MyButton
-          text={showFilters ? "Ascunde Filtre" : "Arata Filtre"}
+          text={showFilters ? 'Ascunde Filtre' : 'Arata Filtre'}
           onClick={() => {
             toggleFilters();
           }}
@@ -74,10 +73,14 @@ const MoneyFilter = () => {
           // style={{ width: "80vw" }}
           onHide={() => setShowFilters(false)}
         >
-          <div className="fcenter">
+          <div className="fcenter1">
+            <div className="flex mt10">
+              <AcceptedInvitations></AcceptedInvitations>
+            </div>
+
             <div className="flex mt10">
               <LabelDropDown
-                label={"Cont: "}
+                label={'Cont: '}
                 className=""
                 lwidth="135px"
                 onChange={(accountValue: IMoneyAccount) => {
@@ -91,10 +94,6 @@ const MoneyFilter = () => {
                 optionLabel="name"
                 optionValue="_id"
               ></LabelDropDown>
-            </div>
-
-            <div className="flex mt10">
-              <AcceptedInvitations></AcceptedInvitations>
             </div>
 
             <div className="fcenter3">

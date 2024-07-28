@@ -22,6 +22,7 @@ const DataTableRenderer = ({
   // actions,
   onRowClick,
   renderDefaultActions,
+  renderCreateFirstItem,
 }: MyDataTableProps) => {
   const { width } = useBetween(useScreenSize);
 
@@ -44,8 +45,30 @@ const DataTableRenderer = ({
     }
     return 'no';
   };
-  return (
-    <div className="hscroll" key={Math.random()} style={{ width }}>
+
+  const renderActions = () => {
+    return <div className="fcenter mt15">{renderCreateFirstItem()}</div>;
+  };
+
+  return !data.length ? (
+    <div className="mt10">
+      {/* <div className="mt10">Nu s-au gasit date</div> */}
+      <div className="mt10">
+        <div
+          className="mt10 bold fcenter"
+          style={{ fontSize: '1.5em', fontWeight: 'bold', marginTop: '50px' }}
+        >
+          Adaugare Inregistrare
+        </div>
+        {renderActions()}
+      </div>
+    </div>
+  ) : (
+    <div
+      className="hscroll mt10"
+      key={Math.random()}
+      style={{ maxWidth: '800px' }}
+    >
       <table className="my-table">
         <tbody>
           <tr className="header">

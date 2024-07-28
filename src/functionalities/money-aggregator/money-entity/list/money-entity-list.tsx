@@ -58,6 +58,7 @@ const MoneyEntityList = () => {
   return (
     <>
       <GenericList
+        renderCreateFirstItem={() => null}
         fieldHeader={[
           {
             field: 'date',

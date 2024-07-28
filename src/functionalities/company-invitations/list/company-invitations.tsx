@@ -164,6 +164,7 @@ export const CompanyInvitations = () => {
               },
             },
           ]}
+          renderCreateFirstItem={() => null}
         ></DataTableWrapper>
       </div>
     </div>

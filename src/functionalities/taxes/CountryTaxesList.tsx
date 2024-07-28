@@ -191,6 +191,7 @@ export const CountryTaxesList = () => {
                     body: (item: ICompanyTax) => renderActiuni(item),
                   },
                 ]}
+                renderCreateFirstItem={() => null}
               ></DataTableWrapper>
               {itemToBedeleted && (
                 <ConfirmDialogWrapper

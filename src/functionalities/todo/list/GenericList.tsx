@@ -32,6 +32,7 @@ interface MyGenericListProps<T> {
   onAfterItemSaved?: (item: T) => void;
   renderActions?: (item: T, setItem: any, setItemToBeDeleted: any) => any;
   onRowClick?: (item: T) => void;
+  renderCreateFirstItem: () => any;
 }
 
 // Define the generic component
@@ -133,7 +134,7 @@ function GenericList<T>({
             <DialogWrapper
               header={modalTitle(item)}
               visible={item !== null}
-              // style={{ width: "50vw" }}
+              // style={{ width: '50vw' }}
               onHide={() => setItem(null)}
             >
               {renderAddEditContent(item, saveWrapper, () => setItem(null))}
@@ -196,6 +197,7 @@ function GenericList<T>({
               ])}
               // onRowClick={(item) => setItem(item)}
               renderDefaultActions={(item) => renderAddItem()}
+              renderCreateFirstItem={() => renderAddItem()}
             ></DataTableWrapper>
             <div className="flex center mt10">
               <PaginationWrapper

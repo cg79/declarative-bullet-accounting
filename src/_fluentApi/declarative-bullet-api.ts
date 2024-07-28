@@ -1,18 +1,23 @@
-import { CustomHttpResponse } from "./CustomHttpResponse";
-import { BulletAuthentication } from "./facade";
+import { CustomHttpResponse } from './CustomHttpResponse';
+import { BulletAuthentication } from './facade';
 import FluentBulletBase, {
   ModuleFunctionType,
-} from "./fluent/fluent-bullet-base";
-import BulletHttpRequestLibrary from "./BulletHttpRequestLibrary";
-import WrapperFlow from "./fluent/wrapper-flow";
-import { FlowFunctionType } from "./fluent/bullet-flow";
+} from './fluent/fluent-bullet-base';
+import BulletHttpRequestLibrary from './BulletHttpRequestLibrary';
+import WrapperFlow from './fluent/wrapper-flow';
+import { FlowFunctionType } from './fluent/bullet-flow';
 // import WrapperModuleFunction from "./fluent/wrapper-module-function";
 
 class DeclarativeBulletApi extends FluentBulletBase {
   private bulletAuthentication: BulletAuthentication;
+  private onResponse?: Function;
 
-  constructor(bulletAuthentication: BulletAuthentication) {
+  constructor(
+    bulletAuthentication: BulletAuthentication,
+    onResponse?: Function
+  ) {
     super();
+    this.onResponse = onResponse;
     this.bulletAuthentication = bulletAuthentication;
     // this.bulletAuthentication = {
     //   ...bulletAuthentication,
@@ -81,7 +86,14 @@ class DeclarativeBulletApi extends FluentBulletBase {
     );
 
     if (!this.storageInstance) {
-      return bulletHttpInstance.sendBulletApiRequest(request);
+      return bulletHttpInstance
+        .sendBulletApiRequest(request)
+        .then((response) => {
+          if (this.onResponse) {
+            this.onResponse(response);
+          }
+          return response;
+        });
     }
     return bulletHttpInstance.sendBulletFilesApiRequest(
       request,

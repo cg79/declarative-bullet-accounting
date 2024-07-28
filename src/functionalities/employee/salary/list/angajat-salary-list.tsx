@@ -155,6 +155,7 @@ export const AngajatSalaryList = () => {
               },
             },
           ]}
+          renderCreateFirstItem={() => null}
         ></DataTableWrapper>
       )}
     </div>

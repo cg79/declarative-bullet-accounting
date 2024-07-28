@@ -178,6 +178,7 @@ export const EntityInvitations = () => {
               },
             },
           ]}
+          renderCreateFirstItem={() => null}
         ></DataTableWrapper>
       </div>
     </div>

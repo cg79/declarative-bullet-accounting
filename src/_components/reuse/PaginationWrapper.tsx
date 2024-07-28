@@ -1,6 +1,6 @@
 // import "react-datepicker/dist/react-datepicker.css";
-import { Dropdown } from "primereact/dropdown";
-import { Paginator } from "primereact/paginator";
+import { Dropdown } from 'primereact/dropdown';
+import { Paginator } from 'primereact/paginator';
 
 export const PaginationWrapper = ({
   pageState,
@@ -8,7 +8,7 @@ export const PaginationWrapper = ({
   goToPage,
 }) => {
   const template2 = {
-    layout: "RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink",
+    layout: 'RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink',
     RowsPerPageDropdown: (options) => {
       const dropdownOptions = [
         { label: 1, value: 1 },
@@ -21,9 +21,9 @@ export const PaginationWrapper = ({
         <>
           <span
             className="mx-1"
-            style={{ color: "var(--text-color)", userSelect: "none" }}
+            style={{ color: 'var(--text-color)', userSelect: 'none' }}
           >
-            Items per page:{" "}
+            Items per page:{' '}
           </span>
           <Dropdown
             value={options.value}
@@ -37,10 +37,10 @@ export const PaginationWrapper = ({
       return (
         <span
           style={{
-            color: "var(--text-color)",
-            userSelect: "none",
-            width: "120px",
-            textAlign: "center",
+            color: 'var(--text-color)',
+            userSelect: 'none',
+            width: '120px',
+            textAlign: 'center',
           }}
         >
           {options.first} - {options.last} of {options.totalRecords}
@@ -67,9 +67,9 @@ export const PaginationWrapper = ({
           }}
         />
       </div>
-      <div className="flex ml5 flexcolumn center">
+      {/* <div className="flex ml5 flexcolumn center">
         {pageCountAndTotalRecords.totalRecords}
-      </div>
+      </div> */}
     </div>
   ) : null;
 };

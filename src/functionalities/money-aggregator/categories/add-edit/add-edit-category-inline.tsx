@@ -4,6 +4,7 @@ import { ICategory } from '../category-type';
 import { InputText } from 'primereact/inputtext';
 import { LabelInput } from '../../../../_components/reuse/LabelInput';
 import { useBetween } from '../../../../hooks/useBetween';
+import MyIcon from '../../../../_components/reuse/my-icon';
 
 export const AddEditCategoryInline = ({
   category,
@@ -67,7 +68,7 @@ export const AddEditCategoryInline = ({
   };
 
   return (
-    <div className="xxx">
+    <div className="flex ">
       {/* <InputText
         ref={inputRef}
         value={item.label}
@@ -92,6 +93,10 @@ export const AddEditCategoryInline = ({
         className="flex"
         onCancel={onCancel}
       ></LabelInput>
+      <div className="mt15">
+        <MyIcon icon="pi pi-check" onClick={triggerSaveCategory}></MyIcon>
+        <MyIcon icon="pi pi-times" onClick={onCancel}></MyIcon>
+      </div>
     </div>
   );
 };

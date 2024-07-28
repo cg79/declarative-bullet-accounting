@@ -148,6 +148,7 @@ const MoneyTransactionsList = () => {
   return (
     <>
       <GenericList
+        renderCreateFirstItem={() => null}
         fieldHeader={[
           {
             field: 'date',

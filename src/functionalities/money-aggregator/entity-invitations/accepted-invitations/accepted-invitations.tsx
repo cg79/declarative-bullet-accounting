@@ -9,7 +9,7 @@ const AcceptedInvitations = () => {
 
   return (
     <div>
-      <div style={{ marginTop: '30px' }} className="flex fwrap fcenter">
+      <div className="flex fwrap fcenter">
         {invitations?.map((el: IEntityInvitation) => (
           <div
             className="mycardFilter"
