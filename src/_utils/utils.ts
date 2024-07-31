@@ -2,8 +2,8 @@ class Utils {
   createUUID = function () {
     // http://www.ietf.org/rfc/rfc4122.txt
     function _p8(s = false) {
-      var p = (Math.random().toString(16) + "000000000").substr(2, 8);
-      return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+      var p = (Math.random().toString(16) + '000000000').substr(2, 8);
+      return s ? '-' + p.substr(0, 4) + '-' + p.substr(4, 4) : p;
     }
     return _p8() + _p8(true) + _p8(true) + _p8();
   };
@@ -24,6 +24,9 @@ class Utils {
     return elapsedMilliseconds / 1000;
   };
   dateToEpoch = (date: Date = new Date()) => {
+    // if (!date) {
+    //   return null;
+    // }
     return Math.floor(date.getTime() / 1000);
   };
 
@@ -41,10 +44,10 @@ class Utils {
   getQueryVariable = (variable) => {
     var query = window.location.search.substring(1);
     console.log(query); //"app=article&act=news_content&aid=160990"
-    var vars = query.split("&");
+    var vars = query.split('&');
     console.log(vars); //[ 'app=article', 'act=news_content', 'aid=160990' ]
     for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
+      var pair = vars[i].split('=');
       console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
       if (pair[0] === variable) {
         return pair[1];
@@ -56,10 +59,10 @@ class Utils {
     const response = {};
     var query = window.location.search.substring(1);
     console.log(query); //"app=article&act=news_content&aid=160990"
-    var vars = query.split("&");
+    var vars = query.split('&');
     console.log(vars); //[ 'app=article', 'act=news_content', 'aid=160990' ]
     for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
+      var pair = vars[i].split('=');
       // console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
       response[pair[0]] = pair[1];
     }
@@ -87,6 +90,21 @@ class Utils {
     });
 
     return differences;
+  };
+
+  injectScript = (src: string, id: string, onLoad: () => void) => {
+    if (document.getElementById(id)) {
+      onLoad();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = src;
+    script.id = id;
+    script.async = true;
+    script.defer = true;
+    script.onload = onLoad;
+    document.head.appendChild(script);
   };
 }
 

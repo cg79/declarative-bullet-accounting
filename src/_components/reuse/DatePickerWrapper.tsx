@@ -1,6 +1,6 @@
-import DatePicker from "react-datepicker";
-import { utils } from "../../_utils/utils";
-import { Calendar } from "primereact/calendar";
+import DatePicker from 'react-datepicker';
+import { utils } from '../../_utils/utils';
+import { Calendar } from 'primereact/calendar';
 const DatePickerWrapper = ({
   inputRef,
   data,
@@ -17,8 +17,13 @@ const DatePickerWrapper = ({
         value={data ? utils.epochToDate(data) : null}
         onChange={(date: any) => {
           const dateValue = date.value;
+          if (!dateValue) {
+            onChange(null);
+            return;
+          }
           onChange(utils.dateToEpoch(dateValue));
         }}
+        showButtonBar
       />
     </div>
     // <div>

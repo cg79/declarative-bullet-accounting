@@ -699,6 +699,11 @@ ul.my{
   width: 200px;
 }
 
+.p-calendar .p-component {
+  width: 200px;
+  /* border: 1px solid red; */
+}
+
 .p-tabview-nav-container {
   display: flex;
   justify-content: center;

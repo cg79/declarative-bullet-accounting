@@ -22,7 +22,7 @@ export const LabelDropDown = ({
   labelCss = 'bold',
   onChange,
   error = '',
-  lwidth = '160px',
+  lwidth = '80px',
   defaultOption,
   value,
   options = [],

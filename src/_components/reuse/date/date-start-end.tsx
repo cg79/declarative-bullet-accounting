@@ -1,4 +1,4 @@
-import { LabelDate } from "../LabelDate";
+import { LabelDate } from '../LabelDate';
 
 const DateStartEnd = ({
   onStartDate,
@@ -12,26 +12,28 @@ const DateStartEnd = ({
   endDate: number | null;
 }) => {
   return (
-    <div>
+    <>
       <LabelDate
         label="Data Start:"
-        lwidth="100px"
+        lwidth="135px"
         data={startDate}
         onChange={(date: number | null) => {
           onStartDate(date);
         }}
       ></LabelDate>
 
-      <LabelDate
-        label="Data Sfarsit:"
-        lwidth="100px"
-        data={endDate}
-        onChange={(date: number | null) => {
-          onEndDate(date);
-          // triggerFiltering();
-        }}
-      ></LabelDate>
-    </div>
+      <div className="date-separator mt10">
+        <LabelDate
+          label="Data Sfarsit:"
+          lwidth="135px"
+          data={endDate}
+          onChange={(date: number | null) => {
+            onEndDate(date);
+            // triggerFiltering();
+          }}
+        ></LabelDate>
+      </div>
+    </>
   );
 };
 export default DateStartEnd;
