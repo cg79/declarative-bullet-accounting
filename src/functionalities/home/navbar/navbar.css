@@ -86,3 +86,8 @@
       overflow-y: auto;
     }
   }
+
+  .nav-title1 {
+    display: inline-flex;
+    align-items: center; 
+  }

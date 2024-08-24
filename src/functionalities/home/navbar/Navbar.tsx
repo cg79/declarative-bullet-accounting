@@ -4,74 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import useIdentity from '../../../_store/useIdentity';
 import { SvgSalary } from '../../../_components/svgs/svg-salary';
 import { useBetween } from '../../../hooks/useBetween';
+import './navbar.css';
+import NavItem, { NavItemProps } from './nav-item';
+import { MegaMenu } from 'primereact/megamenu';
+import { TieredMenu } from 'primereact/tieredmenu';
 
 export const Navbar = () => {
   const { loggedUser, deconectare } = useBetween(useIdentity);
   const navigate = useNavigate();
+
   const items: MenuItem[] = [
-    {
-      label: 'Acasa',
-      icon: 'pi pi-fw pi-building',
-
-      command: () => {
-        console.log('/');
-        navigate('/');
-      },
-    },
-    {
-      label: 'Start',
-      icon: 'pi pi-fw pi-file',
-      items: [
-        {
-          label: 'Termeni',
-          icon: 'pi pi-fw pi-external-link',
-          command: () => {
-            navigate('/termeni');
-          },
-        },
-        {
-          label: 'Feedback',
-          icon: 'pi pi-fw pi-external-link',
-          command: () => {
-            navigate('/feedback');
-          },
-        },
-        {
-          label: 'Sterge Cont',
-          icon: 'pi pi-fw pi-trash',
-          command: () => {
-            navigate('/stergerecont');
-          },
-          visible: !!loggedUser,
-        },
-        {
-          label: 'Lista Banci',
-          icon: 'pi pi-fw pi-trash',
-          command: () => {
-            navigate('/banci');
-          },
-          visible: !!loggedUser,
-        },
-        {
-          label: 'Todo',
-          icon: 'pi pi-fw pi-calculator',
-          command: () => {
-            navigate('/todo');
-          },
-          visible: !!loggedUser,
-        },
-        // {
-        //   label: "Lamda",
-        //   icon: "pi pi-fw pi-trash",
-        //   command: () => {
-        //     navigate("/lamda");
-        //   },
-        //   visible: !!loggedUser,
-        // },
-      ],
-      // visible: !!loggedUser,
-    },
-
     {
       label: 'Logare',
       icon: (
@@ -85,140 +27,6 @@ export const Navbar = () => {
       },
       visible: !!!loggedUser,
     },
-    {
-      label: 'Conturi',
-      icon: 'pi pi-fw pi-building',
-
-      command: () => {
-        console.log('/accounts');
-        navigate('/accounts');
-      },
-      visible: !!loggedUser,
-    },
-    {
-      label: 'Entitati',
-      icon: 'pi pi-fw pi-building',
-
-      command: () => {
-        console.log('/entitiy');
-        navigate('/entity');
-      },
-      visible: !!loggedUser && !loggedUser.isInvited,
-    },
-
-    // {
-    //   label: "Taxe",
-    //   icon: "pi pi-fw pi-file",
-    //   items: [
-    //     {
-    //       label: "Situatia Initiala",
-    //       icon: "pi pi-fw pi-external-link",
-    //       command: () => {
-    //         navigate("/initial");
-    //       },
-    //     },
-    //     {
-    //       label: "Taxe",
-    //       icon: "pi pi-fw pi-external-link",
-    //       command: () => {
-    //         navigate("/taxe");
-    //       },
-    //     },
-    //   ],
-    //   visible: !!loggedUser,
-    // },
-
-    // {
-    //   label: "Firme",
-    //   icon: "pi pi-fw pi-building",
-
-    //   command: () => {
-    //     console.log("/angajati");
-    //     navigate("/firme");
-    //   },
-    //   visible: !!loggedUser,
-    // },
-    // {
-    //   label: "Angajati",
-    //   icon: "pi pi-fw pi-user",
-
-    //   command: () => {
-    //     console.log("/angajati");
-    //     navigate("/angajati");
-    //   },
-    //   visible: !!loggedUser,
-    // },
-    // {
-    //   label: "Salarii",
-    //   icon: (
-    //     <div className="mr5">
-    //       <SvgSalary></SvgSalary>
-    //     </div>
-    //   ),
-
-    //   command: () => {
-    //     navigate("/salarii");
-    //   },
-    //   visible: !!loggedUser,
-    // },
-
-    // {
-    //   label: "Tranzactii",
-    //   icon: "pi pi-fw pi-calculator",
-    //   command: () => {
-    //     console.log("Tranzactii");
-    //     navigate("/accounting");
-    //   },
-    //   visible: !!loggedUser,
-    // },
-    {
-      label: 'Money Aggregator',
-      icon: 'pi pi-fw pi-calculator',
-      command: () => {
-        console.log('Tranzactii');
-        navigate('/categories');
-      },
-      visible: !!loggedUser,
-    },
-
-    {
-      label: 'Invitatii',
-      icon: 'pi pi-fw pi-external-link',
-      command: () => {
-        navigate('/entity-invitations');
-      },
-      visible: !!loggedUser && !loggedUser?.isInvited,
-    },
-    {
-      label: 'Mongo',
-      icon: 'pi pi-fw pi-external-link',
-      command: () => {
-        navigate('/mongoui');
-      },
-      visible: !!loggedUser && !loggedUser?.isInvited,
-    },
-    // {
-    //   label: "Import Extrase",
-    //   // icon: "pi pi-fw pi-power-off",
-    //   icon: (
-    //     <div className="mr5">
-    //       <SvgImport></SvgImport>
-    //     </div>
-    //   ),
-
-    //   command: () => {
-    //     console.log("Tranzactii");
-    //     navigate("/pdfimport");
-    //   },
-    //   visible: !!loggedUser,
-    // },
-    // {
-    //   label: "Contact",
-    //   icon: "pi pi-fw pi-calculator",
-    //   command: () => {
-    //     navigate("/contact");
-    //   },
-    // },
 
     {
       label: 'Utilizator',
@@ -239,9 +47,81 @@ export const Navbar = () => {
     },
   ];
 
+  const navItems: NavItemProps[] = [
+    {
+      label: 'Home',
+      icon: 'pi pi-fw pi-home',
+      route: '/',
+    },
+    {
+      label: 'Conturi',
+      icon: 'pi pi-fw pi-building',
+      route: '/accounts',
+      visible: !!loggedUser,
+    },
+    {
+      label: 'Invitatii',
+      icon: 'pi pi-fw pi-external-link',
+      route: '/entity-invitations',
+      visible: !!loggedUser && !loggedUser?.isInvited,
+    },
+    {
+      label: 'Entitati',
+      icon: 'pi pi-fw pi-external-link',
+      route: '/entities',
+      visible: !!loggedUser && !loggedUser?.isInvited,
+    },
+    {
+      label: 'Money Aggregator',
+      icon: 'pi pi-fw pi-calculator',
+      route: '/categories',
+      visible: !!loggedUser,
+    },
+    // {
+    //   label: loggedUser?.nick || 'no nick',
+    //   icon: 'pi pi-fw pi-calculator',
+    //   route: '/login',
+    //   visible: !!loggedUser,
+    // },
+  ];
+
   return (
-    <div className="img_bk">
-      <Menubar model={items} />
-    </div>
+    <>
+      <div className="nav img_bk">
+        <input type="checkbox" id="nav-check" />
+        <div className="nav-header"></div>
+        <div className="nav-btn">
+          <label htmlFor="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+
+        <span className="nav-title1 ">
+          <img src="/images/money-bag1.png"></img>
+          {loggedUser && (
+            <NavItem
+              label={loggedUser?.nick || 'no nick'}
+              route="/login"
+            ></NavItem>
+          )}
+        </span>
+        <div className="nav-links">
+          {navItems.map((item, index) => (
+            <NavItem key={index} {...item}></NavItem>
+          ))}
+          {loggedUser && (
+            <a href="#" onClick={() => deconectare()}>
+              Logout
+            </a>
+          )}
+          {!loggedUser && <NavItem label="Login" route="/login"></NavItem>}
+        </div>
+      </div>
+      {/* <div className="img_bk">
+        <Menubar model={items} />
+      </div> */}
+    </>
   );
 };
