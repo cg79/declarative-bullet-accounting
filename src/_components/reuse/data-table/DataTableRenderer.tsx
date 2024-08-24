@@ -47,67 +47,71 @@ const DataTableRenderer = ({
   };
 
   const renderActions = () => {
-    return <div className="fcenter mt15">{renderCreateFirstItem()}</div>;
+    if (!renderCreateFirstItem) return null;
+    return <div className="fcenter mt15">{renderCreateFirstItem(null)}</div>;
   };
 
-  return !data.length ? (
-    <div className="mt10">
-      {/* <div className="mt10">Nu s-au gasit date</div> */}
+  return (
+    <>
       <div className="mt10">
-        {/* <div
+        {/* <div className="mt10">Nu s-au gasit date</div> */}
+        <div className="mt10">
+          {/* <div
           className="mt10 bold fcenter"
           style={{ fontSize: '1.5em', fontWeight: 'bold', marginTop: '50px' }}
         >
           Adaugare Inregistrare
         </div> */}
-        {renderActions()}
+          {renderActions()}
+        </div>
       </div>
-    </div>
-  ) : (
-    <div
-      className="hscroll mt10"
-      key={Math.random()}
-      style={{ maxWidth: '800px' }}
-    >
-      <table className="my-table">
-        <tbody>
-          <tr className="header">
-            {fieldHeader.map((header, index) => (
-              <th
-                key={header.field}
-                className="bold "
-                style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
-              >
-                <div className="flex">
-                  {header.header}
-                  {index === fieldHeader.length - 1 &&
-                    renderDefaultHeaderActions &&
-                    renderDefaultHeaderActions(null)}
-                </div>
-              </th>
-            ))}
-          </tr>
-
-          {data.map((item) => (
-            <tr
-              key={item._id}
-              className="mycardFilter1 "
-              onClick={() => onRowClick && onRowClick(item)}
-            >
-              {fieldHeader.map((header) => (
-                <td
-                  key={Math.random()}
-                  className="tcellh"
+      <div
+        className="hscroll mt10"
+        key={Math.random()}
+        style={{ maxWidth: '800px' }}
+      >
+        <table className="my-table">
+          <tbody>
+            <tr className="header">
+              {fieldHeader.map((header, index) => (
+                <th
+                  key={header.field}
+                  className="bold "
                   style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
                 >
-                  {header.body ? header.body(item) : getVal(item, header.field)}
-                </td>
+                  <div className="flex">
+                    {header.header}
+                    {index === fieldHeader.length - 1 &&
+                      renderDefaultHeaderActions &&
+                      renderDefaultHeaderActions(null)}
+                  </div>
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+
+            {data.map((item) => (
+              <tr
+                key={item._id}
+                className="mycardFilter1 "
+                onClick={() => onRowClick && onRowClick(item)}
+              >
+                {fieldHeader.map((header) => (
+                  <td
+                    key={Math.random()}
+                    className="tcellh"
+                    style={{ ...(header.style || {}), ...DEFAULT_STYLE }}
+                  >
+                    {header.body
+                      ? header.body(item)
+                      : getVal(item, header.field)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 

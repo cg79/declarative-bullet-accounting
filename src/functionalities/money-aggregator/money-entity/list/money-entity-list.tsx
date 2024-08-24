@@ -11,6 +11,7 @@ import { MONEY_ENTITY_COLLECTION } from '../constants';
 import { getDefaultMoneyEntity } from '../money-entity-helpers';
 import useScreenSize from '../../../../hooks/useScreenSize';
 import { useBetween } from '../../../../hooks/useBetween';
+import { MyButton } from '../../../../_components/reuse/my-button';
 
 const MoneyEntityList = () => {
   const { width } = useScreenSize();
@@ -58,7 +59,18 @@ const MoneyEntityList = () => {
   return (
     <>
       <GenericList
-        renderCreateFirstItem={() => null}
+        renderCreateFirstItem={(onClickFunction) => (
+          <div className="mt10">
+            {/* {JSON.stringify(selectedFirma)} */}
+            <div className="ml5">
+              <MyButton
+                text="Adaugare Eveniment"
+                onClick={onClickFunction}
+                className="w300"
+              ></MyButton>
+            </div>
+          </div>
+        )}
         fieldHeader={[
           {
             field: 'date',
@@ -79,12 +91,16 @@ const MoneyEntityList = () => {
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
         sortBy={[{ field: 'date', ascending: false }]}
-        modalTitle={() =>
-          selectedMoneyEntity?.name
+        modalTitle={(entity: IMoneyEntity, isForDeletion) => {
+          debugger;
+          if (isForDeletion) {
+            return entity?.name;
+          }
+          return selectedMoneyEntity?.name
             ? `Editare Entitate - ${selectedMoneyEntity.name}` ||
-              selectedMoneyEntity.name
-            : 'Adaugare Entitate'
-        }
+                selectedMoneyEntity.name
+            : 'Adaugare Entitate 1';
+        }}
         onAfterItemSaved={(item) => {
           setReloadItems(new Date().toString());
         }}

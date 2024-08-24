@@ -86,14 +86,14 @@ export const EntityInvitations = () => {
     }
   }, []);
 
-  const renderAvailableActions = () => {
+  const renderAvailableActions = (onClick: () => void) => {
     return (
       <div className="mt10">
         {/* {JSON.stringify(selectedFirma)} */}
         <div className="ml5">
           <MyButton
             text="Adaugare Invitatie"
-            onClick={() => addInvitation()}
+            onClick={onClick}
             className="w300"
           ></MyButton>
         </div>
@@ -134,11 +134,9 @@ export const EntityInvitations = () => {
           <h3>Lista invitati</h3>
         </div>
 
-        <div className="flex center">{renderAvailableActions()}</div>
-
         {moneyEntities && moneyEntities.length > 0 && (
           <LabelDropDown
-            label="Entitati"
+            label="Evenimente"
             onChange={(item) => {
               console.log(item);
               setSelectedMoneyEntity(item);
@@ -220,7 +218,9 @@ export const EntityInvitations = () => {
         ></DataTableWrapper> */}
 
         <GenericList
-          renderCreateFirstItem={() => null}
+          renderCreateFirstItem={(onClickFunction) =>
+            renderAvailableActions(onClickFunction)
+          }
           fieldHeader={[
             { header: 'Email', field: 'email' },
             { header: 'Name', field: 'name' },
@@ -250,8 +250,10 @@ export const EntityInvitations = () => {
           renderAddEditContent={renderAddEditContent}
           collectionName={collectionName}
           sortBy={[{ field: 'date', ascending: false }]}
-          modalTitle={(item: IEntityInvitation) => {
-            return item?.name ? `Editare Invitatie ${item.name}` : 'Invitatie';
+          modalTitle={(item: IEntityInvitation, isForDeletion) => {
+            return item?.name
+              ? `Editare Invitatie ${item.name}`
+              : 'Adaugare Invitatie';
           }}
           onAfterItemSaved={() => {
             debugger;

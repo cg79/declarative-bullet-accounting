@@ -26,7 +26,7 @@ const DataCardRenderer = ({
     return 'no';
   };
   const renderActions = () => {
-    return <div className="fcenter mt15">{renderCreateFirstItem()}</div>;
+    return <div className="fcenter mt15">{renderCreateFirstItem(null)}</div>;
   };
 
   return !data.length ? (

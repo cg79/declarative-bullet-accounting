@@ -32,7 +32,7 @@ interface MyGenericListProps<T> {
   onAfterItemSaved?: (item: T) => void;
   renderActions?: (item: T, setItem: any, setItemToBeDeleted: any) => any;
   onRowClick?: (item: T) => void;
-  renderCreateFirstItem: () => any;
+  renderCreateFirstItem?: (onClick: () => void) => any;
 }
 
 // Define the generic component
@@ -50,6 +50,7 @@ function GenericList<T>({
   customDeleteFunction,
   onAfterItemSaved,
   renderActions,
+  renderCreateFirstItem,
 }: MyGenericListProps<T>) {
   const {
     save,
@@ -199,7 +200,15 @@ function GenericList<T>({
               ])}
               // onRowClick={(item) => setItem(item)}
               renderDefaultHeaderActions={(item) => renderAddItem()}
-              renderCreateFirstItem={() => renderAddItem()}
+              renderCreateFirstItem={
+                renderCreateFirstItem
+                  ? () =>
+                      renderCreateFirstItem(() => {
+                        debugger;
+                        setItem(createItem());
+                      })
+                  : () => renderAddItem()
+              }
             ></DataTableWrapper>
             <div className="flex center mt10">
               <PaginationWrapper
@@ -226,7 +235,8 @@ function GenericList<T>({
                 onCancel={() => setItemToBeDeleted(null)}
                 headerMessage={() =>
                   `Esti sigur ca vrei sa stergi   ${modalTitle(
-                    itemToBeDeleted
+                    itemToBeDeleted,
+                    true
                   )} ?`
                 }
               ></ConfirmDialogWrapper>

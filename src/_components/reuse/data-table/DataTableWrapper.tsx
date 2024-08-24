@@ -21,7 +21,7 @@ export interface MyDataTableProps {
 
   onRowClick?: (data: any) => void;
   renderDefaultHeaderActions?: (data: any) => any;
-  renderCreateFirstItem: () => any;
+  renderCreateFirstItem: (onClick: any) => any;
 }
 const DataTableWrapper = ({
   data,
