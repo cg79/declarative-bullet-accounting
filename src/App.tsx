@@ -161,7 +161,7 @@ function App() {
                 /> */}
 
                 <Route
-                  path="entities"
+                  path="events"
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <MoneyEntityList />

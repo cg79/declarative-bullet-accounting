@@ -8,8 +8,10 @@ import './navbar.css';
 import NavItem, { NavItemProps } from './nav-item';
 import { MegaMenu } from 'primereact/megamenu';
 import { TieredMenu } from 'primereact/tieredmenu';
+import useTranslations from '../../translations/useTranslations';
 
 export const Navbar = () => {
+  const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser, deconectare } = useBetween(useIdentity);
   const navigate = useNavigate();
 
@@ -54,25 +56,25 @@ export const Navbar = () => {
       route: '/',
     },
     {
-      label: 'Conturi',
+      label: currentTranslation.HEADERS.Accounts,
       icon: 'pi pi-fw pi-building',
       route: '/accounts',
       visible: !!loggedUser,
     },
     {
-      label: 'Invitatii',
+      label: currentTranslation.HEADERS.Invitations,
       icon: 'pi pi-fw pi-external-link',
       route: '/entity-invitations',
       visible: !!loggedUser && !loggedUser?.isInvited,
     },
     {
-      label: 'Evenimente',
+      label: currentTranslation.HEADERS.Events,
       icon: 'pi pi-fw pi-external-link',
-      route: '/entities',
+      route: '/events',
       visible: !!loggedUser && !loggedUser?.isInvited,
     },
     {
-      label: 'Money Aggregator',
+      label: currentTranslation.HEADERS.Money_aggregator,
       icon: 'pi pi-fw pi-calculator',
       route: '/categories',
       visible: !!loggedUser,
@@ -115,10 +117,15 @@ export const Navbar = () => {
             ))}
           {loggedUser && (
             <a href="#" onClick={() => deconectare()}>
-              Logout
+              {currentTranslation.HEADERS.Logout}
             </a>
           )}
-          {!loggedUser && <NavItem label="Login" route="/login"></NavItem>}
+          {!loggedUser && (
+            <NavItem
+              label={currentTranslation.HEADERS.Login}
+              route="/login"
+            ></NavItem>
+          )}
         </div>
       </div>
       {/* <div className="img_bk">

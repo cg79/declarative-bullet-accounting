@@ -827,3 +827,7 @@ ul.my{
 .p-paginator .p-dropdown {
   max-width: 100px;
 }
+
+.mycardFilter1 {
+  border-bottom: 1px solid #eee;
+}

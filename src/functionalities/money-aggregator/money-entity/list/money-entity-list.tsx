@@ -105,6 +105,8 @@ const MoneyEntityList = () => {
           setReloadItems(new Date().toString());
         }}
       ></GenericList>
+
+      <span className="info fcenter">as</span>
     </>
   );
 };

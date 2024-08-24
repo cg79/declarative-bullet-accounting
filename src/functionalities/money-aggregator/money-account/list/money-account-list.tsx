@@ -10,8 +10,11 @@ import useMoneyAccounts from '../hooks/useMoneyAccounts';
 import MyIcon from '../../../../_components/reuse/my-icon';
 import { useCallback, useEffect } from 'react';
 import { useBetween } from '../../../../hooks/useBetween';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import useTranslations from '../../../translations/useTranslations';
 
 const MoneyAccountList = () => {
+  const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser } = useBetween(useIdentity);
   const collectionName = MONEY_ACCOUNT_COLLECTION(loggedUser as ILoggedUser);
 
@@ -76,25 +79,36 @@ const MoneyAccountList = () => {
   return (
     <>
       <GenericList
-        renderCreateFirstItem={() => null}
+        renderCreateFirstItem={(onClickFunction) => (
+          <div className="mt10">
+            {/* {JSON.stringify(selectedFirma)} */}
+            <div className="ml5">
+              <MyButton
+                text={currentTranslation.ACCOUNT.addAccount}
+                onClick={onClickFunction}
+                className="w300"
+              ></MyButton>
+            </div>
+          </div>
+        )}
         fieldHeader={[
           {
             field: 'nick',
-            header: 'User',
+            header: currentTranslation.HEADERS.User,
             body: (item) => item.nick,
           },
           {
             field: 'date',
-            header: 'Data',
+            header: currentTranslation.HEADERS.Date,
             body: (item) => utils.dateNumberToYYYYMMDD(item.date),
           },
           {
             field: 'name',
-            header: 'Nume',
+            header: currentTranslation.HEADERS.Name,
           },
           {
             field: 'amount',
-            header: 'Amount',
+            header: currentTranslation.HEADERS.Amount,
           },
         ]}
         createItem={createItem}
