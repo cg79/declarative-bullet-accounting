@@ -1,12 +1,12 @@
-import PubSub from '../_utils/PubSub';
-import { useBetween } from './useBetween';
-import useIdentity from '../_store/useIdentity';
-import { useCallback } from 'react';
-import { BULLET_IO_URL } from '../constants';
-import BulletHttpRequestLibrary from '../_fluentApi/BulletHttpRequestLibrary';
-import DeclarativeBulletApi from '../_fluentApi/declarative-bullet-api';
-import { MethodExecutionRequest } from '../_fluentApi/facade';
-import { CustomHttpResponse } from '../_fluentApi/CustomHttpResponse';
+import PubSub from "../_utils/PubSub";
+import { useBetween } from "./useBetween";
+import useIdentity from "../_store/useIdentity";
+import { useCallback } from "react";
+import { BULLET_IO_URL } from "../constants";
+import BulletHttpRequestLibrary from "../_fluentApi/BulletHttpRequestLibrary";
+import DeclarativeBulletApi from "../_fluentApi/declarative-bullet-api";
+import { MethodExecutionRequest } from "../_fluentApi/facade";
+import { CustomHttpResponse } from "../_fluentApi/CustomHttpResponse";
 
 export interface ApiOptions {
   allowAnonymous?: boolean;
@@ -17,11 +17,11 @@ const useApi = () => {
   const createBulletHttpRequestLibrary = useCallback(
     (options: ApiOptions = { allowAnonymous: false }) => {
       if (!loggedUser && !options.allowAnonymous) {
-        throw new Error('no bullet key');
+        throw new Error("no bullet key");
       }
 
       return new BulletHttpRequestLibrary({
-        authentication: loggedUser?.token || '',
+        authentication: loggedUser?.token || "",
         serverUrl: BULLET_IO_URL(),
       });
     },
@@ -31,22 +31,21 @@ const useApi = () => {
   const createDeclarativeBulletApi = useCallback(
     (options: ApiOptions = { allowAnonymous: false }) => {
       if (!loggedUser && !options?.allowAnonymous) {
-        throw new Error('no token. please get a token first');
+        throw new Error("no token. please get a token first");
       }
 
       const onResponse = (response: CustomHttpResponse) => {
         if (!response.success) {
-          debugger;
-          if (response.message === 'jwt expired') {
+          if (response.message === "jwt expired") {
             clearLoggedUser();
           }
-          PubSub.publish('onError', response.message);
+          PubSub.publish("onError", response.message);
         }
       };
 
       return new DeclarativeBulletApi(
         {
-          authentication: loggedUser?.token || '',
+          authentication: loggedUser?.token || "",
           serverUrl: BULLET_IO_URL(),
         },
         onResponse
@@ -63,11 +62,10 @@ const useApi = () => {
       const response = await bulletHttp.executeMethodFromModule(request);
 
       if (!response.success) {
-        debugger;
-        if (response.message === 'jwt expired') {
+        if (response.message === "jwt expired") {
           clearLoggedUser();
         }
-        PubSub.publish('onError', response.message);
+        PubSub.publish("onError", response.message);
       }
       return response;
     },
@@ -75,7 +73,6 @@ const useApi = () => {
   );
 
   const executeMethod = useCallback(() => {
-    debugger;
     return createDeclarativeBulletApi();
   }, [createDeclarativeBulletApi]);
 
