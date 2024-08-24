@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { CategoryTree } from "./category-tree";
-import { ICategory } from "./category-type";
-import useCategoryState from "./hooks/useCategoryState";
-import MoneyTransactionsList from "../money-transactions/list/money-transactions-list";
-import useMoneyEntities from "../money-entity/hooks/useMoneyEntities";
-import { IMoneyEntity } from "../money-entity/money-entity-type";
-import { LabelDropDown } from "../../../_components/reuse/LabelDropDown";
-import useMoneyAccounts from "../money-account/hooks/useMoneyAccounts";
-import useMoneyTransactionsFilter from "../money-transactions/hooks/useMoneyTransactionsFilter";
-import { useNavigate } from "react-router-dom";
-import MoneyFilter from "../money-filter/money-filter";
-import { useBetween } from "../../../hooks/useBetween";
-import useShortcut from "./shortcut/useShortcut";
-import { SHORTCUT_ACTIONS } from "./constants";
+import { useEffect, useState } from 'react';
+import { CategoryTree } from './category-tree';
+import { ICategory } from './category-type';
+import useCategoryState from './hooks/useCategoryState';
+import MoneyTransactionsList from '../money-transactions/list/money-transactions-list';
+import useMoneyEntities from '../money-entity/hooks/useMoneyEntities';
+import { IMoneyEntity } from '../money-entity/money-entity-type';
+import { LabelDropDown } from '../../../_components/reuse/LabelDropDown';
+import useMoneyAccounts from '../money-account/hooks/useMoneyAccounts';
+import useMoneyTransactionsFilter from '../money-transactions/hooks/useMoneyTransactionsFilter';
+import { useNavigate } from 'react-router-dom';
+import MoneyFilter from '../money-filter/money-filter';
+import { useBetween } from '../../../hooks/useBetween';
+import useShortcut from './shortcut/useShortcut';
+import { SHORTCUT_ACTIONS } from './constants';
 
 export const Categories = () => {
   //#region Hooks
@@ -29,10 +29,10 @@ export const Categories = () => {
 
   const { moneyEntities, selectedMoneyEntity, setSelectedMoneyEntity } =
     useBetween(useMoneyEntities);
-  const { accounts, accountsLoaded } = useBetween(useMoneyAccounts);
+  const { accounts } = useBetween(useMoneyAccounts);
 
   const moneyEntitiesList: IMoneyEntity[] = [
-    { _id: "", name: "--ALL--", date: 0, description: "" },
+    { _id: '', name: '--ALL--', date: 0, description: '' },
     ...(moneyEntities || []),
   ];
 
@@ -41,7 +41,7 @@ export const Categories = () => {
   //#endregion
 
   //#region States
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   //#endregion
 
   //#region Effects
@@ -51,24 +51,24 @@ export const Categories = () => {
 
   useEffect(() => {
     console.log(aggregationFilterBy);
-    const entityId = selectedMoneyEntity?._id || "";
+    const entityId = selectedMoneyEntity?._id || '';
     const filterValue = aggregationFilterBy || {};
     aggregateAmountByCategory(entityId, filterValue);
   }, [aggregationFilterBy]);
 
   useEffect(() => {
     // return;
-    if (!accountsLoaded) {
+    if (!accounts) {
       return;
     }
 
     if (!accounts || accounts.length === 0) {
-      setMessage("Va rugam adaugati conturile necesare");
+      setMessage('Va rugam adaugati conturile necesare');
       setTimeout(() => {
-        navigate("/accounts");
+        navigate('/accounts');
       }, 2000);
     }
-  }, [accounts, accountsLoaded]);
+  }, [accounts]);
   //#endregion
 
   //#region Functions
@@ -107,7 +107,7 @@ export const Categories = () => {
       {message && <div className="error fcenter">{message}</div>}
       {/* {JSON.stringify(accounts, null, 2)} */}
       {/* {JSON.stringify(moneyEntities)} */}
-      {moneyEntitiesList && moneyEntitiesList.length > 1 && (
+      {moneyEntities && moneyEntities.length > 0 && (
         <div className="fcenter">
           <LabelDropDown
             label="Entitati"

@@ -150,7 +150,7 @@ export const AddEditMoneyTransaction = ({
               updateCurrentTransaction('accountId', account._id);
               setSelectedAccount(account);
             }}
-            options={accounts}
+            options={accounts || []}
             value={selectedAccount}
             optionLabel="name"
             optionValue="_id"

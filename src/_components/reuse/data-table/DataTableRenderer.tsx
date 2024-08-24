@@ -54,12 +54,12 @@ const DataTableRenderer = ({
     <div className="mt10">
       {/* <div className="mt10">Nu s-au gasit date</div> */}
       <div className="mt10">
-        <div
+        {/* <div
           className="mt10 bold fcenter"
           style={{ fontSize: '1.5em', fontWeight: 'bold', marginTop: '50px' }}
         >
           Adaugare Inregistrare
-        </div>
+        </div> */}
         {renderActions()}
       </div>
     </div>

@@ -56,7 +56,7 @@ const MoneyTransactionsList = () => {
     getDefaultMoneyTransaction(
       selectedCategory,
       selectedMoneyEntity,
-      accounts,
+      accounts || [],
       loggedUser
     );
 

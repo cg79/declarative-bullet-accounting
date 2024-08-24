@@ -1,10 +1,18 @@
 import { InputText } from 'primereact/inputtext';
 import { utils } from '../../_utils/utils';
-import { useEffect, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  PropsWithChildren,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { helpers } from '../../_utils/helpers';
 import useEvents from '../../_store/useEvents';
 import { useBetween } from '../../hooks/useBetween';
 import useScreenSize from '../../hooks/useScreenSize';
+import { error } from 'console';
 
 export type LabelProps = {
   label: string;
@@ -18,6 +26,18 @@ export const DEFAULT_LABEL_PROPS: LabelProps = {
   lwidth: '80px',
 };
 
+interface LabelEmailProps
+  extends PropsWithChildren<InputHTMLAttributes<HTMLInputElement>> {
+  onChange: any;
+  // css?: string;
+  disabled?: boolean;
+  label;
+  labelCss?: string;
+  error?: string;
+  lwidth?: string;
+  value?: string;
+}
+
 export const LabelEmail = ({
   label,
   labelCss = 'bold',
@@ -28,7 +48,8 @@ export const LabelEmail = ({
   type = 'text',
   disabled = false,
   autoFocus = false,
-}) => {
+  ...rest
+}: LabelEmailProps) => {
   const { triggerEnterPressed } = useBetween(useEvents);
   const { popupCss } = useScreenSize();
   const inputRef = useRef<HTMLInputElement>(null);

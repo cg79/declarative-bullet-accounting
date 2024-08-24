@@ -15,7 +15,7 @@ import { SHORTCUT_ACTIONS } from '../categories/constants';
 import useShortcut from '../categories/shortcut/useShortcut';
 
 const MoneyFilter = () => {
-  const { accounts, accountsLoaded, selectedAccount, setSelectedAccount } =
+  const { accounts, selectedAccount, setSelectedAccount } =
     useBetween(useMoneyAccounts);
 
   const { shortcutKey, setShortcutKey } = useBetween(useShortcut);

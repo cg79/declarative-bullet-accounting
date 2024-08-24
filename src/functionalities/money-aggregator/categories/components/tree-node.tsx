@@ -375,7 +375,7 @@ const TreeNode = ({
             moneyTransaction={getDefaultMoneyTransaction(
               selectedCategory,
               selectedMoneyEntity,
-              accounts,
+              accounts || [],
               loggedUser
             )}
             onSaveMoneyTransaction={onSaveTransaction}

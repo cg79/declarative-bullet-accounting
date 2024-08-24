@@ -12,7 +12,9 @@ const useMoneyEntities = () => {
   const { executeMethod, executeMethodFromModule } = useApi();
   const [selectedMoneyEntity, setSelectedMoneyEntity] =
     useState<IMoneyEntity | null>(null);
-  const [moneyEntities, setMoneyEntities] = useState<IMoneyEntity[]>([]);
+  const [moneyEntities, setMoneyEntities] = useState<IMoneyEntity[] | null>(
+    null
+  );
   const [reloadItems, setReloadItems] = useState('');
 
   const getAllEntities = useCallback(

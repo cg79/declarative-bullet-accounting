@@ -15,7 +15,7 @@ export const AddEditInvitation = ({
   onCancel,
 }: {
   invitation: IEntityInvitation;
-  onSave: (item: IEntityInvitation) => Promise<void> | undefined;
+  onSave: (item: IEntityInvitation) => Promise<unknown>;
   onCancel: () => void;
 }) => {
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
@@ -24,6 +24,7 @@ export const AddEditInvitation = ({
   const [isSaving, setIsSaving] = useState(false);
 
   const triggerSaveInvitation = () => {
+    debugger;
     setError('');
 
     if (!item.email) {
@@ -86,6 +87,7 @@ export const AddEditInvitation = ({
               };
               setItem(newV);
             }}
+            disabled={item._id ? true : false}
             value={item.email}
           ></LabelEmail>
         </div>

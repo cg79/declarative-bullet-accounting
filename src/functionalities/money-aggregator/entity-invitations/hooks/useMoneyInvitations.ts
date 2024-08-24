@@ -13,11 +13,13 @@ const useMoneyInvitations = () => {
   const { executeMethodFromModule, executeMethod } = useBetween(useApi);
   const { loggedUser } = useBetween(useIdentity);
   const { setSelectedUsers } = useBetween(useMoneyTransactionsFilter);
-  const [invitations, setInvitations] = useState<IEntityInvitation[]>([]);
+  const [invitations, setInvitations] = useState<IEntityInvitation[] | null>(
+    null
+  );
 
   const toggleInvitationSelection = useCallback(
     (el: IEntityInvitation) => {
-      const updatedFilters = invitations.map((filter) => {
+      const updatedFilters = (invitations || []).map((filter) => {
         if (filter._id === el._id) {
           return {
             ...filter,

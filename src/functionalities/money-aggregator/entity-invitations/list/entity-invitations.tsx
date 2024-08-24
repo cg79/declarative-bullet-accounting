@@ -9,25 +9,33 @@ import { utils } from '../../../../_utils/utils';
 import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
 import useMoneyEntities from '../../money-entity/hooks/useMoneyEntities';
 import { IMoneyEntity } from '../../money-entity/money-entity-type';
-import { IEntityInvitation } from '../entity-invitation-type';
+import {
+  IEntityInvitation,
+  getDefaultEntityInvitation,
+} from '../entity-invitation-type';
 import useMoneyInvitations from '../hooks/useMoneyInvitations';
 import TreeIcon from '../../categories/components/icons/tree-icon';
 import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 import { useBetween } from '../../../../hooks/useBetween';
+import { useNavigate } from 'react-router-dom';
+import GenericList from '../../../todo/list/GenericList';
 
 export const EntityInvitations = () => {
+  const navigate = useNavigate();
   const { loggedUser } = useBetween(useIdentity);
   const { moneyEntities } = useBetween(useMoneyEntities);
 
   const { deleteInvitation, saveInvitation, refreshInvitations, invitations } =
     useMoneyInvitations();
 
-  const [item, setItem] = useState<IEntityInvitation | null>(null);
+  // const [item, setItem] = useState<IEntityInvitation | null>(null);
 
   const moneyEntitiesList: IMoneyEntity[] = [
     { _id: '', name: '--ALL--', date: 0, description: '' },
     ...(moneyEntities || []),
   ];
+
+  const collectionName = `_invitations${loggedUser?.clientId}`;
 
   const [selectedMoneyEntity, setSelectedMoneyEntity] =
     useState<IMoneyEntity | null>(null);
@@ -57,13 +65,13 @@ export const EntityInvitations = () => {
       entityId: selectedMoneyEntity?._id || '',
     };
 
-    setItem(newInvitation);
+    // setItem(newInvitation);
   };
 
   const executeSaveInvitation = (item: IInvitation) => {
     return saveInvitation(item).then((response) => {
       helpers.checkHttpResponseForErrors(response);
-      setItem(null);
+      // setItem(null);
       refreshInvitations(selectedMoneyEntity);
     });
   };
@@ -71,6 +79,12 @@ export const EntityInvitations = () => {
   // useEffect(() => {
   //   refreshInvitations(selectedMoneyEntity);
   // }, []);
+
+  useEffect(() => {
+    if (loggedUser && loggedUser.isInvited) {
+      navigate('/');
+    }
+  }, []);
 
   const renderAvailableActions = () => {
     return (
@@ -87,18 +101,42 @@ export const EntityInvitations = () => {
     );
   };
 
+  const createItem = (): IEntityInvitation => getDefaultEntityInvitation();
+  const renderAddEditContent = (
+    item: IEntityInvitation,
+    onSave: (item: IEntityInvitation) => Promise<unknown>,
+    onCancel: () => void
+  ) => {
+    return (
+      // <DialogWrapper
+      //   header="Invita "
+      //   visible={item !== null}
+      //   // style={{ width: "50vw" }}
+      //   onHide={() => {
+      //     debugger;
+      //     onCancel();
+      //   }}
+      // >
+      <AddEditInvitation
+        invitation={item}
+        // onSave={executeSaveInvitation}
+        onSave={onSave}
+        onCancel={onCancel}
+      ></AddEditInvitation>
+      // </DialogWrapper>
+    );
+  };
+
   return (
     <div className="fcenter ">
       <div className="flex flex-column center-v">
-        {!item && invitations.length > 0 && (
-          <div className="flex center">
-            <h3>Lista invitati</h3>
-          </div>
-        )}
+        <div className="flex center">
+          <h3>Lista invitati</h3>
+        </div>
 
         <div className="flex center">{renderAvailableActions()}</div>
 
-        {moneyEntities && moneyEntities.length > 1 && (
+        {moneyEntities && moneyEntities.length > 0 && (
           <LabelDropDown
             label="Entitati"
             onChange={(item) => {
@@ -112,7 +150,7 @@ export const EntityInvitations = () => {
           ></LabelDropDown>
         )}
 
-        {item && (
+        {/* {item && (
           <DialogWrapper
             header="Invita "
             visible={item !== null}
@@ -125,9 +163,9 @@ export const EntityInvitations = () => {
               onCancel={() => setItem(null)}
             ></AddEditInvitation>
           </DialogWrapper>
-        )}
-        <DataTableWrapper
-          data={invitations}
+        )} */}
+        {/* <DataTableWrapper
+          data={invitations || []}
           fieldHeader={[
             { header: 'Email', field: 'email' },
             { header: 'Name', field: 'name' },
@@ -152,7 +190,7 @@ export const EntityInvitations = () => {
                 ),
             },
             {
-              header: 'Actiuni',
+              header: 'Actiuni1',
               body: (el) => {
                 return (
                   <div className="fcenter">
@@ -179,7 +217,47 @@ export const EntityInvitations = () => {
             },
           ]}
           renderCreateFirstItem={() => null}
-        ></DataTableWrapper>
+        ></DataTableWrapper> */}
+
+        <GenericList
+          renderCreateFirstItem={() => null}
+          fieldHeader={[
+            { header: 'Email', field: 'email' },
+            { header: 'Name', field: 'name' },
+            {
+              header: 'Data Invitatie',
+              field: 'dataInvitatie',
+              body: (el) => utils.dateNumberToYYYYMMDD(el.dataInvitatie),
+            },
+            {
+              header: 'Acceptat',
+              field: 'accepted',
+              body: (el) =>
+                el.accepted ? (
+                  <TreeIcon
+                    size={20}
+                    icon="pi pi-check-circle"
+                    color="green"
+                    onClick={() => {}}
+                  />
+                ) : (
+                  <TreeIcon size={20} icon="notcheck" onClick={() => {}} />
+                ),
+            },
+          ]}
+          createItem={createItem}
+          addItemButtonLabel="Adaugare Account"
+          renderAddEditContent={renderAddEditContent}
+          collectionName={collectionName}
+          sortBy={[{ field: 'date', ascending: false }]}
+          modalTitle={(item: IEntityInvitation) => {
+            return item?.name ? `Editare Invitatie ${item.name}` : 'Invitatie';
+          }}
+          onAfterItemSaved={() => {
+            debugger;
+          }}
+          // renderActions={renderActions}
+        ></GenericList>
       </div>
     </div>
   );

@@ -11,8 +11,7 @@ const useMoneyAccounts = () => {
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethod } = useApi();
   const [selectedAccount, setSelectedAccount] = useState<IMoneyAccount>();
-  const [accounts, setAccounts] = useState<IMoneyAccount[]>([]);
-  const [accountsLoaded, setAccountsLoaded] = useState(false);
+  const [accounts, setAccounts] = useState<IMoneyAccount[] | null>(null);
 
   const updateAccountsValue = useCallback(
     (newAccounts: IMoneyAccount[]) => {
@@ -23,7 +22,7 @@ const useMoneyAccounts = () => {
 
   const getAccountById = useCallback(
     (id: string) => {
-      return accounts.find((account) => account._id === id);
+      return (accounts || []).find((account) => account._id === id);
     },
     [accounts]
   );
@@ -40,7 +39,6 @@ const useMoneyAccounts = () => {
       .then((response) => {
         helpers.checkHttpResponseForErrors(response);
         updateAccountsValue(response.data);
-        setAccountsLoaded(true);
       })
       .catch((error) => {
         console.error('Error refreshing accounts:', error);
@@ -56,7 +54,6 @@ const useMoneyAccounts = () => {
     setSelectedAccount,
     accounts,
     refreshAccounts,
-    accountsLoaded,
     getAccountById,
   };
 };

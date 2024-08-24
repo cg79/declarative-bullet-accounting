@@ -9,3 +9,15 @@ export interface IEntityInvitation {
   selected?: boolean;
   difs?: any;
 }
+
+export const getDefaultEntityInvitation = (): IEntityInvitation => {
+  return {
+    _id: '',
+    dataInvitatie: 0,
+    accepted: false,
+    email: '',
+    name: '',
+    clientId: '',
+    entityId: '',
+  };
+};

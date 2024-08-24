@@ -66,7 +66,7 @@ export const Navbar = () => {
       visible: !!loggedUser && !loggedUser?.isInvited,
     },
     {
-      label: 'Entitati',
+      label: 'Evenimente',
       icon: 'pi pi-fw pi-external-link',
       route: '/entities',
       visible: !!loggedUser && !loggedUser?.isInvited,
@@ -108,9 +108,11 @@ export const Navbar = () => {
           )}
         </span>
         <div className="nav-links">
-          {navItems.map((item, index) => (
-            <NavItem key={index} {...item}></NavItem>
-          ))}
+          {navItems
+            .filter((item) => item.visible)
+            .map((item, index) => (
+              <NavItem key={index} {...item}></NavItem>
+            ))}
           {loggedUser && (
             <a href="#" onClick={() => deconectare()}>
               Logout

@@ -135,7 +135,9 @@ function GenericList<T>({
               header={modalTitle(item)}
               visible={item !== null}
               // style={{ width: '50vw' }}
-              onHide={() => setItem(null)}
+              onHide={() => {
+                setItem(null);
+              }}
             >
               {renderAddEditContent(item, saveWrapper, () => setItem(null))}
             </DialogWrapper>
