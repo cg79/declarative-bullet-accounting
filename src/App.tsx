@@ -1,8 +1,8 @@
-import "./App.css";
-import "primereact/resources/themes/md-light-indigo/theme.css";
+import './App.css';
+import 'primereact/resources/themes/md-light-indigo/theme.css';
 // import "primereact/resources/themes/md-light-deeppurple/theme.css";
-import "primeicons/primeicons.css";
-import "react-tooltip/dist/react-tooltip.css";
+import 'primeicons/primeicons.css';
+import 'react-tooltip/dist/react-tooltip.css';
 
 //import  primereact/resources/themes/bootstrap4-light-blue/theme.css
 //import  primereact/resources/themes/bootstrap4-light-purple/theme.css
@@ -17,47 +17,48 @@ import "react-tooltip/dist/react-tooltip.css";
 //import  primereact/resources/themes/mdc-dark-indigo/theme.css
 // import "primereact/resources/themes/mdc-dark-deeppurple/theme.css";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import NoPage from "./no-page";
-import { DemoAccounting } from "./functionalities/transactions/root/demo-accounting";
-import { Login } from "./functionalities/user/login";
-import GuardedRoute1 from "./functionalities/home/guarder-route";
-import { AccountingInitialValues } from "./functionalities/initial-values/accounting-initial-values";
-import { CountryTaxesList } from "./functionalities/taxes/CountryTaxesList";
-import { CompanyAngajati } from "./functionalities/employee/list/company-angajati";
-import { AngajatSalaryList } from "./functionalities/employee/salary/list/angajat-salary-list";
-import { CompanyList } from "./functionalities/company/list/company-list";
-import { PdfImport } from "./functionalities/import-extrase/pdf-import/pdf-import";
-import { CreateAccount } from "./functionalities/user/create-account";
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import NoPage from './no-page';
+import { DemoAccounting } from './functionalities/transactions/root/demo-accounting';
+import { Login } from './functionalities/user/login';
+import GuardedRoute1 from './functionalities/home/guarder-route';
+import { AccountingInitialValues } from './functionalities/initial-values/accounting-initial-values';
+import { CountryTaxesList } from './functionalities/taxes/CountryTaxesList';
+import { CompanyAngajati } from './functionalities/employee/list/company-angajati';
+import { AngajatSalaryList } from './functionalities/employee/salary/list/angajat-salary-list';
+import { CompanyList } from './functionalities/company/list/company-list';
+import { PdfImport } from './functionalities/import-extrase/pdf-import/pdf-import';
+import { CreateAccount } from './functionalities/user/create-account';
 
-import { Terms } from "./functionalities/terms/terms";
-import { Feedback } from "./functionalities/feedback/feedback";
-import { DeleteAccount } from "./functionalities/account/delete-account/delete-account";
+import { Terms } from './functionalities/terms/terms';
+import { Feedback } from './functionalities/feedback/feedback';
+import { DeleteAccount } from './functionalities/account/delete-account/delete-account';
 
-import { Navbar } from "./functionalities/home/navbar/Navbar";
+import { Navbar } from './functionalities/home/navbar/Navbar';
 
-import { LamdaFunctions } from "./functionalities/lamda/lamda_functions";
-import { Contact } from "./functionalities/contact/contact";
-import useIdentity from "./_store/useIdentity";
-import Footer from "./functionalities/footer/Footer";
-import { TodoList } from "./functionalities/todo/list/todo-list";
-import ErrorsComponent from "./functionalities/error/ErrorsComponent";
-import { ForgotPassword } from "./functionalities/user/forgot-password";
-import { ResetPassword } from "./functionalities/user/reset-password";
-import { AcceptInvitation } from "./functionalities/user/accept-invitation";
-import { Home } from "./functionalities/home/home";
-import { Categories } from "./functionalities/money-aggregator/categories/categories";
-import MoneyAccountList from "./functionalities/money-aggregator/money-account/list/money-account-list";
-import { EntityInvitations } from "./functionalities/money-aggregator/entity-invitations/list/entity-invitations";
-import { useBetween } from "./hooks/useBetween";
-import MongoUi from "./functionalities/mongoui/mongoui";
-import MoneyEntityList from "./functionalities/money-aggregator/money-entity/list/money-entity-list";
+import { LamdaFunctions } from './functionalities/lamda/lamda_functions';
+import { Contact } from './functionalities/contact/contact';
+import useIdentity from './_store/useIdentity';
+import Footer from './functionalities/footer/Footer';
+import { TodoList } from './functionalities/todo/list/todo-list';
+import ErrorsComponent from './functionalities/error/ErrorsComponent';
+import { ForgotPassword } from './functionalities/user/forgot-password';
+import { ResetPassword } from './functionalities/user/reset-password';
+import { AcceptInvitation } from './functionalities/user/accept-invitation';
+import { Home } from './functionalities/home/home';
+import { Categories } from './functionalities/money-aggregator/categories/categories';
+import MoneyAccountList from './functionalities/money-aggregator/money-account/list/money-account-list';
+import { EntityInvitations } from './functionalities/money-aggregator/entity-invitations/list/entity-invitations';
+import { useBetween } from './hooks/useBetween';
+import MongoUi from './functionalities/mongoui/mongoui';
+import MoneyEntityList from './functionalities/money-aggregator/money-entity/list/money-entity-list';
+import Translations from './functionalities/translations/translations';
 
 function App() {
   const { loggedUser } = useBetween(useIdentity);
   return (
     <div>
-      <div className="" style={{ minHeight: "90vh" }}>
+      <div className="" style={{ minHeight: '90vh' }}>
         <BrowserRouter>
           <div>
             <Navbar></Navbar>
@@ -164,6 +165,15 @@ function App() {
                   element={
                     <GuardedRoute1 loggedUser={loggedUser}>
                       <MoneyEntityList />
+                    </GuardedRoute1>
+                  }
+                />
+
+                <Route
+                  path="translations"
+                  element={
+                    <GuardedRoute1 loggedUser={loggedUser}>
+                      <Translations />
                     </GuardedRoute1>
                   }
                 />
