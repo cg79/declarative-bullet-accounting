@@ -198,7 +198,7 @@ function GenericList<T>({
                 },
               ])}
               // onRowClick={(item) => setItem(item)}
-              renderDefaultActions={(item) => renderAddItem()}
+              renderDefaultHeaderActions={(item) => renderAddItem()}
               renderCreateFirstItem={() => renderAddItem()}
             ></DataTableWrapper>
             <div className="flex center mt10">

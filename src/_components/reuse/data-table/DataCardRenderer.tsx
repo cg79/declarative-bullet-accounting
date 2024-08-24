@@ -11,7 +11,7 @@ const DataCardRenderer = ({
   fieldHeader,
   // actions,
   onRowClick,
-  renderDefaultActions,
+  renderDefaultHeaderActions,
   renderCreateFirstItem,
 }: MyDataTableProps) => {
   const getVal = (item: any, field?: string) => {

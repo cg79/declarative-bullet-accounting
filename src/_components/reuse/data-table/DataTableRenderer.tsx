@@ -21,7 +21,7 @@ const DataTableRenderer = ({
   fieldHeader,
   // actions,
   onRowClick,
-  renderDefaultActions,
+  renderDefaultHeaderActions,
   renderCreateFirstItem,
 }: MyDataTableProps) => {
   const { width } = useBetween(useScreenSize);
@@ -81,8 +81,8 @@ const DataTableRenderer = ({
                 <div className="flex">
                   {header.header}
                   {index === fieldHeader.length - 1 &&
-                    renderDefaultActions &&
-                    renderDefaultActions(null)}
+                    renderDefaultHeaderActions &&
+                    renderDefaultHeaderActions(null)}
                 </div>
               </th>
             ))}

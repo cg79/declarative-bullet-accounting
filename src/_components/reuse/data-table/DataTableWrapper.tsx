@@ -20,7 +20,7 @@ export interface MyDataTableProps {
   fieldHeader: FieldHeaderType[];
 
   onRowClick?: (data: any) => void;
-  renderDefaultActions?: (data: any) => any;
+  renderDefaultHeaderActions?: (data: any) => any;
   renderCreateFirstItem: () => any;
 }
 const DataTableWrapper = ({
@@ -28,7 +28,7 @@ const DataTableWrapper = ({
   fieldHeader,
   // actions,
   onRowClick,
-  renderDefaultActions,
+  renderDefaultHeaderActions,
   renderCreateFirstItem,
 }: MyDataTableProps) => {
   const { width } = useBetween(useScreenSize);
@@ -37,7 +37,7 @@ const DataTableWrapper = ({
       data={data}
       fieldHeader={fieldHeader}
       onRowClick={onRowClick}
-      renderDefaultActions={renderDefaultActions}
+      renderDefaultHeaderActions={renderDefaultHeaderActions}
       renderCreateFirstItem={renderCreateFirstItem}
     ></DataCardRenderer>
   ) : (
@@ -45,7 +45,7 @@ const DataTableWrapper = ({
       data={data}
       fieldHeader={fieldHeader}
       onRowClick={onRowClick}
-      renderDefaultActions={renderDefaultActions}
+      renderDefaultHeaderActions={renderDefaultHeaderActions}
       renderCreateFirstItem={renderCreateFirstItem}
     ></DataTableRenderer>
   );
