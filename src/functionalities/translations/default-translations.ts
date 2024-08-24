@@ -25,6 +25,11 @@ const TR = {
       balance: 'Balanta',
     },
   },
+  MONEY_TRANSACTIONS: {
+    addTransaction: 'Add transaction',
+    editTransaction: 'Edit tranzactopn',
+    deleteTransaction: 'Delete Transaction',
+  },
 };
 
 export default TR;

@@ -21,8 +21,11 @@ import useMoneyTransactionsFilter, {
 } from '../hooks/useMoneyTransactionsFilter';
 import MyIcon from '../../../../_components/reuse/my-icon';
 import parse from 'html-react-parser';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import useTranslations from '../../../translations/useTranslations';
 
 const MoneyTransactionsList = () => {
+  const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser } = useBetween(useIdentity);
   const { accounts, getAccountById } = useBetween(useMoneyAccounts);
   const { selectedCategory, getCategoryById, newTransactionAdded } =
@@ -148,7 +151,18 @@ const MoneyTransactionsList = () => {
   return (
     <>
       <GenericList
-        renderCreateFirstItem={() => null}
+        renderCreateFirstItem={(onClickFunction) => (
+          <div className="mt10">
+            {/* {JSON.stringify(selectedFirma)} */}
+            <div className="ml5">
+              <MyButton
+                text={currentTranslation.MONEY_TRANSACTIONS.addTransaction}
+                onClick={onClickFunction}
+                className="w300"
+              ></MyButton>
+            </div>
+          </div>
+        )}
         fieldHeader={[
           {
             field: 'date',
