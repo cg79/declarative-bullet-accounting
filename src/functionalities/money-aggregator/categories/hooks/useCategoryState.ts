@@ -36,7 +36,6 @@ const useCategoryState = () => {
   const [aggregateCategories, setAggregateCategories] =
     useState<AggregateCategory>({});
 
-  // const [categories, setCategories] = useState([]);x
   const [categoryTree, setCategoryTree] = useState<ICategory[]>([]);
 
   const { loggedUser } = useBetween(useIdentity);

@@ -84,7 +84,6 @@ export const AddEditMoneyTransaction = ({
   }, [enterPressed]);
 
   const moneyTransactionOptionTemplate = (option, onClick, checked) => {
-    debugger;
     const css = checked ? 'rbspan selected' : 'rbspan';
     return (
       <span className={css} key={option.value} onClick={onClick}>
