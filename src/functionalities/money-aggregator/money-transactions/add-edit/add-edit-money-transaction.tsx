@@ -18,6 +18,8 @@ import { utils } from '../../../../_utils/utils';
 import LabelRadioButtonList from '../../../../_components/reuse/LabelRadioButtonList';
 import { useBetween } from '../../../../hooks/useBetween';
 import './add-edit.css';
+import useTranslations from '../../../translations/useTranslations';
+import useCategoryState from '../../categories/hooks/useCategoryState';
 export const AddEditMoneyTransaction = ({
   moneyTransaction,
   onSaveMoneyTransaction,
@@ -28,6 +30,8 @@ export const AddEditMoneyTransaction = ({
   onSaveMoneyTransaction: (moneyTransaction: IMoneyTransaction) => void;
   onCancel: () => void;
 }) => {
+  const { currentTranslation } = useBetween(useTranslations);
+  const { selectedCategory } = useBetween(useCategoryState);
   const { accounts, getAccountById } = useBetween(useMoneyAccounts);
 
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
@@ -54,6 +58,11 @@ export const AddEditMoneyTransaction = ({
       setError('invalid amount');
       return;
     }
+    if (!selectedCategory) {
+      setError('invalid category');
+      return;
+    }
+    currentTransaction.category_id = selectedCategory._id;
     if (currentTransaction._id) {
       // currentTransaction.amount =
       //   currentTransaction.amount - moneyTransaction.amount;
