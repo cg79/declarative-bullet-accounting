@@ -24,7 +24,7 @@ const TreeHeader = ({
   isCollapsed: boolean;
   onAddNewNode: () => void;
   onEditNode: () => void;
-  setIsModalIconsVisible: () => void;
+  setIsModalIconsVisible: (value: number) => void;
   selectedCategory: any;
   onStartAddTransaction: () => void;
   onStartDeleteNode: () => void;
@@ -53,7 +53,6 @@ const TreeHeader = ({
     }
     return isMouseHover ? APP_CONSTANTS.HOVER_COLOR : 'transparent';
   };
-
   return (
     <div
       onClick={onNodeClicked}
@@ -72,9 +71,6 @@ const TreeHeader = ({
         isCollapsed={isCollapsed}
         setIsModalIconsVisible={setIsModalIconsVisible}
       ></TreeHeaderLabel>
-      {/* {JSON.stringify(node._id)} */}
-      {/* {JSON.stringify(node.parentIds)} */}
-
       <div className="ml10 flex flex-end">
         {width > 500 && (
           <TreeNodeHeaderActions

@@ -111,7 +111,7 @@ const MoneyTransactionsList = () => {
     onCancel: () => void
   ) => {
     observer.publish('DISABLE_SHORTCUT', false);
-    debugger;
+
     return (
       <AddEditMoneyTransaction
         category={selectedCategory}

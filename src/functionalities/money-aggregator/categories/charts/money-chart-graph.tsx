@@ -47,8 +47,6 @@ const MoneyChartGraph = ({
   categories: ICategory[];
   aggregateCategories: AggregateCategory;
 }) => {
-  // const { categories } = useBetween(useCategoryState);
-
   const { createChartData } = useMoneyChartState();
 
   const datasets: any = createChartData(categories, aggregateCategories);
@@ -57,7 +55,7 @@ const MoneyChartGraph = ({
     labels: categories.map((category: ICategory) => category.label),
     datasets,
   };
-  debugger;
+
   return (
     <div>
       <Bar plugins={[ChartDataLabels]} options={options} data={data} />

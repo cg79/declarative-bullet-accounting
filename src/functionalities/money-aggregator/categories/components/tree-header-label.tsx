@@ -26,7 +26,7 @@ const TreeHeaderLabel = ({
   node: ICategory;
   toggleCollapse: () => void;
   isCollapsed: boolean;
-  setIsModalIconsVisible: () => void;
+  setIsModalIconsVisible: (value: number) => void;
 }) => {
   return (
     <div style={{ cursor: 'pointer' }}>
@@ -35,14 +35,16 @@ const TreeHeaderLabel = ({
         isCollapsed={isCollapsed}
         onClick={toggleCollapse}
       />
-      {renderNodeIcon(node, setIsModalIconsVisible)}
-      <span
-        className="bold mycardFilter"
-        style={{ marginLeft: '5px' }}
-        onClick={toggleCollapse}
-      >
-        {node.label}
-      </span>
+      {renderNodeIcon(node, () => setIsModalIconsVisible(1))}
+      <DelayClick handleClick={() => setIsModalIconsVisible(2)} delay={500}>
+        <span
+          className="bold mycardFilter"
+          style={{ marginLeft: '5px', color: node.color || 'black' }}
+          onClick={toggleCollapse}
+        >
+          {node.label}
+        </span>
+      </DelayClick>
     </div>
   );
 };

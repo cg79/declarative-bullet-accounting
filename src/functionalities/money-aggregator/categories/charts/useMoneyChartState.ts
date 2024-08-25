@@ -20,12 +20,11 @@ const useMoneyChartState = () => {
     categories: ICategory[],
     aggregateCategories: AggregateCategory
   ) => {
-    debugger;
     return (categories || []).map((category: ICategory) => {
       return {
         label: category.label,
         data: getIncomeExpense(category, aggregateCategories),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: category.color || 'rgba(0,0,0, 0.5)',
       };
     });
   };

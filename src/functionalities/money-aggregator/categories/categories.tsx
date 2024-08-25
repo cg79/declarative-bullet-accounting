@@ -150,11 +150,6 @@ export const Categories = () => {
 
       <MoneyFilter></MoneyFilter>
 
-      <MoneyChartGraph
-        categories={categories}
-        aggregateCategories={aggregateCategories}
-      ></MoneyChartGraph>
-
       <div className="fcenter mt15">
         <TabView>
           <TabPanel header={currentTranslation.MONEY_TRANSACTIONS.transactions}>
@@ -163,7 +158,10 @@ export const Categories = () => {
             </div>
           </TabPanel>
           <TabPanel header={currentTranslation.Charts}>
-            {/* <MoneyChartGraph></MoneyChartGraph> */}
+            <MoneyChartGraph
+              categories={categories}
+              aggregateCategories={aggregateCategories}
+            ></MoneyChartGraph>
           </TabPanel>
         </TabView>
       </div>

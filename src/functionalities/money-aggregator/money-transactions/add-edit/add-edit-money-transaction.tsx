@@ -50,11 +50,15 @@ export const AddEditMoneyTransaction = ({
     getAccountById(currentTransaction?.accountId) || null
   );
 
+  function isNumber(value) {
+    return typeof value === 'number' && !isNaN(value);
+  }
+
   const triggerSaveMoneyTransaction = () => {
     setError('');
     console.log(currentTransaction.amount);
 
-    if (!currentTransaction.amount || currentTransaction.amount !== 0) {
+    if (!isNumber(currentTransaction.amount)) {
       setError('invalid amount');
       return;
     }

@@ -1,3 +1,6 @@
+import { ColorPickerHSBType, ColorPickerRGBType } from 'primereact/colorpicker';
+import { Nullable } from 'primereact/ts-helpers';
+
 export type CategoryPropsType = {
   income: number;
   expense: number;
@@ -24,6 +27,7 @@ export interface ICategory {
   parent?: ICategory;
   level: number;
   props: CategoryPropsType;
+  color?: string;
 }
 export type AggregateCategory = {
   [category_id: string]: CategoryPropsType;

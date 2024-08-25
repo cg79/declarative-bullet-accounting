@@ -16,6 +16,7 @@ import useIdentity from '../../../../_store/useIdentity';
 import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 import { defaultCategory } from '../category-helpers';
 import { useBetween } from '../../../../hooks/useBetween';
+import { ColorPicker } from 'primereact/colorpicker';
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const TreeNode = ({
@@ -39,7 +40,7 @@ const TreeNode = ({
   const [newNode, setNewNode] = useState<ICategory | null>(null);
   const [editNode, setEditNode] = useState<ICategory | null>(null);
   const [showTransactionScreen, setShowTransactionScreen] = useState(false);
-  const [isModalIconsVisible, setIsModalIconsVisible] = useState(false);
+  const [modalIconOrColors, setModalIconOrColors] = useState<number>(0);
   const [
     isModalDeletionConfirmationVisible,
     setIsModalDeletionConfirmationVisible,
@@ -77,8 +78,8 @@ const TreeNode = ({
     setIsCollapsed(value);
   };
 
-  const showModalIcons = () => {
-    setIsModalIconsVisible(true);
+  const showModalIcons = (value) => {
+    setModalIconOrColors(value);
   };
   const onAddNewNode = () => {
     setEditNode(null);
@@ -143,7 +144,16 @@ const TreeNode = ({
     updateCategory(node._id, { icon }, selectedMoneyEntity).then(
       (response: any) => {
         node.icon = icon;
-        setIsModalIconsVisible(false);
+        setModalIconOrColors(0);
+      }
+    );
+  };
+
+  const onColorChoosed = (color: string) => {
+    updateCategory(node._id, { color }, selectedMoneyEntity).then(
+      (response: any) => {
+        node.color = color;
+        setModalIconOrColors(0);
       }
     );
   };
@@ -224,7 +234,7 @@ const TreeNode = ({
         break;
       }
       case SHORTCUT_ACTIONS.ICON: {
-        setIsModalIconsVisible(true);
+        setModalIconOrColors(1);
         break;
       }
 
@@ -333,7 +343,6 @@ const TreeNode = ({
         onStartAddTransaction={onStartAddTransaction}
         onStartDeleteNode={onStartDeleteNode} // TODO: fix this
       ></TreeHeader>
-      {/* {JSON.stringify(node.props)} */}
 
       <TreeNodeAddEdit
         node={node}
@@ -343,14 +352,34 @@ const TreeNode = ({
         onEditSaveNodeName={onEditSaveNodeName}
       ></TreeNodeAddEdit>
 
-      {isModalIconsVisible && (
+      {modalIconOrColors > 0 && (
         <DialogWrapper
           header="Selectare icon"
-          visible={isModalIconsVisible}
-          onHide={() => setIsModalIconsVisible(false)}
+          visible={modalIconOrColors}
+          onHide={() => {
+            if (modalIconOrColors === 2) {
+              onColorChoosed(node.color || '#000000');
+            }
+            setModalIconOrColors(0);
+          }}
           // style={{ width: "80vw" }}
         >
-          <IconGallery onIconChoosed={onIconChoosed}></IconGallery>
+          {modalIconOrColors === 1 && (
+            <IconGallery onIconChoosed={onIconChoosed}></IconGallery>
+          )}
+          {modalIconOrColors === 2 && (
+            <div className="fcenter mt15">
+              <ColorPicker
+                value={node.color || '#000000'}
+                onChange={(e) => {
+                  // onColorChoosed(`#${e.value}`);
+                  node.color = `#${e.value}`;
+                  // setModalIconOrColors(0);
+                  // node.color = 'red';
+                }}
+              />
+            </div>
+          )}
         </DialogWrapper>
       )}
       {isModalDeletionConfirmationVisible && (
