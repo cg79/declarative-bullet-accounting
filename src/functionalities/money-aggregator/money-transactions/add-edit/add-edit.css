@@ -1,0 +1,16 @@
+.rbspan{
+    cursor: pointer;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid gray; 
+}
+
+.rbspan.selected{
+    cursor: pointer;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(21, 210, 109); 
+    background-color: rgb(21, 210, 109);    
+}

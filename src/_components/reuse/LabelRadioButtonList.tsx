@@ -17,6 +17,7 @@ const LabelRadioButtonList: React.FC<LabelRadioButtonListProps> = ({
   onChange,
   labelField,
   valueField,
+  renderOption,
 }) => {
   const { triggerEnterPressed } = useBetween(useEvents);
   const { popupCss } = useScreenSize();
@@ -45,6 +46,7 @@ const LabelRadioButtonList: React.FC<LabelRadioButtonListProps> = ({
           {label}
         </label>
         <RadioButtonList
+          renderOption={renderOption}
           onChange={onChange}
           options={options}
           name={name}

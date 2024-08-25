@@ -37,7 +37,6 @@ const GoogleLoginButton = () => {
       'https://accounts.google.com/gsi/client',
       'google-login',
       () => {
-        debugger;
         if (window.google) {
           initializeClient();
 
@@ -48,7 +47,6 @@ const GoogleLoginButton = () => {
   }, []);
 
   const handleCredentialResponse = (response) => {
-    debugger;
     console.log('Encoded JWT ID token: ' + response.credential);
     // Send the ID token to your backend for verification and authentication
   };

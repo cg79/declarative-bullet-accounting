@@ -92,7 +92,6 @@ const MoneyEntityList = () => {
         collectionName={collectionName}
         sortBy={[{ field: 'date', ascending: false }]}
         modalTitle={(entity: IMoneyEntity, isForDeletion) => {
-          debugger;
           if (isForDeletion) {
             return entity?.name;
           }

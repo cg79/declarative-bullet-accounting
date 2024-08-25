@@ -68,7 +68,6 @@ const Translations = () => {
         collectionName={collectionName}
         sortBy={[{ field: 'date', ascending: false }]}
         modalTitle={(entity: ITranslations, isForDeletion) => {
-          debugger;
           if (isForDeletion) {
             return entity?.key;
           }

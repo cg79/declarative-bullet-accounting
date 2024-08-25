@@ -204,7 +204,6 @@ function GenericList<T>({
                 renderCreateFirstItem
                   ? () =>
                       renderCreateFirstItem(() => {
-                        debugger;
                         setItem(createItem());
                       })
                   : () => renderAddItem()

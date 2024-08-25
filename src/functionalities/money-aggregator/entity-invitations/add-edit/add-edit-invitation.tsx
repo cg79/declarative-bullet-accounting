@@ -24,7 +24,6 @@ export const AddEditInvitation = ({
   const [isSaving, setIsSaving] = useState(false);
 
   const triggerSaveInvitation = () => {
-    debugger;
     setError('');
 
     if (!item.email) {

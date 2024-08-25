@@ -17,7 +17,7 @@ import MyIcon from '../../../../_components/reuse/my-icon';
 import { utils } from '../../../../_utils/utils';
 import LabelRadioButtonList from '../../../../_components/reuse/LabelRadioButtonList';
 import { useBetween } from '../../../../hooks/useBetween';
-
+import './add-edit.css';
 export const AddEditMoneyTransaction = ({
   moneyTransaction,
   onSaveMoneyTransaction,
@@ -74,8 +74,19 @@ export const AddEditMoneyTransaction = ({
     clearEnterPressed();
   }, [enterPressed]);
 
-  const moneyTransactionOptionTemplate = (option) => {
-    return <MyIcon icon={option.icon} tooltip={'option.label'}></MyIcon>;
+  const moneyTransactionOptionTemplate = (option, onClick, checked) => {
+    debugger;
+    const css = checked ? 'rbspan selected' : 'rbspan';
+    return (
+      <span className={css} key={option.value} onClick={onClick}>
+        <MyIcon
+          icon={option.icon}
+          tooltip={option.label}
+          onClick={onClick}
+        ></MyIcon>
+        {/* {checked && <MyIcon icon="pi pi-check"></MyIcon>} */}
+      </span>
+    );
   };
 
   return (
@@ -85,6 +96,7 @@ export const AddEditMoneyTransaction = ({
       <div>
         <div className="flex mt10" style={{ marginTop: '50px' }}>
           <LabelRadioButtonList
+            renderOption={moneyTransactionOptionTemplate}
             label="Tip tranzactie: "
             lwidth="135px"
             selectedValue={currentTransaction?.type}

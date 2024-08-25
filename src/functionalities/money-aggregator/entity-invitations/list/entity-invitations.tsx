@@ -113,7 +113,7 @@ export const EntityInvitations = () => {
       //   visible={item !== null}
       //   // style={{ width: "50vw" }}
       //   onHide={() => {
-      //     debugger;
+      //
       //     onCancel();
       //   }}
       // >
@@ -255,9 +255,7 @@ export const EntityInvitations = () => {
               ? `Editare Invitatie ${item.name}`
               : 'Adaugare Invitatie';
           }}
-          onAfterItemSaved={() => {
-            debugger;
-          }}
+          onAfterItemSaved={() => {}}
           // renderActions={renderActions}
         ></GenericList>
       </div>

@@ -58,7 +58,7 @@ const useApi = () => {
       request: MethodExecutionRequest,
       options: { allowAnonymous?: boolean } = { allowAnonymous: false }
     ) => {
-      // debugger;
+      //
       const bulletHttp = createBulletHttpRequestLibrary(options);
       const response = await bulletHttp.executeMethodFromModule(request);
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export type RadioButtonListProps = {
   options: any[];
@@ -7,6 +7,11 @@ export type RadioButtonListProps = {
   onChange: (value: string | number) => void;
   labelField: string;
   valueField: string;
+  renderOption?: (
+    option: any,
+    onClick: () => void,
+    checked: boolean
+  ) => JSX.Element;
 };
 
 const RadioButtonList: React.FC<RadioButtonListProps> = ({
@@ -16,6 +21,7 @@ const RadioButtonList: React.FC<RadioButtonListProps> = ({
   onChange,
   labelField,
   valueField,
+  renderOption,
 }) => {
   const [selected, setSelected] = useState<string | number | undefined>(
     selectedValue
@@ -30,14 +36,20 @@ const RadioButtonList: React.FC<RadioButtonListProps> = ({
     <div className="radio-button-list flex fwrap">
       {options.map((option) => (
         <label key={option.value}>
-          <input
+          {/* <input
             type="radio"
             name={name}
             value={option[valueField]}
             checked={selected === option[valueField]}
             onChange={() => handleChange(option.value)}
-          />
-          {option[labelField]}
+          /> */}
+          {/* {option[labelField]} */}
+          {renderOption &&
+            renderOption(
+              option,
+              () => handleChange(option.value),
+              selected === option[valueField]
+            )}
         </label>
       ))}
     </div>
