@@ -318,6 +318,7 @@ const useCategoryState = () => {
     aggregateAmountByCategory,
     treeAction,
     setTreeAction,
+    categories,
   };
 };
 export default useCategoryState;

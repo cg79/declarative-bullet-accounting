@@ -30,6 +30,12 @@ const TR = {
     editTransaction: 'Edit tranzactopn',
     deleteTransaction: 'Delete Transaction',
   },
+  CATEGORIES: {
+    categories: 'Categories',
+    addCategory: 'Add category',
+    editCategory: 'Edit category',
+    deleteCategory: 'Delete category',
+  },
 };
 
 export default TR;

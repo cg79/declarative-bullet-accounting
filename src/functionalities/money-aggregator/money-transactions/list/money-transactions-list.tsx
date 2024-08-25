@@ -23,13 +23,20 @@ import MyIcon from '../../../../_components/reuse/my-icon';
 import parse from 'html-react-parser';
 import { MyButton } from '../../../../_components/reuse/my-button';
 import useTranslations from '../../../translations/useTranslations';
+import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
+import { ICategory } from '../../categories/category-type';
 
 const MoneyTransactionsList = () => {
   const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser } = useBetween(useIdentity);
   const { accounts, getAccountById } = useBetween(useMoneyAccounts);
-  const { selectedCategory, getCategoryById, newTransactionAdded } =
-    useBetween(useCategoryState);
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    getCategoryById,
+    newTransactionAdded,
+    categories,
+  } = useBetween(useCategoryState);
 
   const { filterBy } = useBetween(useMoneyTransactionsFilter);
 
@@ -104,6 +111,7 @@ const MoneyTransactionsList = () => {
     onCancel: () => void
   ) => {
     observer.publish('DISABLE_SHORTCUT', false);
+    debugger;
     return (
       <AddEditMoneyTransaction
         category={selectedCategory}
@@ -230,7 +238,24 @@ const MoneyTransactionsList = () => {
         collectionName={collectionName}
         sortBy={[{ field: 'date', ascending: false }]}
         filterBy={filterBy}
-        modalTitle={() => selectedCategory?.label || 'Adaugare Tranzactie'}
+        // modalTitle={(item: IMoneyTransaction) =>
+        //   selectedCategory?.label || 'Adaugare Tranzactie'
+        // }
+        modalTitle={(item: IMoneyTransaction) => (
+          <div className="flex">
+            <LabelDropDown
+              label={currentTranslation.CATEGORIES.categories}
+              lwidth="135px"
+              onChange={(category: ICategory) => {
+                setSelectedCategory(category);
+              }}
+              options={categories || []}
+              value={selectedCategory}
+              optionLabel="label"
+              optionValue="_id"
+            ></LabelDropDown>
+          </div>
+        )}
         customSaveFunction={onSaveMoneyTransaction}
         customDeleteFunction={onDeleteMoneyTransaction}
         renderActions={renderActions}
