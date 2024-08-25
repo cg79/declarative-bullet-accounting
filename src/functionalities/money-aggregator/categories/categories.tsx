@@ -13,9 +13,12 @@ import MoneyFilter from '../money-filter/money-filter';
 import { useBetween } from '../../../hooks/useBetween';
 import useShortcut from './shortcut/useShortcut';
 import { SHORTCUT_ACTIONS } from './constants';
+import { TabView, TabPanel } from 'primereact/tabview';
+import useTranslations from '../../translations/useTranslations';
 
 export const Categories = () => {
   //#region Hooks
+  const { currentTranslation } = useBetween(useTranslations);
   const {
     newCategory,
     setNewCategory,
@@ -144,8 +147,25 @@ export const Categories = () => {
 
       <MoneyFilter></MoneyFilter>
 
-      <div className="fcenter">
-        <MoneyTransactionsList></MoneyTransactionsList>
+      <div className="fcenter mt15">
+        <TabView>
+          <TabPanel header={currentTranslation.MONEY_TRANSACTIONS.transactions}>
+            <div className="fcenter">
+              <MoneyTransactionsList></MoneyTransactionsList>
+            </div>
+          </TabPanel>
+          <TabPanel header={currentTranslation.Charts}>
+            <p className="m-0">
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+              eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci
+              velit, sed quia non numquam eius modi.
+            </p>
+          </TabPanel>
+        </TabView>
       </div>
     </div>
   );

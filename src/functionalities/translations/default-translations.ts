@@ -24,6 +24,7 @@ const TR = {
     account: 'Account',
   },
   MONEY_TRANSACTIONS: {
+    transactions: 'Transactions',
     addTransaction: 'Add transaction',
     editTransaction: 'Edit tranzactopn',
     deleteTransaction: 'Delete Transaction',
@@ -42,6 +43,7 @@ const TR = {
   LOADING: 'Loading',
   WARNING: 'Warning',
   UPDATE: 'Update',
+  Charts: 'Charts',
 };
 
 export default TR;
