@@ -54,7 +54,7 @@ export const AddEditMoneyTransaction = ({
     setError('');
     console.log(currentTransaction.amount);
 
-    if (!currentTransaction.amount === undefined) {
+    if (!currentTransaction.amount || currentTransaction.amount !== 0) {
       setError('invalid amount');
       return;
     }
@@ -106,7 +106,7 @@ export const AddEditMoneyTransaction = ({
         <div className="flex mt10" style={{ marginTop: '50px' }}>
           <LabelRadioButtonList
             renderOption={moneyTransactionOptionTemplate}
-            label="Tip tranzactie: "
+            label={currentTranslation.MONEY_TRANSACTIONS.transactionType}
             lwidth="135px"
             selectedValue={currentTransaction?.type}
             options={moneyTransactionOptionTypes}
@@ -127,7 +127,7 @@ export const AddEditMoneyTransaction = ({
         <div className="flex mt10">
           <LabelNumericInput
             autoFocus
-            label="Suma: "
+            label={currentTranslation.HEADERS.Amount}
             lwidth="135px"
             onChange={(val: number) => {
               setError('');
@@ -144,7 +144,7 @@ export const AddEditMoneyTransaction = ({
         </div>
         <div className="flex mt10">
           <LabelDate
-            label={'Data tranzactiei: '}
+            label={currentTranslation.HEADERS.Date}
             lwidth="135px"
             onChange={(date: number) => {
               const newItem: IMoneyTransaction = {
@@ -160,7 +160,7 @@ export const AddEditMoneyTransaction = ({
 
         <div className="flex mt10">
           <LabelDropDown
-            label={'Cont: '}
+            label={currentTranslation.ACCOUNT.account}
             lwidth="135px"
             onChange={(account: IMoneyAccount) => {
               const newItem: IMoneyTransaction = {
@@ -189,9 +189,16 @@ export const AddEditMoneyTransaction = ({
 
         <div className="error">{error}</div>
         <div className="flex space-between mt10">
-          <MyButton text="Renunta" onClick={() => onCancel()}></MyButton>
           <MyButton
-            text="Salveaza"
+            text={currentTranslation.CANCEL}
+            onClick={() => onCancel()}
+          ></MyButton>
+          <MyButton
+            text={
+              currentTransaction._id
+                ? currentTranslation.UPDATE
+                : currentTranslation.SAVE
+            }
             onClick={() => {
               console.log(currentTransaction);
               triggerSaveMoneyTransaction();

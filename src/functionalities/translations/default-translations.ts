@@ -21,14 +21,13 @@ const TR = {
     editAccount: 'Edit account',
     deleteAccount: 'Delete account',
     invalidName: 'Invalid name',
-    HEADER: {
-      balance: 'Balanta',
-    },
+    account: 'Account',
   },
   MONEY_TRANSACTIONS: {
     addTransaction: 'Add transaction',
     editTransaction: 'Edit tranzactopn',
     deleteTransaction: 'Delete Transaction',
+    transactionType: 'Transaction type',
   },
   CATEGORIES: {
     categories: 'Categories',
@@ -36,6 +35,13 @@ const TR = {
     editCategory: 'Edit category',
     deleteCategory: 'Delete category',
   },
+  SAVE: 'Save',
+  CANCEL: 'Cancel',
+  ERROR: 'Error',
+  SUCCESS: 'Success',
+  LOADING: 'Loading',
+  WARNING: 'Warning',
+  UPDATE: 'Update',
 };
 
 export default TR;
