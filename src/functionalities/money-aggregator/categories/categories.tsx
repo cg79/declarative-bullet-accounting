@@ -28,6 +28,7 @@ export const Categories = () => {
     categoryTree,
     aggregateAmountByCategory,
     categories,
+    aggregateCategories,
   } = useBetween(useCategoryState);
 
   const navigate = useNavigate();
@@ -149,7 +150,10 @@ export const Categories = () => {
 
       <MoneyFilter></MoneyFilter>
 
-      <MoneyChartGraph categories={categories}></MoneyChartGraph>
+      <MoneyChartGraph
+        categories={categories}
+        aggregateCategories={aggregateCategories}
+      ></MoneyChartGraph>
 
       <div className="fcenter mt15">
         <TabView>

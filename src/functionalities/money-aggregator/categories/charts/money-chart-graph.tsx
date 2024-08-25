@@ -16,7 +16,7 @@ import { Bar } from 'react-chartjs-2';
 import useMoneyChartState from './useMoneyChartState';
 import { useBetween } from 'use-between';
 import useCategoryState from '../hooks/useCategoryState';
-import { ICategory } from '../category-type';
+import { AggregateCategory, ICategory } from '../category-type';
 
 ChartJS.register(
   CategoryScale,
@@ -40,19 +40,27 @@ export const options = {
   },
 };
 
-const MoneyChartGraph = ({ categories }: { categories: ICategory[] }) => {
+const MoneyChartGraph = ({
+  categories,
+  aggregateCategories,
+}: {
+  categories: ICategory[];
+  aggregateCategories: AggregateCategory;
+}) => {
   // const { categories } = useBetween(useCategoryState);
 
   const { createChartData } = useMoneyChartState();
 
-  const chartData: any = createChartData(categories);
+  const datasets: any = createChartData(categories, aggregateCategories);
+
+  const data = {
+    labels: categories.map((category: ICategory) => category.label),
+    datasets,
+  };
   debugger;
   return (
     <div>
-      {JSON.stringify(chartData)}
-      {/* {chartData && chartData.length > 0 && (
-        <Bar plugins={[ChartDataLabels]} options={options} data={chartData} />
-      )} */}
+      <Bar plugins={[ChartDataLabels]} options={options} data={data} />
     </div>
   );
 };

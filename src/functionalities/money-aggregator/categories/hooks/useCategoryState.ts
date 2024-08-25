@@ -318,6 +318,7 @@ const useCategoryState = () => {
     treeAction,
     setTreeAction,
     categories,
+    aggregateCategories,
   };
 };
 export default useCategoryState;
