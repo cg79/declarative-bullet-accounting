@@ -40,11 +40,11 @@ const useCategoryState = () => {
 
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethod, executeMethodFromModule } = useApi();
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<ICategory[] | null>(null);
   const [treeAction, setTreeAction] = useState<number>(0);
 
   const getCategoryById = (id: string) => {
-    return categories.find((category) => category._id === id);
+    return categories?.find((category) => category._id === id);
   };
 
   const calculateAmounts = (

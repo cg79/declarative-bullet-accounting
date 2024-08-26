@@ -33,7 +33,7 @@ const RadioButtonList: React.FC<RadioButtonListProps> = ({
   };
 
   return (
-    <div className="radio-button-list flex fwrap">
+    <div className="radio-button-list flex fwrap space-between">
       {options.map((option) => (
         <label key={option.value}>
           {/* <input

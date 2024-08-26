@@ -158,10 +158,12 @@ export const Categories = () => {
             </div>
           </TabPanel>
           <TabPanel header={currentTranslation.Charts}>
-            <MoneyChartGraph
-              categories={categories}
-              aggregateCategories={aggregateCategories}
-            ></MoneyChartGraph>
+            <div className="fcenter" style={{ width: '100%' }}>
+              <MoneyChartGraph
+                categories={categories}
+                aggregateCategories={aggregateCategories}
+              ></MoneyChartGraph>
+            </div>
           </TabPanel>
         </TabView>
       </div>

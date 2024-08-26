@@ -296,7 +296,7 @@ ul.my{
   font-weight: bold;
 }
 
-.space-between{
+.sb, .space-between{
   justify-content: space-between;
 }
 

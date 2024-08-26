@@ -1,19 +1,19 @@
-import { ILoggedUser } from "../../../_store/useIdentity";
-import { utils } from "../../../_utils/utils";
-import { ICategory } from "../categories/category-type";
+import { ILoggedUser } from '../../../_store/useIdentity';
+import { utils } from '../../../_utils/utils';
+import { ICategory } from '../categories/category-type';
 import {
   ACCOUNT_TYPE_VALUE,
   IMoneyAccount,
-} from "../money-account/money-account-type";
-import { IMoneyEntity } from "../money-entity/money-entity-type";
+} from '../money-account/money-account-type';
+import { IMoneyEntity } from '../money-entity/money-entity-type';
 import {
   IMoneyAggregationFilter,
   IMoneyTransactionsFilter,
-} from "./hooks/useMoneyTransactionsFilter";
+} from './hooks/useMoneyTransactionsFilter';
 import {
   IMoneyTransaction,
   IMoneyTransactionType,
-} from "./money-transaction-type";
+} from './money-transaction-type';
 
 export type FilterOperator = {
   [key: string]: string;
@@ -30,14 +30,14 @@ const getDefaultMoneyTransaction = (
   );
   return {
     amount: 0,
-    description: "",
-    category_id: category?._id || "",
-    date: utils.dateToEpochPlusTodayTime(new Date()),
+    description: '',
+    category_id: category?._id || '',
+    tdate: utils.dateToEpoch(new Date()),
     addedDate: 0,
     type: IMoneyTransactionType.EXPENSE,
-    accountId: cashAcount?._id || "",
-    userid: loggedUser?._id || "",
-    entityId: moneyEntity?._id || "",
+    accountId: cashAcount?._id || '',
+    userid: loggedUser?._id || '',
+    entityId: moneyEntity?._id || '',
     difs: {},
     income: 0,
     expense: 0,
@@ -48,12 +48,12 @@ const createMoneyTransactionsFilterExpression = (
   filter: IMoneyTransactionsFilter
 ) => {
   const { accountId, startDate, endDate, category_id, users } = filter;
-  let expression = "";
+  let expression = '';
   let needAND = false;
 
   if (category_id) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
 
@@ -62,7 +62,7 @@ const createMoneyTransactionsFilterExpression = (
 
   if (accountId) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
     expression += `accountId == ${accountId}`;
@@ -70,29 +70,29 @@ const createMoneyTransactionsFilterExpression = (
 
   if (startDate) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
 
-    expression += ` date >= ${startDate}`;
+    expression += ` tdate >= ${startDate}`;
   }
 
   if (endDate) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
-    expression += `date <= ${endDate}`;
+    expression += `tdate <= ${endDate}`;
   }
 
   if (users && users.length > 0) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
     expression += ` (userid == ${users
       .map((el) => el._id)
-      .join(" || userid == ")})`;
+      .join(' || userid == ')})`;
   }
 
   return expression ? { expression } : {};
@@ -102,12 +102,12 @@ const createMoneyAggregationFilterExpression = (
   filter: IMoneyAggregationFilter
 ) => {
   const { accountId, startDate, endDate } = filter;
-  let expression = "";
+  let expression = '';
   let needAND = false;
 
   if (accountId) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
     expression += `accountId == ${accountId}`;
@@ -115,19 +115,19 @@ const createMoneyAggregationFilterExpression = (
 
   if (startDate) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
 
-    expression += ` date >= ${startDate}`;
+    expression += ` tdate >= ${startDate}`;
   }
 
   if (endDate) {
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
-    expression += ` && date <= ${endDate}`;
+    expression += ` && tdate <= ${endDate}`;
   }
 
   return expression ? { expression } : {};
@@ -137,10 +137,10 @@ const createFilterExpressionGeneric = (
   filter: IMoneyTransactionsFilter,
   operators: FilterOperator
 ) => {
-  let expression = "";
+  let expression = '';
   let needAND = false;
   let propsCount = 0;
-  let operator = " == ";
+  let operator = ' == ';
   let filterObject = {};
   for (const [key, value] of Object.entries(filter)) {
     console.log(`${key}: ${value}`);
@@ -149,10 +149,10 @@ const createFilterExpressionGeneric = (
     }
     propsCount++;
     if (needAND) {
-      expression += " && ";
+      expression += ' && ';
     }
     needAND = true;
-    operator = operators[key] || " == ";
+    operator = operators[key] || ' == ';
     filterObject = { ...filterObject, [key]: value };
     expression += `${key} ${operator} ${value}`;
   }

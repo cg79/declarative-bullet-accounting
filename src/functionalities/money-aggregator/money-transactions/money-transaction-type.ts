@@ -5,13 +5,13 @@ export enum IMoneyTransactionType {
 }
 
 export enum IMoneyTransactionTypeIcons {
-  INCOME = "pi pi-caret-left",
-  EXPENSE = "pi pi-caret-right",
-  TRANSFER = "pi pi-arrow-right-arrow-left",
+  INCOME = 'pi pi-caret-left',
+  EXPENSE = 'pi pi-caret-right',
+  TRANSFER = 'pi pi-arrow-right-arrow-left',
 }
 export interface IMoneyTransaction {
   _id?: string;
-  date: number;
+  tdate: number;
   category_id: string;
   description: string;
   amount: number;
@@ -28,18 +28,18 @@ export interface IMoneyTransaction {
 
 export const moneyTransactionOptionTypes = [
   {
-    icon: "pi pi-caret-right",
+    icon: 'pi pi-caret-right',
     value: IMoneyTransactionType.EXPENSE,
-    label: "Expense",
+    label: 'Expense',
   },
   {
-    icon: "pi pi-caret-left",
+    icon: 'pi pi-caret-left',
     value: IMoneyTransactionType.INCOME,
-    label: "Income",
+    label: 'Income',
   },
   {
-    icon: "pi pi-arrow-right-arrow-left",
+    icon: 'pi pi-arrow-right-arrow-left',
     value: IMoneyTransactionType.TRANSFER,
-    label: "Transfer",
+    label: 'Transfer',
   },
 ];

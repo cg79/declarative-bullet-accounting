@@ -152,12 +152,12 @@ export const AddEditMoneyTransaction = ({
             onChange={(date: number) => {
               const newItem: IMoneyTransaction = {
                 ...currentTransaction,
-                date: date,
+                tdate: date,
               };
               // setCurrentTransaction(newItem);
               updateCurrentTransaction('date', date);
             }}
-            data={currentTransaction.date}
+            data={currentTransaction.tdate}
           ></LabelDate>
         </div>
 

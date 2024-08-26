@@ -13,14 +13,24 @@ import { MyButton } from '../../../_components/reuse/my-button';
 import { useBetween } from '../../../hooks/useBetween';
 import { SHORTCUT_ACTIONS } from '../categories/constants';
 import useShortcut from '../categories/shortcut/useShortcut';
+import LabelRadioButtonList from '../../../_components/reuse/LabelRadioButtonList';
+import MyIcon from '../../../_components/reuse/my-icon';
+import useTranslations from '../../translations/useTranslations';
+import { utils } from '../../../_utils/utils';
+
+interface IPeriod {
+  value: string;
+  label: string;
+  setFilter?: () => void;
+}
 
 const MoneyFilter = () => {
+  const { currentTranslation } = useBetween(useTranslations);
   const { accounts, selectedAccount, setSelectedAccount } =
     useBetween(useMoneyAccounts);
 
   const { shortcutKey, setShortcutKey } = useBetween(useShortcut);
 
-  const [showFilters, setShowFilters] = useState(false);
   const {
     startDate,
     updateStartDate,
@@ -28,6 +38,88 @@ const MoneyFilter = () => {
     updateEndDate,
     aggregationFilterBy,
   } = useBetween(useMoneyTransactionsFilter);
+
+  const [period, setPeriod] = useState<IPeriod | null>();
+  const [showFilters, setShowFilters] = useState(false);
+
+  const periods: IPeriod[] = [
+    {
+      value: 'day',
+      label: 'Today',
+      setFilter: () => {
+        updateStartDate(utils.getStartOfTodayAsEpoch());
+        updateEndDate(null);
+      },
+    },
+    {
+      value: 'week',
+      label: 'This Week',
+
+      setFilter: () => {
+        const startDate = utils.getStartOfWeekAsEpoch();
+        updateStartDate(startDate);
+        updateEndDate(null);
+      },
+    },
+    {
+      value: '2weeks',
+      label: 'Last 2 Weeks',
+
+      setFilter: () => {
+        const startDate = utils.getStartOfWeekAsEpoch(-1);
+        updateStartDate(startDate);
+        updateEndDate(null);
+      },
+    },
+    {
+      value: 'month',
+      label: 'This Month',
+
+      setFilter: () => {
+        const startDate = utils.getStartOfMonthAsEpoch();
+        updateStartDate(startDate);
+        updateEndDate(null);
+      },
+    },
+    {
+      value: '2months',
+      label: 'Last 2 Months',
+
+      setFilter: () => {
+        const startDate = utils.getStartOfMonthAsEpoch(-1);
+        updateStartDate(startDate);
+        updateEndDate(null);
+      },
+    },
+    {
+      value: 'quarter',
+      label: 'Quarter',
+
+      setFilter: () => {
+        const startDate = utils.getStartOfQuarterAsEpoch();
+        updateStartDate(startDate);
+        updateEndDate(null);
+      },
+    },
+    {
+      value: 'year',
+      label: 'Year',
+
+      setFilter: () => {
+        const startDate = utils.getStartOfYearAsEpoch();
+        updateStartDate(startDate);
+        updateEndDate(null);
+      },
+    },
+    {
+      value: 'custom',
+      label: 'Custom',
+
+      setFilter: () => {
+        setShowFilters(true);
+      },
+    },
+  ];
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -53,17 +145,51 @@ const MoneyFilter = () => {
       setShowFilters(true);
     }
   }, [shortcutKey]);
+
+  const moneyTransactionOptionTemplate = (
+    option: IPeriod,
+    onClick,
+    checked
+  ) => {
+    const css = checked ? 'rbspan selected' : 'rbspan';
+    return (
+      <span className={css} key={option.value} onClick={onClick}>
+        {option.label}
+      </span>
+    );
+  };
+
   return (
     <>
-      <div className="fcenter">
+      {/* <div className="fcenter">
         <MyButton
-          text={showFilters ? 'Ascunde Filtre' : 'Arata Filtre'}
+          text={showFilters ? 'Ascunde Filtre' : 'Arata Filtre 4'}
           onClick={() => {
             toggleFilters();
           }}
           useBaseButton={false}
           className="mt10 linkbutton"
         ></MyButton>
+      </div> */}
+
+      <div className="fcenter mt10 " style={{ marginTop: '50px' }}>
+        <LabelRadioButtonList
+          renderOption={moneyTransactionOptionTemplate}
+          label=""
+          lwidth="135px"
+          selectedValue={period?.value}
+          options={periods}
+          // itemTemplate={moneyTransactionOptionTemplate}
+          onChange={(val) => {
+            const period = periods.find((p) => p.value === val);
+            period?.setFilter?.();
+            setPeriod(period);
+            debugger;
+          }}
+          name="type"
+          labelField="label"
+          valueField="value"
+        ></LabelRadioButtonList>
       </div>
 
       {showFilters && (

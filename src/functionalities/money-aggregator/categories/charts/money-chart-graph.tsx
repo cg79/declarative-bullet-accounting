@@ -44,7 +44,7 @@ const MoneyChartGraph = ({
   categories,
   aggregateCategories,
 }: {
-  categories: ICategory[];
+  categories: ICategory[] | null;
   aggregateCategories: AggregateCategory;
 }) => {
   const { createChartData } = useMoneyChartState();
@@ -52,7 +52,7 @@ const MoneyChartGraph = ({
   const datasets: any = createChartData(categories, aggregateCategories);
 
   const data = {
-    labels: categories.map((category: ICategory) => category.label),
+    labels: categories?.map((category: ICategory) => category.label),
     datasets,
   };
 

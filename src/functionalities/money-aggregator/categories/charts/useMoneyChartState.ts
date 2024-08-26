@@ -17,7 +17,7 @@ const useMoneyChartState = () => {
     return [agCat.income, agCat.expense];
   };
   const createChartData = (
-    categories: ICategory[],
+    categories: ICategory[] | null,
     aggregateCategories: AggregateCategory
   ) => {
     return (categories || []).map((category: ICategory) => {

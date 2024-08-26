@@ -55,7 +55,7 @@ const MongoUi = () => {
           <GenericList
             collectionName={selected}
             createItem={() => ({})}
-            modalTitle={(item) => 'Edit ' + item.name}
+            modalTitle={(item, isForDeletion) => 'Edit ' + item['name']}
             addItemButtonLabel="Add"
             renderAddEditContent={(item) => {
               return (

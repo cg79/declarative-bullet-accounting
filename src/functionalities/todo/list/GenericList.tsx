@@ -25,7 +25,7 @@ interface MyGenericListProps<T> {
   collectionName: string;
   sortBy: { field: string; ascending: boolean }[];
   filterBy?: any;
-  modalTitle: Function;
+  modalTitle: (item: T, isForDeletion: boolean) => any;
   fieldHeader: FieldHeaderType[];
   customSaveFunction?: (item: T) => Promise<unknown>;
   customDeleteFunction?: (item: T) => Promise<unknown>;
@@ -133,7 +133,7 @@ function GenericList<T>({
         <div className="flex">
           <div className="flex flex-column center-v">
             <DialogWrapper
-              header={modalTitle(item)}
+              header={modalTitle(item, false)}
               visible={item !== null}
               // style={{ width: '50vw' }}
               onHide={() => {

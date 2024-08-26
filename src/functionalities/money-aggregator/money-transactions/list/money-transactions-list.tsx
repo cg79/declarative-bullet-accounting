@@ -175,7 +175,8 @@ const MoneyTransactionsList = () => {
           {
             field: 'date',
             header: 'Data',
-            body: (item) => utils.dateNumberToYYYYMMDD(item.date),
+            body: (item) => utils.dateNumberToYYYYMMDD(item.tdate),
+            // body: (item: IMoneyTransaction) => item.tdate,
           },
           {
             field: 'amount',
@@ -241,21 +242,26 @@ const MoneyTransactionsList = () => {
         // modalTitle={(item: IMoneyTransaction) =>
         //   selectedCategory?.label || 'Adaugare Tranzactie'
         // }
-        modalTitle={(item: IMoneyTransaction) => (
-          <div className="flex">
-            <LabelDropDown
-              label={currentTranslation.CATEGORIES.categories}
-              lwidth="135px"
-              onChange={(category: ICategory) => {
-                setSelectedCategory(category);
-              }}
-              options={categories || []}
-              value={selectedCategory}
-              optionLabel="label"
-              optionValue="_id"
-            ></LabelDropDown>
-          </div>
-        )}
+        modalTitle={(item: IMoneyTransaction, isForDeletion) => {
+          if (isForDeletion) {
+            return item.amount;
+          }
+          return (
+            <div className="flex">
+              <LabelDropDown
+                label={currentTranslation.CATEGORIES.categories}
+                lwidth="135px"
+                onChange={(category: ICategory) => {
+                  setSelectedCategory(category);
+                }}
+                options={categories || []}
+                value={selectedCategory}
+                optionLabel="label"
+                optionValue="_id"
+              ></LabelDropDown>
+            </div>
+          );
+        }}
         customSaveFunction={onSaveMoneyTransaction}
         customDeleteFunction={onDeleteMoneyTransaction}
         renderActions={renderActions}

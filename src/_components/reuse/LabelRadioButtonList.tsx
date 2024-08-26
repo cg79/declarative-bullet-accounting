@@ -33,18 +33,21 @@ const LabelRadioButtonList: React.FC<LabelRadioButtonListProps> = ({
   const id = utils.createUUID();
   return (
     <>
-      <div className={popupCss.css}>
-        <label
-          htmlFor={id}
-          className={labelCss} // ${labelCss}
-          style={{
-            cursor: 'pointer',
-            width: lwidth,
-            display: 'inline-block',
-          }}
-        >
-          {label}
-        </label>
+      <div className={`${popupCss.css} `} key={id}>
+        {label && (
+          <label
+            htmlFor={id}
+            className={labelCss} // ${labelCss}
+            style={{
+              cursor: 'pointer',
+              width: lwidth,
+              display: 'inline-block',
+            }}
+          >
+            {label}
+          </label>
+        )}
+
         <RadioButtonList
           renderOption={renderOption}
           onChange={onChange}
