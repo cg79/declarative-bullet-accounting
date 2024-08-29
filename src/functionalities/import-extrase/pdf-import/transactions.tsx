@@ -112,7 +112,6 @@ export const Transactions = () => {
           onChange={(e: any) => {
             // setFilesForUpload(e.target.files);
             handleUploadClick(e.target.files).then((val) => {
-              console.log(val);
               const tranzaction = store.get('TRANZACTION');
               setFacturaForTransaction(tranzaction, val);
             });

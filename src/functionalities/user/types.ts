@@ -17,3 +17,11 @@ export type CreateUserRequest = {
   security?: number;
   provider?: string;
 };
+
+export type EntityUser = {
+  _id: string;
+  userid: string;
+  entityId: string;
+  nick: string;
+  clientId: string;
+};

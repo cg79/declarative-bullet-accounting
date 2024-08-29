@@ -29,6 +29,7 @@ const TR = {
     editTransaction: 'Edit tranzactopn',
     deleteTransaction: 'Delete Transaction',
     transactionType: 'Transaction type',
+    users: 'Users',
   },
   CATEGORIES: {
     categories: 'Categories',

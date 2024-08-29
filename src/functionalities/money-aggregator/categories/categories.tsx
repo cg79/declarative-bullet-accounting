@@ -16,6 +16,8 @@ import { SHORTCUT_ACTIONS } from './constants';
 import { TabView, TabPanel } from 'primereact/tabview';
 import useTranslations from '../../translations/useTranslations';
 import MoneyChartGraph from './charts/money-chart-graph';
+import { useUserMethods } from '../../user/useUserMethods';
+import { EntityUser } from '../../user/types';
 
 export const Categories = () => {
   //#region Hooks
@@ -26,10 +28,12 @@ export const Categories = () => {
     saveCategory,
     getCategories,
     categoryTree,
-    aggregateAmountByCategory,
     categories,
     aggregateCategories,
+    // aggregateAmountByCategory
+    callAggregateAmountByCategory,
   } = useBetween(useCategoryState);
+  const { getUsers } = useUserMethods();
 
   const navigate = useNavigate();
 
@@ -42,25 +46,36 @@ export const Categories = () => {
     ...(moneyEntities || []),
   ];
 
-  const { aggregationFilterBy } = useBetween(useMoneyTransactionsFilter);
+  const { filterBy } = useBetween(useMoneyTransactionsFilter);
 
   //#endregion
 
   //#region States
   const [message, setMessage] = useState('');
+  const [users, setUsers] = useState<EntityUser[] | null>(null);
   //#endregion
 
   //#region Effects
   useEffect(() => {
-    getCategories(selectedMoneyEntity);
+    const fetchData = async () => {
+      try {
+        await getCategories(selectedMoneyEntity);
+        const entityId = selectedMoneyEntity?._id || '';
+        const val = await getUsers(entityId);
+        setUsers(val);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, [selectedMoneyEntity]);
 
   useEffect(() => {
-    console.log(aggregationFilterBy);
     const entityId = selectedMoneyEntity?._id || '';
-    const filterValue = aggregationFilterBy || {};
-    aggregateAmountByCategory(entityId, filterValue);
-  }, [aggregationFilterBy]);
+    const filterValue = filterBy || {};
+    callAggregateAmountByCategory(entityId, filterValue);
+  }, [filterBy]);
 
   useEffect(() => {
     // return;
@@ -110,6 +125,8 @@ export const Categories = () => {
 
   return (
     <div className="fcenter1">
+      {JSON.stringify(filterBy, null, 2)}
+      {/* {JSON.stringify(aggregationFilterBy, null, 2)} */}
       {message && <div className="error fcenter">{message}</div>}
       {/* {JSON.stringify(accounts, null, 2)} */}
       {/* {JSON.stringify(moneyEntities)} */}
@@ -147,20 +164,23 @@ export const Categories = () => {
           onNodeSelected={onNodeSelected}
         ></CategoryTree>
       </div>
-
-      <MoneyFilter></MoneyFilter>
+      <MoneyFilter users={users || []}></MoneyFilter>
 
       <div className="fcenter mt15">
         <TabView>
           <TabPanel header={currentTranslation.MONEY_TRANSACTIONS.transactions}>
             <div className="fcenter">
-              <MoneyTransactionsList></MoneyTransactionsList>
+              <MoneyTransactionsList
+                users={users || []}
+              ></MoneyTransactionsList>
             </div>
           </TabPanel>
           <TabPanel header={currentTranslation.Charts}>
             <div className="fcenter" style={{ width: '100%' }}>
               <MoneyChartGraph
                 categories={categories}
+                entityId={selectedMoneyEntity?._id}
+                filterBy={filterBy}
                 aggregateCategories={aggregateCategories}
               ></MoneyChartGraph>
             </div>

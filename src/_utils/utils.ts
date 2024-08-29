@@ -21,7 +21,6 @@ class Utils {
       now.getDate()
     );
 
-    debugger;
     const elapsedMilliseconds = now.getTime() - startOfToday.getTime();
     return elapsedMilliseconds / 1000;
   };
@@ -29,7 +28,7 @@ class Utils {
     // if (!date) {
     //   return null;
     // }
-    debugger;
+
     return Math.floor(date.getTime() / 1000);
   };
 
@@ -61,7 +60,6 @@ class Utils {
     startOfWeek.setDate(diff);
     startOfWeek.setHours(0, 0, 0, 0); // Reset the time part
 
-    debugger;
     if (weeksAhead === 0) {
       return startOfWeek;
     }
@@ -77,7 +75,6 @@ class Utils {
     // Set the time to midnight
     startOfMonth.setHours(0, 0, 0, 0);
 
-    debugger;
     if (monthsAhead === 0) {
       return startOfMonth;
     }
@@ -173,6 +170,11 @@ class Utils {
 
   dateNumberToYYYYMMDD = (value: number) => {
     const date = this.epochToDate(value);
+    if (new Date().getFullYear() === date.getFullYear()) {
+      return `${
+        date.getMonth() + 1
+      }-${date.getDate()}-${date.getHours()}:${date.getMinutes()}`;
+    }
     return `${
       date.getMonth() + 1
     }-${date.getDate()}-${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}`;

@@ -17,22 +17,22 @@ const useMoneyInvitations = () => {
     null
   );
 
-  const toggleInvitationSelection = useCallback(
-    (el: IEntityInvitation) => {
-      const updatedFilters = (invitations || []).map((filter) => {
-        if (filter._id === el._id) {
-          return {
-            ...filter,
-            selected: !filter.selected,
-          };
-        }
-        return filter;
-      });
-      setInvitations(updatedFilters);
-      setSelectedUsers(updatedFilters.filter((el) => el.selected));
-    },
-    [invitations, setInvitations, setSelectedUsers]
-  );
+  // const toggleInvitationSelection = useCallback(
+  //   (el: IEntityInvitation) => {
+  //     const updatedFilters = (invitations || []).map((filter) => {
+  //       if (filter._id === el._id) {
+  //         return {
+  //           ...filter,
+  //           selected: !filter.selected,
+  //         };
+  //       }
+  //       return filter;
+  //     });
+  //     setInvitations(updatedFilters);
+  //     setSelectedUsers(updatedFilters.filter((el) => el.selected));
+  //   },
+  //   [invitations, setInvitations, setSelectedUsers]
+  // );
 
   const saveInvitation = useCallback(
     async (invitation: IEntityInvitation) => {
@@ -139,7 +139,7 @@ const useMoneyInvitations = () => {
     refreshInvitations,
     invitations,
     setInvitations,
-    toggleInvitationSelection,
+    // toggleInvitationSelection,
   };
 };
 export default useMoneyInvitations;

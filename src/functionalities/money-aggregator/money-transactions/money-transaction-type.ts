@@ -24,6 +24,9 @@ export interface IMoneyTransaction {
   userid: string;
   entityId?: string;
   difs?: any;
+  username?: string;
+  touserid?: string;
+  touseraccountid?: string;
 }
 
 export const moneyTransactionOptionTypes = [
@@ -43,3 +46,7 @@ export const moneyTransactionOptionTypes = [
     label: 'Transfer',
   },
 ];
+
+export type IMoneyFilterBy = {
+  expression: string;
+} | null;

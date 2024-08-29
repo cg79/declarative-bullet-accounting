@@ -20,7 +20,6 @@ const DataCardRenderer = ({
     }
     if (item && item[field]) {
       const val = item[field];
-      console.log(val);
       return JSON.stringify(val) || val;
     }
     return 'no';

@@ -23,7 +23,7 @@ export const AddEditInvitation = ({
   const [item, setItem] = useState<IEntityInvitation>({ ...invitation });
   const [isSaving, setIsSaving] = useState(false);
 
-  const triggerSaveInvitation = () => {
+  const triggerSaveInvitation = async () => {
     setError('');
 
     if (!item.email) {
@@ -34,11 +34,22 @@ export const AddEditInvitation = ({
       setError('Emailul nu este valid');
       return;
     }
-    setIsSaving(true);
-    item.difs = utils.compareObjects(invitation, item);
 
-    onSave(item)?.finally(() => setIsSaving(false));
+    item.difs = utils.compareObjects(invitation, item);
+    onSave(item).then(() => {
+      setIsSaving(false);
+    });
+
+    // onSave(item)?.finally(() => setIsSaving(false));
   };
+
+  useEffect(() => {
+    if (!isSaving) {
+      return;
+    }
+
+    triggerSaveInvitation();
+  }, [isSaving]);
 
   useEffect(() => {
     if (!enterPressed) {
@@ -112,7 +123,10 @@ export const AddEditInvitation = ({
           <MyButton text="Renunta" onClick={() => onCancel()}></MyButton>
           <MyButton
             text="Salveaza"
-            onClick={() => triggerSaveInvitation()}
+            onClick={() => {
+              setIsSaving(true);
+              // triggerSaveInvitation();
+            }}
             isLoading={isSaving}
           ></MyButton>
         </div>

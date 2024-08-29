@@ -27,18 +27,41 @@ const useMoneyAccounts = () => {
     [accounts]
   );
 
+  const getAccountsForAUser = async (
+    userid: string
+  ): Promise<IMoneyAccount[]> => {
+    if (!loggedUser) {
+      return [];
+    }
+
+    const userIdValue = userid || loggedUser._id;
+
+    const collectionName = MONEY_ACCOUNT_COLLECTION(loggedUser as ILoggedUser);
+    const response = await executeMethod()
+      .collection((c) => c.name(collectionName).method(BULLET_METHOD.FIND))
+      .search((s) =>
+        s.findByObject({
+          userid: userIdValue,
+        })
+      )
+      .execute();
+
+    if (!response.success) {
+      return [];
+    }
+
+    return response.data;
+  };
+
   const refreshAccounts = useCallback(() => {
     if (!loggedUser) {
       return;
     }
 
-    const collectionName = MONEY_ACCOUNT_COLLECTION(loggedUser as ILoggedUser);
-    executeMethod()
-      .collection((c) => c.name(collectionName).method(BULLET_METHOD.FIND))
-      .execute()
+    getAccountsForAUser(loggedUser._id)
       .then((response) => {
         helpers.checkHttpResponseForErrors(response);
-        updateAccountsValue(response.data);
+        updateAccountsValue(response);
       })
       .catch((error) => {
         console.error('Error refreshing accounts:', error);
@@ -55,6 +78,7 @@ const useMoneyAccounts = () => {
     accounts,
     refreshAccounts,
     getAccountById,
+    getAccountsForAUser,
   };
 };
 

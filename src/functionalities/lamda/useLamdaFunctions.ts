@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
-import useAccountingDbActions from "../transactions/hook/useAccountingDbActions";
-import { DELTA_FUNCTION } from "../transactions/constants/accounting_constants";
-import { DeltaFunction } from "../../services/code-execution";
+import { useCallback, useState } from 'react';
+import useAccountingDbActions from '../transactions/hook/useAccountingDbActions';
+import { DELTA_FUNCTION } from '../transactions/constants/accounting_constants';
+import { DeltaFunction } from '../../services/code-execution';
 
 const useLamdaFunctions = () => {
   const { getDeltaFunctions } = useAccountingDbActions();
@@ -9,7 +9,6 @@ const useLamdaFunctions = () => {
   const [deltaFunctions, setDeltaFunctions] = useState<DeltaFunction[]>([]);
   const reload = useCallback(async () => {
     return getDeltaFunctions().then((val) => {
-      console.log(val);
       setDeltaFunctions(val.data);
       return val;
     });

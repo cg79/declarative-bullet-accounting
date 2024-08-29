@@ -101,29 +101,20 @@ export const EntityInvitations = () => {
     );
   };
 
-  const createItem = (): IEntityInvitation => getDefaultEntityInvitation();
+  const createItem = (): IEntityInvitation =>
+    getDefaultEntityInvitation(loggedUser?.clientId || '');
   const renderAddEditContent = (
     item: IEntityInvitation,
     onSave: (item: IEntityInvitation) => Promise<unknown>,
     onCancel: () => void
   ) => {
     return (
-      // <DialogWrapper
-      //   header="Invita "
-      //   visible={item !== null}
-      //   // style={{ width: "50vw" }}
-      //   onHide={() => {
-      //
-      //     onCancel();
-      //   }}
-      // >
       <AddEditInvitation
         invitation={item}
         // onSave={executeSaveInvitation}
         onSave={onSave}
         onCancel={onCancel}
       ></AddEditInvitation>
-      // </DialogWrapper>
     );
   };
 
@@ -148,76 +139,8 @@ export const EntityInvitations = () => {
           ></LabelDropDown>
         )}
 
-        {/* {item && (
-          <DialogWrapper
-            header="Invita "
-            visible={item !== null}
-            // style={{ width: "50vw" }}
-            onHide={() => setItem(null)}
-          >
-            <AddEditInvitation
-              invitation={item}
-              onSave={executeSaveInvitation}
-              onCancel={() => setItem(null)}
-            ></AddEditInvitation>
-          </DialogWrapper>
-        )} */}
-        {/* <DataTableWrapper
-          data={invitations || []}
-          fieldHeader={[
-            { header: 'Email', field: 'email' },
-            { header: 'Name', field: 'name' },
-            {
-              header: 'Data Invitatie',
-              field: 'dataInvitatie',
-              body: (el) => utils.dateNumberToYYYYMMDD(el.dataInvitatie),
-            },
-            {
-              header: 'Acceptat',
-              field: 'accepted',
-              body: (el) =>
-                el.accepted ? (
-                  <TreeIcon
-                    size={20}
-                    icon="pi pi-check-circle"
-                    color="green"
-                    onClick={() => {}}
-                  />
-                ) : (
-                  <TreeIcon size={20} icon="notcheck" onClick={() => {}} />
-                ),
-            },
-            {
-              header: 'Actiuni1',
-              body: (el) => {
-                return (
-                  <div className="fcenter">
-                    <div className="ml10">
-                      <MyButton
-                        text="Editare"
-                        onClick={() => setItem(el)}
-                        className="linkbutton"
-                        useBaseButton={false}
-                      ></MyButton>
-                    </div>
-
-                    <div className="ml10">
-                      <MyButton
-                        text="Sterge"
-                        onClick={() => executeDeleteInvitation(el)}
-                        className="linkbutton"
-                        useBaseButton={false}
-                      ></MyButton>
-                    </div>
-                  </div>
-                );
-              },
-            },
-          ]}
-          renderCreateFirstItem={() => null}
-        ></DataTableWrapper> */}
-
         <GenericList
+          customSaveFunction={executeSaveInvitation}
           renderCreateFirstItem={(onClickFunction) =>
             renderAvailableActions(onClickFunction)
           }
@@ -251,6 +174,9 @@ export const EntityInvitations = () => {
           collectionName={collectionName}
           sortBy={[{ field: 'date', ascending: false }]}
           modalTitle={(item: IEntityInvitation, isForDeletion) => {
+            if (isForDeletion) {
+              return item.name;
+            }
             return item?.name
               ? `Editare Invitatie ${item.name}`
               : 'Adaugare Invitatie';

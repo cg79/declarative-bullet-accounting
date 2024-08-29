@@ -116,6 +116,7 @@ const MoneyAccountList = () => {
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
         sortBy={[{ field: 'date', ascending: false }]}
+        filterBy={{ userid: loggedUser?._id }}
         modalTitle={(item: IMoneyAccount) => {
           return item?.name
             ? `Editare Account ${item.name}`

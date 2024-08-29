@@ -91,11 +91,11 @@ const createMoneyTransactionsFilterExpression = (
     }
     needAND = true;
     expression += ` (userid == ${users
-      .map((el) => el._id)
+      .map((el) => el.userid)
       .join(' || userid == ')})`;
   }
 
-  return expression ? { expression } : {};
+  return expression ? { expression } : null;
 };
 
 const createMoneyAggregationFilterExpression = (

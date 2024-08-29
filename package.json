@@ -17,6 +17,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "faker": "^6.6.6",
     "gapi-script": "^1.2.0",
+    "highcharts": "^11.4.7",
     "html-react-parser": "^5.1.12",
     "i": "^0.3.7",
     "install": "^0.13.0",
@@ -86,6 +87,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.34.4",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "highcharts-react-official": "^3.2.1",
     "jasmine": "^5.0.2",
     "jest": "^27.5.1",
     "prettier": "^3.3.3"

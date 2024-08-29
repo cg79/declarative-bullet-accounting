@@ -17,6 +17,9 @@ import LabelRadioButtonList from '../../../_components/reuse/LabelRadioButtonLis
 import MyIcon from '../../../_components/reuse/my-icon';
 import useTranslations from '../../translations/useTranslations';
 import { utils } from '../../../_utils/utils';
+import CheckBoxList from '../../../_components/reuse/checkbox-list';
+import MoneyUsers from './money-users';
+import { EntityUser } from '../../user/types';
 
 interface IPeriod {
   value: string;
@@ -24,7 +27,7 @@ interface IPeriod {
   setFilter?: () => void;
 }
 
-const MoneyFilter = () => {
+const MoneyFilter = ({ users }: { users: EntityUser[] }) => {
   const { currentTranslation } = useBetween(useTranslations);
   const { accounts, selectedAccount, setSelectedAccount } =
     useBetween(useMoneyAccounts);
@@ -36,7 +39,8 @@ const MoneyFilter = () => {
     updateStartDate,
     endDate,
     updateEndDate,
-    aggregationFilterBy,
+    filterBy,
+    setSelectedUsers,
   } = useBetween(useMoneyTransactionsFilter);
 
   const [period, setPeriod] = useState<IPeriod | null>();
@@ -151,7 +155,7 @@ const MoneyFilter = () => {
     onClick,
     checked
   ) => {
-    const css = checked ? 'rbspan selected' : 'rbspan';
+    const css = checked ? 'rbspan selected' : 'rbspan shadow';
     return (
       <span className={css} key={option.value} onClick={onClick}>
         {option.label}
@@ -171,7 +175,6 @@ const MoneyFilter = () => {
           className="mt10 linkbutton"
         ></MyButton>
       </div> */}
-
       <div className="fcenter mt10 " style={{ marginTop: '50px' }}>
         <LabelRadioButtonList
           renderOption={moneyTransactionOptionTemplate}
@@ -184,14 +187,21 @@ const MoneyFilter = () => {
             const period = periods.find((p) => p.value === val);
             period?.setFilter?.();
             setPeriod(period);
-            debugger;
           }}
           name="type"
           labelField="label"
           valueField="value"
         ></LabelRadioButtonList>
       </div>
-
+      <div className="fcenter mt10">
+        <MoneyUsers
+          options={users}
+          onItemsSelected={(selectedUsers) => {
+            setSelectedUsers(selectedUsers);
+          }}
+        ></MoneyUsers>
+        {/* <AcceptedInvitations></AcceptedInvitations> */}
+      </div>
       {showFilters && (
         <DialogWrapper
           header="Filtre"
@@ -200,10 +210,6 @@ const MoneyFilter = () => {
           onHide={() => setShowFilters(false)}
         >
           <div className="fcenter1">
-            <div className="flex mt10">
-              <AcceptedInvitations></AcceptedInvitations>
-            </div>
-
             <div className="flex mt10">
               <LabelDropDown
                 label={'Cont: '}

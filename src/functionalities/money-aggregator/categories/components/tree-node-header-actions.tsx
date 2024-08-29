@@ -1,5 +1,5 @@
-import { ICategory } from "../category-type";
-import TreeIcon from "./icons/tree-icon";
+import { ICategory } from '../category-type';
+import TreeIcon from './icons/tree-icon';
 
 const TreeNodeHeaderActions = ({
   node,
@@ -17,7 +17,7 @@ const TreeNodeHeaderActions = ({
   onStartDeleteNode: () => void;
 }) => {
   return (
-    <div className="flex">
+    <div className="fcenter" style={{ marginBottom: '5px' }}>
       {isMouseHover ? (
         <>
           <TreeIcon

@@ -40,7 +40,6 @@ const DataTableRenderer = ({
     }
     if (item && item[field]) {
       const val = item[field];
-      console.log(val);
       return isObject(val) ? JSON.stringify(val) : val;
     }
     return 'no';

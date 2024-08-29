@@ -5,28 +5,33 @@ import {
   createMoneyAggregationFilterExpression,
   createMoneyTransactionsFilterExpression,
 } from '../money-helpers';
-import { IEntityInvitation } from '../../entity-invitations/entity-invitation-type';
 import { useBetween } from '../../../../hooks/useBetween';
+import { EntityUser } from '../../../user/types';
+import useApi from '../../../../hooks/useApi';
+import useIdentity from '../../../../_store/useIdentity';
+import { IMoneyFilterBy } from '../money-transaction-type';
 
 export type IMoneyAggregationFilter = {
   accountId: string;
   startDate: number | null;
   endDate: number | null;
-  users: IEntityInvitation[];
+  users: EntityUser[];
 };
 export type IMoneyTransactionsFilter = IMoneyAggregationFilter & {
   category_id: string;
 };
 
 const useMoneyTransactionsFilter = () => {
-  const [filterBy, setFilterBy] = useState({});
+  const { loggedUser } = useBetween(useIdentity);
+  const { executeMethodFromModule } = useApi();
+  const { selectedCategory } = useBetween(useCategoryState);
+  const { selectedAccount } = useBetween(useMoneyAccounts);
+
+  const [filterBy, setFilterBy] = useState<IMoneyFilterBy>(null);
   const [aggregationFilterBy, setAggregationFilterBy] = useState({});
   const [startDate, setStartDate] = useState<number | null>(0);
   const [endDate, setEndDate] = useState<number | null>(0);
-  const [selectedUsers, setSelectedUsers] = useState<IEntityInvitation[]>([]);
-
-  const { selectedCategory } = useBetween(useCategoryState);
-  const { selectedAccount } = useBetween(useMoneyAccounts);
+  const [selectedUsers, setSelectedUsers] = useState<EntityUser[]>([]);
 
   const [moneyTransactionFilter, setMoneyTransactionFilter] =
     useState<IMoneyTransactionsFilter>({
@@ -46,8 +51,8 @@ const useMoneyTransactionsFilter = () => {
     });
 
   const twoArraysContainsTheSameElements = (
-    arr1: IEntityInvitation[],
-    arr2: IEntityInvitation[]
+    arr1: EntityUser[],
+    arr2: EntityUser[]
   ) => {
     if (arr1.length !== arr2.length) {
       return false;
@@ -164,15 +169,39 @@ const useMoneyTransactionsFilter = () => {
     setFilterBy(filterExpression);
   }, [moneyTransactionFilter]);
 
-  useEffect(() => {
-    const filterExpression = createMoneyAggregationFilterExpression(
-      moneyTransactionFilter
-    );
-    setAggregationFilterBy(filterExpression);
-  }, [moneyAggregationFilter]);
+  // const callAggregateAmountByCategory = (
+  //   entityId: string | undefined,
+  //   filterBy: IMoneyFilterBy
+  // ) => {
+  //   if (!loggedUser) {
+  //     return Promise.resolve({
+  //       success: false,
+  //       message: 'Nu sunteti autentificat',
+  //     });
+  //   }
+  //   const body: any = {};
+  //   if (entityId) {
+  //     body.entityId = entityId;
+  //   }
+  //   if (filterBy) {
+  //     body.filterBy = filterBy;
+  //   }
+  //   executeMethodFromModule({
+  //     method: 'aggregateAmountByCategory',
+  //     moduleName: 'accounting',
+
+  //     body,
+  //   }).then((response) => {
+  //     if (!response.success) {
+  //       return null;
+  //     }
+  //     return response.data;
+  //   });
+  // };
 
   return {
     filterBy,
+    aggregationFilterBy,
     // setFilterBy,
     startDate,
     updateStartDate,
@@ -180,8 +209,9 @@ const useMoneyTransactionsFilter = () => {
     updateEndDate,
 
     // moneyTransactionFilter,
-    aggregationFilterBy,
+
     setSelectedUsers,
+    // callAggregateAmountByCategory,
   };
 };
 

@@ -262,7 +262,7 @@ const useCategoryState = () => {
     return response;
   }, []);
 
-  const aggregateAmountByCategory = (entityId: string, filterBy = {}) => {
+  const callAggregateAmountByCategory = (entityId: string, filterBy = {}) => {
     if (!loggedUser) {
       return Promise.resolve({
         success: false,
@@ -314,11 +314,11 @@ const useCategoryState = () => {
     calculateAmounts,
     newTransactionAdded,
     getCategoryById,
-    aggregateAmountByCategory,
     treeAction,
     setTreeAction,
     categories,
     aggregateCategories,
+    callAggregateAmountByCategory,
   };
 };
 export default useCategoryState;

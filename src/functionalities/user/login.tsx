@@ -70,6 +70,7 @@ export const Login = () => {
     if (!enterPressed) {
       return;
     }
+
     callLoginMethod(data)
       .then((res) => onLogin(res))
       .catch((err) => {

@@ -10,7 +10,9 @@ export interface IEntityInvitation {
   difs?: any;
 }
 
-export const getDefaultEntityInvitation = (): IEntityInvitation => {
+export const getDefaultEntityInvitation = (
+  clientId: string
+): IEntityInvitation => {
   return {
     _id: '',
     dataInvitatie: 0,

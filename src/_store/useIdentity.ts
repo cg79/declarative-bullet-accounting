@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import observer from "./observer";
-import GoogleAuth from "../functionalities/user/google-auth";
-import SessionStorageManager from "../functionalities/user/session-management";
-import LocalStorageStorageManager from "../functionalities/user/localstorage-management";
+import React, { useEffect } from 'react';
+import observer from './observer';
+import GoogleAuth from '../functionalities/user/google-auth';
+import SessionStorageManager from '../functionalities/user/session-management';
+import LocalStorageStorageManager from '../functionalities/user/localstorage-management';
 
 export interface ILoggedUser {
   _id: string;
@@ -18,12 +18,15 @@ const useIdentity = () => {
   const [loggedUser, setLoggedUser] = React.useState<ILoggedUser | null>(null);
 
   const setareUserLogat = (user: any) => {
+    if (!user.token) {
+      return;
+    }
     setLoggedUser(user as ILoggedUser);
-    LocalStorageStorageManager.setItem("username", user);
+    LocalStorageStorageManager.setItem('username', user);
   };
   const clearLoggedUser = () => {
     setLoggedUser(null);
-    LocalStorageStorageManager.removeItem("username");
+    LocalStorageStorageManager.removeItem('username');
   };
 
   const bulletGuid = () => {
@@ -36,7 +39,7 @@ const useIdentity = () => {
 
   const authorization = () => {
     if (!loggedUser) {
-      return "";
+      return '';
     }
     return loggedUser.token as string;
   };
@@ -47,13 +50,13 @@ const useIdentity = () => {
     } catch (e) {}
 
     clearLoggedUser();
-    observer.publish("reset");
+    observer.publish('reset');
 
     // navigate("/login");
   };
 
   useEffect(() => {
-    const user = LocalStorageStorageManager.getItem("username") as any;
+    const user = LocalStorageStorageManager.getItem('username') as any;
 
     if (user) {
       setLoggedUser(user);

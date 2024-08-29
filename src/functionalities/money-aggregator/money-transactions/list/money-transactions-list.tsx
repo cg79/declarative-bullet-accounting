@@ -25,8 +25,9 @@ import { MyButton } from '../../../../_components/reuse/my-button';
 import useTranslations from '../../../translations/useTranslations';
 import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
 import { ICategory } from '../../categories/category-type';
+import { EntityUser } from '../../../user/types';
 
-const MoneyTransactionsList = () => {
+const MoneyTransactionsList = ({ users }: { users: EntityUser[] }) => {
   const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser } = useBetween(useIdentity);
   const { accounts, getAccountById } = useBetween(useMoneyAccounts);
@@ -115,6 +116,7 @@ const MoneyTransactionsList = () => {
     return (
       <AddEditMoneyTransaction
         category={selectedCategory}
+        users={users}
         moneyTransaction={{ ...item }}
         onSaveMoneyTransaction={onSave}
         onCancel={() => {
@@ -166,12 +168,32 @@ const MoneyTransactionsList = () => {
               <MyButton
                 text={currentTranslation.MONEY_TRANSACTIONS.addTransaction}
                 onClick={onClickFunction}
-                className="w300"
               ></MyButton>
             </div>
           </div>
         )}
         fieldHeader={[
+          {
+            field: 'username',
+            header: 'User',
+            body: (item: IMoneyTransaction) => {
+              if (!item.username) {
+                return null;
+              }
+              if (item.touserid) {
+                const toUser = users.find((el) => el.userid === item.touserid);
+                if (toUser) {
+                  return (
+                    <div>
+                      <div>{item.username}</div>
+                      <div>{toUser.nick}</div>
+                    </div>
+                  );
+                }
+              }
+              return item.username;
+            },
+          },
           {
             field: 'date',
             header: 'Data',
@@ -237,7 +259,7 @@ const MoneyTransactionsList = () => {
         isButtonDisabled={!selectedCategory}
         renderAddEditContent={renderAddEditContent}
         collectionName={collectionName}
-        sortBy={[{ field: 'date', ascending: false }]}
+        sortBy={[{ field: 'tdate', ascending: false }]}
         filterBy={filterBy}
         // modalTitle={(item: IMoneyTransaction) =>
         //   selectedCategory?.label || 'Adaugare Tranzactie'

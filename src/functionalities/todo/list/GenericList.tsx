@@ -120,8 +120,9 @@ function GenericList<T>({
 
     const saveWrapper = async (item: T) => {
       //
+
       const fct = customSaveFunction || save;
-      fct(item).then((response: any) => {
+      return fct(item).then((response: any) => {
         setItem(null);
         getPaginatedList();
         onAfterItemSaved?.(item);

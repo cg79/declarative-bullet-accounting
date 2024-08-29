@@ -4,8 +4,7 @@ import { IEntityInvitation } from '../entity-invitation-type';
 import { useBetween } from '../../../../hooks/useBetween';
 
 const AcceptedInvitations = () => {
-  const { invitations, toggleInvitationSelection } =
-    useBetween(useMoneyInvitations);
+  const { invitations } = useBetween(useMoneyInvitations);
 
   return (
     <div>
@@ -19,7 +18,8 @@ const AcceptedInvitations = () => {
             <MyCheckbox
               css="checkbox"
               id={el._id}
-              onChange={() => toggleInvitationSelection(el)}
+              // onChange={() => toggleInvitationSelection(el)}
+              onChange={() => {}}
               label={el.name}
               value={el.selected}
               checked={el.selected}

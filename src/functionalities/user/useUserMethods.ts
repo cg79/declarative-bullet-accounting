@@ -1,10 +1,15 @@
 import { useCallback } from 'react';
 import { helpers } from '../../_utils/helpers';
 import useApi from '../../hooks/useApi';
-import { LoginRequest } from './types';
+import { EntityUser, LoginRequest } from './types';
+import { useBetween } from 'use-between';
+import useIdentity from '../../_store/useIdentity';
+import { BULLET_METHOD } from '../../_fluentApi/fluent/constants';
 
 const useUserMethods = () => {
-  const { executeMethodFromModule, callDeleteAccount } = useApi();
+  const { executeMethodFromModule, callDeleteAccount, executeMethod } =
+    useApi();
+  const { loggedUser } = useBetween(useIdentity);
 
   const callLoginMethod = useCallback(
     async (payload: LoginRequest) => {
@@ -41,6 +46,24 @@ const useUserMethods = () => {
     [executeMethodFromModule]
   );
 
+  const getUsers = async (entityId: string): Promise<EntityUser[]> => {
+    if (!loggedUser) {
+      return [];
+    }
+    const findObject: any = {};
+    if (entityId) {
+      findObject.entityId = entityId;
+    }
+
+    const collectionName = `users_${loggedUser.clientId}`;
+    const response = await executeMethod()
+      .collection((c) => c.name(collectionName).method(BULLET_METHOD.FIND))
+      .search((s) => s.findByObject(findObject))
+      .execute();
+
+    return response.data;
+  };
+
   // const createAccount = async ({ email, password }, sendEmail = false) => {
   //   const responseData = await executeMethodFromModule(
   //     {
@@ -72,6 +95,7 @@ const useUserMethods = () => {
     callLoginMethod,
     // createAccount,
     deleteAccount,
+    getUsers,
   };
 };
 

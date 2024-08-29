@@ -1,9 +1,9 @@
 export const MyCheckbox = ({
   value,
-  onChange = (el: any) => {},
-  css = "",
-  name = "",
-  id = "",
+  onChange = () => {},
+  css = '',
+  name = '',
+  id = '',
   checked,
   label,
 }: {
@@ -17,19 +17,25 @@ export const MyCheckbox = ({
 }) => {
   // const className = `customcheck ${css}`;
 
+  const triggerChange = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onChange(null);
+  };
+
   return (
-    <div className="flex" onClick={onChange}>
+    <div className="flex" onClick={triggerChange}>
       <input
         name={name}
         id={id}
         type="checkbox"
         className="checkbox"
-        onChange={onChange}
+        onChange={() => {}}
         value={value?.toString()}
         checked={checked}
       />
       <label className="switch"></label>
-      <div className="ml5" style={{ fontSize: "0.8em", marginTop: "3px" }}>
+      <div className="ml5" style={{ fontSize: '0.8em', marginTop: '3px' }}>
         {label}
       </div>
     </div>

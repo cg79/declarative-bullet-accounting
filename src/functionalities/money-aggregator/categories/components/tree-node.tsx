@@ -401,6 +401,7 @@ const TreeNode = ({
         >
           <AddEditMoneyTransaction
             category={node}
+            users={[]}
             moneyTransaction={getDefaultMoneyTransaction(
               selectedCategory,
               selectedMoneyEntity,

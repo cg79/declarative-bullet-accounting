@@ -48,15 +48,17 @@ const LabelRadioButtonList: React.FC<LabelRadioButtonListProps> = ({
           </label>
         )}
 
-        <RadioButtonList
-          renderOption={renderOption}
-          onChange={onChange}
-          options={options}
-          name={name}
-          selectedValue={selectedValue}
-          labelField={labelField}
-          valueField={valueField}
-        />
+        <div style={popupCss.style}>
+          <RadioButtonList
+            renderOption={renderOption}
+            onChange={onChange}
+            options={options}
+            name={name}
+            selectedValue={selectedValue}
+            labelField={labelField}
+            valueField={valueField}
+          />
+        </div>
       </div>
     </>
   );
