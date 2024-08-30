@@ -25,6 +25,10 @@ const TR = {
     forgotPassword: 'Forgot password',
     email: 'Email',
     password: 'Password',
+    forgotPasswordMessage:
+      'Enter your email and we will send you a link to reset your password',
+    resetPassword: 'Reset password',
+    navigateToLogin: 'Navigate to login',
     addAccount: 'Add account',
     editAccount: 'Edit account',
     deleteAccount: 'Delete account',

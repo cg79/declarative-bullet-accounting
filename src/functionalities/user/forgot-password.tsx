@@ -12,9 +12,11 @@ import useEvents from '../../_store/useEvents';
 import { LabelEmail } from '../../_components/reuse/LabelEmail';
 import { ForgotPasswordRequest } from './types';
 import { SvgPassword } from '../../_components/svgs/svg-password';
+import useTranslations from '../translations/useTranslations';
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
+  const { currentTranslation } = useBetween(useTranslations);
 
   // const { firme } = useBetween(useFirme);
 
@@ -42,7 +44,7 @@ export const ForgotPassword = () => {
     }
 
     if (!helpers.isValidEmail(email)) {
-      setError('Email-ul nu este valid');
+      setError('INVALID_EMAIL');
       return;
     }
 
@@ -115,16 +117,13 @@ export const ForgotPassword = () => {
         <SvgPassword></SvgPassword>
       </div>
       <div className="flex flex-column center-v">
-        <div className="mt10 p10">
-          <span>
-            Dupa ce introduceti adresa de email o sa primiti un email cu
-            instrucutiuni de resetare a parolei
-          </span>
+        <div className="mt15 p10 bold" style={{ padding: '0 20px' }}>
+          <span>{currentTranslation.ACCOUNT.forgotPasswordMessage}</span>
         </div>
 
         <div className="mt10">
           <LabelEmail
-            label="Email: "
+            label={currentTranslation.ACCOUNT.email}
             onChange={(val: string) => updateData(val, 'email')}
             value={data.email}
             disabled={emailSent}
@@ -133,7 +132,7 @@ export const ForgotPassword = () => {
         <div className="flex" style={{ marginTop: '20px' }}>
           <MyButton
             onClick={() => callSendResetPasswordEmail()}
-            text="Resetare Parola"
+            text={currentTranslation.ACCOUNT.resetPassword}
             disabled={emailSent}
           ></MyButton>
         </div>
@@ -141,7 +140,7 @@ export const ForgotPassword = () => {
         <div className="fcenter mt10">
           <MyButton
             onClick={() => navigate('/login')}
-            text="Navigare catre ecranul de autentificare"
+            text={currentTranslation.ACCOUNT.navigateToLogin}
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>
