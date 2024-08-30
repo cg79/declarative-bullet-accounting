@@ -10,6 +10,7 @@ import { MyCheckbox } from '../../_components/reuse/my-checkbox';
 import useFirme from '../../_store/useFirme';
 import { helpers } from '../../_utils/helpers';
 import useApi from '../../hooks/useApi';
+import { SvgPassword } from '../../_components/svgs/svg-password';
 
 export type UserAccount = {
   email: string;
@@ -114,12 +115,7 @@ export const CreateAccount = () => {
   return !loggedUser ? (
     <>
       <div className="fcenter mt15">
-        <MyLottie
-          fileName="create-account"
-          loop={false}
-          // height={200}
-          // width={200}
-        />
+        <SvgPassword></SvgPassword>
       </div>
       <div className="flex flex-column center-v">
         <div className="mt10">

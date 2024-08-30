@@ -148,6 +148,9 @@ ul.my{
   margin-bottom: 10px;
 }
 
+.p10 {
+  padding: 10px;
+}
 
 /* .react-datepicker-wrapper input{
   font-size: 0.9em;

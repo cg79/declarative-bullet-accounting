@@ -11,6 +11,7 @@ import useApi from '../../hooks/useApi';
 import useEvents from '../../_store/useEvents';
 import { LabelEmail } from '../../_components/reuse/LabelEmail';
 import { ForgotPasswordRequest } from './types';
+import { SvgPassword } from '../../_components/svgs/svg-password';
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -111,15 +112,10 @@ export const ForgotPassword = () => {
   return !loggedUser ? (
     <>
       <div className="fcenter mt15">
-        <MyLottie
-          fileName="create-account"
-          loop={false}
-          // height={200}
-          // width={200}
-        />
+        <SvgPassword></SvgPassword>
       </div>
       <div className="flex flex-column center-v">
-        <div className="mt10">
+        <div className="mt10 p10">
           <span>
             Dupa ce introduceti adresa de email o sa primiti un email cu
             instrucutiuni de resetare a parolei
