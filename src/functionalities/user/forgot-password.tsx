@@ -37,7 +37,7 @@ export const ForgotPassword = () => {
     setError('');
     const { email } = data;
     if (!email) {
-      setError('Email-ul trebuie sa fie completat');
+      setError('INVALID_EMAIL');
       return;
     }
 

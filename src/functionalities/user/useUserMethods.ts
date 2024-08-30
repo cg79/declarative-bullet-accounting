@@ -15,11 +15,11 @@ const useUserMethods = () => {
     async (payload: LoginRequest) => {
       const { email } = payload;
       if (!payload.email) {
-        throw new Error('Email-ul trebuie sa fie completat');
+        throw new Error('INVALID_EMAIL');
       }
 
       if (!payload.password) {
-        throw new Error('Parola trebuie completata');
+        throw new Error('INVALID_PASSWORD');
       }
 
       // const bulletHttp = createBulletHttpRequestLibrary(true);

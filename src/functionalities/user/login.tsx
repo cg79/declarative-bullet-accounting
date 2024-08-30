@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LabelInput } from '../../_components/reuse/LabelInput';
 import { MyButton } from '../../_components/reuse/my-button';
-import { MyLottie } from '../../_components/reuse/my-lottie';
+// import { MyLottie } from '../../_components/reuse/my-lottie';
 import useIdentity from '../../_store/useIdentity';
 import { useBetween } from '../../hooks/useBetween';
 // import GoogleAuth from './google-auth';
@@ -18,10 +18,12 @@ import { LoginRequest } from './types';
 // import { GOOGLECLIENTID } from './constants';
 import useScreenSize from '../../hooks/useScreenSize';
 import GoogleLoginButton, { GoogleCredentials } from './GoogleLoginButton';
+import useTranslations from '../translations/useTranslations';
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
   const { callLoginMethod } = useUserMethods();
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
@@ -77,7 +79,7 @@ export const Login = () => {
     callLoginMethod(data)
       .then((res) => onLogin(res))
       .catch((err) => {
-        setError(err.message);
+        setError(currentTranslation[err.message] || err.message);
       });
     clearEnterPressed();
   }, [enterPressed, data, callLoginMethod, clearEnterPressed, onLogin]);
@@ -107,7 +109,7 @@ export const Login = () => {
             callLoginMethod(data)
               .then((res) => onLogin(res))
               .catch((err) => {
-                setError(err.message);
+                setError(currentTranslation[err.message] || err.message);
               });
           }}
         ></GoogleLoginButton>
@@ -145,14 +147,14 @@ export const Login = () => {
 
       <div className="">
         <LabelInput
-          label="Email: "
+          label={currentTranslation.ACCOUNT.email}
           onChange={(val: string) => updateData(val, 'email')}
           value={data.email}
         ></LabelInput>
 
         <div className="mt10">
           <LabelInput
-            label="Parola:"
+            label={currentTranslation.ACCOUNT.password}
             // type="password"
             onChange={(val: string) => updateData(val, 'password')}
             value={data.password}
@@ -163,7 +165,7 @@ export const Login = () => {
         <div className="fcenter " style={{ marginTop: '20px' }}>
           <MyCheckbox
             id="remember"
-            label="Pastreaza utilizatorul"
+            label={currentTranslation.ACCOUNT.rememberUser}
             checked={checked}
             value={checked}
             onChange={() => updateChecked(!checked)}
@@ -175,10 +177,10 @@ export const Login = () => {
               callLoginMethod(data)
                 .then((res) => onLogin(res))
                 .catch((err) => {
-                  setError(err.message);
+                  setError(currentTranslation[err.message] || err.message);
                 })
             }
-            text="Logare"
+            text={currentTranslation.HEADERS.Login}
           ></MyButton>
         </div>
 
@@ -189,7 +191,7 @@ export const Login = () => {
         <div className="fcenter mt10">
           <MyButton
             onClick={() => navigate('/parola')}
-            text="Am uitat Parola"
+            text={currentTranslation.ACCOUNT.forgotPassword}
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>
@@ -198,7 +200,7 @@ export const Login = () => {
         <div className="fcenter mt10">
           <MyButton
             onClick={() => navigate('/crearecont')}
-            text="Navigare catre ecranul de creare utilizator"
+            text={currentTranslation.ACCOUNT.navigateToCreateAccount}
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>

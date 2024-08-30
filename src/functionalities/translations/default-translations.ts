@@ -1,4 +1,7 @@
 const TR = {
+  INVALID_PASSWORD: 'Invalid password',
+  USER_NOT_FOUND: 'User not found',
+  INVALID_EMAIL: 'Invalid email',
   addTransaction: 'Adauga tranzactie',
   editTransaction: 'Editeaza tranzactie',
   deleteTransaction: 'Sterge tranzactie',
@@ -17,6 +20,11 @@ const TR = {
     Login: 'Login',
   },
   ACCOUNT: {
+    rememberUser: 'Remember user',
+    navigateToCreateAccount: 'Navigate to create account',
+    forgotPassword: 'Forgot password',
+    email: 'Email',
+    password: 'Password',
     addAccount: 'Add account',
     editAccount: 'Edit account',
     deleteAccount: 'Delete account',

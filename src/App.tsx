@@ -236,7 +236,7 @@ function App() {
         {/* <FacturaEditor></FacturaEditor> */}
         {/* <LamdaFunctions></LamdaFunctions> */}
       </div>
-      <ErrorsComponent></ErrorsComponent>
+      {/* <ErrorsComponent></ErrorsComponent> */}
       <Footer></Footer>
     </div>
   );

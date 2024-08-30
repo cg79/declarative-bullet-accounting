@@ -51,12 +51,12 @@ export const CreateAccount = () => {
       return;
     }
     if (!payload.email) {
-      setError('Email-ul trebuie sa fie completat');
+      setError('INVALID_EMAIL');
       return;
     }
 
     if (!payload.password) {
-      setError('Parola trebuie completata');
+      setError('INVALID_PASSWORD');
       return;
     }
 
