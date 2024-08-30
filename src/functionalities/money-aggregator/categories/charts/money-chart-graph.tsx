@@ -85,7 +85,7 @@ const MoneyChartGraph = ({
       },
 
       title: {
-        text: 'Corn vs wheat estimated production for 2023',
+        text: 'Money grouped by category',
         align: 'left',
       },
       // subtitle: {

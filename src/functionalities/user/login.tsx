@@ -16,6 +16,7 @@ import LocalStorageStorageManager from './localstorage-management';
 import { LoginRequest } from './types';
 import { LabelButton } from '../../_components/reuse/LabelButton';
 import { GOOGLECLIENTID } from './constants';
+import useScreenSize from '../../hooks/useScreenSize';
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 export const Login = () => {
@@ -23,6 +24,7 @@ export const Login = () => {
   const { loggedUser, setareUserLogat } = useBetween(useIdentity);
   const { callLoginMethod } = useUserMethods();
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
+  const { width } = useBetween(useScreenSize);
 
   const [error, setError] = useState('');
   // const storedEmail = LocalStorageStorageManager.getItem("email");
@@ -93,44 +95,42 @@ export const Login = () => {
 
   return (
     <div className="flex flex-column center-v">
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ marginBottom: '20px', marginTop: '15px' }}>
         {/* <MyLottie></MyLottie> */}
-        <img src="/images/sign-in.png" />
+        <img src="/images/sign-in.png" style={{ maxWidth: width }} />
       </div>
 
       <div className="mt10 fcenter">
-        <LabelButton label="">
-          <MyButton
-            text="Logare cu Google"
-            onClick={() => {
-              const auth2 = gapi.auth2.getAuthInstance();
-              auth2
-                .signIn()
-                .then((googleUser) => {
-                  const profile = googleUser.getBasicProfile();
-                  const email = profile.getEmail();
-                  const password = profile.getId();
-                  const nick = profile.getGivenName();
-                  callLoginMethod({ email, password, provider: 'google', nick })
-                    .then((res) => onLogin(res))
-                    .catch((err) => {
-                      setError(err.message);
-                    });
-                  // console.log("ID: " + profile.getId());
-                  // console.log("Name: " + profile.getName());
-                  // console.log("Image URL: " + profile.getImageUrl());
-                  // console.log("Email: " + profile.getEmail());
-                  // Handle login success, e.g., send the profile info to your server or update your app's state
-                })
-                .catch((error) => {
-                  console.error('Login failed:', error);
-                });
-            }}
-            className="linkbutton"
-          >
-            <img src="/images/btn_google_signin_dark_normal_web.png" />
-          </MyButton>
-        </LabelButton>
+        <MyButton
+          text="Logare cu Google"
+          onClick={() => {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2
+              .signIn()
+              .then((googleUser) => {
+                const profile = googleUser.getBasicProfile();
+                const email = profile.getEmail();
+                const password = profile.getId();
+                const nick = profile.getGivenName();
+                callLoginMethod({ email, password, provider: 'google', nick })
+                  .then((res) => onLogin(res))
+                  .catch((err) => {
+                    setError(err.message);
+                  });
+                // console.log("ID: " + profile.getId());
+                // console.log("Name: " + profile.getName());
+                // console.log("Image URL: " + profile.getImageUrl());
+                // console.log("Email: " + profile.getEmail());
+                // Handle login success, e.g., send the profile info to your server or update your app's state
+              })
+              .catch((error) => {
+                console.error('Login failed:', error);
+              });
+          }}
+          className="linkbutton"
+        >
+          <img src="/images/btn_google_signin_dark_normal_web.png" />
+        </MyButton>
       </div>
 
       <div className="">

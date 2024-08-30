@@ -125,7 +125,7 @@ export const Categories = () => {
 
   return (
     <div className="fcenter1">
-      {JSON.stringify(filterBy, null, 2)}
+      {/* {JSON.stringify(filterBy, null, 2)} */}
       {/* {JSON.stringify(aggregationFilterBy, null, 2)} */}
       {message && <div className="error fcenter">{message}</div>}
       {/* {JSON.stringify(accounts, null, 2)} */}
