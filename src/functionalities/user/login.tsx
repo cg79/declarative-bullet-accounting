@@ -6,17 +6,18 @@ import { MyButton } from '../../_components/reuse/my-button';
 import { MyLottie } from '../../_components/reuse/my-lottie';
 import useIdentity from '../../_store/useIdentity';
 import { useBetween } from '../../hooks/useBetween';
-import GoogleAuth from './google-auth';
-import { gapi } from 'gapi-script';
+// import GoogleAuth from './google-auth';
+// import { gapi } from 'gapi-script';
 
 import { useUserMethods } from './useUserMethods';
 import useEvents from '../../_store/useEvents';
 import { MyCheckbox } from '../../_components/reuse/my-checkbox';
 import LocalStorageStorageManager from './localstorage-management';
 import { LoginRequest } from './types';
-import { LabelButton } from '../../_components/reuse/LabelButton';
-import { GOOGLECLIENTID } from './constants';
+// import { LabelButton } from '../../_components/reuse/LabelButton';
+// import { GOOGLECLIENTID } from './constants';
 import useScreenSize from '../../hooks/useScreenSize';
+import GoogleLoginButton, { GoogleCredentials } from './GoogleLoginButton';
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 export const Login = () => {
@@ -49,7 +50,7 @@ export const Login = () => {
   };
 
   const onLogin = useCallback(
-    (user: any) => {
+    (user: GoogleCredentials) => {
       setareUserLogat(user);
       if (checked) {
         LocalStorageStorageManager.setItem('email', user.email);
@@ -81,27 +82,36 @@ export const Login = () => {
     clearEnterPressed();
   }, [enterPressed, data, callLoginMethod, clearEnterPressed, onLogin]);
 
-  useEffect(() => {
-    const initializeGapi = () => {
-      gapi.load('auth2', () => {
-        gapi.auth2.init({
-          client_id: GOOGLECLIENTID,
-        });
-      });
-    };
+  // useEffect(() => {
+  //   const initializeGapi = () => {
+  //     gapi.load('auth2', () => {
+  //       gapi.auth2.init({
+  //         client_id: GOOGLECLIENTID,
+  //       });
+  //     });
+  //   };
 
-    initializeGapi();
-  }, []);
+  //   initializeGapi();
+  // }, []);
 
   return (
     <div className="flex flex-column center-v">
       <div style={{ marginBottom: '20px', marginTop: '15px' }}>
         {/* <MyLottie></MyLottie> */}
-        <img src="/images/sign-in.png" style={{ maxWidth: width }} />
+        <img src="/images/sign-in.png" style={{ maxWidth: '200px' }} />
       </div>
 
-      <div className="mt10 fcenter">
-        <MyButton
+      <div className="mt10 fcenter mb10">
+        <GoogleLoginButton
+          onLogin={(data: GoogleCredentials) => {
+            callLoginMethod(data)
+              .then((res) => onLogin(res))
+              .catch((err) => {
+                setError(err.message);
+              });
+          }}
+        ></GoogleLoginButton>
+        {/* <MyButton
           text="Logare cu Google"
           onClick={() => {
             const auth2 = gapi.auth2.getAuthInstance();
@@ -130,7 +140,7 @@ export const Login = () => {
           className="linkbutton"
         >
           <img src="/images/btn_google_signin_dark_normal_web.png" />
-        </MyButton>
+        </MyButton> */}
       </div>
 
       <div className="">
