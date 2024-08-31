@@ -11,6 +11,7 @@ import useFirme from '../../_store/useFirme';
 import { helpers } from '../../_utils/helpers';
 import useApi from '../../hooks/useApi';
 import { SvgPassword } from '../../_components/svgs/svg-password';
+import useTranslations from '../translations/useTranslations';
 
 export type UserAccount = {
   email: string;
@@ -20,7 +21,7 @@ export type UserAccount = {
 
 export const CreateAccount = () => {
   const navigate = useNavigate();
-
+  const { currentTranslation } = useBetween(useTranslations);
   const { firme } = useBetween(useFirme);
   const { executeMethodFromModule } = useApi();
 
@@ -120,7 +121,7 @@ export const CreateAccount = () => {
       <div className="flex flex-column center-v">
         <div className="mt10">
           <LabelInput
-            label="Nick Name: "
+            label={currentTranslation.ACCOUNT.nick}
             onChange={(val: string) => updateData(val, 'nick')}
             value={data.nick}
           ></LabelInput>
@@ -128,7 +129,7 @@ export const CreateAccount = () => {
 
         <div className="mt10">
           <LabelInput
-            label="Email: "
+            label={currentTranslation.ACCOUNT.email}
             onChange={(val: string) => updateData(val, 'email')}
             value={data.email}
           ></LabelInput>
@@ -136,7 +137,7 @@ export const CreateAccount = () => {
 
         <div className="mt10">
           <LabelInput
-            label="Parola:"
+            label={currentTranslation.ACCOUNT.password}
             // type="password"
             onChange={(val: string) => updateData(val, 'password')}
             value={data.password}
@@ -146,7 +147,7 @@ export const CreateAccount = () => {
         <div className="mt10">
           <MyCheckbox
             id="termeni-conditii"
-            label="Sunt de acord cu termenii si conditiile"
+            label={currentTranslation.ACCOUNT.termsAndConditions}
             checked={checked}
             value={checked}
             onChange={() => setChecked(!checked)}
@@ -155,7 +156,7 @@ export const CreateAccount = () => {
         <div className="flex" style={{ marginTop: '20px' }}>
           <MyButton
             onClick={() => callCreateAccount(data)}
-            text="Creaza Utilizator"
+            text={currentTranslation.ACCOUNT.createUser}
           ></MyButton>
         </div>
 
@@ -178,7 +179,7 @@ export const CreateAccount = () => {
         <div className="fcenter mt10">
           <MyButton
             onClick={() => navigate('/login')}
-            text="Navigare catre ecranul de autentificare"
+            text={currentTranslation.HEADERS.Login}
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>

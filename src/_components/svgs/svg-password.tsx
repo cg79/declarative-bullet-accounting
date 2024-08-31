@@ -1221,7 +1221,7 @@ export const SvgPassword = () => {
           font-size="9"
           font-family="Roboto"
           font-style="normal"
-          font-weight="700"
+          fontWeight="700"
           aria-label="username@gmail.com"
           style={{ display: 'block' }}
         >
