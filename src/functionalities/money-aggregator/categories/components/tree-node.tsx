@@ -17,6 +17,9 @@ import { DialogWrapper } from '../../../../_components/reuse/DialogWrapper';
 import { defaultCategory } from '../category-helpers';
 import { useBetween } from '../../../../hooks/useBetween';
 import { ColorPicker } from 'primereact/colorpicker';
+import useMoneyTransactionsFilter from '../../money-transactions/hooks/useMoneyTransactionsFilter';
+import { LabelDropDown } from '../../../../_components/reuse/LabelDropDown';
+import useTranslations from '../../../translations/useTranslations';
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const TreeNode = ({
@@ -32,6 +35,7 @@ const TreeNode = ({
   shortCutAction: any;
   setShortCutAction: any;
 }) => {
+  const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser } = useBetween(useIdentity);
   const { accounts } = useBetween(useMoneyAccounts);
   const { selectedMoneyEntity } = useBetween(useMoneyEntities);
@@ -55,8 +59,10 @@ const TreeNode = ({
     updateCategory,
     treeAction,
     setTreeAction,
+    categories,
   } = useBetween(useCategoryState);
-  const { saveMoneyTransaction } = useMoneyTransactions();
+  const { saveMoneyTransaction } = useBetween(useMoneyTransactions);
+  const { refreshTranzactions } = useBetween(useMoneyTransactionsFilter);
 
   const onStartDeleteNode = () => {
     setIsModalDeletionConfirmationVisible(true);
@@ -93,7 +99,9 @@ const TreeNode = ({
 
   const onSaveTransaction = (moneyTransaction: IMoneyTransaction) => {
     setShowTransactionScreen(false);
-    saveMoneyTransaction(moneyTransaction).then((response: any) => {});
+    saveMoneyTransaction(moneyTransaction).then((response: any) => {
+      refreshTranzactions();
+    });
   };
   const onCancelAddTransaction = () => {
     setShowTransactionScreen(false);
@@ -394,7 +402,24 @@ const TreeNode = ({
 
       {showTransactionScreen && (
         <DialogWrapper
-          header={`Adaugare tranzactie pentru ${node.label}`}
+          // header={`Adaugare tranzactie pentru ${node.label}`}
+          header={() => {
+            return (
+              <div className="flex">
+                <LabelDropDown
+                  label={currentTranslation.CATEGORIES.categories}
+                  lwidth="135px"
+                  onChange={(category: ICategory) => {
+                    setSelectedCategory(category);
+                  }}
+                  options={categories || []}
+                  value={selectedCategory}
+                  optionLabel="label"
+                  optionValue="_id"
+                ></LabelDropDown>
+              </div>
+            );
+          }}
           visible={showTransactionScreen}
           onHide={onCancelAddTransaction}
           // style={{ width: "80vw" }}

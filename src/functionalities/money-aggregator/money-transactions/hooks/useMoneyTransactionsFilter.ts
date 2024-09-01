@@ -33,6 +33,13 @@ const useMoneyTransactionsFilter = () => {
   const [endDate, setEndDate] = useState<number | null>(0);
   const [selectedUsers, setSelectedUsers] = useState<EntityUser[]>([]);
 
+  const refreshTranzactions = () => {
+    if (!filterBy) {
+      setFilterBy({ expression: '' });
+    }
+    setFilterBy({ ...filterBy, expression: filterBy?.expression || '' });
+  };
+
   const [moneyTransactionFilter, setMoneyTransactionFilter] =
     useState<IMoneyTransactionsFilter>({
       accountId: '',
@@ -211,7 +218,7 @@ const useMoneyTransactionsFilter = () => {
     // moneyTransactionFilter,
 
     setSelectedUsers,
-    // callAggregateAmountByCategory,
+    refreshTranzactions,
   };
 };
 

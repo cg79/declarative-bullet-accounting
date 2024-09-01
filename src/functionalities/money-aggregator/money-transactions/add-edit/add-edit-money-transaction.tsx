@@ -21,7 +21,6 @@ import './add-edit.css';
 import useTranslations from '../../../translations/useTranslations';
 import useCategoryState from '../../categories/hooks/useCategoryState';
 import useMoneyInvitations from '../../entity-invitations/hooks/useMoneyInvitations';
-import { IInvitation } from '../../../transactions/model/accounting_types';
 import { EntityUser } from '../../../user/types';
 import { Fieldset } from 'primereact/fieldset';
 export const AddEditMoneyTransaction = ({

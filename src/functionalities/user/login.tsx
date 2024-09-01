@@ -56,6 +56,7 @@ export const Login = () => {
   const onLogin = useCallback(
     (user: GoogleCredentials) => {
       setareUserLogat(user);
+      setEmail(user.email);
       if (checked) {
         LocalStorageStorageManager.setItem('email', user.email);
       } else {
@@ -74,6 +75,7 @@ export const Login = () => {
   }, [loggedUser, navigate]);
 
   useEffect(() => {
+    debugger;
     if (email) {
       setData((data: LoginRequest) => ({ ...data, email }));
     }
@@ -113,44 +115,17 @@ export const Login = () => {
 
       <div className="mt10 fcenter mb10">
         <GoogleLoginButton
-          onLogin={(data: GoogleCredentials) => {
-            callLoginMethod(data)
+          onLogin={(gData: GoogleCredentials) => {
+            debugger;
+            setData((data: LoginRequest) => ({ ...data, email: gData.email }));
+            // data.email = gData.email;
+            callLoginMethod(gData)
               .then((res) => onLogin(res))
               .catch((err) => {
                 setError(currentTranslation[err.message] || err.message);
               });
           }}
         ></GoogleLoginButton>
-        {/* <MyButton
-          text="Logare cu Google"
-          onClick={() => {
-            const auth2 = gapi.auth2.getAuthInstance();
-            auth2
-              .signIn()
-              .then((googleUser) => {
-                const profile = googleUser.getBasicProfile();
-                const email = profile.getEmail();
-                const password = profile.getId();
-                const nick = profile.getGivenName();
-                callLoginMethod({ email, password, provider: 'google', nick })
-                  .then((res) => onLogin(res))
-                  .catch((err) => {
-                    setError(err.message);
-                  });
-                // console.log("ID: " + profile.getId());
-                // console.log("Name: " + profile.getName());
-                // console.log("Image URL: " + profile.getImageUrl());
-                // console.log("Email: " + profile.getEmail());
-                // Handle login success, e.g., send the profile info to your server or update your app's state
-              })
-              .catch((error) => {
-                console.error('Login failed:', error);
-              });
-          }}
-          className="linkbutton"
-        >
-          <img src="/images/btn_google_signin_dark_normal_web.png" />
-        </MyButton> */}
       </div>
 
       <div className="">

@@ -11,6 +11,8 @@ const useMoneyTransactions = () => {
   const { loggedUser } = useBetween(useIdentity);
   const { executeMethod, executeMethodFromModule } = useApi();
 
+  const [lastTransaction, setLastTransaction] = useState<IMoneyTransaction>();
+
   const saveMoneyTransaction = useCallback(
     async (moneyTransaction: IMoneyTransaction) => {
       if (!loggedUser) {
