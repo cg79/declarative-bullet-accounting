@@ -20,7 +20,7 @@ export const ForgotPassword = () => {
 
   // const { firme } = useBetween(useFirme);
 
-  const { loggedUser } = useBetween(useIdentity);
+  const { loggedUser, email, setEmail } = useBetween(useIdentity);
   const { executeMethodFromModule } = useApi();
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
 
@@ -84,6 +84,12 @@ export const ForgotPassword = () => {
     callSendResetPasswordEmail();
     clearEnterPressed();
   }, [enterPressed, callSendResetPasswordEmail, clearEnterPressed]);
+
+  useEffect(() => {
+    if (email) {
+      setData((data: ForgotPasswordRequest) => ({ ...data, email }));
+    }
+  }, [email]);
 
   // const checkShouldTriggerImport = useCallback(async () => {
   //   //

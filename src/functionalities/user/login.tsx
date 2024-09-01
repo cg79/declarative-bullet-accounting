@@ -19,12 +19,14 @@ import { LoginRequest } from './types';
 import useScreenSize from '../../hooks/useScreenSize';
 import GoogleLoginButton, { GoogleCredentials } from './GoogleLoginButton';
 import useTranslations from '../translations/useTranslations';
+import RadioButtonList from '../../_components/reuse/radio-button-list';
 // import { CustomHttpResponse } from "declarative-fluent-bullet-api/CustomHttpResponse";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { currentTranslation } = useBetween(useTranslations);
-  const { loggedUser, setareUserLogat } = useBetween(useIdentity);
+  const { currentTranslation, changeTranslation } = useBetween(useTranslations);
+  const { loggedUser, setareUserLogat, email, setEmail } =
+    useBetween(useIdentity);
   const { callLoginMethod } = useUserMethods();
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
   const { width } = useBetween(useScreenSize);
@@ -70,6 +72,12 @@ export const Login = () => {
 
     return navigate('/categories');
   }, [loggedUser, navigate]);
+
+  useEffect(() => {
+    if (email) {
+      setData((data: LoginRequest) => ({ ...data, email }));
+    }
+  }, [email]);
 
   useEffect(() => {
     if (!enterPressed) {
@@ -148,7 +156,10 @@ export const Login = () => {
       <div className="">
         <LabelInput
           label={currentTranslation.ACCOUNT.email}
-          onChange={(val: string) => updateData(val, 'email')}
+          onChange={(val: string) => {
+            updateData(val, 'email');
+            setEmail(val);
+          }}
           value={data.email}
         ></LabelInput>
 
@@ -204,6 +215,33 @@ export const Login = () => {
             className="linkbutton ml5"
             useBaseButton={false}
           ></MyButton>
+        </div>
+
+        <div className="fcenter" style={{ marginTop: '20px' }}>
+          <RadioButtonList
+            options={[
+              { label: 'en', value: 'en' },
+              { label: 'ro', value: 'ro' },
+            ]}
+            name={'localization'}
+            onChange={function (value: string | number): void {
+              debugger;
+              changeTranslation(value as string);
+            }}
+            labelField="label"
+            valueField="value"
+            renderOption={(option) => (
+              <span
+                key={option.value}
+                onClick={(val) => {
+                  changeTranslation(option.value);
+                  debugger;
+                }}
+              >
+                {option.label}
+              </span>
+            )}
+          ></RadioButtonList>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import observer from './observer';
 import GoogleAuth from '../functionalities/user/google-auth';
 import SessionStorageManager from '../functionalities/user/session-management';
@@ -16,6 +16,7 @@ export interface ILoggedUser {
 }
 const useIdentity = () => {
   const [loggedUser, setLoggedUser] = React.useState<ILoggedUser | null>(null);
+  const [email, setEmail] = useState('');
 
   const setareUserLogat = (user: any) => {
     if (!user.token) {
@@ -70,6 +71,8 @@ const useIdentity = () => {
     authorization,
     deconectare,
     clearLoggedUser,
+    email,
+    setEmail,
   };
 };
 
