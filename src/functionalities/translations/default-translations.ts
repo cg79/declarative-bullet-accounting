@@ -13,7 +13,7 @@ const TR = {
     Events: 'Events',
     Invitations: 'Invitations',
     Accounts: 'Accounts',
-    Money_aggregator: 'Money aggregator',
+    Money_aggregator: 'Money',
     Logout: 'Logout',
     Login: 'Login',
   },
