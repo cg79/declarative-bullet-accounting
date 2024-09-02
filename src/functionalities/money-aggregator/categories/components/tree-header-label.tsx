@@ -40,7 +40,7 @@ const TreeHeaderLabel = ({
         <span
           className="bold mycardFilter"
           style={{ marginLeft: '5px', color: node.color || 'black' }}
-          onClick={toggleCollapse}
+          // onClick={toggleCollapse}
         >
           {node.label}
         </span>
