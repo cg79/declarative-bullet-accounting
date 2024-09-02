@@ -9,11 +9,18 @@ import NavItem, { NavItemProps } from './nav-item';
 import { MegaMenu } from 'primereact/megamenu';
 import { TieredMenu } from 'primereact/tieredmenu';
 import useTranslations from '../../translations/useTranslations';
+import React from 'react';
 
 export const Navbar = () => {
   const { currentTranslation } = useBetween(useTranslations);
   const { loggedUser, deconectare } = useBetween(useIdentity);
   const navigate = useNavigate();
+
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuVisible(!isMenuVisible);
+  };
 
   const items: MenuItem[] = [
     {
@@ -54,30 +61,35 @@ export const Navbar = () => {
       label: 'Home',
       icon: 'pi pi-fw pi-home',
       route: '/',
+      navbarClick: toggleMenu,
     },
     {
       label: currentTranslation.HEADERS.Accounts,
       icon: 'pi pi-fw pi-building',
       route: '/accounts',
       visible: !!loggedUser,
+      navbarClick: toggleMenu,
     },
     {
       label: currentTranslation.HEADERS.Invitations,
       icon: 'pi pi-fw pi-external-link',
       route: '/entity-invitations',
       visible: !!loggedUser && !loggedUser?.isInvited,
+      navbarClick: toggleMenu,
     },
     {
       label: currentTranslation.HEADERS.Events,
       icon: 'pi pi-fw pi-external-link',
       route: '/events',
       visible: !!loggedUser && !loggedUser?.isInvited,
+      navbarClick: toggleMenu,
     },
     {
       label: currentTranslation.HEADERS.Money_aggregator,
       icon: 'pi pi-fw pi-calculator',
       route: '/categories',
       visible: !!loggedUser,
+      navbarClick: toggleMenu,
     },
     // {
     //   label: loggedUser?.nick || 'no nick',
@@ -90,7 +102,12 @@ export const Navbar = () => {
   return (
     <>
       <div className="nav img_bk">
-        <input type="checkbox" id="nav-check" />
+        <input
+          type="checkbox"
+          id="nav-check"
+          checked={isMenuVisible}
+          onClick={toggleMenu}
+        />
         <div className="nav-header"></div>
         <div className="nav-btn">
           <label htmlFor="nav-check">
@@ -106,6 +123,7 @@ export const Navbar = () => {
             <NavItem
               label={loggedUser?.nick || 'no nick'}
               route="/login"
+              navbarClick={toggleMenu}
             ></NavItem>
           )}
         </span>
@@ -116,14 +134,23 @@ export const Navbar = () => {
               <NavItem key={index} {...item}></NavItem>
             ))}
           {loggedUser && (
-            <a href="#" onClick={() => deconectare()}>
-              {currentTranslation.HEADERS.Logout}
-            </a>
+            // <a href="#" onClick={() => deconectare()}>
+            //   {currentTranslation.HEADERS.Logout}
+            // </a>
+            <NavItem
+              label={currentTranslation.HEADERS.Logout}
+              route="/login"
+              navbarClick={() => {
+                deconectare();
+                toggleMenu();
+              }}
+            ></NavItem>
           )}
           {!loggedUser && (
             <NavItem
               label={currentTranslation.HEADERS.Login}
               route="/login"
+              navbarClick={toggleMenu}
             ></NavItem>
           )}
         </div>

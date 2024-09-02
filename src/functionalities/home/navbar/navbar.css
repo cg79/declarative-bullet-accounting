@@ -24,10 +24,11 @@
     display: inline;
     float: right;
     font-size: 18px;
+    z-index: 10;
   }
   
-  .nav > .nav-links > a {
-    display: inline-block;
+  .nav > .nav-links > .nav-item {
+    display: block;
     padding: 13px 10px 13px 10px;
     text-decoration: none;
     color: #efefef;
@@ -41,7 +42,7 @@
     display: none;
   }
   
-  @media (max-width:400px) {
+  @media (max-width:431px) {
     .nav > .nav-btn {
       display: inline-block;
       position: absolute;
