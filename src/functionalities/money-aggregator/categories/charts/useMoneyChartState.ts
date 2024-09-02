@@ -31,7 +31,6 @@ const useMoneyChartState = () => {
       expenses.push(ie.expense);
     });
 
-    debugger;
     return {
       incomes,
       expenses,

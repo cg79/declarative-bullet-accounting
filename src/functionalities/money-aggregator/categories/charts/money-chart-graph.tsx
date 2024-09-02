@@ -63,12 +63,11 @@ const MoneyChartGraph = ({
   // const [aggregateCategories, setAggregateCategories] = useState<any>(null);
   const [barChart, setBarChart] = useState<any>(null);
 
-  useEffect(() => {
-    debugger;
-    // callAggregateAmountByCategory(entityId, filterBy)?.then((val) => {
-    //   setAggregateCategories(val);
-    // });
-  }, []);
+  // useEffect(() => {
+  //   // callAggregateAmountByCategory(entityId, filterBy)?.then((val) => {
+  //   //   setAggregateCategories(val);
+  //   // });
+  // }, []);
 
   useEffect(() => {
     if (!aggregateCategories) {

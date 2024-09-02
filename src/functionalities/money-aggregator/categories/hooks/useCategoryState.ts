@@ -206,6 +206,9 @@ const useCategoryState = () => {
           beforeSendingRequest: (apiBulletJSON: any) => {
             console.log(JSON.stringify(apiBulletJSON));
           },
+        })
+        .then((response: any) => {
+          return getCategories(selectedMoneyEntity);
         });
     },
     []

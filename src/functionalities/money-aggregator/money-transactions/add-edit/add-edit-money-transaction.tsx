@@ -26,6 +26,7 @@ import { Fieldset } from 'primereact/fieldset';
 export const AddEditMoneyTransaction = ({
   moneyTransaction,
   users,
+  category,
   onSaveMoneyTransaction,
   onCancel,
 }: {
@@ -38,7 +39,7 @@ export const AddEditMoneyTransaction = ({
   const { invitations } = useBetween(useMoneyInvitations);
   const { getAccountsForAUser } = useMoneyAccounts();
   const { currentTranslation } = useBetween(useTranslations);
-  const { selectedCategory } = useBetween(useCategoryState);
+  // const { selectedCategory } = useBetween(useCategoryState);
   const { accounts, getAccountById } = useBetween(useMoneyAccounts);
 
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
@@ -80,7 +81,6 @@ export const AddEditMoneyTransaction = ({
   }
 
   const triggerSaveMoneyTransaction = () => {
-    debugger;
     setError('');
     console.log(currentTransaction.amount);
 
@@ -92,11 +92,11 @@ export const AddEditMoneyTransaction = ({
       setError('invalid amount');
       return;
     }
-    if (!selectedCategory) {
+    if (!category) {
       setError('invalid category');
       return;
     }
-    currentTransaction.category_id = selectedCategory._id;
+    currentTransaction.category_id = category._id;
     if (currentTransaction._id) {
       // currentTransaction.amount =
       //   currentTransaction.amount - moneyTransaction.amount;

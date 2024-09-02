@@ -80,7 +80,6 @@ const GoogleLoginButton = ({
   }
 
   const handleCredentialResponse = (response) => {
-    debugger;
     console.log('Encoded JWT ID token: ' + response.credential);
     const responsePayload = decodeJwtResponse(response.credential);
 

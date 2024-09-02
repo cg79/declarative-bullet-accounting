@@ -75,7 +75,6 @@ export const Login = () => {
   }, [loggedUser, navigate]);
 
   useEffect(() => {
-    debugger;
     if (email) {
       setData((data: LoginRequest) => ({ ...data, email }));
     }
@@ -116,7 +115,6 @@ export const Login = () => {
       <div className="mt10 fcenter mb10">
         <GoogleLoginButton
           onLogin={(gData: GoogleCredentials) => {
-            debugger;
             setData((data: LoginRequest) => ({ ...data, email: gData.email }));
             // data.email = gData.email;
             callLoginMethod(gData)
@@ -200,7 +198,6 @@ export const Login = () => {
             ]}
             name={'localization'}
             onChange={function (value: string | number): void {
-              debugger;
               changeTranslation(value as string);
             }}
             labelField="label"
@@ -210,7 +207,6 @@ export const Login = () => {
                 key={option.value}
                 onClick={(val) => {
                   changeTranslation(option.value);
-                  debugger;
                 }}
               >
                 {option.label}

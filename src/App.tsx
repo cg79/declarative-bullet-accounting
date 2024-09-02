@@ -58,7 +58,7 @@ function App() {
   const { loggedUser } = useBetween(useIdentity);
   return (
     <div>
-      <div className="" style={{ minHeight: '90vh' }}>
+      <div className="" style={{ minHeight: '88vh' }}>
         <BrowserRouter>
           <div>
             <Navbar></Navbar>

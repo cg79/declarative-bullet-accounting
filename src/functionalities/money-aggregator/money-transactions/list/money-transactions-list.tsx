@@ -111,8 +111,6 @@ const MoneyTransactionsList = ({ users }: { users: EntityUser[] }) => {
     onSave: (item: IMoneyTransaction) => Promise<unknown>,
     onCancel: () => void
   ) => {
-    observer.publish('DISABLE_SHORTCUT', false);
-
     return (
       <AddEditMoneyTransaction
         category={selectedCategory}
@@ -120,7 +118,6 @@ const MoneyTransactionsList = ({ users }: { users: EntityUser[] }) => {
         moneyTransaction={{ ...item }}
         onSaveMoneyTransaction={onSave}
         onCancel={() => {
-          observer.publish('ENABLE_SHORTCUT', true);
           onCancel();
         }}
       ></AddEditMoneyTransaction>

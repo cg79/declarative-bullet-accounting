@@ -402,24 +402,28 @@ const TreeNode = ({
 
       {showTransactionScreen && (
         <DialogWrapper
-          // header={`Adaugare tranzactie pentru ${node.label}`}
-          header={() => {
-            return (
-              <div className="flex">
-                <LabelDropDown
-                  label={currentTranslation.CATEGORIES.categories}
-                  lwidth="135px"
-                  onChange={(category: ICategory) => {
-                    setSelectedCategory(category);
-                  }}
-                  options={categories || []}
-                  value={selectedCategory}
-                  optionLabel="label"
-                  optionValue="_id"
-                ></LabelDropDown>
-              </div>
-            );
-          }}
+          header={`Adaugare tranzactie pentru ${node.label}`}
+          // header={() => {
+          //
+          //   return (
+          //     <div className="flex">
+          //       <LabelDropDown
+          //         label={currentTranslation.CATEGORIES.categories}
+          //         lwidth="135px"
+          //         onChange={(category: ICategory) => {
+          //
+          //           setSelectedCategory(category);
+          //         }}
+          //         options={categories || []}
+          //         value={
+          //           node._id === selectedCategory?._id ? selectedCategory : node
+          //         }
+          //         optionLabel="label"
+          //         optionValue="_id"
+          //       ></LabelDropDown>
+          //     </div>
+          //   );
+          // }}
           visible={showTransactionScreen}
           onHide={onCancelAddTransaction}
           // style={{ width: "80vw" }}

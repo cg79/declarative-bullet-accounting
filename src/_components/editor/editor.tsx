@@ -1,9 +1,9 @@
-import Editor from "@monaco-editor/react";
-import * as monaco from "monaco-editor";
-import { useRef } from "react";
+import Editor from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+import { useRef } from 'react';
 export const MonacoEditor = ({
-  language = "javascript",
-  value = "",
+  language = 'javascript',
+  value = '',
   onChange,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
@@ -19,7 +19,7 @@ export const MonacoEditor = ({
         language={language}
         // theme="vs-dark"
         // options={{ minimap: { enabled: false } }}
-        onChange={(value) => onChange(value || "")}
+        onChange={(value) => onChange(value || '')}
         options={{
           minimap: { enabled: false },
         }}
@@ -29,7 +29,7 @@ export const MonacoEditor = ({
           // monaco.languages.typescript.typescriptDefaults.addExtraLib(content, filename)
 
           monaco.languages.typescript.javascriptDefaults.addExtraLib(
-            " declare var blub: any;"
+            ' declare var blub: any;'
           );
 
           monaco.languages.typescript.javascriptDefaults.addExtraLib(

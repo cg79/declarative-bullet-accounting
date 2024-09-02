@@ -40,3 +40,4 @@ setare valori initiale
 la drop sa recalculez suma parintelui
 
 monify si mim
+
