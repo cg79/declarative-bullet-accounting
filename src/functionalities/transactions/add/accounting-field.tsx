@@ -1,5 +1,5 @@
-import { NumericInput } from "../../../_components/reuse/numeric-input";
-import { utils } from "../../../_utils/utils";
+import { NumericInputComponent } from '../../../_components/reuse/numeric-input';
+import { utils } from '../../../_utils/utils';
 
 // STARTING_ACCOUNT_VALUES;
 export const AccountingField = ({
@@ -16,7 +16,7 @@ export const AccountingField = ({
   // const [inputValue, setInputValue] = useState(value.toString());
   const guid = utils.createUUID();
 
-  const css = readonly ? "" : "mt15";
+  const css = readonly ? '' : 'mt15';
 
   return (
     <div className="flex mt10">
@@ -29,11 +29,11 @@ export const AccountingField = ({
         {readonly ? (
           <label className="fixw">{value}</label>
         ) : (
-          <NumericInput
+          <NumericInputComponent
             value={Number(value)}
             onUpdate={onChange}
             id={guid}
-          ></NumericInput>
+          ></NumericInputComponent>
         )}
       </div>
     </div>

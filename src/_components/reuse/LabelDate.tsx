@@ -1,42 +1,42 @@
-import { useRef } from "react";
-import { utils } from "../../_utils/utils";
-import { ReactDatePicker } from "react-datepicker";
-import DatePickerWrapper from "./DatePickerWrapper";
-import useScreenSize from "../../hooks/useScreenSize";
+import { useRef } from 'react';
+import { utils } from '../../_utils/utils';
+import { ReactDatePicker } from 'react-datepicker';
+import DatePickerWrapper from './DatePickerWrapper';
+import useScreenSize from '../../hooks/useScreenSize';
 export const LabelDate = ({
   label,
   onChange,
   data,
-  error = "",
-  lwidth = "160px",
+  error = '',
+  lwidth = '160px',
 }) => {
   const { popupCss } = useScreenSize();
   const inputRef = useRef<ReactDatePicker>(null);
   const id = utils.createUUID();
   return (
     <>
-      <div className={popupCss.css}>
+      <div className="flex">
         <div className="actionname1">
           <label
             htmlFor={id}
             className="bold"
             onClick={() => {
               if (inputRef.current) {
-                inputRef.current["focus"]();
+                inputRef.current['focus']();
               }
               onChange(null);
             }}
             style={{
-              cursor: "pointer",
+              cursor: 'pointer',
               width: lwidth,
-              display: "inline-block",
-              marginTop: "8px",
+              display: 'inline-block',
+              marginTop: '8px',
             }}
           >
             {label}
           </label>
         </div>
-        <div style={popupCss.style}>
+        <div>
           <DatePickerWrapper
             inputRef={inputRef}
             data={data}

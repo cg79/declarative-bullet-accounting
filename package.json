@@ -34,6 +34,7 @@
     "react-dropdown": "^1.11.0",
     "react-json-view": "^1.21.3",
     "react-lottie": "^1.2.4",
+    "react-numeric-input": "^2.2.3",
     "react-router-dom": "^6.5.0",
     "react-scripts": "^5.0.1",
     "react-simple-wysiwyg": "^3.0.2",

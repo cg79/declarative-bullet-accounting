@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { isNumeric } from '../../functionalities/transactions/helpers/accounting_helpers';
-import { InputText } from 'primereact/inputtext';
+import NumericInput from 'react-numeric-input';
 
-export const NumericInput = ({
+export const NumericInputComponent = ({
   value,
   onUpdate,
   id,
@@ -16,7 +16,7 @@ export const NumericInput = ({
   onEnter?: () => void;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [inputValue, setInputValue] = useState(value ? value.toString() : '');
+  const [inputValue, setInputValue] = useState(value);
   const lastKeyRef = useRef('');
 
   useEffect(() => {
@@ -29,13 +29,14 @@ export const NumericInput = ({
   }, []);
 
   return (
-    <InputText
-      ref={inputRef}
+    <NumericInput
+      // ref={inputRef}
       id={id}
       name="message"
       autoComplete="off"
-      // className="myInput"
-      onChange={(e) => {
+      className="myInput"
+      onChange={(val: number) => {
+        debugger;
         // e.stopPropagation();
         if (!lastKeyRef.current) {
           return;
@@ -45,30 +46,42 @@ export const NumericInput = ({
           lastKeyRef.current === '.' ||
           lastKeyRef.current === '-'
         ) {
-          setInputValue(e.target.value);
-          onUpdate(Number(e.target.value));
+          setInputValue(val);
+          onUpdate(Number(val));
           return;
         }
         const isLatNumeric = isNumeric(lastKeyRef.current);
         if (!isLatNumeric) {
           return;
         }
-        const x = e.target.value;
-        setInputValue(x);
-        onUpdate(Number(e.target.value));
+        // const x = e.target.value;
+        setInputValue(val);
+        onUpdate(Number(val));
         //
       }}
-      onKeyDown={(k) => {
-        console.log(k);
-        //
-        // k.stopPropagation();
-        lastKeyRef.current = k.key;
-        if (k.key === 'Enter') {
-          k.preventDefault();
-          onEnter && onEnter();
+      onKeyPress={(event) => {
+        if (!/[0-9]/.test(event.key)) {
+          event.preventDefault();
         }
       }}
-      value={inputValue.toString()}
+      // onKeyDown={(event) => {
+      //   console.log(event);
+      //   const value = event.target.value;
+
+      //   // Regular expression to check if the input is numeric
+      //   if (!/^\d*$/.test(value)) {
+      //     // Remove the last character if it's not numeric
+      //     event.target.value = value.slice(0, -1);
+      //   }
+      //   //
+      //   // k.stopPropagation();
+      //   lastKeyRef.current = event.key;
+      //   if (event.key === 'Enter') {
+      //     event.preventDefault();
+      //     onEnter && onEnter();
+      //   }
+      // }}
+      value={inputValue}
     />
   );
 };

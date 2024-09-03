@@ -105,6 +105,10 @@ export const Login = () => {
   //   initializeGapi();
   // }, []);
 
+  useEffect(() => {
+    setareUserLogat(null);
+  }, []);
+
   return (
     <div className="flex flex-column center-v">
       <div style={{ marginBottom: '20px', marginTop: '15px' }}>

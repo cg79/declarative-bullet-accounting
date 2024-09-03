@@ -24,7 +24,9 @@ body {
 }
 
 .myInput{
-  width: 300px;
+  width: 200px;
+  height: 48px;
+  padding: 5px;
 }
 
 .b1{

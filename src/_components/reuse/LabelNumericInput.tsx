@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { utils } from '../../_utils/utils';
-import { NumericInput } from './numeric-input';
+import { NumericInputComponent } from './numeric-input';
 import useEvents from '../../_store/useEvents';
 import useScreenSize from '../../hooks/useScreenSize';
 import { useBetween } from '../../hooks/useBetween';
@@ -46,7 +46,7 @@ export const LabelNumericInput = ({
           {label}
         </label>
         <div style={popupCss.style}>
-          <NumericInput
+          <NumericInputComponent
             id={id}
             value={value}
             autoFocus={autoFocus}

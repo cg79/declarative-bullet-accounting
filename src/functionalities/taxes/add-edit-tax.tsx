@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { MyButton } from "../../_components/reuse/my-button";
-import { ICompanyTax } from "../transactions/model/accounting_types";
-import { NumericInput } from "../../_components/reuse/numeric-input";
-import DatePickerWrapper from "../../_components/reuse/DatePickerWrapper";
+import { useState } from 'react';
+import { MyButton } from '../../_components/reuse/my-button';
+import { ICompanyTax } from '../transactions/model/accounting_types';
+import { NumericInputComponent } from '../../_components/reuse/numeric-input';
+import DatePickerWrapper from '../../_components/reuse/DatePickerWrapper';
 
 export const AddEditTax = ({
   taxItem,
@@ -13,11 +13,11 @@ export const AddEditTax = ({
   onSave: (item: ICompanyTax) => Promise<unknown>;
   onCancel: () => void;
 }) => {
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [item, setItem] = useState<ICompanyTax>(taxItem);
 
   const executeSaveCompanyTax = (item: ICompanyTax) => {
-    setError("");
+    setError('');
 
     onSave(item);
   };
@@ -30,7 +30,7 @@ export const AddEditTax = ({
 
           <div className="flex mt15">
             <div className="actionname flexcolumn center">
-              <span className="bold  " style={{ width: "200px" }}>
+              <span className="bold  " style={{ width: '200px' }}>
                 Data de cand se aplica taxa:
               </span>
             </div>
@@ -52,15 +52,15 @@ export const AddEditTax = ({
 
           <div className="flex mt10">
             <div className="actionname flexcolumn center">
-              <span className="bold " style={{ width: "200px" }}>
+              <span className="bold " style={{ width: '200px' }}>
                 Valoare:
               </span>
             </div>
             <div>
-              <NumericInput
+              <NumericInputComponent
                 value={item.value}
                 onUpdate={(val) => (item.value = val)}
-              ></NumericInput>
+              ></NumericInputComponent>
             </div>
           </div>
         </div>

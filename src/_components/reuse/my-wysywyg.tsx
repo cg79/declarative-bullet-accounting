@@ -19,7 +19,7 @@ export const WysYWYG = ({
 
   return (
     <>
-      {width}
+      {/* {width} */}
       <Editor
         value={html}
         onChange={onChange}

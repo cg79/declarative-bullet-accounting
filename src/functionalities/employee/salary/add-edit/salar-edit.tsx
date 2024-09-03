@@ -1,8 +1,8 @@
-import { ISalarAngajat } from "../../../transactions/model/accounting_types";
-import { MyButton } from "../../../../_components/reuse/my-button";
-import { useState } from "react";
-import { NumericInput } from "../../../../_components/reuse/numeric-input";
-import { setValueForProperty } from "../../../transactions/helpers/accounting_helpers";
+import { ISalarAngajat } from '../../../transactions/model/accounting_types';
+import { MyButton } from '../../../../_components/reuse/my-button';
+import { useState } from 'react';
+import { NumericInputComponent } from '../../../../_components/reuse/numeric-input';
+import { setValueForProperty } from '../../../transactions/helpers/accounting_helpers';
 
 export const SalarEdit = ({
   salar,
@@ -22,10 +22,10 @@ export const SalarEdit = ({
           <label className="fixw">Salar:</label>
         </div>
         <div>
-          <NumericInput
+          <NumericInputComponent
             value={Number(item.value)}
-            onUpdate={(val) => setValueForProperty(item, val, "value")}
-          ></NumericInput>
+            onUpdate={(val) => setValueForProperty(item, val, 'value')}
+          ></NumericInputComponent>
         </div>
       </div>
 
@@ -35,10 +35,10 @@ export const SalarEdit = ({
         </div>
         <div>
           {/* <label className="fixw">{item.taxe.pensie}</label> */}
-          <NumericInput
+          <NumericInputComponent
             value={Number(item.value)}
-            onUpdate={(val) => setValueForProperty(item.taxe, val, "pensie")}
-          ></NumericInput>
+            onUpdate={(val) => setValueForProperty(item.taxe, val, 'pensie')}
+          ></NumericInputComponent>
         </div>
       </div>
       <div className="flex mt10">
@@ -47,10 +47,10 @@ export const SalarEdit = ({
         </div>
         <div>
           {/* <label className="fixw">{item.taxe.sanatate}</label> */}
-          <NumericInput
+          <NumericInputComponent
             value={Number(item.value)}
-            onUpdate={(val) => setValueForProperty(item.taxe, val, "sanatate")}
-          ></NumericInput>
+            onUpdate={(val) => setValueForProperty(item.taxe, val, 'sanatate')}
+          ></NumericInputComponent>
         </div>
       </div>
       <div className="flex mt10">
@@ -59,10 +59,10 @@ export const SalarEdit = ({
         </div>
         <div>
           {/* <label className="fixw">{item.taxe.munca}</label> */}
-          <NumericInput
+          <NumericInputComponent
             value={Number(item.value)}
-            onUpdate={(val) => setValueForProperty(item.taxe, val, "munca")}
-          ></NumericInput>
+            onUpdate={(val) => setValueForProperty(item.taxe, val, 'munca')}
+          ></NumericInputComponent>
         </div>
       </div>
 

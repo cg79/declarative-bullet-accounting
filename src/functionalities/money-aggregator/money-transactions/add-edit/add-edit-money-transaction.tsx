@@ -113,13 +113,13 @@ export const AddEditMoneyTransaction = ({
     onSaveMoneyTransaction(currentTransaction);
   };
 
-  useEffect(() => {
-    if (!enterPressed) {
-      return;
-    }
-    triggerSaveMoneyTransaction();
-    clearEnterPressed();
-  }, [enterPressed]);
+  // useEffect(() => {
+  //   if (!enterPressed) {
+  //     return;
+  //   }
+  //   triggerSaveMoneyTransaction();
+  //   clearEnterPressed();
+  // }, [enterPressed]);
 
   const moneyTransactionOptionTemplate = (option, onClick, checked) => {
     const css = checked ? 'rbspan selected' : 'rbspan';
