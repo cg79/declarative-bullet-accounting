@@ -25,7 +25,7 @@ import RadioButtonList from '../../_components/reuse/radio-button-list';
 export const Login = () => {
   const navigate = useNavigate();
   const { currentTranslation, changeTranslation } = useBetween(useTranslations);
-  const { loggedUser, setareUserLogat, email, setEmail } =
+  const { loggedUser, setareUserLogat, email, setEmail, clearLoggedUser } =
     useBetween(useIdentity);
   const { callLoginMethod } = useUserMethods();
   const { enterPressed, clearEnterPressed } = useBetween(useEvents);
@@ -106,7 +106,7 @@ export const Login = () => {
   // }, []);
 
   useEffect(() => {
-    setareUserLogat(null);
+    clearLoggedUser();
   }, []);
 
   return (
